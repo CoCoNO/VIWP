@@ -51,7 +51,7 @@
                 </DataTemplate>
             </telerickPrimitives:RadCycleHubTile.ItemTemplate>
         </telerickPrimitives:RadCycleHubTile>
-        <telerickPrimitives:RadCustomHubTile x:Name="calendarTile" Grid.Row="5" Grid.Column="1" Width="Auto" Height="170" Margin="0">
+        <telerickPrimitives:RadCustomHubTile Tap="calendarTile_Tap" x:Name="calendarTile" Grid.Row="5" Grid.Column="1" Width="Auto" Height="170" Margin="0">
             <telerickPrimitives:RadCustomHubTile.FrontContent>
                 <Grid Margin="0,0,0,0"  Background="#6ECFF3">
                     <TextBlock x:Name="txtDayString" Text="Mar" FontSize="{StaticResource PhoneFontSizeMedium}" FontFamily="{StaticResource PhoneFontFamilySemiBold}" Margin="280,120,75,15"/>

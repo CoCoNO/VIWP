@@ -182,5 +182,10 @@ namespace VoyIteso.Pages
             }
         }
 
+        private void calendarTile_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/Pages/CalendarPage.xaml", UriKind.Relative));
+        }
+
     }
 }

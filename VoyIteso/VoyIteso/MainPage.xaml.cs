@@ -34,7 +34,7 @@ namespace VoyIteso
         public MainPage()
         {
             InitializeComponent();
-            versionControlSplash.Text = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            versionControlSplash.Text = "v " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
             //////Set the timer and start it
             SplashTimer.Interval = TimeSpan.FromSeconds(2);
             SplashTimer.Tick += SplashTimer_Tick;
