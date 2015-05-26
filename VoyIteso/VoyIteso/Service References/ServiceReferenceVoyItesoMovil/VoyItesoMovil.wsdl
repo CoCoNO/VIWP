@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:wsp="http://www.w3.org/ns/ws-policy" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:tns="http://prueba.iteso.mx/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsp1_2="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" name="VoyItesoMovil" targetNamespace="http://prueba.iteso.mx/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xsd:schema>
+      <xsd:import schemaLocation="http://148.201.136.75:8080/VoyItesoMovil/VoyItesoMovil?xsd=1" namespace="http://prueba.iteso.mx/" />
+    </xsd:schema>
+  </types>
+  <message name="GetRouteInfo">
+    <part name="parameters" element="tns:GetRouteInfo" />
+  </message>
+  <message name="GetRouteInfoResponse">
+    <part name="parameters" element="tns:GetRouteInfoResponse" />
+  </message>
+  <message name="GetUserName">
+    <part name="parameters" element="tns:GetUserName" />
+  </message>
+  <message name="GetUserNameResponse">
+    <part name="parameters" element="tns:GetUserNameResponse" />
+  </message>
+  <message name="GetRouteSearchResult">
+    <part name="parameters" element="tns:GetRouteSearchResult" />
+  </message>
+  <message name="GetRouteSearchResultResponse">
+    <part name="parameters" element="tns:GetRouteSearchResultResponse" />
+  </message>
+  <message name="GetPersonImage">
+    <part name="parameters" element="tns:GetPersonImage" />
+  </message>
+  <message name="GetPersonImageResponse">
+    <part name="parameters" element="tns:GetPersonImageResponse" />
+  </message>
+  <portType name="VoyItesoMovil">
+    <operation name="GetRouteInfo">
+      <input wsam:Action="http://prueba.iteso.mx/VoyItesoMovil/GetRouteInfoRequest" message="tns:GetRouteInfo" />
+      <output wsam:Action="http://prueba.iteso.mx/VoyItesoMovil/GetRouteInfoResponse" message="tns:GetRouteInfoResponse" />
+    </operation>
+    <operation name="GetUserName">
+      <input wsam:Action="http://prueba.iteso.mx/VoyItesoMovil/GetUserNameRequest" message="tns:GetUserName" />
+      <output wsam:Action="http://prueba.iteso.mx/VoyItesoMovil/GetUserNameResponse" message="tns:GetUserNameResponse" />
+    </operation>
+    <operation name="GetRouteSearchResult">
+      <input wsam:Action="http://prueba.iteso.mx/VoyItesoMovil/GetRouteSearchResultRequest" message="tns:GetRouteSearchResult" />
+      <output wsam:Action="http://prueba.iteso.mx/VoyItesoMovil/GetRouteSearchResultResponse" message="tns:GetRouteSearchResultResponse" />
+    </operation>
+    <operation name="GetPersonImage">
+      <input wsam:Action="http://prueba.iteso.mx/VoyItesoMovil/GetPersonImageRequest" message="tns:GetPersonImage" />
+      <output wsam:Action="http://prueba.iteso.mx/VoyItesoMovil/GetPersonImageResponse" message="tns:GetPersonImageResponse" />
+    </operation>
+  </portType>
+  <binding name="VoyItesoMovilPortBinding" type="tns:VoyItesoMovil">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="GetRouteInfo">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="GetUserName">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="GetRouteSearchResult">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="GetPersonImage">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+  </binding>
+  <service name="VoyItesoMovil">
+    <port name="VoyItesoMovilPort" binding="tns:VoyItesoMovilPortBinding">
+      <soap:address location="http://148.201.136.75:8080/VoyItesoMovil/VoyItesoMovil" />
+    </port>
+  </service>
+</definitions>

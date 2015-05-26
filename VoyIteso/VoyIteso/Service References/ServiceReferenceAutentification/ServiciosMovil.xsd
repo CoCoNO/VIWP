@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://itesomovil.webservice.iteso.mx/" targetNamespace="http://itesomovil.webservice.iteso.mx/" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="TesoEstadoCuentaJSon" type="tns:TesoEstadoCuentaJSon" />
+  <xs:element name="TesoEstadoCuentaJSonResponse" type="tns:TesoEstadoCuentaJSonResponse" />
+  <xs:element name="TesoEstadoCuentaList" type="tns:TesoEstadoCuentaList" />
+  <xs:element name="TesoEstadoCuentaListResponse" type="tns:TesoEstadoCuentaListResponse" />
+  <xs:element name="TesoEstadoCuentaResumeJSon" type="tns:TesoEstadoCuentaResumeJSon" />
+  <xs:element name="TesoEstadoCuentaResumeJSonResponse" type="tns:TesoEstadoCuentaResumeJSonResponse" />
+  <xs:element name="TesoEstadoCuentaResumeList" type="tns:TesoEstadoCuentaResumeList" />
+  <xs:element name="TesoEstadoCuentaResumeListResponse" type="tns:TesoEstadoCuentaResumeListResponse" />
+  <xs:element name="seesHistoriaAcademicaJSon" type="tns:seesHistoriaAcademicaJSon" />
+  <xs:element name="seesHistoriaAcademicaJSonResponse" type="tns:seesHistoriaAcademicaJSonResponse" />
+  <xs:element name="seesHistoriaAcademicaList" type="tns:seesHistoriaAcademicaList" />
+  <xs:element name="seesHistoriaAcademicaListResponse" type="tns:seesHistoriaAcademicaListResponse" />
+  <xs:element name="seesHorarioEscolarJSon" type="tns:seesHorarioEscolarJSon" />
+  <xs:element name="seesHorarioEscolarJSonResponse" type="tns:seesHorarioEscolarJSonResponse" />
+  <xs:element name="seesHorarioEscolarList" type="tns:seesHorarioEscolarList" />
+  <xs:element name="seesHorarioEscolarListResponse" type="tns:seesHorarioEscolarListResponse" />
+  <xs:element name="seesRutaCurricularJSon" type="tns:seesRutaCurricularJSon" />
+  <xs:element name="seesRutaCurricularJSonResponse" type="tns:seesRutaCurricularJSonResponse" />
+  <xs:element name="seesRutaCurricularList" type="tns:seesRutaCurricularList" />
+  <xs:element name="seesRutaCurricularListResponse" type="tns:seesRutaCurricularListResponse" />
+  <xs:element name="validarToken" type="tns:validarToken" />
+  <xs:element name="validarTokenResponse" type="tns:validarTokenResponse" />
+  <xs:element name="validarUsuario" type="tns:validarUsuario" />
+  <xs:element name="validarUsuarioResponse" type="tns:validarUsuarioResponse" />
+  <xs:complexType name="TesoEstadoCuentaResumeJSon">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="token" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="TesoEstadoCuentaResumeJSonResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="seesHistoriaAcademicaList">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="token" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="seesHistoriaAcademicaListResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="return" type="tns:historiaAcademica" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="historiaAcademica">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="areaPlan" type="xs:string" />
+      <xs:element minOccurs="0" name="asignatura" type="xs:string" />
+      <xs:element minOccurs="0" name="calificacion" type="xs:string" />
+      <xs:element minOccurs="0" name="codigoAsig" type="xs:string" />
+      <xs:element minOccurs="0" name="id" type="xs:decimal" />
+      <xs:element minOccurs="0" name="periodoEsc" type="xs:string" />
+      <xs:element minOccurs="0" name="tipoEvalua" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="seesRutaCurricularList">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="token" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="seesRutaCurricularListResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="return" type="tns:rutaCurricular" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="rutaCurricular">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ciclo" type="xs:string" />
+      <xs:element minOccurs="0" name="creditos" type="xs:string" />
+      <xs:element minOccurs="0" name="id" type="xs:string" />
+      <xs:element minOccurs="0" name="materia" type="xs:string" />
+      <xs:element minOccurs="0" name="requisito" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="seesRutaCurricularJSon">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="token" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="seesRutaCurricularJSonResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="validarToken">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="token" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="validarTokenResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:decimal" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="seesHistoriaAcademicaJSon">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="token" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="seesHistoriaAcademicaJSonResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="TesoEstadoCuentaList">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="token" type="xs:string" />
+      <xs:element minOccurs="0" name="largoPlazo" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="TesoEstadoCuentaListResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="return" type="tns:estadoCuenta" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="estadoCuenta">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="fechaVence" type="xs:string" />
+      <xs:element minOccurs="0" name="id" type="xs:decimal" />
+      <xs:element minOccurs="0" name="importe" type="xs:decimal" />
+      <xs:element minOccurs="0" name="importeMx" type="xs:decimal" />
+      <xs:element minOccurs="0" name="moneda" type="xs:string" />
+      <xs:element minOccurs="0" name="nombreConcepto" type="xs:string" />
+      <xs:element minOccurs="0" name="periodoEscolar" type="xs:string" />
+      <xs:element minOccurs="0" name="tipoCambio" type="xs:decimal" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="TesoEstadoCuentaJSon">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="token" type="xs:string" />
+      <xs:element minOccurs="0" name="largoPlazo" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="TesoEstadoCuentaJSonResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="seesHorarioEscolarList">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="token" type="xs:string" />
+      <xs:element minOccurs="0" name="numSemana" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="seesHorarioEscolarListResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="return" type="tns:agendaDetalle" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="agendaDetalle">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:agenda">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="horaFin" type="xs:dateTime" />
+          <xs:element minOccurs="0" name="horaInicio" type="xs:dateTime" />
+          <xs:element minOccurs="0" name="nombreDia" type="xs:string" />
+          <xs:element minOccurs="0" name="nombreMes" type="xs:string" />
+          <xs:element minOccurs="0" name="numSemana" type="xs:decimal" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="agenda">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="asignatura" type="xs:string" />
+      <xs:element minOccurs="0" name="fecha" type="xs:string" />
+      <xs:element minOccurs="0" name="grupo" type="xs:string" />
+      <xs:element minOccurs="0" name="horaInicioFin" type="xs:string" />
+      <xs:element minOccurs="0" name="id" type="xs:decimal" />
+      <xs:element minOccurs="0" name="nombreProfesor" type="xs:string" />
+      <xs:element minOccurs="0" name="salon" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="seesHorarioEscolarJSon">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="token" type="xs:string" />
+      <xs:element minOccurs="0" name="numSemana" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="seesHorarioEscolarJSonResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="validarUsuario">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="usuario" type="xs:string" />
+      <xs:element minOccurs="0" name="contrasena" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="validarUsuarioResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="TesoEstadoCuentaResumeList">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="token" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="TesoEstadoCuentaResumeListResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="return" type="tns:estadoCuenta" />
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

@@ -1,0 +1,25 @@
+﻿<configuration>
+    <system.serviceModel>
+        <bindings>
+            <basicHttpBinding>
+                <binding name="ServiciosMovilPortBinding" maxBufferSize="2147483647"
+                    maxReceivedMessageSize="2147483647">
+                    <security mode="Transport" />
+                </binding>
+                <binding name="VoyItesoMovilPortBinding" maxBufferSize="2147483647"
+                    maxReceivedMessageSize="2147483647">
+                    <security mode="None" />
+                </binding>
+            </basicHttpBinding>
+        </bindings>
+        <client>
+            <endpoint address="https://aplicacionesweb.iteso.mx:443/WebService/ServiciosMovil"
+                binding="basicHttpBinding" bindingConfiguration="ServiciosMovilPortBinding"
+                contract="ServiceReferenceAutentification.ServiciosMovil"
+                name="ServiciosMovilPort" />
+            <endpoint address="http://148.201.136.75:8080/VoyItesoMovil/VoyItesoMovil"
+                binding="basicHttpBinding" bindingConfiguration="VoyItesoMovilPortBinding"
+                contract="ServiceReferenceVoyItesoMovil.VoyItesoMovil" name="VoyItesoMovilPort" />
+        </client>
+    </system.serviceModel>
+</configuration>

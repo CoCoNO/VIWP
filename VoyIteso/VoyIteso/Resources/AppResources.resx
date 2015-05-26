@@ -1,0 +1,227 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ResourceFlowDirection" xml:space="preserve">
+    <value>LeftToRight</value>
+    <comment>Controls the FlowDirection for all elements in the RootFrame. Set to the traditional direction of this resource file's language</comment>
+  </data>
+  <data name="ResourceLanguage" xml:space="preserve">
+    <value>en-US</value>
+    <comment>Controls the Language and ensures that the font for all elements in the RootFrame aligns with the app's language. Set to the language code of this resource file's language.</comment>
+  </data>
+  <data name="ApplicationTitle" xml:space="preserve">
+    <value>MY APPLICATION</value>
+  </data>
+  <data name="AppBarButtonText" xml:space="preserve">
+    <value>add</value>
+  </data>
+  <data name="AppBarMenuItemText" xml:space="preserve">
+    <value>Menu Item</value>
+  </data>
+  <data name="ApiBaseUrl" xml:space="preserve">
+    <value>http://voy.cocoapps.mx/VOYAPI</value>
+  </data>
+  <data name="ApiEditProfile" xml:space="preserve">
+    <value>/perfil/editar</value>
+  </data>
+  <data name="ApiGetProfile" xml:space="preserve">
+    <value>/perfil/{0}/ver</value>
+  </data>
+  <data name="ApiGetProfileCurrentMonthLift" xml:space="preserve">
+    <value>/perfil/aventones_mes_actual</value>
+  </data>
+  <data name="ApiGetProfileHistory" xml:space="preserve">
+    <value>/perfil/mi_red</value>
+  </data>
+  <data name="ApiGetProfileNewNotifications" xml:space="preserve">
+    <value>/perfil/notificaciones_sin_leer</value>
+  </data>
+  <data name="ApiGetProfileNextMonthLift" xml:space="preserve">
+    <value>/perfil/aventones_proximo_mes</value>
+  </data>
+  <data name="ApiGetProfileNotifications" xml:space="preserve">
+    <value>/perfil/notificaciones</value>
+  </data>
+  <data name="ApiGetProfileRoutes" xml:space="preserve">
+    <value>/perfil/{0}/rutas</value>
+  </data>
+  <data name="ApiLogIn" xml:space="preserve">
+    <value>/seguridad/login</value>
+  </data>
+  <data name="ApiAcceptLift" xml:space="preserve">
+    <value>/aventon/{0}/aceptar</value>
+  </data>
+  <data name="ApiAskForLift" xml:space="preserve">
+    <value>/aventon/solicitar</value>
+  </data>
+  <data name="ApiCancelLift" xml:space="preserve">
+    <value>/aventon/{0}/cancelar</value>
+  </data>
+  <data name="ApiCreateRoute" xml:space="preserve">
+    <value>/ruta/crear</value>
+  </data>
+  <data name="ApiEditRoute" xml:space="preserve">
+    <value>/ruta/editar</value>
+  </data>
+  <data name="ApiEliminateRote" xml:space="preserve">
+    <value>/ruta/{0}/eliminar</value>
+  </data>
+  <data name="ApiRateLift" xml:space="preserve">
+    <value>/aventon/{0}/calificar</value>
+  </data>
+  <data name="ApiRejectLift" xml:space="preserve">
+    <value>/aventon/{0}/rechazar</value>
+  </data>
+  <data name="ApiReportUser" xml:space="preserve">
+    <value>/home/reportar_abuso</value>
+  </data>
+  <data name="ApiSearchRoute" xml:space="preserve">
+    <value>/ruta/busqueda</value>
+  </data>
+  <data name="ApiSendComment" xml:space="preserve">
+    <value>/home/enviar_comentario</value>
+  </data>
+  <data name="ApiSendMessage" xml:space="preserve">
+    <value>/aventon/{0}/nuevomensaje</value>
+  </data>
+  <data name="ApiShowRoute" xml:space="preserve">
+    <value>/ruta/{0}/ver</value>
+  </data>
+  <data name="ApiGetProfileImage" xml:space="preserve">
+    <value>/perfil/imagen/{0}</value>
+  </data>
+  <data name="ApiSecurityToken" xml:space="preserve">
+    <value>?security_token=</value>
+  </data>
+  <data name="HelloUsertxt" xml:space="preserve">
+    <value>¡Hola</value>
+  </data>
+  <data name="BingServiceKey" xml:space="preserve">
+    <value>AvDQJsJmO3bo81iGaiLH9LaaqNYp28mcrzI9MFxsFPBRktl1hvNxLHe8u_uU8GTu</value>
+  </data>
+  <data name="BingServiceUrl" xml:space="preserve">
+    <value>http://dev.virtualearth.net/REST/v1/Locations{0}</value>
+  </data>
+  <data name="ApiEditUserPhoto" xml:space="preserve">
+    <value>/perfil/subir_imagen_perfil</value>
+  </data>
+  <data name="ApiVoyItesoBaseUrl" xml:space="preserve">
+    <value>https://aplicacionesweb.iteso.mx/VOYAPI</value>
+  </data>
+</root>

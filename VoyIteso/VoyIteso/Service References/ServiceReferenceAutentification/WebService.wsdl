@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:wsp="http://www.w3.org/ns/ws-policy" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:tns="http://itesomovil.webservice.iteso.mx/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsp1_2="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" name="WebService" targetNamespace="http://itesomovil.webservice.iteso.mx/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xsd:schema>
+      <xsd:import schemaLocation="https://aplicacionesweb.iteso.mx:443/WebService/ServiciosMovil?xsd=1" namespace="http://itesomovil.webservice.iteso.mx/" />
+    </xsd:schema>
+  </types>
+  <message name="validarToken">
+    <part name="parameters" element="tns:validarToken" />
+  </message>
+  <message name="validarTokenResponse">
+    <part name="parameters" element="tns:validarTokenResponse" />
+  </message>
+  <message name="validarUsuario">
+    <part name="parameters" element="tns:validarUsuario" />
+  </message>
+  <message name="validarUsuarioResponse">
+    <part name="parameters" element="tns:validarUsuarioResponse" />
+  </message>
+  <message name="TesoEstadoCuentaJSon">
+    <part name="parameters" element="tns:TesoEstadoCuentaJSon" />
+  </message>
+  <message name="TesoEstadoCuentaJSonResponse">
+    <part name="parameters" element="tns:TesoEstadoCuentaJSonResponse" />
+  </message>
+  <message name="TesoEstadoCuentaList">
+    <part name="parameters" element="tns:TesoEstadoCuentaList" />
+  </message>
+  <message name="TesoEstadoCuentaListResponse">
+    <part name="parameters" element="tns:TesoEstadoCuentaListResponse" />
+  </message>
+  <message name="seesHorarioEscolarJSon">
+    <part name="parameters" element="tns:seesHorarioEscolarJSon" />
+  </message>
+  <message name="seesHorarioEscolarJSonResponse">
+    <part name="parameters" element="tns:seesHorarioEscolarJSonResponse" />
+  </message>
+  <message name="seesHorarioEscolarList">
+    <part name="parameters" element="tns:seesHorarioEscolarList" />
+  </message>
+  <message name="seesHorarioEscolarListResponse">
+    <part name="parameters" element="tns:seesHorarioEscolarListResponse" />
+  </message>
+  <message name="seesRutaCurricularJSon">
+    <part name="parameters" element="tns:seesRutaCurricularJSon" />
+  </message>
+  <message name="seesRutaCurricularJSonResponse">
+    <part name="parameters" element="tns:seesRutaCurricularJSonResponse" />
+  </message>
+  <message name="seesRutaCurricularList">
+    <part name="parameters" element="tns:seesRutaCurricularList" />
+  </message>
+  <message name="seesRutaCurricularListResponse">
+    <part name="parameters" element="tns:seesRutaCurricularListResponse" />
+  </message>
+  <message name="TesoEstadoCuentaResumeJSon">
+    <part name="parameters" element="tns:TesoEstadoCuentaResumeJSon" />
+  </message>
+  <message name="TesoEstadoCuentaResumeJSonResponse">
+    <part name="parameters" element="tns:TesoEstadoCuentaResumeJSonResponse" />
+  </message>
+  <message name="TesoEstadoCuentaResumeList">
+    <part name="parameters" element="tns:TesoEstadoCuentaResumeList" />
+  </message>
+  <message name="TesoEstadoCuentaResumeListResponse">
+    <part name="parameters" element="tns:TesoEstadoCuentaResumeListResponse" />
+  </message>
+  <message name="seesHistoriaAcademicaJSon">
+    <part name="parameters" element="tns:seesHistoriaAcademicaJSon" />
+  </message>
+  <message name="seesHistoriaAcademicaJSonResponse">
+    <part name="parameters" element="tns:seesHistoriaAcademicaJSonResponse" />
+  </message>
+  <message name="seesHistoriaAcademicaList">
+    <part name="parameters" element="tns:seesHistoriaAcademicaList" />
+  </message>
+  <message name="seesHistoriaAcademicaListResponse">
+    <part name="parameters" element="tns:seesHistoriaAcademicaListResponse" />
+  </message>
+  <portType name="ServiciosMovil">
+    <operation name="validarToken">
+      <input wsam:Action="http://itesomovil.webservice.iteso.mx/ServiciosMovil/validarTokenRequest" message="tns:validarToken" />
+      <output wsam:Action="http://itesomovil.webservice.iteso.mx/ServiciosMovil/validarTokenResponse" message="tns:validarTokenResponse" />
+    </operation>
+    <operation name="validarUsuario">
+      <input wsam:Action="http://itesomovil.webservice.iteso.mx/ServiciosMovil/validarUsuarioRequest" message="tns:validarUsuario" />
+      <output wsam:Action="http://itesomovil.webservice.iteso.mx/ServiciosMovil/validarUsuarioResponse" message="tns:validarUsuarioResponse" />
+    </operation>
+    <operation name="TesoEstadoCuentaJSon">
+      <input wsam:Action="http://itesomovil.webservice.iteso.mx/ServiciosMovil/TesoEstadoCuentaJSonRequest" message="tns:TesoEstadoCuentaJSon" />
+      <output wsam:Action="http://itesomovil.webservice.iteso.mx/ServiciosMovil/TesoEstadoCuentaJSonResponse" message="tns:TesoEstadoCuentaJSonResponse" />
+    </operation>
+    <operation name="TesoEstadoCuentaList">
+      <input wsam:Action="http://itesomovil.webservice.iteso.mx/ServiciosMovil/TesoEstadoCuentaListRequest" message="tns:TesoEstadoCuentaList" />
+      <output wsam:Action="http://itesomovil.webservice.iteso.mx/ServiciosMovil/TesoEstadoCuentaListResponse" message="tns:TesoEstadoCuentaListResponse" />
+    </operation>
+    <operation name="seesHorarioEscolarJSon">
+      <input wsam:Action="http://itesomovil.webservice.iteso.mx/ServiciosMovil/seesHorarioEscolarJSonRequest" message="tns:seesHorarioEscolarJSon" />
+      <output wsam:Action="http://itesomovil.webservice.iteso.mx/ServiciosMovil/seesHorarioEscolarJSonResponse" message="tns:seesHorarioEscolarJSonResponse" />
+    </operation>
+    <operation name="seesHorarioEscolarList">
+      <input wsam:Action="http://itesomovil.webservice.iteso.mx/ServiciosMovil/seesHorarioEscolarListRequest" message="tns:seesHorarioEscolarList" />
+      <output wsam:Action="http://itesomovil.webservice.iteso.mx/ServiciosMovil/seesHorarioEscolarListResponse" message="tns:seesHorarioEscolarListResponse" />
+    </operation>
+    <operation name="seesRutaCurricularJSon">
+      <input wsam:Action="http://itesomovil.webservice.iteso.mx/ServiciosMovil/seesRutaCurricularJSonRequest" message="tns:seesRutaCurricularJSon" />
+      <output wsam:Action="http://itesomovil.webservice.iteso.mx/ServiciosMovil/seesRutaCurricularJSonResponse" message="tns:seesRutaCurricularJSonResponse" />
+    </operation>
+    <operation name="seesRutaCurricularList">
+      <input wsam:Action="http://itesomovil.webservice.iteso.mx/ServiciosMovil/seesRutaCurricularListRequest" message="tns:seesRutaCurricularList" />
+      <output wsam:Action="http://itesomovil.webservice.iteso.mx/ServiciosMovil/seesRutaCurricularListResponse" message="tns:seesRutaCurricularListResponse" />
+    </operation>
+    <operation name="TesoEstadoCuentaResumeJSon">
+      <input wsam:Action="http://itesomovil.webservice.iteso.mx/ServiciosMovil/TesoEstadoCuentaResumeJSonRequest" message="tns:TesoEstadoCuentaResumeJSon" />
+      <output wsam:Action="http://itesomovil.webservice.iteso.mx/ServiciosMovil/TesoEstadoCuentaResumeJSonResponse" message="tns:TesoEstadoCuentaResumeJSonResponse" />
+    </operation>
+    <operation name="TesoEstadoCuentaResumeList">
+      <input wsam:Action="http://itesomovil.webservice.iteso.mx/ServiciosMovil/TesoEstadoCuentaResumeListRequest" message="tns:TesoEstadoCuentaResumeList" />
+      <output wsam:Action="http://itesomovil.webservice.iteso.mx/ServiciosMovil/TesoEstadoCuentaResumeListResponse" message="tns:TesoEstadoCuentaResumeListResponse" />
+    </operation>
+    <operation name="seesHistoriaAcademicaJSon">
+      <input wsam:Action="http://itesomovil.webservice.iteso.mx/ServiciosMovil/seesHistoriaAcademicaJSonRequest" message="tns:seesHistoriaAcademicaJSon" />
+      <output wsam:Action="http://itesomovil.webservice.iteso.mx/ServiciosMovil/seesHistoriaAcademicaJSonResponse" message="tns:seesHistoriaAcademicaJSonResponse" />
+    </operation>
+    <operation name="seesHistoriaAcademicaList">
+      <input wsam:Action="http://itesomovil.webservice.iteso.mx/ServiciosMovil/seesHistoriaAcademicaListRequest" message="tns:seesHistoriaAcademicaList" />
+      <output wsam:Action="http://itesomovil.webservice.iteso.mx/ServiciosMovil/seesHistoriaAcademicaListResponse" message="tns:seesHistoriaAcademicaListResponse" />
+    </operation>
+  </portType>
+  <binding name="ServiciosMovilPortBinding" type="tns:ServiciosMovil">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="validarToken">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="validarUsuario">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="TesoEstadoCuentaJSon">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="TesoEstadoCuentaList">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="seesHorarioEscolarJSon">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="seesHorarioEscolarList">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="seesRutaCurricularJSon">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="seesRutaCurricularList">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="TesoEstadoCuentaResumeJSon">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="TesoEstadoCuentaResumeList">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="seesHistoriaAcademicaJSon">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="seesHistoriaAcademicaList">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+  </binding>
+  <service name="WebService">
+    <port name="ServiciosMovilPort" binding="tns:ServiciosMovilPortBinding">
+      <soap:address location="https://aplicacionesweb.iteso.mx:443/WebService/ServiciosMovil" />
+    </port>
+  </service>
+</definitions>

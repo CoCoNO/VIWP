@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://prueba.iteso.mx/" targetNamespace="http://prueba.iteso.mx/" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="GetPersonImage" type="tns:GetPersonImage" />
+  <xs:element name="GetPersonImageResponse" type="tns:GetPersonImageResponse" />
+  <xs:element name="GetRouteInfo" type="tns:GetRouteInfo" />
+  <xs:element name="GetRouteInfoResponse" type="tns:GetRouteInfoResponse" />
+  <xs:element name="GetRouteSearchResult" type="tns:GetRouteSearchResult" />
+  <xs:element name="GetRouteSearchResultResponse" type="tns:GetRouteSearchResultResponse" />
+  <xs:element name="GetUserName" type="tns:GetUserName" />
+  <xs:element name="GetUserNameResponse" type="tns:GetUserNameResponse" />
+  <xs:complexType name="GetPersonImage">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="token" type="xs:string" />
+      <xs:element name="idRuta" type="xs:int" />
+      <xs:element name="idPerfil" type="xs:int" />
+      <xs:element name="idPersona" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="GetPersonImageResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" nillable="true" type="xs:base64Binary" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="GetUserName">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="token" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="GetUserNameResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="GetRouteSearchResult">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="token" type="xs:string" />
+      <xs:element minOccurs="0" name="queryString" type="xs:string" />
+      <xs:element name="fuma" type="xs:int" />
+      <xs:element minOccurs="0" name="genero" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="GetRouteSearchResultResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="GetRouteInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="token" type="xs:string" />
+      <xs:element name="idRuta" type="xs:int" />
+      <xs:element name="idPerfil" type="xs:int" />
+      <xs:element name="idPersona" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="GetRouteInfoResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="return" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
