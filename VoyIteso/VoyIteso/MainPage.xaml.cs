@@ -15,11 +15,13 @@ using System.Device.Location;
 using VoyIteso.Class;
 using System.Windows.Threading;
 using System.Windows.Input;
+using System.Reflection;
 
 namespace VoyIteso
 {
     public partial class MainPage : PhoneApplicationPage
     {
+        
         //User 
         User user = new User();
         //Timer for the Splash Screen
@@ -32,7 +34,7 @@ namespace VoyIteso
         public MainPage()
         {
             InitializeComponent();
-
+            versionControlSplash.Text = Assembly.GetExecutingAssembly().GetName().Version.ToString();
             //////Set the timer and start it
             SplashTimer.Interval = TimeSpan.FromSeconds(2);
             SplashTimer.Tick += SplashTimer_Tick;

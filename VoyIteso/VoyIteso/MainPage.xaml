@@ -171,6 +171,8 @@
         <Image Source="Images/WVGA-splashscren480x800.png" Width="480" Height="800"/>
         <Image Source="Images/WVGA_splashscreen_voyiteso480x800.png" Width="480" Height="800"/>-->
         <Image Source="Images/Splashscreen_VoyITESO.png"/>
+        <TextBlock x:Name="versionControlSplash" HorizontalAlignment="Left" Margin="388,10,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
+
     </Grid>
 
 </phone:PhoneApplicationPage>
