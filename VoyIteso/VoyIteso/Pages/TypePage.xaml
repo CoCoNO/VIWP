@@ -37,13 +37,13 @@
 
         <ListBoxItem Grid.Row="3" Grid.Column="1" toolkit:TiltEffect.IsTiltEnabled="True">
             <Grid x:Name="askLiftGrid"   Tap="AskLiftGrid_Tap">
-                <TextBlock x:Name="txtAskLift" Text="solicitar aventón" FontFamily="{StaticResource PhoneFontFamilyNormal}" Foreground="#6ECFF3" FontSize="40" />
+                <TextBlock Tap="txtAskLift_Tap" x:Name="txtAskLift" Text="solicitar aventón" FontFamily="{StaticResource PhoneFontFamilyNormal}" Foreground="#6ECFF3" FontSize="40" />
             </Grid>
         </ListBoxItem>
 
         <ListBoxItem Grid.Row="5" Grid.Column="1" toolkit:TiltEffect.IsTiltEnabled="True">
             <Grid x:Name="offerLiftGrid" Tap="OfferLiftGrid_Tap">
-                <TextBlock x:Name="txtOfferLift" Text="ofertar aventón" FontFamily="{StaticResource PhoneFontFamilyNormal}" Foreground="#6ECFF3" FontSize="40" />
+                <TextBlock Tap="txtOfferLift_Tap" x:Name="txtOfferLift" Text="ofertar aventón" FontFamily="{StaticResource PhoneFontFamilyNormal}" Foreground="#6ECFF3" FontSize="40" />
             </Grid>
         </ListBoxItem>
         <!--ContentPanel - place additional content here

@@ -31,7 +31,7 @@ namespace VoyIteso.Pages
             user.getInfo(user.key);
             isAskLift = false;
             isOfferLift = false;
-            BuildLocalizedApplicationBar();
+           // BuildLocalizedApplicationBar();
             //Web Service
             //clientVoyIteso.GetUserNameCompleted += clientVoyIteso_GetUserNameCompleted;
         }
@@ -86,6 +86,9 @@ namespace VoyIteso.Pages
         }
         #endregion
 
+        //<summary>
+        //these two methods highlight the selected option.
+        //</summary>
         #region AskLiftGrid_Tap
         private void AskLiftGrid_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
@@ -112,40 +115,26 @@ namespace VoyIteso.Pages
         }
         #endregion
 
-        #region BuildLocalizedApplicationBar
-        private void BuildLocalizedApplicationBar()
+
+
+        public void action() 
         {
-            ApplicationBar = new ApplicationBar();
-            ApplicationBar.Mode = ApplicationBarMode.Default;
-            ApplicationBar.Opacity = 0;
-            ApplicationBar.IsMenuEnabled = false;
-            ApplicationBar.IsVisible = true;
-            ApplicationBar.ForegroundColor =  Color.FromArgb(255, 110, 207, 243);
-
-            ApplicationBarIconButton appBarIconCheck = new ApplicationBarIconButton(new Uri("Images/check.png",UriKind.Relative));
-            appBarIconCheck.Text = "Listo";
-            appBarIconCheck.Click += appBarIconCheck_Click;
-            ApplicationBar.Buttons.Add(appBarIconCheck);
-
-            //    // Create a new menu item with the localized string from AppResources.
-            //    ApplicationBarMenuItem appBarMenuItem = new ApplicationBarMenuItem(AppResources.AppBarMenuItemText);
-            //    ApplicationBar.MenuItems.Add(appBarMenuItem);
-        }
-
-        void appBarIconCheck_Click(object sender, EventArgs e)
-        {
-            if (!isAskLift && !isOfferLift)
-            {
-                MessageBox.Show("Selecciona un perfil", "Atencion", MessageBoxButton.OK);
-                return;
-            }
-            else if (isAskLift)
+            if (isAskLift)
                 user.Type = "walker";
             else if (isOfferLift)
                 user.Type = "driver";
-            
+
             goToHome();
         }
-        #endregion
+
+        private void txtAskLift_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            action();
+        }
+
+        private void txtOfferLift_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            action();
+        }
     }
 }
