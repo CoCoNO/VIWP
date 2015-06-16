@@ -114,26 +114,8 @@
     <Compile Include="Pages\AutentificationPage.xaml.cs">
       <DependentUpon>AutentificationPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\CalendarPage.xaml.cs">
-      <DependentUpon>CalendarPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Pages\HomePage.xaml.cs">
       <DependentUpon>HomePage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\InfoRoutePage.xaml.cs">
-      <DependentUpon>InfoRoutePage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\NotificationPage.xaml.cs">
-      <DependentUpon>NotificationPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\OfferRoutePage.xaml.cs">
-      <DependentUpon>OfferRoutePage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\ProfilePage.xaml.cs">
-      <DependentUpon>ProfilePage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\SearchRoutePage.xaml.cs">
-      <DependentUpon>SearchRoutePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\TypePage.xaml.cs">
       <DependentUpon>TypePage.xaml</DependentUpon>
@@ -168,31 +150,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\CalendarPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Pages\HomePage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\InfoRoutePage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\NotificationPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\OfferRoutePage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\ProfilePage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\SearchRoutePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
