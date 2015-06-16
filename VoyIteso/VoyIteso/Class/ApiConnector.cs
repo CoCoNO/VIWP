@@ -9,6 +9,182 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Threading;
+using VoyIteso.Class;
+
+
+namespace VoyIteso.Class
+{
+    class ApiConnector
+    {
+
+        //Connects to voyitesoapi 
+
+        //Atributies**************************************
+        #region Atributies
+
+        static ApiConnector _instance;//Singleton Instance
+
+
+
+        string _token;
+        bool _busy;
+
+
+
+        //User activeUser;
+        #endregion
+
+
+
+
+
+        //properties*****************************************************************************************
+        #region Properties
+
+        public static ApiConnector instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    _instance = new ApiConnector();
+                }
+                return _instance;
+            }
+        }
+
+
+        #endregion
+
+
+
+
+
+        //Events*************************************************************************************
+        #region Events
+
+        public EventHandler LoginDone;
+        protected virtual void OnLoginDone(EventArgs e)
+        {
+
+
+            EventHandler handler = LoginDone;
+            if (handler != null)
+            {
+                handler(this, e);
+            }
+            //clear resources
+        }
+        #endregion
+
+        //Methods************************************************************************************
+        #region Methods
+        //Singleton constructor
+        private ApiConnector()
+        {
+
+
+        }
+
+
+        #endregion
+
+
+
+        //Junk
+        //Responce event
+
+
+        //Actions
+        HttpRequest loginRequest;
+        public void logIn(string user, string password)
+        {
+            loginRequest = new HttpRequest();
+            loginRequest.setAction(@"/seguridad/login");
+            //ApiConnector.instance.setParameter("correo", "user");
+            //ApiConnector.instance.setParameter("password", "password");
+            loginRequest.setParameter("correo", "ie800001");
+            loginRequest.setParameter("password", "PruebaQA2015");
+            //
+            loginRequest.ResponseObtained += LoginResponseObtained;
+
+            loginRequest.sendPost();
+        }
+
+
+
+        void LoginResponseObtained(object sender, EventArgs e)
+        {
+            loginRequest.ResponseObtained -= LoginResponseObtained;
+            Console.WriteLine("LoginDone");
+            //Check json for status
+            if (loginRequest.Data != null)//If we got data
+            {
+                RootObject rootJson = JsonConvert.DeserializeObject<RootObject>(loginRequest.Data);//Parse Json
+                if (rootJson.estatus != 0)//if status is not an error
+                {
+                    _token = rootJson.security_token;//Copy the token
+
+                }
+                /*activeUser = new User();
+                activeUser.Name = rootJson.perfil.nombre;
+                activeUser.profileID = rootJson.perfil.perfilId.ToString();
+                OnLoginDone(EventArgs.Empty);//fire event login done*/
+
+                OnLoginDone(EventArgs.Empty);
+            }
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows;
 using VoyIteso.Resources;
 
 namespace VoyIteso.Class
@@ -352,4 +528,4 @@ namespace VoyIteso.Class
             return null;
         }
     }
-}
+}*/
