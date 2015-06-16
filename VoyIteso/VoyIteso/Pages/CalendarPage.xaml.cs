@@ -17,8 +17,14 @@ namespace VoyIteso.Pages
         {
             InitializeComponent();
 
-            
+            initAppointments();
+        }
 
+        //<summary>
+        //This method gets the appointments and display them in the appointment detail text.
+        //</summary>
+        private void initAppointments() 
+        {
             MyAppointmentSource myAppointmentSource = new MyAppointmentSource();
 
             myAppointmentSource.clearAllAppointments();
@@ -46,21 +52,42 @@ namespace VoyIteso.Pages
 
             var a = myAppointmentSource.getAppointmentList();
             //myAppointmentSource.Fetch();
-            
-            appointmentDetails.Text = "";
 
-
+            foreach (var appointment in a)
+            {
+                Appointment ap = appointment;
+                appointmentDetails.Text += ap.Subject + "\n" + ap.StartDate + "\n" + "\n" + ap.Details + "\n\n";
+            }
         }
 
+
+        //<summary>
+        //Tap event handler.
+        //</summary>
         private void myCalendar_ItemTap(object sender, CalendarItemTapEventArgs e)
         {
             //appointmentDetails.Text = this.myCalendar.SelectedValue.ToString();
         }
 
+
+
         private void myCalendar_SelectedValueChanged(object sender, ValueChangedEventArgs<object> e)
         {
-            DateTime? selectedDate = this.myCalendar.SelectedValue;
-            appointmentDetails.Text = selectedDate.ToString() ;
+            //DateTime? selectedDate = this.myCalendar.SelectedValue;
+            
+            DateTime selectedDate = (DateTime)this.myCalendar.SelectedValue;
+            MyAppointmentSource appointmentSource = (MyAppointmentSource) myCalendar.AppointmentSource;
+            var list = appointmentSource.getAppointmentList();//List<Appointment>. list of appointments.
+            appointmentDetails.Text = "";
+            foreach (var item in list)
+            {
+                if (item.StartDate.Day == selectedDate.Day)
+                {
+                    appointmentDetails.Text += item.Subject + "\n" + item.StartDate + "\n" + item.Details + "\n\n";
+                }
+            }
+
+            //appointmentDetails.Text = selectedDate.ToString() ;
             if (e.NewValue == null)
             {
                 
