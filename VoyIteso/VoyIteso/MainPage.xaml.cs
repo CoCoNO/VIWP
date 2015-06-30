@@ -16,6 +16,7 @@ using VoyIteso.Class;
 using System.Windows.Threading;
 using System.Windows.Input;
 using System.Reflection;
+using System.IO.IsolatedStorage;
 
 namespace VoyIteso
 {
@@ -64,16 +65,26 @@ namespace VoyIteso
             user.setInfo(user.key);
             NavigationService.Navigate(new Uri("/Pages/HomePage.xaml", UriKind.Relative));
         }*/
-        
-        void SplashTimer_Tick(object sender, EventArgs e)
+        public IsolatedStorageSettings settings;
+        async void SplashTimer_Tick(object sender, EventArgs e)
         {
-            user.getInfo(user.key);
+            SplashTimer.Stop();
+            //Check if there is a local session
 
-            if (user.Token == null)
+            
+
+
+            //user.getInfo(user.key);
+
+            if (!ApiConnector.instance.isLoggedIn())
                 NavigationService.Navigate(new Uri("/Pages/AutentificationPage.xaml", UriKind.Relative));
 
-            else if (user.Token != null && user.Name != null && user.profileID != null)
+            else /*if (user.Token != null && user.Name != null && user.profileID != null)*/
+            {
+                await ApiConnector.instance.createUserFromToken();
                 NavigationService.Navigate(new Uri("/Pages/HomePage.xaml", UriKind.Relative));
+            }
+                
             /*
             else if (user.Name == null || user.Gender == null)
                 clientVoyIteso.GetUserNameAsync(user.Token);
@@ -83,7 +94,7 @@ namespace VoyIteso
             else if(user.Token != null && user.Name != null && user.Gender != null)
                 NavigationService.Navigate(new Uri("/Pages/HomePage.xaml", UriKind.Relative));
             */
-            SplashTimer.Stop();
+            
         }
         
     }

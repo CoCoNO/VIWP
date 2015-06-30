@@ -3,6 +3,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.IsolatedStorage;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -25,14 +26,11 @@ namespace VoyIteso.Class
 
         static ApiConnector _instance;//Singleton Instance
 
+        IsolatedStorageSettings settings;
+        string _token,_pid;
+        User activeUser;
 
 
-        string _token;
-        bool _busy;
-
-
-
-        //User activeUser;
         #endregion
 
 
@@ -55,8 +53,10 @@ namespace VoyIteso.Class
         }
 
 
-        #endregion
 
+        public User ActiveUser { get { return activeUser; } }
+        #endregion
+        
 
 
 
@@ -83,11 +83,23 @@ namespace VoyIteso.Class
         //Singleton constructor
         private ApiConnector()
         {
-
+            settings = IsolatedStorageSettings.ApplicationSettings;
 
         }
 
 
+
+
+
+        public async Task   createUserFromToken()
+        {
+
+            HttpRequest r = new HttpRequest();
+            r.setAction("/perfil/"+_pid+"/ver");
+            r.setParameter("security_token", _token);
+            await r.sendGet();
+            activeUser = getUserFromJson(r.Data);
+        }
         #endregion
 
 
@@ -97,23 +109,104 @@ namespace VoyIteso.Class
 
 
         //Actions
-        HttpRequest loginRequest;
-        public void logIn(string user, string password)
+        public bool isLoggedIn()
         {
+            
+            try
+            {
+                string tToken=(string)settings["security_token"];
+                string tPID=(string)settings["perfil_id"];
+
+
+                _token = tToken;
+                _pid = tPID;
+                
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+                //throw;
+            }
+
+        }
+        public void logOut()
+        {
+            settings.Remove("security_token");
+            settings.Remove("perfil_id");
+            settings.Remove("nombre_completo");
+
+        }
+        HttpRequest loginRequest;
+        public async Task logIn(string user, string password)
+        {
+
             loginRequest = new HttpRequest();
             loginRequest.setAction(@"/seguridad/login");
-            //ApiConnector.instance.setParameter("correo", "user");
-            //ApiConnector.instance.setParameter("password", "password");
-            loginRequest.setParameter("correo", "ie800001");
-            loginRequest.setParameter("password", "PruebaQA2015");
-            //
+
+            loginRequest.setParameter("correo", user);
+            loginRequest.setParameter("password", password);
+            //loginRequest.setParameter("correo", "ie800001");
+            //loginRequest.setParameter("password", "PruebaQA2015");
             loginRequest.ResponseObtained += LoginResponseObtained;
 
-            loginRequest.sendPost();
+            await loginRequest.sendPost();
+
+            //loginRequest.Data;
+            if (loginRequest.Status=="OK")
+            {
+                RootObject rootJson = JsonConvert.DeserializeObject<RootObject>(loginRequest.Data);
+                //activeUser = getUserFromJson(loginRequest.Data);
+                settings.Add("security_token", rootJson.security_token);
+
+                settings.Add("perfil_id", rootJson.perfil_id);
+                settings.Add("nombre_completo", rootJson.nombre_completo);
+                //settings["perfil_id"];
+
+                activeUser = new User();
+                activeUser.Name = rootJson.nombre;
+                activeUser.profileID = rootJson.perfil_id;
+
+            }
+            else if (loginRequest.Status == "Credenciales incorrectas")
+            {
+                throw new BadLoginExeption();
+            }
+            else
+            {
+                throw new TimeoutException(loginRequest.Status);
+            }
+            
         }
 
+        public class BadLoginExeption : Exception
+        {
+            
+        }
+        //get user form json
+        public User getUserFromJson(string jsonResponse)
+        {
+            if (jsonResponse != null)
+            {
+                User user = new User();
+                RootObject rootJson = JsonConvert.DeserializeObject<RootObject>(jsonResponse);
+                if (rootJson.estatus == 1)
+                {
+                    user.Token = _token;
+                    user.completeName = (string)settings["nombre_completo"]; ;
+                    user.Name = rootJson.perfil.nombre;
+                    user.profileID = rootJson.perfil.perfilId.ToString();
+
+                    return user;
+                }
+                else
+                    return null;
+            }
+            else
+                return null;
 
 
+        }
         void LoginResponseObtained(object sender, EventArgs e)
         {
             loginRequest.ResponseObtained -= LoginResponseObtained;

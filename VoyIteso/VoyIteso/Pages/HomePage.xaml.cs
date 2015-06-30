@@ -86,10 +86,15 @@ namespace VoyIteso.Pages
         {
             base.OnNavigatedTo(e);
             NavigationService.RemoveBackEntry();
+            //txtUserName.Text =;
+
+
 
             user.getInfo(user.key);
-            txtUserName.Text = AppResources.HelloUsertxt + " " + user.Name + "!";
-            profileTile.Title = user.Name;
+            
+            txtUserName.Text = AppResources.HelloUsertxt + " " +  ApiConnector.instance.ActiveUser.Name + "!";
+
+            profileTile.Title = ApiConnector.instance.ActiveUser.Name;
             
 
             if (user.setImageUrl())
@@ -107,7 +112,7 @@ namespace VoyIteso.Pages
         #region appBar Clicks
         void appBarSingOut_Click(object sender, EventArgs e)
         {
-            user.deleteInfo(user.key);
+            ApiConnector.instance.logOut();
             NavigationService.Navigate(new Uri("/Pages/AutentificationPage.xaml", UriKind.Relative));
         }
         #endregion

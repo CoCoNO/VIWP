@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Threading;
@@ -12,26 +14,24 @@ namespace VoyIteso.Class
     class HttpRequest
     {
 
-        public enum ApiConnectorResponse
-        {
-            NoRequest,
-            Ok,
-            NetworkError,
-            TimeOut,
-            Failed,
-            Other
-        }
+
         //Attributes*************************************************************
         #region Attributes
         List<KeyValuePair<string, string>> _parameters;//Parameters to send
-        ApiConnectorResponse _responseStatus;
+        HttpStatusCode _responseStatus;
         string data;
         string status;
-        DispatcherTimer TimeOutTimer = new DispatcherTimer();
+        //DispatcherTimer TimeOutTimer = new DispatcherTimer();
         int timeOut;//In seconds
-        string _url = @"http://voy.cocoapps.mx/VOYAPI";
+        //string _url = @"http://voy.cocoapps.mx/VOYAPI";
+        string _url = @"https://aplicacionesweb.iteso.mx/VOYAPI";
         string _action;
         HttpWebRequest _request;
+        
+
+
+
+
         #endregion
 
 
@@ -39,7 +39,7 @@ namespace VoyIteso.Class
         #region Propieties
         public string Data { get { return data; } }
         public string Status { get { return status; } }
-        public ApiConnectorResponse ResponseStatus { get { return _responseStatus; } }
+        public HttpStatusCode ResponseStatus { get { return _responseStatus; } }
 
 
         #endregion
@@ -72,8 +72,8 @@ namespace VoyIteso.Class
         {
             _parameters = new List<KeyValuePair<string, string>>();
             timeOut = 6;
-            TimeOutTimer.Interval = TimeSpan.FromSeconds(timeOut);
-            TimeOutTimer.Tick += RequestTimeOut;
+            //TimeOutTimer.Interval = TimeSpan.FromSeconds(timeOut);
+            //TimeOutTimer.Tick += RequestTimeOut;
         }
 
         //set url
@@ -90,16 +90,54 @@ namespace VoyIteso.Class
         }
 
         //send Post
-        public void sendPost()
+        public async Task sendPost()
         {
-            if (_action == "")//If url is empty or is busy then do nothing
+           
+            var httpClient = new HttpClient(new HttpClientHandler());
+            httpClient.Timeout = TimeSpan.FromSeconds(20);
+            try
             {
-                return;
-            }
-            //_busy = true;//block the api connector
-            _request = (HttpWebRequest)WebRequest.Create(_url + _action);//set url+action
+                HttpResponseMessage response = await httpClient.PostAsync(_url + _action, new FormUrlEncodedContent(_parameters));
 
-            string postData = "";//Data to send
+                if (response.StatusCode!= HttpStatusCode.OK)
+                {
+                    status = response.StatusCode.ToString();
+                    return;
+                }
+                response.EnsureSuccessStatusCode();
+                var responseString = await response.Content.ReadAsStringAsync();
+                _responseStatus = response.StatusCode;
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    if (responseString != null)
+                    {
+                        ResponceObject rootJson = JsonConvert.DeserializeObject<ResponceObject>(responseString);
+                        if (rootJson.estatus == 1)
+                        {
+                            data = responseString;
+                            status = "OK";
+                        }
+                        else
+                        {
+                            status = rootJson.error;
+                        }
+                    }
+                }
+            }
+            catch (TaskCanceledException)
+            {
+                
+            //    throw;
+            }
+            
+
+        }
+        
+        //Send get
+        public async Task sendGet()
+        {
+
+            string getData = "";//Data to send
 
             bool firstData = true;//Is the first value?
             foreach (var item in _parameters)
@@ -110,37 +148,49 @@ namespace VoyIteso.Class
                 }
                 else
                 {
-                    postData += "&";
+                    getData += "&";
+
                 }
-                postData += item.Key + "=" + item.Value;
+                getData += item.Key + "=" + item.Value;
             }
 
-            var data = Encoding.ASCII.GetBytes(postData);//Encode data
-
-            _request.Method = "POST";//Set action to post
-            _request.ContentType = "application/x-www-form-urlencoded";
-            _request.ContentLength = data.Length;
+            var httpClient = new HttpClient(new HttpClientHandler());
+            httpClient.Timeout = TimeSpan.FromSeconds(20);
             try
             {
-                using (var stream = _request.GetRequestStream())//Append Post data
+                HttpResponseMessage response = await httpClient.GetAsync(_url + _action+"?"+getData);
+
+                if (response.StatusCode!= HttpStatusCode.OK)
                 {
-                    stream.Write(data, 0, data.Length);
+                    status = response.StatusCode.ToString();
+                    return;
                 }
-                TimeOutTimer.Start();
-                _request.BeginGetResponse(new AsyncCallback(FinishWebRequest), null);//Set Callback
-            }
-            catch (System.Net.WebException e)
+                response.EnsureSuccessStatusCode();
+                var responseString = await response.Content.ReadAsStringAsync();
+                _responseStatus = response.StatusCode;
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    if (responseString != null)
+                    {
+                        ResponceObject rootJson = JsonConvert.DeserializeObject<ResponceObject>(responseString);
+                        if (rootJson.estatus == 1)
+                        {
+                            data = responseString;
+                            status = "OK";
+                        }
+                        else
+                        {
+                            status = rootJson.error;
+                        }
+                    }
+                }
+                }
+            catch (TaskCanceledException)
             {
-                _responseStatus = ApiConnectorResponse.NetworkError;
-                OnResponseObtained(EventArgs.Empty);
+                
+            //    throw;
             }
-
-        }
-
-        //Send get
-        public void sendGet()
-        {
-            if (_action == "")//If url is empty or is busy then do nothing
+            /*if (_action == "")//If url is empty or is busy then do nothing
             {
                 return;
             }
@@ -168,34 +218,18 @@ namespace VoyIteso.Class
             _request.ContentType = "application/x-www-form-urlencoded";
 
             TimeOutTimer.Start();
-            _request.BeginGetResponse(new AsyncCallback(FinishWebRequest), null);//Set Callback
+            _request.BeginGetResponse(new AsyncCallback(FinishWebRequest), null);//Set Callback*/
         }
 
         //Receive responce callback
         void FinishWebRequest(IAsyncResult result)
         {
-            TimeOutTimer.Stop();//Stop timer from timing out
-
-            _request.EndGetResponse(result);//end request
-            var response = (HttpWebResponse)_request.GetResponse();//get result
-
-            var responseString = new StreamReader(response.GetResponseStream()).ReadToEnd();//read result
-            data = responseString;
-            status = response.StatusDescription;
-            if (status == "OK")
-            {
-                _responseStatus = ApiConnectorResponse.Ok;
-            }
-
-            OnResponseObtained(EventArgs.Empty);//fire eventPor q
+            
         }
 
         private void RequestTimeOut(object sender, EventArgs e)
         {
-            TimeOutTimer.Stop();
-            Console.WriteLine("TimeOut");
-            _responseStatus = ApiConnectorResponse.TimeOut;
-            OnResponseObtained(EventArgs.Empty);//fire eventPor q
+
         }
 
 

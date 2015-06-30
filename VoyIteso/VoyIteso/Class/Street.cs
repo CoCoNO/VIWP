@@ -65,8 +65,8 @@ namespace VoyIteso.Class
         private void getPoints()
         {
             RootObject rootJson = JsonConvert.DeserializeObject<RootObject>(this.points);
-            this.origin_coordinate = new GeoCoordinate(rootJson.start.lat, rootJson.start.lng);
-            this.destiny_coordinate = new GeoCoordinate(rootJson.end.lat, rootJson.end.lng);
+            //this.origin_coordinate = new GeoCoordinate(rootJson.start.lat, rootJson.start.lng);
+            //this.destiny_coordinate = new GeoCoordinate(rootJson.end.lat, rootJson.end.lng);
         }
 
     }
@@ -122,30 +122,30 @@ namespace VoyIteso.Class
         public double lng { get; set; }
     }
 
-    public class Perfil
+/*    public class Perfil
     {
         public int perfilId { get; set; }
         public int evaluaciones_count { get; set; }
         public List<string> endpoints { get; set; }
         public string telefono { get; set; }
         public string descripcion { get; set; }
-        public int platicar { get; set; }
-        public long ultima_conexion { get; set; }
-        public int aire { get; set; }
+        public int? platicar { get; set; }
+        public long? ultima_conexion { get; set; }
+        public int? aire { get; set; }
         public string carrera { get; set; }
         public string nombre { get; set; }
         public object otrasCostumbres { get; set; }
-        public int musica { get; set; }
+        public int? musica { get; set; }
         public string edad { get; set; }
-        public int mascota { get; set; }
-        public int aventones_recibidos_count { get; set; }
-        public int aventones_dados_count { get; set; }
-        public int fuma { get; set; }
-        public int rating { get; set; }
-        public int rutas_count { get; set; }
+        public int? mascota { get; set; }
+        public int? aventones_recibidos_count { get; set; }
+        public int? aventones_dados_count { get; set; }
+        public int? fuma { get; set; }
+        public int? rating { get; set; }
+        public int? rutas_count { get; set; }
         public string correo { get; set; }
     }
-
+    */
     public class RootObject
     {
         public List<ResourceSet> resourceSets { get; set; }
@@ -160,5 +160,47 @@ namespace VoyIteso.Class
         public End end { get; set; }
         //public List<object> waypoints { get; set; }
         public Perfil perfil { get; set; }
+        public string error { get; set; }
+        
+    }//*/
+
+    public class Perfil
+    {
+        public int perfilId { get; set; }
+        public int evaluaciones_count { get; set; }
+        public List<object> endpoints { get; set; }
+        public string telefono { get; set; }
+        public object descripcion { get; set; }
+        public object platicar { get; set; }
+        public object ultima_conexion { get; set; }
+        public object aire { get; set; }
+        public string carrera { get; set; }
+        public string nombre { get; set; }
+        public object otrasCostumbres { get; set; }
+        public object musica { get; set; }
+        public string edad { get; set; }
+        public object mascota { get; set; }
+        public int aventones_recibidos_count { get; set; }
+        public int aventones_dados_count { get; set; }
+        public object fuma { get; set; }
+        public int rating { get; set; }
+        public int rutas_count { get; set; }
+        public string correo { get; set; }
+    }
+
+    /*public class RootObject
+    {
+        public string message { get; set; }
+        public Perfil perfil { get; set; }
+        public int estatus { get; set; }
+    }*/
+    /// <summary>
+    /// //////////////////////////////////////////////////////////////////////////////
+    /// </summary>
+    public class ResponceObject
+    {
+        //public int statusCode;
+        public int estatus { get; set; }
+        public string error { get; set; }
     }
 }

@@ -121,6 +121,7 @@ namespace VoyIteso.Pages
         {
             //ShowProgressIndicator();
             progress.showProgressIndicator(this, "Autentificando");
+
             SendRequest();
             //clientAutentification.validarUsuarioAsync(txbUser.Text, txbPass.Password);
         }
@@ -134,6 +135,10 @@ namespace VoyIteso.Pages
             base.OnNavigatedTo(e);
             NavigationService.RemoveBackEntry();
             Microsoft.Phone.Shell.SystemTray.ForegroundColor = System.Windows.Media.Color.FromArgb(255, 110, 207, 243);
+#if DEBUG
+            txbUser.Text = "ie800001";
+            txbPass.Password = "PruebaQA2015";
+#endif
         }
         #endregion
         /*
@@ -217,13 +222,33 @@ namespace VoyIteso.Pages
         #endregion
 
         #region SendRequest
-        private void SendRequest()
+        private async Task SendRequest()
         {
-            apiConnector.UpdateUrl(AppResources.ApiLogIn);
+            /*apiConnector.UpdateUrl(AppResources.ApiLogIn);
             apiConnector.setParametersUrl("correo=" + userBoxText + "&password=" + passwordBoxText);
             apiConnector.SendPostRequest();
             apiConnector.exceptionChanged += apiConnector_exceptionChanged;
-            apiConnector.responseChanged += apiConnector_responseChanged;
+            apiConnector.responseChanged += apiConnector_responseChanged;*/
+
+
+
+            try
+            {
+                await apiConnector.logIn(txbUser.Text, txbPass.Password);
+                progress.hideProgressIndicator(this);
+                NavigationService.Navigate(new Uri("/Pages/HomePage.xaml", UriKind.Relative));
+            }
+            catch (TimeoutException)
+            {
+                progress.hideProgressIndicator(this);
+                MessageBox.Show("No hay conexión a internet");
+            }
+            catch (VoyIteso.Class.ApiConnector.BadLoginExeption)
+            {
+                progress.hideProgressIndicator(this);
+                MessageBox.Show("Verifica credenciales e intenta de nuevo");
+            }
+            
 
         }
         #endregion
@@ -231,7 +256,7 @@ namespace VoyIteso.Pages
         #region apiConnector_exceptionChanged
         void apiConnector_exceptionChanged(object sender, EventArgs e)
         {
-            if (apiConnector.throwException != null || apiConnector.throwException != "")
+            /*if (apiConnector.throwException != null || apiConnector.throwException != "")
             {
                 Dispatcher.BeginInvoke(() => {
                     MessageBox.Show(apiConnector.throwException, "Error", MessageBoxButton.OK);
@@ -241,14 +266,14 @@ namespace VoyIteso.Pages
                     progress.hideProgressIndicator(this);
                 });
                 
-            }
+            }*/
         }
         #endregion
 
         #region apiConnector_responseChanged
         void apiConnector_responseChanged(object sender, EventArgs e)
         {
-            user = apiConnector.getUserFromJson();
+            //user = apiConnector.getUserFromJson();
             if(user != null)
             {
                 user.setInfo(user.key);
@@ -269,7 +294,7 @@ namespace VoyIteso.Pages
                     progress.hideProgressIndicator(this);
                 });
             }
-            apiConnector.responseChanged -= apiConnector_responseChanged;
+            //apiConnector.responseChanged -= apiConnector_responseChanged;
             /*
             if (apiConnector.CheckForStatus())
             {

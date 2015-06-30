@@ -100,6 +100,7 @@
     <Compile Include="Class\ApiConnector.cs" />
     <Compile Include="Class\BingConnectorcs.cs" />
     <Compile Include="Class\BytesToImageConverter.cs" />
+    <Compile Include="Class\HttpRequest.cs" />
     <Compile Include="Class\OldMaping.cs" />
     <Compile Include="Class\Progress.cs" />
     <Compile Include="Class\ResolutionHelper.cs" />

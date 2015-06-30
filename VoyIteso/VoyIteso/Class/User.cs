@@ -5,6 +5,7 @@ using System.IO.IsolatedStorage;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using VoyIteso.Resources;
 
 namespace VoyIteso.Class
@@ -22,7 +23,7 @@ namespace VoyIteso.Class
         public String isLocationAllowed;
         public String gender;
         public String imageUrl;
-        public IsolatedStorageSettings settings;
+        public Image Avatar;
         /*
         private byte[] userImage;
         public byte[] UserImage
@@ -38,8 +39,8 @@ namespace VoyIteso.Class
 
         public User()
         {
-            this.key = "VoyItesoKeyToken";
-            settings = IsolatedStorageSettings.ApplicationSettings;
+            //this.key = "VoyItesoKeyToken";
+            
         }
         /*
         #region NotifyPropertyChanged
@@ -58,7 +59,7 @@ namespace VoyIteso.Class
         {
             String[] values = new String[5];
 
-            if (settings.Contains(key))
+            /*if (settings.Contains(key))
             {
                 values = (String[])settings[key];
 
@@ -102,7 +103,7 @@ namespace VoyIteso.Class
                 Token = null;
                 Type = null;
                 isLocationAllowed = "false";
-            }
+            }*/
         }
         #endregion
 
@@ -116,7 +117,7 @@ namespace VoyIteso.Class
             value[3] = profileID;
             value[4] = isLocationAllowed;
 
-            if (settings.Contains(key))
+            /*if (settings.Contains(key))
             {
                 settings[key] = value;
             }
@@ -124,17 +125,17 @@ namespace VoyIteso.Class
             {
                 settings.Add(key,value);
             }
-            settings.Save();
+            settings.Save();*/
         }
         #endregion
 
         #region deleteInfo
         public void deleteInfo(String key)
         {
-            if (settings.Contains(key))
+            /*if (settings.Contains(key))
             {
                 settings.Clear();
-            }
+            }*/
         }
         #endregion
 
