@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 using VoyIteso.Resources;
 
 namespace VoyIteso.Class
@@ -23,7 +24,22 @@ namespace VoyIteso.Class
         public String isLocationAllowed;
         public String gender;
         public String imageUrl;
-        public Image Avatar;
+
+        BitmapImage avatar;
+        public BitmapImage Avatar
+        {
+            get {
+                return avatar;
+            }
+
+
+            set 
+            {
+                avatar = value;
+                OnUserDataChanged(EventArgs.Empty);
+                
+            }
+        }
         /*
         private byte[] userImage;
         public byte[] UserImage
@@ -54,6 +70,21 @@ namespace VoyIteso.Class
         }
         #endregion
         */
+
+        #region Events
+        public EventHandler UserDataChanged;
+        protected virtual void OnUserDataChanged(EventArgs e)
+        {
+
+
+            EventHandler handler = UserDataChanged;
+            if (handler != null)
+            {
+                handler(this, e);
+            }
+            //clear resources
+        }
+        #endregion
         #region getInfo
         public void getInfo(String key)
         {

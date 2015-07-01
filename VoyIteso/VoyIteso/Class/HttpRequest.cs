@@ -159,13 +159,14 @@ namespace VoyIteso.Class
             try
             {
                 HttpResponseMessage response = await httpClient.GetAsync(_url + _action+"?"+getData);
-
+                response.EnsureSuccessStatusCode();
                 if (response.StatusCode!= HttpStatusCode.OK)
                 {
                     status = response.StatusCode.ToString();
                     return;
                 }
-                response.EnsureSuccessStatusCode();
+                httpClient.Dispose();
+                
                 var responseString = await response.Content.ReadAsStringAsync();
                 _responseStatus = response.StatusCode;
                 if (response.StatusCode == HttpStatusCode.OK)
@@ -231,8 +232,8 @@ namespace VoyIteso.Class
         {
 
         }
-
-
+       
+        
         #endregion
     }
 }

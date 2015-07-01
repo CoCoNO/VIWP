@@ -2,16 +2,21 @@
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.IO.IsolatedStorage;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using VoyIteso.Class;
+using Windows.Storage.Streams;
 
 
 namespace VoyIteso.Class
@@ -166,6 +171,8 @@ namespace VoyIteso.Class
                 activeUser = new User();
                 activeUser.Name = rootJson.nombre;
                 activeUser.profileID = rootJson.perfil_id;
+                _token = rootJson.security_token;
+                UpdateCurrentProfileImage();
 
             }
             else if (loginRequest.Status == "Credenciales incorrectas")
@@ -227,6 +234,47 @@ namespace VoyIteso.Class
 
                 OnLoginDone(EventArgs.Empty);
             }
+        }
+
+
+        public async void UpdateCurrentProfileImage()
+        {
+            Uri uri = new Uri(@"https://aplicacionesweb.iteso.mx/VOYAPI/perfil/imagen/" + _pid + "?security_token=" + _token);
+            activeUser.Avatar=  await LoadImage(uri);
+        }
+        public async Task GetProfileImage(string _pid) 
+        {
+            Uri uri = new Uri(@"https://aplicacionesweb.iteso.mx/VOYAPI/perfil/imagen/"+_pid+"?security_token="+_token);
+
+            HttpClient client = new HttpClient();
+
+            byte[] bytes = await client.GetByteArrayAsync(uri);
+            //var streamImage = await client.GetByteArrayAsync(uri)
+            
+            //activeUser.Avatar = await LoadImage(uri);
+            //var webClient = new WebClient();
+
+            //webClient.DownloadStringAsync(uri);
+            //BitmapImage image = new BitmapImage(uri); 
+
+            MemoryStream stream = new MemoryStream(bytes);
+            BitmapImage image = new BitmapImage();
+            //BitmapImage p = new BitmapImage();
+
+            activeUser.Avatar = image;
+        }
+
+        void p_ImageOpened(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        public async static Task<BitmapImage> LoadImage(Uri uri)
+        {
+            //BitmapImage bitmapImage = new BitmapImage();
+
+            BitmapImage img = new BitmapImage(uri);
+            return img;
         }
     }
 }

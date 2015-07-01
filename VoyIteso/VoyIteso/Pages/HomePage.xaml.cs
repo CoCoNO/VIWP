@@ -97,17 +97,24 @@ namespace VoyIteso.Pages
             profileTile.Title = ApiConnector.instance.ActiveUser.Name;
             
 
-            if (user.setImageUrl())
+            //if (user.setImageUrl())
             {
-                profileImage.Source = (new BitmapImage(new Uri(string.Format(user.imageUrl + "?Refresh=true&random={0}", Guid.NewGuid()), UriKind.Absolute)));
-                profileTile.IsFrozen = false;
+                //profileImage.Source = (new BitmapImage(new Uri(string.Format(user.imageUrl + "?Refresh=true&random={0}", Guid.NewGuid()), UriKind.Absolute)));
+                //profileImage.Source = ApiConnector.instance.ActiveUser.Avatar;
+                ApiConnector.instance.ActiveUser.UserDataChanged += UserDataChanged;
+                ApiConnector.instance.UpdateCurrentProfileImage();
+                //profileTile.IsFrozen = false;
             }
-
+            //ApiConnector.instance.ActiveUser.OnUserDataChanged +=
             Microsoft.Phone.Shell.SystemTray.ForegroundColor = Color.FromArgb(255, 110, 207, 243);
             
         }
         #endregion
-
+        void UserDataChanged(object sender, EventArgs e)
+        {
+            profileImage.Source = ApiConnector.instance.ActiveUser.Avatar;
+            profileTile.IsFrozen = false;
+        }
 
         #region appBar Clicks
         void appBarSingOut_Click(object sender, EventArgs e)
