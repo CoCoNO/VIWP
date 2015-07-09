@@ -173,6 +173,7 @@ namespace VoyIteso.Class
                 activeUser.profileID = rootJson.perfil_id;
                 _token = rootJson.security_token;
                 _pid = rootJson.perfil_id;
+                activeUser.profile = rootJson.perfil;
                 //UpdateCurrentProfileImage();
 
             }
@@ -205,6 +206,7 @@ namespace VoyIteso.Class
                     user.Name = rootJson.perfil.nombre;
                     user.profileID = rootJson.perfil.perfilId.ToString();
 
+                    user.profile = rootJson.perfil;
                     return user;
                 }
                 else
