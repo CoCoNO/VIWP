@@ -24,7 +24,7 @@ namespace VoyIteso.Class
         public String isLocationAllowed;
         public String gender;
         public String imageUrl;
-
+        public Perfil profile;
         BitmapImage avatar;
         public BitmapImage Avatar
         {

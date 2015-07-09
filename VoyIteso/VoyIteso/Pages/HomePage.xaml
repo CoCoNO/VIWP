@@ -79,6 +79,7 @@
             <!--<toolkit:HubTile x:Name="profile" Size="Medium" Grid.Column="0" Tap="profile_Tap" Title="Perfil" IsFrozen="True" Background="#F16341" Width="205" Height="Auto"/>-->
             <!--<toolkit:HubTile x:Name="searchOfferMap" Size="Medium" Grid.Column="2"  Tap="searchOfferMap_Tap" Background="#85C340" Width="205" Height="Auto"/>-->
         </Grid>
+        <Image x:Name="TestImage" Grid.Column="1" HorizontalAlignment="Left" Height="110" Margin="175,5,0,-91" Grid.Row="8" VerticalAlignment="Top" Width="105"/>
         <!--
         <StackPanel Margin="0,0,0,650" Height="100">
             <TextBlock Text="Bienvenido" FontFamily="{StaticResource PhoneFontFamilySemiBold}" Foreground="{StaticResource PhoneContrastBackgroundBrush}" Margin="15,0,0,0"/>

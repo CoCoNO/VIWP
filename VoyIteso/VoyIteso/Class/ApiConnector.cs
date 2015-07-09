@@ -172,7 +172,8 @@ namespace VoyIteso.Class
                 activeUser.Name = rootJson.nombre;
                 activeUser.profileID = rootJson.perfil_id;
                 _token = rootJson.security_token;
-                UpdateCurrentProfileImage();
+                _pid = rootJson.perfil_id;
+                //UpdateCurrentProfileImage();
 
             }
             else if (loginRequest.Status == "Credenciales incorrectas")
@@ -240,7 +241,17 @@ namespace VoyIteso.Class
         public async void UpdateCurrentProfileImage()
         {
             Uri uri = new Uri(@"https://aplicacionesweb.iteso.mx/VOYAPI/perfil/imagen/" + _pid + "?security_token=" + _token);
-            activeUser.Avatar=  await LoadImage(uri);
+
+            BitmapImage img = new BitmapImage(uri);
+            img.CreateOptions = BitmapCreateOptions.BackgroundCreation;
+            img.ImageOpened += img_ImageOpened;
+            //activeUser.Avatar = img;
+        }
+
+        void img_ImageOpened(object sender, RoutedEventArgs e)
+        {
+
+            activeUser.Avatar = (BitmapImage)(sender);
         }
         public async Task GetProfileImage(string _pid) 
         {

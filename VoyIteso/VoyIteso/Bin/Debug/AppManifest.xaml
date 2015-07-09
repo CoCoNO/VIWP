@@ -11,4 +11,7 @@
     <AssemblyPart x:Name="Telerik.Windows.Core" Source="Telerik.Windows.Core.dll" />
     <AssemblyPart x:Name="System.Windows.Interactivity" Source="System.Windows.Interactivity.dll" />
   </Deployment.Parts>
+  <Capabilities>
+    <Capability Name="ID_CAP_PUSH_NOTIFICATION" />
+  </Capabilities>
 </Deployment>

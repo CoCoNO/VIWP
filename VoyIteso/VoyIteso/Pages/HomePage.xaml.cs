@@ -88,7 +88,8 @@ namespace VoyIteso.Pages
             NavigationService.RemoveBackEntry();
             //txtUserName.Text =;
 
-
+            ApiConnector.instance.ActiveUser.UserDataChanged += UserDataChanged;
+            ApiConnector.instance.UpdateCurrentProfileImage();
 
             user.getInfo(user.key);
             
@@ -101,8 +102,8 @@ namespace VoyIteso.Pages
             {
                 //profileImage.Source = (new BitmapImage(new Uri(string.Format(user.imageUrl + "?Refresh=true&random={0}", Guid.NewGuid()), UriKind.Absolute)));
                 //profileImage.Source = ApiConnector.instance.ActiveUser.Avatar;
-                ApiConnector.instance.ActiveUser.UserDataChanged += UserDataChanged;
-                ApiConnector.instance.UpdateCurrentProfileImage();
+                //ApiConnector.instance.ActiveUser.UserDataChanged += UserDataChanged;
+                //ApiConnector.instance.UpdateCurrentProfileImage();
                 //profileTile.IsFrozen = false;
             }
             //ApiConnector.instance.ActiveUser.OnUserDataChanged +=
@@ -112,8 +113,10 @@ namespace VoyIteso.Pages
         #endregion
         void UserDataChanged(object sender, EventArgs e)
         {
+            ApiConnector.instance.ActiveUser.UserDataChanged -= UserDataChanged;
             profileImage.Source = ApiConnector.instance.ActiveUser.Avatar;
             profileTile.IsFrozen = false;
+            TestImage.Source = ApiConnector.instance.ActiveUser.Avatar;
         }
 
         #region appBar Clicks
