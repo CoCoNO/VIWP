@@ -238,7 +238,7 @@ namespace VoyIteso.Class
         }
 
 
-        public async void UpdateCurrentProfileImage()
+        public   void UpdateCurrentProfileImage()
         {
             Uri uri = new Uri(@"https://aplicacionesweb.iteso.mx/VOYAPI/perfil/imagen/" + _pid + "?security_token=" + _token);
 
@@ -250,9 +250,10 @@ namespace VoyIteso.Class
 
         void img_ImageOpened(object sender, RoutedEventArgs e)
         {
-
             activeUser.Avatar = (BitmapImage)(sender);
         }
+
+
         public async Task GetProfileImage(string _pid) 
         {
             Uri uri = new Uri(@"https://aplicacionesweb.iteso.mx/VOYAPI/perfil/imagen/"+_pid+"?security_token="+_token);

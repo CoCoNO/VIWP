@@ -409,3 +409,4 @@ C:\Users\CoCoNO\Documents\GitHub\VIWP\VoyIteso\VoyIteso\obj\Debug\VoyIteso.cspro
 C:\Users\CoCoNO\Documents\GitHub\VIWP\VoyIteso\VoyIteso\obj\Debug\VoyIteso.dll
 C:\Users\CoCoNO\Documents\GitHub\VIWP\VoyIteso\VoyIteso\obj\Debug\VoyIteso.pdb
 C:\Users\CoCoNO\Documents\GitHub\VIWP\VoyIteso\VoyIteso\obj\Debug\XapCacheFile.xml
+C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\obj\Debug\Pages\ProfilePage.g.cs

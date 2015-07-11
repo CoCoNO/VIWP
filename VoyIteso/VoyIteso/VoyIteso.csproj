@@ -118,6 +118,9 @@
     <Compile Include="Pages\HomePage.xaml.cs">
       <DependentUpon>HomePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\ProfilePage.xaml.cs">
+      <DependentUpon>ProfilePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\TypePage.xaml.cs">
       <DependentUpon>TypePage.xaml</DependentUpon>
     </Compile>
@@ -152,6 +155,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\HomePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\ProfilePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -240,6 +247,7 @@
     <Content Include="Images\Splashscreen_VoyITESO.png" />
     <Content Include="Images\STAR.png" />
     <Content Include="Images\TALK.png" />
+    <Content Include="Images\User.jpg" />
     <Content Include="Images\WVGA-splashscren480x800.png" />
     <Content Include="Images\WVGA_splashscreen_voyiteso480x800.png" />
     <Content Include="Images\WXGA-splashscreen.png" />
