@@ -36,12 +36,17 @@ namespace VoyIteso
         {
             InitializeComponent();
             versionControlSplash.Text = "v " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
+ 
+
             //////Set the timer and start it
-            SplashTimer.Interval = TimeSpan.FromSeconds(2);
+            SplashTimer.Interval = TimeSpan.FromSeconds(0);
             SplashTimer.Tick += SplashTimer_Tick;
             SplashTimer.Start();
             //user.deleteInfo(user.key);
             canChange = false;
+
+
+
 
             //Web Service
             //clientVoyIteso.GetUserNameCompleted += clientVoyIteso_GetUserNameCompleted;
