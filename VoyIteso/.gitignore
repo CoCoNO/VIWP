@@ -191,3 +191,4 @@ ModelManifest.xml
 *.dll
 *.cache
 *.dll
+*.g.cs

@@ -24,15 +24,10 @@ namespace VoyIteso.Pages
 {
     public partial class Autentification : PhoneApplicationPage
     {
-        //Web Service
-        //ServiceReferenceAutentification.ServiciosMovilClient clientAutentification = new ServiceReferenceAutentification.ServiciosMovilClient();
-        //ServiceReferenceVoyItesoMovil.VoyItesoMovilClient clientVoyIteso = new ServiceReferenceVoyItesoMovil.VoyItesoMovilClient();
 
-        string userBoxText;
-        string passwordBoxText;
         //ApiConnector apiConnector = new ApiConnector();
-        ApiConnector apiConnector = ApiConnector.instance;
-        User user;
+        //ApiConnector apiConnector = ApiConnector.instance;
+        //User user;
         Progress progress;
         
 
@@ -42,11 +37,7 @@ namespace VoyIteso.Pages
         {
             InitializeComponent();
             progress = new Progress();
-            //progressIndicator = new ProgressIndicator();
 
-            //Web Service
-            //clientVoyIteso.GetUserNameCompleted += clientVoyIteso_GetUserNameCompleted;
-            //clientAutentification.validarUsuarioCompleted += client_validarUsuarioCompleted;
         }
 
         #region commented
@@ -119,11 +110,9 @@ namespace VoyIteso.Pages
         #region btnSend_Click
         private void btnSend_Click(object sender, RoutedEventArgs e)
         {
-            //ShowProgressIndicator();
-            progress.showProgressIndicator(this, "Autentificando");
 
             SendRequest();
-            //clientAutentification.validarUsuarioAsync(txbUser.Text, txbPass.Password);
+
         }
         #endregion 
 
@@ -141,23 +130,7 @@ namespace VoyIteso.Pages
 #endif
         }
         #endregion
-        /*
-        #region show and hide progressIndicator
-        private void ShowProgressIndicator()
-        {
-            progressIndicator.Text = "Autentificando";
-            progressIndicator.IsIndeterminate = true;
-            progressIndicator.IsVisible = true;
-            SystemTray.SetProgressIndicator(this,progressIndicator);
-        }
-
-        private void HideProgressIndicator()
-        {
-            progressIndicator.IsVisible = false;
-            SystemTray.SetProgressIndicator(this,progressIndicator);
-        }
-        #endregion
-        */
+        
         #region Focus User/Pass
         private void txbUser_GotFocus(object sender, RoutedEventArgs e)
         {
@@ -190,32 +163,36 @@ namespace VoyIteso.Pages
         {
             if (e.Key == Key.Enter)
             {
-                userBoxText = txbUser.Text;
-                if (txbUser.Text != "" && txbPass.Password != "")
+                if (txbUser.Text == string.Empty)
                 {
-                    //ShowProgressIndicator();
-                    progress.showProgressIndicator(this,"Autentificando");
-                    //clientAutentification.validarUsuarioAsync(txbUser.Text, txbPass.Password);
-                    SendRequest();
+
+                    txbUser.Focus();
                 }
                 else
-                    txbUser.Focus();
+                {
+                    if (txbPass.Password != string.Empty)
+                    {
+
+                        SendRequest();
+                    }
+
+                }
             }
+                
         }
 
         private void txbUser_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
-                passwordBoxText = txbPass.Password;
-                if (txbUser.Text != "" && txbPass.Password != "")
+                /*if (txbUser.Text != string.Empty && txbPass.Password != string.Empty)
                 {
                     //ShowProgressIndicator();
-                    progress.showProgressIndicator(this, "Autentificando");
+                    //progress.showProgressIndicator(this, "Autentificando");
                     //clientAutentification.validarUsuarioAsync(txbUser.Text, txbPass.Password);
                     SendRequest();
                 }
-                else
+                else*/
                     txbPass.Focus();
             }
         }
@@ -224,17 +201,13 @@ namespace VoyIteso.Pages
         #region SendRequest
         private async Task SendRequest()
         {
-            /*apiConnector.UpdateUrl(AppResources.ApiLogIn);
-            apiConnector.setParametersUrl("correo=" + userBoxText + "&password=" + passwordBoxText);
-            apiConnector.SendPostRequest();
-            apiConnector.exceptionChanged += apiConnector_exceptionChanged;
-            apiConnector.responseChanged += apiConnector_responseChanged;*/
 
 
 
+            progress.showProgressIndicator(this, "Autentificando");
             try
             {
-                await apiConnector.logIn(txbUser.Text, txbPass.Password);
+                await ApiConnector.Instance.LogIn(txbUser.Text, txbPass.Password);
                 progress.hideProgressIndicator(this);
                 NavigationService.Navigate(new Uri("/Pages/HomePage.xaml", UriKind.Relative));
             }
@@ -253,7 +226,17 @@ namespace VoyIteso.Pages
         }
         #endregion
 
-        #region apiConnector_exceptionChanged
+        #region HyperlinkButton_Click
+        private void HyperlinkButton_Click(object sender, RoutedEventArgs e)
+        {
+            WebBrowserTask wbt = new WebBrowserTask();
+            wbt.Uri = new Uri("https://datospersonales.iteso.mx/");
+            wbt.Show();
+        }
+        #endregion
+        
+        #region uSELES
+        /*
         void apiConnector_exceptionChanged(object sender, EventArgs e)
         {
             /*if (apiConnector.throwException != null || apiConnector.throwException != "")
@@ -266,7 +249,7 @@ namespace VoyIteso.Pages
                     progress.hideProgressIndicator(this);
                 });
                 
-            }*/
+            }
         }
         #endregion
 
@@ -320,17 +303,27 @@ namespace VoyIteso.Pages
             }
 
             apiConnector.responseChanged -= apiConnector_responseChanged;*/
+        //}
+        /*
+        #region show and hide progressIndicator
+        private void ShowProgressIndicator()
+        {
+            progressIndicator.Text = "Autentificando";
+            progressIndicator.IsIndeterminate = true;
+            progressIndicator.IsVisible = true;
+            SystemTray.SetProgressIndicator(this,progressIndicator);
         }
+
+        private void HideProgressIndicator()
+        {
+            progressIndicator.IsVisible = false;
+            SystemTray.SetProgressIndicator(this,progressIndicator);
+        }
+        #endregion
+        */
         #endregion
 
-        #region HyperlinkButton_Click
-        private void HyperlinkButton_Click(object sender, RoutedEventArgs e)
-        {
-            WebBrowserTask wbt = new WebBrowserTask();
-            wbt.Uri = new Uri("https://datospersonales.iteso.mx/");
-            wbt.Show();
-        }
-        #endregion
+        
 
         
         

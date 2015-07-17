@@ -122,7 +122,7 @@ namespace VoyIteso.Class
         public double lng { get; set; }
     }
 
-/*    public class Perfil
+    public class Perfil
     {
         public int perfilId { get; set; }
         public int evaluaciones_count { get; set; }
@@ -134,7 +134,7 @@ namespace VoyIteso.Class
         public int? aire { get; set; }
         public string carrera { get; set; }
         public string nombre { get; set; }
-        public object otrasCostumbres { get; set; }
+        public string otrasCostumbres { get; set; }
         public int? musica { get; set; }
         public string edad { get; set; }
         public int? mascota { get; set; }
@@ -145,7 +145,7 @@ namespace VoyIteso.Class
         public int? rutas_count { get; set; }
         public string correo { get; set; }
     }
-    */
+    
     public class RootObject
     {
         public List<ResourceSet> resourceSets { get; set; }
@@ -163,7 +163,7 @@ namespace VoyIteso.Class
         public string error { get; set; }
         
     }//*/
-
+    /*
     public class Perfil
     {
         public int perfilId { get; set; }
@@ -187,7 +187,7 @@ namespace VoyIteso.Class
         public int rutas_count { get; set; }
         public string correo { get; set; }
     }
-
+    */
     /*public class RootObject
     {
         public string message { get; set; }
@@ -202,5 +202,34 @@ namespace VoyIteso.Class
         //public int statusCode;
         public int estatus { get; set; }
         public string error { get; set; }
+    }
+    public class Aventone
+    {
+        public int id { get; set; }
+        public string texto_destino { get; set; }
+        public string fecha { get; set; }
+        public string conductor { get; set; }
+        public string estatus_aventon { get; set; }
+        public string rol { get; set; }
+        public string texto_origen { get; set; }
+        public string pasajero { get; set; }
+        public double latitud_origen { get; set; }
+        public double latitud_destino { get; set; }
+        public double logitud_origen { get; set; }
+        public double longitud_destino { get; set; }
+        public string hora_llegada { get; set; }
+        public int perfilconductor_id { get; set; }
+        public int perfilpasajero_id { get; set; }
+    }
+
+    public class NextLifts
+    {
+        public int estatus { get; set; }
+        public string mes { get; set; }
+        public int persona_id { get; set; }
+        public string fecha_inicio { get; set; }
+        public string fecha_fin { get; set; }
+        public List<string> dias { get; set; }
+        public List<Aventone> aventones { get; set; }
     }
 }

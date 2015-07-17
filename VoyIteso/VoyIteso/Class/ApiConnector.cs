@@ -3,11 +3,13 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.IO.IsolatedStorage;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,6 +18,8 @@ using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using VoyIteso.Class;
+using VoyIteso.Pages;
+using Windows.Storage;
 using Windows.Storage.Streams;
 
 
@@ -24,7 +28,6 @@ namespace VoyIteso.Class
     class ApiConnector
     {
 
-        //Connects to voyitesoapi 
 
         //Atributies**************************************
         #region Atributies
@@ -33,8 +36,7 @@ namespace VoyIteso.Class
 
         IsolatedStorageSettings settings;
         string _token,_pid;
-        User activeUser;
-
+        User _activeUser;
 
         #endregion
 
@@ -45,21 +47,15 @@ namespace VoyIteso.Class
         //properties*****************************************************************************************
         #region Properties
 
-        public static ApiConnector instance
+        public static ApiConnector Instance
         {
-            get
-            {
-                if (_instance == null)
-                {
-                    _instance = new ApiConnector();
-                }
-                return _instance;
-            }
+            get { return _instance ?? (_instance = new ApiConnector()); }
         }
 
+        public bool IsLoggedIn { get; private set; }
 
 
-        public User ActiveUser { get { return activeUser; } }
+        public User ActiveUser { get { return _activeUser; } }
         #endregion
         
 
@@ -69,7 +65,7 @@ namespace VoyIteso.Class
         //Events*************************************************************************************
         #region Events
 
-        public EventHandler LoginDone;
+        /*public EventHandler LoginDone;
         protected virtual void OnLoginDone(EventArgs e)
         {
 
@@ -80,7 +76,7 @@ namespace VoyIteso.Class
                 handler(this, e);
             }
             //clear resources
-        }
+        }*/
         #endregion
 
         //Methods************************************************************************************
@@ -96,14 +92,107 @@ namespace VoyIteso.Class
 
 
 
-        public async Task   createUserFromToken()
+        /*public async Task   createUserFromToken()
         {
 
             HttpRequest r = new HttpRequest();
             r.setAction("/perfil/"+_pid+"/ver");
             r.setParameter("security_token", _token);
             await r.sendGet();
-            activeUser = getUserFromJson(r.Data);
+            _activeUser = getUserFromJson(r.Data);
+        }*/
+
+
+
+        async Task<User> GetUserById(string uID)
+        {
+            if (_token == null) return null;
+
+            HttpRequest r = new HttpRequest();
+
+            r.setAction("/perfil/" + uID + "/ver");
+            r.setParameter("security_token", _token);
+
+            await r.sendGet();
+            return r.Status == "OK" ? GetUserFromJson(r.Data) : null;
+        }
+
+        public async Task<Appointment[]> LoadCurrentMonthLifts()
+        {
+            if (_token == null) return null;
+
+            HttpRequest r = new HttpRequest();
+
+            r.setAction("/perfil/aventones_mes_actual");
+            r.setParameter("security_token", _token);
+
+            await r.sendGet();
+            //r.Data
+            if (r.Status == "OK" && r.Data!= String.Empty)
+            {
+
+                NextLifts rootJson = JsonConvert.DeserializeObject<NextLifts>(r.Data);
+                if (rootJson.estatus == 1)
+                {
+                    List<Appointment> appointments= new List<Appointment>();
+                    foreach (var app in rootJson.aventones)
+                    {
+                        var p = new Appointment();
+                        p.Details = "De " + app.texto_origen + " a " + app.texto_destino + " a las " + app.hora_llegada +
+                                    " el dia " + app.fecha + " con " +
+                                    (app.conductor == string.Empty ? app.pasajero : app.conductor) + " como " + app.rol+ ". Estatus "+app.estatus_aventon;
+                        var st = app.fecha.Substring(4,4);
+                        p.StartDate = new DateTime(
+                            int.Parse(app.fecha.Substring(4, 4)),//yyyy
+                            int.Parse(app.fecha.Substring(2, 2)),//mm
+                            int.Parse(app.fecha.Substring(0, 2)),//dd
+                            int.Parse(app.hora_llegada.Substring(0,2)),//hh
+                            int.Parse(app.hora_llegada.Substring(3,2)),//mm
+                            int.Parse(app.hora_llegada.Substring(6,2)));//ss
+                        p.Location = app.texto_origen;
+                        p.EndDate = p.StartDate.AddHours(1);
+                        p.Subject = "De " + app.texto_origen + " a " + app.texto_destino;
+                        appointments.Add(p);
+                    }
+                    
+                    return appointments.ToArray();
+                }
+
+            }
+            return null;
+        }
+
+        public async Task<string> UploadImage(Stream file,string filename)
+        {
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri(HttpRequest.Url);
+            MultipartFormDataContent form = new MultipartFormDataContent();
+            HttpContent content = new StringContent(_token);
+            form.Add(content, "security_token");
+
+            var stream = file;
+            content = new StreamContent(stream);
+            content.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
+            {
+                Name = "file",
+                FileName = filename
+            };
+            form.Add(content);
+            var response = await client.PostAsync("/perfil/subir_imagen_perfil", form);
+            return response.Content.ReadAsStringAsync().Result;
+        }
+        public async Task GetActiveUserFromSettings()
+        {
+            if (settings.Contains("perfil_id"))
+            {
+                _activeUser = await GetUserById((string)settings["perfil_id"]);
+                if (_activeUser== null)
+                {
+                    throw new BadLoginExeption();
+                }
+
+            }
+
         }
         #endregion
 
@@ -114,7 +203,7 @@ namespace VoyIteso.Class
 
 
         //Actions
-        public bool isLoggedIn()
+        public bool CheckIfLoggedIn()//Todo  Move to methods
         {
             
             try
@@ -125,7 +214,7 @@ namespace VoyIteso.Class
 
                 _token = tToken;
                 _pid = tPID;
-                
+                IsLoggedIn = true;
                 return true;
             }
             catch (Exception)
@@ -137,53 +226,75 @@ namespace VoyIteso.Class
         }
         public void logOut()
         {
-            settings.Remove("security_token");
-            settings.Remove("perfil_id");
-            settings.Remove("nombre_completo");
+            try
+            {
+                settings.Remove("security_token");
+                settings.Remove("perfil_id");
+                settings.Remove("nombre_completo");
+            }
+            catch (Exception)
+            {
+                
+                throw;
+            }
+            
 
         }
-        HttpRequest loginRequest;
-        public async Task logIn(string user, string password)
+        
+        public async Task LogIn(string user, string password)
         {
-
-            loginRequest = new HttpRequest();
+            //Create Request
+            HttpRequest loginRequest = new HttpRequest();
+            
+            //Set Action
             loginRequest.setAction(@"/seguridad/login");
 
+
+            //Set Parameters
             loginRequest.setParameter("correo", user);
             loginRequest.setParameter("password", password);
+            //Debug Credential
             //loginRequest.setParameter("correo", "ie800001");
             //loginRequest.setParameter("password", "PruebaQA2015");
-            loginRequest.ResponseObtained += LoginResponseObtained;
 
+            //Wait response 
             await loginRequest.sendPost();
 
-            //loginRequest.Data;
+            //Check if responce is ok
             if (loginRequest.Status=="OK")
             {
+                //Parse json
                 RootObject rootJson = JsonConvert.DeserializeObject<RootObject>(loginRequest.Data);
-                //activeUser = getUserFromJson(loginRequest.Data);
+                
+                //Extract login info  and save it to settings
                 settings.Add("security_token", rootJson.security_token);
-
                 settings.Add("perfil_id", rootJson.perfil_id);
                 settings.Add("nombre_completo", rootJson.nombre_completo);
-                //settings["perfil_id"];
-
-                activeUser = new User();
-                activeUser.Name = rootJson.nombre;
-                activeUser.profileID = rootJson.perfil_id;
+                
+                //Create User 
+                //Todo use get  get user by id
+                //_activeUser = new User();
+                //_activeUser.Name = rootJson.nombre;
+                //_activeUser.profileID = rootJson.perfil_id;
                 _token = rootJson.security_token;
+
                 _pid = rootJson.perfil_id;
-                activeUser.profile = rootJson.perfil;
-                //UpdateCurrentProfileImage();
+                _activeUser = await GetUserById(_pid);
+                
+                
+                
+                //_activeUser.profile = rootJson.perfil;
 
             }
             else if (loginRequest.Status == "Credenciales incorrectas")
             {
                 throw new BadLoginExeption();
+                //If credentials are wrong trow exeption
             }
             else
             {
                 throw new TimeoutException(loginRequest.Status);
+                //If timeout then trow exception
             }
             
         }
@@ -193,7 +304,7 @@ namespace VoyIteso.Class
             
         }
         //get user form json
-        public User getUserFromJson(string jsonResponse)
+        public User GetUserFromJson(string jsonResponse)
         {
             if (jsonResponse != null)
             {
@@ -202,93 +313,54 @@ namespace VoyIteso.Class
                 if (rootJson.estatus == 1)
                 {
                     user.Token = _token;
-                    user.completeName = (string)settings["nombre_completo"]; ;
+                    user.completeName = (string) settings["nombre_completo"];
+                    ;
                     user.Name = rootJson.perfil.nombre;
                     user.profileID = rootJson.perfil.perfilId.ToString();
 
                     user.profile = rootJson.perfil;
                     return user;
                 }
-                else
-                    return null;
+
             }
-            else
-                return null;
+
+            return null;
 
 
         }
-        void LoginResponseObtained(object sender, EventArgs e)
+
+        public void SaveUserDataToCloud()
         {
-            loginRequest.ResponseObtained -= LoginResponseObtained;
-            Console.WriteLine("LoginDone");
-            //Check json for status
-            if (loginRequest.Data != null)//If we got data
-            {
-                RootObject rootJson = JsonConvert.DeserializeObject<RootObject>(loginRequest.Data);//Parse Json
-                if (rootJson.estatus != 0)//if status is not an error
-                {
-                    _token = rootJson.security_token;//Copy the token
+            var r= new HttpRequest();
+            r.setAction(@"/perfil/editar");
+            r.setParameter("security_token", _token);
+            r.setParameter("descripcion", _activeUser.profile.descripcion);
+            r.setParameter("otrasCostumbres", _activeUser.profile.otrasCostumbres);
+            r.setParameter("fuma", _activeUser.profile.fuma.Value.ToString());
+            r.setParameter("aire", _activeUser.profile.aire.Value.ToString());
+            r.setParameter("musica", _activeUser.profile.musica.Value.ToString());
+            r.setParameter("mascota", _activeUser.profile.mascota.Value.ToString());
+            r.setParameter("platicar", _activeUser.profile.platicar.ToString());
 
-                }
-                /*activeUser = new User();
-                activeUser.Name = rootJson.perfil.nombre;
-                activeUser.profileID = rootJson.perfil.perfilId.ToString();
-                OnLoginDone(EventArgs.Empty);//fire event login done*/
-
-                OnLoginDone(EventArgs.Empty);
-            }
+            r.sendPost();
         }
 
-
-        public async void UpdateCurrentProfileImage()
+        public void UpdateCurrentProfileImage()
         {
             Uri uri = new Uri(@"https://aplicacionesweb.iteso.mx/VOYAPI/perfil/imagen/" + _pid + "?security_token=" + _token);
 
             BitmapImage img = new BitmapImage(uri);
             img.CreateOptions = BitmapCreateOptions.BackgroundCreation;
             img.ImageOpened += img_ImageOpened;
-            //activeUser.Avatar = img;
         }
-
+        //Todo Add GetUserImgById(_id);
         void img_ImageOpened(object sender, RoutedEventArgs e)
         {
-
-            activeUser.Avatar = (BitmapImage)(sender);
+            _activeUser.Avatar = (BitmapImage)(sender);
         }
-        public async Task GetProfileImage(string _pid) 
-        {
-            Uri uri = new Uri(@"https://aplicacionesweb.iteso.mx/VOYAPI/perfil/imagen/"+_pid+"?security_token="+_token);
+        
 
-            HttpClient client = new HttpClient();
-
-            byte[] bytes = await client.GetByteArrayAsync(uri);
-            //var streamImage = await client.GetByteArrayAsync(uri)
-            
-            //activeUser.Avatar = await LoadImage(uri);
-            //var webClient = new WebClient();
-
-            //webClient.DownloadStringAsync(uri);
-            //BitmapImage image = new BitmapImage(uri); 
-
-            MemoryStream stream = new MemoryStream(bytes);
-            BitmapImage image = new BitmapImage();
-            //BitmapImage p = new BitmapImage();
-
-            activeUser.Avatar = image;
-        }
-
-        void p_ImageOpened(object sender, RoutedEventArgs e)
-        {
-            
-        }
-
-        public async static Task<BitmapImage> LoadImage(Uri uri)
-        {
-            //BitmapImage bitmapImage = new BitmapImage();
-
-            BitmapImage img = new BitmapImage(uri);
-            return img;
-        }
+        
     }
 }
 
@@ -442,7 +514,7 @@ namespace VoyIteso.Class
 
         public void SendPostRequest()
         {
-            //For Post request need to set the url before with the specific action
+            //For Post request need to set the Url before with the specific action
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(connectorUrl);
             request.ContentType = "application/x-www-form-urlencoded";
             request.Method = "POST";

@@ -24,13 +24,11 @@ namespace VoyIteso
     {
         
         //User 
-        User user = new User();
+        //User user = new User();
         //Timer for the Splash Screen
         DispatcherTimer SplashTimer = new DispatcherTimer();
         //Web Service
         //ServiceReferenceVoyItesoMovil.VoyItesoMovilClient clientVoyIteso = new ServiceReferenceVoyItesoMovil.VoyItesoMovilClient();
-
-        private bool canChange;
 
         public MainPage()
         {
@@ -41,59 +39,57 @@ namespace VoyIteso
             SplashTimer.Tick += SplashTimer_Tick;
             SplashTimer.Start();
             //user.deleteInfo(user.key);
-            canChange = false;
 
             //Web Service
             //clientVoyIteso.GetUserNameCompleted += clientVoyIteso_GetUserNameCompleted;
 
         }
-        /*
-        void clientVoyIteso_GetUserNameCompleted(object sender, ServiceReferenceVoyItesoMovil.GetUserNameCompletedEventArgs e)
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            String Info;
-            //String name;
-            //String gender;
-            int index;
+            base.OnNavigatedTo(e);
+            if (ApiConnector.Instance.CheckIfLoggedIn())
+            {
+                try
+                {
+                    //ApiConnector.instance.createUserFromToken();
+                    ApiConnector.Instance.GetActiveUserFromSettings();
+                }
+                catch (Exception)
+                {
 
-            Info = e.Result;
-            index = Info.IndexOf(":");
-            user.Name = Info.Substring(0, index);
+                }
+            }
+        }
 
-            user.Gender = Info.Substring(index+1);
-            
-            
-            user.setInfo(user.key);
-            NavigationService.Navigate(new Uri("/Pages/HomePage.xaml", UriKind.Relative));
-        }*/
+ 
         public IsolatedStorageSettings settings;
         async void SplashTimer_Tick(object sender, EventArgs e)
         {
             SplashTimer.Stop();
+            
             //Check if there is a local session
 
             
 
-
-            //user.getInfo(user.key);
-
-            if (!ApiConnector.instance.isLoggedIn())
-                NavigationService.Navigate(new Uri("/Pages/AutentificationPage.xaml", UriKind.Relative));
-
-            else /*if (user.Token != null && user.Name != null && user.profileID != null)*/
+            if (!ApiConnector.Instance.IsLoggedIn)
             {
-                await ApiConnector.instance.createUserFromToken();
-                NavigationService.Navigate(new Uri("/Pages/HomePage.xaml", UriKind.Relative));
+                NavigationService.Navigate(new Uri("/Pages/AutentificationPage.xaml", UriKind.Relative));
             }
+            else
+            {
+                if (ApiConnector.Instance.ActiveUser == null)
+                {
+                    SplashTimer.Interval= TimeSpan.FromSeconds(0.25);
+                    SplashTimer.Start();
+                }
+                else
+                {
+                    NavigationService.Navigate(new Uri("/Pages/HomePage.xaml", UriKind.Relative));
+                }
                 
-            /*
-            else if (user.Name == null || user.Gender == null)
-                clientVoyIteso.GetUserNameAsync(user.Token);
+            }
              
-
-
-            else if(user.Token != null && user.Name != null && user.Gender != null)
-                NavigationService.Navigate(new Uri("/Pages/HomePage.xaml", UriKind.Relative));
-            */
             
         }
         

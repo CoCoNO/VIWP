@@ -88,14 +88,14 @@ namespace VoyIteso.Pages
             NavigationService.RemoveBackEntry();
             //txtUserName.Text =;
 
-            ApiConnector.instance.ActiveUser.UserDataChanged += UserDataChanged;
-            ApiConnector.instance.UpdateCurrentProfileImage();
+            ApiConnector.Instance.ActiveUser.UserDataChanged += UserDataChanged;
+            ApiConnector.Instance.UpdateCurrentProfileImage();
 
             user.getInfo(user.key);
             
-            txtUserName.Text = AppResources.HelloUsertxt + " " +  ApiConnector.instance.ActiveUser.Name + "!";
+            txtUserName.Text = AppResources.HelloUsertxt + " " +  ApiConnector.Instance.ActiveUser.Name + "!";
 
-            profileTile.Title = ApiConnector.instance.ActiveUser.Name;
+            profileTile.Title = ApiConnector.Instance.ActiveUser.Name;
             
 
             //if (user.setImageUrl())
@@ -113,16 +113,16 @@ namespace VoyIteso.Pages
         #endregion
         void UserDataChanged(object sender, EventArgs e)
         {
-            ApiConnector.instance.ActiveUser.UserDataChanged -= UserDataChanged;
-            profileImage.Source = ApiConnector.instance.ActiveUser.Avatar;
+            ApiConnector.Instance.ActiveUser.UserDataChanged -= UserDataChanged;
+            profileImage.Source = ApiConnector.Instance.ActiveUser.Avatar;
             profileTile.IsFrozen = false;
-            TestImage.Source = ApiConnector.instance.ActiveUser.Avatar;
+            TestImage.Source = ApiConnector.Instance.ActiveUser.Avatar;
         }
 
         #region appBar Clicks
         void appBarSingOut_Click(object sender, EventArgs e)
         {
-            ApiConnector.instance.logOut();
+            ApiConnector.Instance.logOut();
             NavigationService.Navigate(new Uri("/Pages/AutentificationPage.xaml", UriKind.Relative));
         }
         #endregion
@@ -165,6 +165,8 @@ namespace VoyIteso.Pages
             NavigationService.Navigate(new Uri("/Pages/ProfilePage.xaml", UriKind.Relative));
             //Use this navigation example to see other user profile
             //NavigationService.Navigate(new Uri("/Pages/ProfilePage.xaml?otherUserId=1", UriKind.Relative));
+            //ApiConnector.Instance.ActiveUser.profile.descripcion = "Hola soy una prueba";
+            //ApiConnector.Instance.SaveUserDataToCloud();
         }
 
         private void searchOfferMapTile_Tap(object sender, System.Windows.Input.GestureEventArgs e)
