@@ -169,32 +169,38 @@ namespace VoyIteso.Pages
 
         private void searchOfferMapTile_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            if (user.getLocationAllowed())
-            {
-                if (user.Type == "walker")
-                    NavigationService.Navigate(new Uri("/Pages/SearchRoutePage.xaml", UriKind.Relative));
-                else
-                    NavigationService.Navigate(new Uri("/Pages/OfferRoutePage.xaml", UriKind.Relative));
-            }
-            else
-            {
-                MessageBoxResult result = MessageBox.Show("Tu ubicación actual nos ayuda a proporcionarte mejores servicios de búsqueda y ubicación.\n\nTu informacion no se usará para identificarte ni ponerse en contacto contigo es solo uso y funcionamiento para VoyIteso.", "¿Permitir que VoyIteso acceda a tu ubicación?", MessageBoxButton.OKCancel);
-                if (result == MessageBoxResult.OK)
-                {
-                    user.setLocationPermission(true);
-                    user.setInfo(user.key);
-                    if (user.Type == "walker")
-                        NavigationService.Navigate(new Uri("/Pages/SearchRoutePage.xaml", UriKind.Relative));
-                    else
-                        NavigationService.Navigate(new Uri("/Pages/OfferRoutePage.xaml", UriKind.Relative));
-                }
-                else if (result == MessageBoxResult.Cancel)
-                {
-                    user.setLocationPermission(false);
-                    user.setInfo(user.key);
-                }
-                
-            }
+            //NavigationService.Navigate(new Uri("/Pages/TheMap.xaml", UriKind.Relative));
+
+            //se le debe preguntar al usuario si va a dar un aventon o pedir ride, para esto se manda a una pagina nueva llamada 
+            NavigationService.Navigate(new Uri("/Pages/SelectType.xaml", UriKind.Relative));
+
+            ////emmanuel implementation
+            //if (user.getLocationAllowed())
+            //{
+            //    if (user.Type == "walker")
+            //        NavigationService.Navigate(new Uri("/Pages/SearchRoutePage.xaml", UriKind.Relative));
+            //    else
+            //        NavigationService.Navigate(new Uri("/Pages/OfferRoutePage.xaml", UriKind.Relative));
+            //}
+            //else
+            //{
+            //    MessageBoxResult result = MessageBox.Show("Tu ubicación actual nos ayuda a proporcionarte mejores servicios de búsqueda y ubicación.\n\nTu informacion no se usará para identificarte ni ponerse en contacto contigo es solo uso y funcionamiento para VoyIteso.", "¿Permitir que VoyIteso acceda a tu ubicación?", MessageBoxButton.OKCancel);
+            //    if (result == MessageBoxResult.OK)
+            //    {
+            //        user.setLocationPermission(true);
+            //        user.setInfo(user.key);
+            //        if (user.Type == "walker")
+            //            NavigationService.Navigate(new Uri("/Pages/SearchRoutePage.xaml", UriKind.Relative));
+            //        else
+            //            NavigationService.Navigate(new Uri("/Pages/OfferRoutePage.xaml", UriKind.Relative));
+            //    }
+            //    else if (result == MessageBoxResult.Cancel)
+            //    {
+            //        user.setLocationPermission(false);
+            //        user.setInfo(user.key);
+            //    }
+
+            //}
         }
 
         private void calendarTile_Tap(object sender, System.Windows.Input.GestureEventArgs e)

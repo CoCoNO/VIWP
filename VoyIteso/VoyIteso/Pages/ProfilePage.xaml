@@ -32,7 +32,7 @@
 
         <!--photo grid-->
         <Grid Margin="10,0">
-            <Image x:Name="userImage" Source="/Images/User.jpg" HorizontalAlignment="Left"></Image>
+            <Image Tap="UserImage_OnTap" x:Name="userImage" Source="/Images/User.jpg" HorizontalAlignment="Left"></Image>
         </Grid>
         <!--info grid-->
         <Grid Margin="10,0" Grid.Row="1">
@@ -65,7 +65,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <Grid Grid.Column="1">
+                <Grid Tap="Music_onTap" Grid.Column="1">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="14*"/>
                         <RowDefinition Height="57*"/>
@@ -81,7 +81,7 @@
                     <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" Grid.Column="1" Grid.Row="2" Text="música"></TextBlock>
 
                 </Grid>
-                <Grid Grid.Column="2">
+                <Grid Tap="Fuma_OnTap" Grid.Column="2">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="14*"/>
                         <RowDefinition Height="57*"/>
@@ -96,7 +96,7 @@
                     <Image x:Name="smokeImage" Source="/Images/SMOKE.png" Grid.Column="1" Grid.Row="1"></Image>
                     <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" Grid.Column="1" Grid.Row="2" Text="fuma"></TextBlock>
                 </Grid>
-                <Grid Grid.Column="3">
+                <Grid Tap="AirConditioner_OnTap" Grid.Column="3">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="14*"/>
                         <RowDefinition Height="57*"/>
@@ -112,7 +112,7 @@
                     <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" Grid.Column="1" Grid.Row="2" Text="a/c"></TextBlock>
 
                 </Grid>
-                <Grid Grid.Column="4">
+                <Grid Tap="Talk_OnTap" Grid.Column="4">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="14*"/>
                         <RowDefinition Height="57*"/>
@@ -155,11 +155,31 @@
             </Grid>
 
         </Grid>
-        <!--description grid-->
-        <Grid Margin="10,91,10,10" Grid.Row="2">
-            <TextBlock x:Name="descriptiontxt" Text="¿Quién soy?" FontSize="22" FontFamily="Segoe UI light"></TextBlock>
+        <!--description grid    -->
+        <Grid Margin="10,91,10,10" Grid.Row="2" x:Name="DescriptionGrid">
+            <TextBlock Text="¿Quién soy?" FontSize="22" FontFamily="Segoe UI light" Margin="0,0,0,127"></TextBlock>
+            <TextBox x:Name="descriptiontxt" IsEnabled="False" Margin="0,33,0,0" BorderBrush="Transparent"></TextBox>
         </Grid>
 
     </Grid>
+
+    <!--Sample code showing usage of ApplicationBar-->
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar  IsVisible="true" IsMenuEnabled="false" Mode="Minimized">
+            <shell:ApplicationBarIconButton Click="ApplicationBarIconButton_OnClick" IconUri="/Images/appbar_button1.png" Text="modificar"/>
+            
+                <!--
+                <shell:ApplicationBar.MenuItems>
+                
+                    <shell:ApplicationBarMenuItem x:Name="ChangeDestinationButton" Text="cambiar el destino"  />
+                    <shell:ApplicationBarMenuItem x:Name="FindMeButton" Text="fijar el origen en mi posición"  />
+                    <shell:ApplicationBarMenuItem x:Name="SearchNowButton" Text="buscar ahora"  />
+                
+                </shell:ApplicationBar.MenuItems>
+                -->
+                
+            
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
 
 </phone:PhoneApplicationPage>

@@ -112,17 +112,38 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MapIcon.xaml.cs">
+      <DependentUpon>MapIcon.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\AutentificationPage.xaml.cs">
       <DependentUpon>AutentificationPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\HomePage.xaml.cs">
       <DependentUpon>HomePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\MapPage.xaml.cs">
+      <DependentUpon>MapPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\ProfilePage.xaml.cs">
       <DependentUpon>ProfilePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\SearchRoutePage.xaml.cs">
+      <DependentUpon>SearchRoutePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\SecondaryMapPage.xaml.cs">
+      <DependentUpon>SecondaryMapPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\SelectType.xaml.cs">
+      <DependentUpon>SelectType.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\TheMap.xaml.cs">
+      <DependentUpon>TheMap.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\TypePage.xaml.cs">
       <DependentUpon>TypePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\VerRutas.xaml.cs">
+      <DependentUpon>VerRutas.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\AppResources.Designer.cs">
@@ -150,6 +171,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="MapIcon.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\AutentificationPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -158,7 +183,27 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\MapPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\ProfilePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\SearchRoutePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\SecondaryMapPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\SelectType.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\TheMap.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -166,8 +211,13 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\VerRutas.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Images\u.png" />
     <None Include="packages.config" />
     <None Include="Properties\AppManifest.xml">
       <SubType>Designer</SubType>
@@ -252,6 +302,7 @@
     <Content Include="Images\WVGA_splashscreen_voyiteso480x800.png" />
     <Content Include="Images\WXGA-splashscreen.png" />
     <Content Include="Images\WXGA_splashscreen_voyiteso.png" />
+    <Content Include="pin1.png" />
     <Content Include="ServiceReferences.ClientConfig" />
     <None Include="Service References\ServiceReferenceVoyItesoMovil\VoyIteso.ServiceReferenceVoyItesoMovil.GetPersonImageResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>

@@ -15,7 +15,7 @@
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d"
     shell:SystemTray.IsVisible="True"
-    shell:SystemTray.Opacity="0">
+    shell:SystemTray.Opacity="0"> 
 
     <phone:PhoneApplicationPage.Resources>
         <local:BytesToImageConverter x:Key="BytesToImageConverter"/>

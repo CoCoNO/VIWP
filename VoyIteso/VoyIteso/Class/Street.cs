@@ -171,18 +171,18 @@ namespace VoyIteso.Class
         public List<object> endpoints { get; set; }
         public string telefono { get; set; }
         public object descripcion { get; set; }
-        public object platicar { get; set; }
+        public int platicar { get; set; }
         public object ultima_conexion { get; set; }
-        public object aire { get; set; }
+        public int aire { get; set; }
         public string carrera { get; set; }
         public string nombre { get; set; }
         public object otrasCostumbres { get; set; }
-        public object musica { get; set; }
+        public int musica { get; set; }
         public string edad { get; set; }
         public object mascota { get; set; }
         public int aventones_recibidos_count { get; set; }
         public int aventones_dados_count { get; set; }
-        public object fuma { get; set; }
+        public int fuma { get; set; }
         public int rating { get; set; }
         public int rutas_count { get; set; }
         public string correo { get; set; }
