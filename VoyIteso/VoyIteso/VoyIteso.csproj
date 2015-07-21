@@ -112,6 +112,7 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MapIcon.xaml.cs" />
     <Compile Include="Pages\AutentificationPage.xaml.cs">
       <DependentUpon>AutentificationPage.xaml</DependentUpon>
     </Compile>
@@ -124,6 +125,9 @@
     <Compile Include="Pages\ProfilePage.xaml.cs">
       <DependentUpon>ProfilePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\SecondaryMapPage.xaml.cs" />
+    <Compile Include="Pages\SelectType.xaml.cs" />
+    <Compile Include="Pages\TheMap.xaml.cs" />
     <Compile Include="Pages\TypePage.xaml.cs">
       <DependentUpon>TypePage.xaml</DependentUpon>
     </Compile>
@@ -153,6 +157,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="MapIcon.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Pages\AutentificationPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -166,6 +174,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\ProfilePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\SecondaryMapPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\SelectType.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\TheMap.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -254,10 +274,12 @@
     <Content Include="Images\Splashscreen_VoyITESO.png" />
     <Content Include="Images\STAR.png" />
     <Content Include="Images\TALK.png" />
+    <Content Include="Images\u.png" />
     <Content Include="Images\WVGA-splashscren480x800.png" />
     <Content Include="Images\WVGA_splashscreen_voyiteso480x800.png" />
     <Content Include="Images\WXGA-splashscreen.png" />
     <Content Include="Images\WXGA_splashscreen_voyiteso.png" />
+    <Content Include="pin1.png" />
     <Content Include="ServiceReferences.ClientConfig" />
     <None Include="Service References\ServiceReferenceVoyItesoMovil\VoyIteso.ServiceReferenceVoyItesoMovil.GetPersonImageResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>

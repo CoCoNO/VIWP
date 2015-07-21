@@ -91,7 +91,7 @@ namespace VoyIteso.Class
         public List<Resource> resources { get; set; }
     }
 
-    public class Ruta
+    /*public class Ruta
     {
         public string texto_destino { get; set; }
         public long fecha_creacion { get; set; }
@@ -108,7 +108,7 @@ namespace VoyIteso.Class
         public double longitud_destino { get; set; }
         public int ruta_id { get; set; }
         public long fecha_inicio { get; set; }
-    }
+    }*/
 
     public class Start
     {
@@ -231,5 +231,31 @@ namespace VoyIteso.Class
         public string fecha_fin { get; set; }
         public List<string> dias { get; set; }
         public List<Aventone> aventones { get; set; }
+    }
+    public class Ruta
+    {
+        public string texto_destino { get; set; }
+        public long fecha_creacion { get; set; }
+        public int perfil_id { get; set; }
+        public string persona_nombre { get; set; }
+        public string persona_carrera { get; set; }
+        public string persona_edad { get; set; }
+        public long ultima_conexion { get; set; }
+        public long hora_llegada { get; set; }
+        public string puntos { get; set; }
+        public double latitud_origen { get; set; }
+        public object fecha_fin { get; set; }
+        public double longitud_origen { get; set; }
+        public int numero_personas { get; set; }
+        public double latitud_destino { get; set; }
+        public string texto_origen { get; set; }
+        public double longitud_destino { get; set; }
+        public int ruta_id { get; set; }
+        public long fecha_inicio { get; set; }
+    }
+
+    public class Rutas
+    {
+        public List<Ruta> rutas { get; set; }
     }
 }

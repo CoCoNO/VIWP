@@ -171,7 +171,7 @@ namespace VoyIteso.Pages
 
         private void searchOfferMapTile_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            if (user.getLocationAllowed())
+            /*if (user.getLocationAllowed())
             {
                 if (user.Type == "walker")
                     NavigationService.Navigate(new Uri("/Pages/SearchRoutePage.xaml", UriKind.Relative));
@@ -196,7 +196,8 @@ namespace VoyIteso.Pages
                     user.setInfo(user.key);
                 }
                 
-            }
+            }*/
+            NavigationService.Navigate(new Uri("/Pages/SelectType.xaml", UriKind.Relative));
         }
 
         private void calendarTile_Tap(object sender, System.Windows.Input.GestureEventArgs e)

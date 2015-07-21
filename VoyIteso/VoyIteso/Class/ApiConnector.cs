@@ -88,7 +88,27 @@ namespace VoyIteso.Class
 
         }
 
+        public bool CheckIfLoggedIn()//Todo  Move to methods
+        {
 
+            try
+            {
+                string tToken = (string)settings["security_token"];
+                string tPID = (string)settings["perfil_id"];
+
+
+                _token = tToken;
+                _pid = tPID;
+                IsLoggedIn = true;
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+                //throw;
+            }
+
+        }
 
 
 
@@ -101,6 +121,31 @@ namespace VoyIteso.Class
             await r.sendGet();
             _activeUser = getUserFromJson(r.Data);
         }*/
+
+        public User GetUserFromJson(string jsonResponse)
+        {
+            if (jsonResponse != null)
+            {
+                User user = new User();
+                RootObject rootJson = JsonConvert.DeserializeObject<RootObject>(jsonResponse);
+                if (rootJson.estatus == 1)
+                {
+                    user.Token = _token;
+                    user.completeName = (string)settings["nombre_completo"];
+                    ;
+                    user.Name = rootJson.perfil.nombre;
+                    user.profileID = rootJson.perfil.perfilId.ToString();
+
+                    user.profile = rootJson.perfil;
+                    return user;
+                }
+
+            }
+
+            return null;
+
+
+        }
 
 
 
@@ -117,51 +162,7 @@ namespace VoyIteso.Class
             return r.Status == "OK" ? GetUserFromJson(r.Data) : null;
         }
 
-        public async Task<Appointment[]> LoadCurrentMonthLifts()
-        {
-            if (_token == null) return null;
-
-            HttpRequest r = new HttpRequest();
-
-            r.setAction("/perfil/aventones_mes_actual");
-            r.setParameter("security_token", _token);
-
-            await r.sendGet();
-            //r.Data
-            if (r.Status == "OK" && r.Data!= String.Empty)
-            {
-
-                NextLifts rootJson = JsonConvert.DeserializeObject<NextLifts>(r.Data);
-                if (rootJson.estatus == 1)
-                {
-                    List<Appointment> appointments= new List<Appointment>();
-                    foreach (var app in rootJson.aventones)
-                    {
-                        var p = new Appointment();
-                        p.Details = "De " + app.texto_origen + " a " + app.texto_destino + " a las " + app.hora_llegada +
-                                    " el dia " + app.fecha + " con " +
-                                    (app.conductor == string.Empty ? app.pasajero : app.conductor) + " como " + app.rol+ ". Estatus "+app.estatus_aventon;
-                        var st = app.fecha.Substring(4,4);
-                        p.StartDate = new DateTime(
-                            int.Parse(app.fecha.Substring(4, 4)),//yyyy
-                            int.Parse(app.fecha.Substring(2, 2)),//mm
-                            int.Parse(app.fecha.Substring(0, 2)),//dd
-                            int.Parse(app.hora_llegada.Substring(0,2)),//hh
-                            int.Parse(app.hora_llegada.Substring(3,2)),//mm
-                            int.Parse(app.hora_llegada.Substring(6,2)));//ss
-                        p.Location = app.texto_origen;
-                        p.EndDate = p.StartDate.AddHours(1);
-                        p.Subject = "De " + app.texto_origen + " a " + app.texto_destino;
-                        appointments.Add(p);
-                    }
-                    
-                    return appointments.ToArray();
-                }
-
-            }
-            return null;
-        }
-
+        
         public async Task<string> UploadImage(Stream file,string filename)
         {
             HttpClient client = new HttpClient();
@@ -203,27 +204,8 @@ namespace VoyIteso.Class
 
 
         //Actions
-        public bool CheckIfLoggedIn()//Todo  Move to methods
-        {
-            
-            try
-            {
-                string tToken=(string)settings["security_token"];
-                string tPID=(string)settings["perfil_id"];
-
-
-                _token = tToken;
-                _pid = tPID;
-                IsLoggedIn = true;
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-                //throw;
-            }
-
-        }
+#region Actions
+        
         public void logOut()
         {
             try
@@ -303,31 +285,54 @@ namespace VoyIteso.Class
         {
             
         }
-        //get user form json
-        public User GetUserFromJson(string jsonResponse)
+
+        public async Task<Appointment[]> LoadCurrentMonthLifts()
         {
-            if (jsonResponse != null)
+            if (_token == null) return null;
+
+            HttpRequest r = new HttpRequest();
+
+            r.setAction("/perfil/aventones_mes_actual");
+            r.setParameter("security_token", _token);
+
+            await r.sendGet();
+            //r.Data
+            if (r.Status == "OK" && r.Data != String.Empty)
             {
-                User user = new User();
-                RootObject rootJson = JsonConvert.DeserializeObject<RootObject>(jsonResponse);
+
+                NextLifts rootJson = JsonConvert.DeserializeObject<NextLifts>(r.Data);
                 if (rootJson.estatus == 1)
                 {
-                    user.Token = _token;
-                    user.completeName = (string) settings["nombre_completo"];
-                    ;
-                    user.Name = rootJson.perfil.nombre;
-                    user.profileID = rootJson.perfil.perfilId.ToString();
+                    List<Appointment> appointments = new List<Appointment>();
+                    foreach (var app in rootJson.aventones)
+                    {
+                        var p = new Appointment();
+                        p.Details = "De " + app.texto_origen + " a " + app.texto_destino + " a las " + app.hora_llegada +
+                                    " el dia " + app.fecha + " con " +
+                                    (app.conductor == string.Empty ? app.pasajero : app.conductor) + " como " + app.rol + ". Estatus " + app.estatus_aventon;
+                        var st = app.fecha.Substring(4, 4);
+                        p.StartDate = new DateTime(
+                            int.Parse(app.fecha.Substring(4, 4)),//yyyy
+                            int.Parse(app.fecha.Substring(2, 2)),//mm
+                            int.Parse(app.fecha.Substring(0, 2)),//dd
+                            int.Parse(app.hora_llegada.Substring(0, 2)),//hh
+                            int.Parse(app.hora_llegada.Substring(3, 2)),//mm
+                            int.Parse(app.hora_llegada.Substring(6, 2)));//ss
+                        p.Location = app.texto_origen;
+                        p.EndDate = p.StartDate.AddHours(1);
+                        p.Subject = "De " + app.texto_origen + " a " + app.texto_destino;
+                        appointments.Add(p);
+                    }
 
-                    user.profile = rootJson.perfil;
-                    return user;
+                    return appointments.ToArray();
                 }
 
             }
-
             return null;
-
-
         }
+
+        //get user form json
+        
 
         public void SaveUserDataToCloud()
         {
@@ -345,6 +350,30 @@ namespace VoyIteso.Class
             r.sendPost();
         }
 
+        public async Task<Rutas> SearchRoute(string origen, string destino, string fecha, double latitud_destino, double longitud_destino, double latitud_origen, double longitud_origen, string hora)
+        {
+            var r = new HttpRequest();
+            r.setAction(@"/ruta/busqueda");
+            r.setParameter("security_token", _token);
+            r.setParameter("origen",origen );
+            r.setParameter("destino", destino);
+            r.setParameter("fecha", fecha);
+            r.setParameter("latitud_destino",latitud_destino.ToString() );
+            r.setParameter("longitud_destino",longitud_destino.ToString());
+            r.setParameter("latitud_origen",latitud_origen.ToString() );
+            r.setParameter("longitud_origen",longitud_origen.ToString() );
+            r.setParameter("hora", hora);
+            
+
+            r.sendPost();
+
+            if (r.Status == "Ok" || r.Data== String.Empty)
+                return null;
+
+            Rutas rootJson = JsonConvert.DeserializeObject<Rutas>(r.Data);
+            return rootJson;
+        }
+
         public void UpdateCurrentProfileImage()
         {
             Uri uri = new Uri(@"https://aplicacionesweb.iteso.mx/VOYAPI/perfil/imagen/" + _pid + "?security_token=" + _token);
@@ -352,13 +381,14 @@ namespace VoyIteso.Class
             BitmapImage img = new BitmapImage(uri);
             img.CreateOptions = BitmapCreateOptions.BackgroundCreation;
             img.ImageOpened += img_ImageOpened;
+            _activeUser.Avatar = img;
         }
         //Todo Add GetUserImgById(_id);
         void img_ImageOpened(object sender, RoutedEventArgs e)
         {
             _activeUser.Avatar = (BitmapImage)(sender);
         }
-        
+#endregion
 
         
     }
