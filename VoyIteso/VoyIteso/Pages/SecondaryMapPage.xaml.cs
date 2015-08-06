@@ -30,8 +30,14 @@ namespace VoyIteso.Pages
             double lon_origen = TheMap.APoint.GeoCoordinate.Longitude;
             string hora = TimePicker.ValueString;
 
-            ApiConnector.Instance.SearchRoute(origen, destino, fecha, lat_destino,lon_destino,lat_origen,lon_origen,hora);
-
+            if (TheMap.Driver)
+            {
+                
+            }
+            else
+            {
+                ApiConnector.Instance.SearchRoute(origen, destino, fecha, lat_destino,lon_destino,lat_origen,lon_origen,hora);  
+            }
 
         }
     }

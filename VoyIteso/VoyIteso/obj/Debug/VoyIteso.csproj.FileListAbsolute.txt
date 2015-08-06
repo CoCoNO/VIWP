@@ -208,7 +208,6 @@ C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\obj\Debug\VoyIteso.cspr
 C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\obj\Debug\VoyIteso.dll
 C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\obj\Debug\VoyIteso.pdb
 C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\obj\Debug\XapCacheFile.xml
-C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\obj\Debug\VoyIteso.csprojResolveAssemblyReference.cache
 C:\Users\CoCoNO\Desktop\VIWP\VoyIteso\VoyIteso\Bin\Debug\Assets\ApplicationIcon.png
 C:\Users\CoCoNO\Desktop\VIWP\VoyIteso\VoyIteso\Bin\Debug\VoyIteso.dll
 C:\Users\CoCoNO\Desktop\VIWP\VoyIteso\VoyIteso\Bin\Debug\VoyIteso.pdb
@@ -409,3 +408,10 @@ C:\Users\CoCoNO\Documents\GitHub\VIWP\VoyIteso\VoyIteso\obj\Debug\VoyIteso.cspro
 C:\Users\CoCoNO\Documents\GitHub\VIWP\VoyIteso\VoyIteso\obj\Debug\VoyIteso.dll
 C:\Users\CoCoNO\Documents\GitHub\VIWP\VoyIteso\VoyIteso\obj\Debug\VoyIteso.pdb
 C:\Users\CoCoNO\Documents\GitHub\VIWP\VoyIteso\VoyIteso\obj\Debug\XapCacheFile.xml
+C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\obj\Debug\MapIcon.g.cs
+C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\obj\Debug\Pages\CalendarPage.g.cs
+C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\obj\Debug\Pages\ProfilePage.g.cs
+C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\obj\Debug\Pages\SecondaryMapPage.g.cs
+C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\obj\Debug\Pages\SelectType.g.cs
+C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\obj\Debug\Pages\TheMap.g.cs
+C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\obj\Debug\VoyIteso.csprojResolveAssemblyReference.cache

@@ -75,7 +75,9 @@ namespace VoyIteso.Pages
         //</summary>
         private void myCalendar_ItemTap(object sender, CalendarItemTapEventArgs e)
         {
-            //appointmentDetails.Text = this.myCalendar.SelectedValue.ToString();
+            appointmentDetails.Text = this.myCalendar.SelectedValue.ToString();
+            //MessageBox.Show("howdy world");
+            //myCalendar_SelectedValueChanged(null,null);
         }
 
 
