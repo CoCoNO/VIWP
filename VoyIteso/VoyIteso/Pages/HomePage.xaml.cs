@@ -142,11 +142,20 @@ namespace VoyIteso.Pages
             appBarSingOut.Click += appBarSingOut_Click;
             ApplicationBar.MenuItems.Add(appBarSingOut);
 
+            ApplicationBarMenuItem a = new ApplicationBarMenuItem("ir al nuevo mapa");
+            a.Click += a_Click;
+            ApplicationBar.MenuItems.Add(a);
+
             ApplicationBar.StateChanged += ApplicationBar_StateChanged;
 
             //    // Create a new menu item with the localized string from AppResources.
             //    ApplicationBarMenuItem appBarMenuItem = new ApplicationBarMenuItem(AppResources.AppBarMenuItemText);
             //    ApplicationBar.MenuItems.Add(appBarMenuItem);
+        }
+
+        private void a_Click(object sender, EventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/Pages/TheNewMap.xaml", UriKind.Relative));
         }
 
         void ApplicationBar_StateChanged(object sender, ApplicationBarStateChangedEventArgs e)

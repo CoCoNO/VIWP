@@ -11,7 +11,7 @@ using VoyIteso.Resources;
 
 namespace VoyIteso.Class
 {
-    /*class BingConnectorcs
+    class BingConnectorcs
     {
         public event EventHandler responseChanged;
         public event EventHandler exceptionChanged;
@@ -98,5 +98,5 @@ namespace VoyIteso.Class
             }
             return streets;
         }
-    }*/
+    }
 }
