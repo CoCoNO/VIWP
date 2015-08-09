@@ -137,7 +137,10 @@
                                 <Grid Grid.Column="0">
                                     <TextBlock Name="txtOrigin" Text="Direccion" Height="Auto" FontSize="20" Tap="txtOrigin_Tap" Foreground="Red" TextWrapping="Wrap" ></TextBlock>
                                 </Grid>
-                                <Image Grid.Column="2" Source="/Images/Origen.png" Tap="OriginImage_Tap"/>
+                                <!--
+                                       <Image Grid.Column="2" Source="/Images/Origen.png" Tap="OriginImage_Tap"/>
+
+                                -->
                             </Grid>
                         </Grid>
 

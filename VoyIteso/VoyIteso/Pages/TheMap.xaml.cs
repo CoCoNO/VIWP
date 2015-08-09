@@ -18,6 +18,7 @@ namespace VoyIteso.Pages
 {
     public partial class TheMap : PhoneApplicationPage
     {
+
 #region fields
 
         /// <summary>
