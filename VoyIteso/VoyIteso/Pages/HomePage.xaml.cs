@@ -114,7 +114,8 @@ namespace VoyIteso.Pages
         void UserDataChanged(object sender, EventArgs e)
         {
             ApiConnector.Instance.ActiveUser.UserDataChanged -= UserDataChanged;
-            profileImage.Source = ApiConnector.Instance.ActiveUser.Avatar;
+           // profileImage.Source = ApiConnector.Instance.ActiveUser.Avatar;
+            profileTile.Picture.Source = ApiConnector.Instance.ActiveUser.Avatar;
             profileTile.IsFrozen = false;
             TestImage.Source = ApiConnector.Instance.ActiveUser.Avatar;
         }
@@ -122,7 +123,7 @@ namespace VoyIteso.Pages
         #region appBar Clicks
         void appBarSingOut_Click(object sender, EventArgs e)
         {
-            ApiConnector.Instance.logOut();
+            ApiConnector.Instance.LogOut();
             NavigationService.Navigate(new Uri("/Pages/AutentificationPage.xaml", UriKind.Relative));
         }
         #endregion

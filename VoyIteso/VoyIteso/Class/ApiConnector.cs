@@ -21,48 +21,68 @@ using VoyIteso.Class;
 using VoyIteso.Pages;
 using Windows.Storage;
 using Windows.Storage.Streams;
+using RestSharp;
 
 
 namespace VoyIteso.Class
 {
     class ApiConnector
     {
+        //Todo Add GetUserImgById(_id);
+        //---------------------------SubClases---------------------------
+        #region SubClasses
+        public class BadLoginExeption : Exception
+        {
+
+        }
+#endregion
 
 
-        //Atributies**************************************
+
+
+        //---------------------------Atributies---------------------------
         #region Atributies
 
         static ApiConnector _instance;//Singleton Instance
 
         IsolatedStorageSettings settings;
+
         string _token,_pid;
         User _activeUser;
+        private int _ranData=0;//RandData to get the newest request
+
+
 
         #endregion
 
 
 
 
-
-        //properties*****************************************************************************************
+        //---------------------------Properties---------------------------
         #region Properties
 
         public static ApiConnector Instance
         {
-            get { return _instance ?? (_instance = new ApiConnector()); }
+            get
+            {
+                return _instance ?? (_instance = new ApiConnector());
+            }
         }
 
         public bool IsLoggedIn { get; private set; }
 
 
         public User ActiveUser { get { return _activeUser; } }
+
+
+
+
         #endregion
-        
 
 
 
 
-        //Events*************************************************************************************
+        //---------------------------Events---------------------------
         #region Events
 
         /*public EventHandler LoginDone;
@@ -79,7 +99,10 @@ namespace VoyIteso.Class
         }*/
         #endregion
 
-        //Methods************************************************************************************
+
+
+
+        //---------------------------Methods---------------------------
         #region Methods
         //Singleton constructor
         private ApiConnector()
@@ -112,15 +135,7 @@ namespace VoyIteso.Class
 
 
 
-        /*public async Task   createUserFromToken()
-        {
 
-            HttpRequest r = new HttpRequest();
-            r.setAction("/perfil/"+_pid+"/ver");
-            r.setParameter("security_token", _token);
-            await r.sendGet();
-            _activeUser = getUserFromJson(r.Data);
-        }*/
 
         public User GetUserFromJson(string jsonResponse)
         {
@@ -131,12 +146,95 @@ namespace VoyIteso.Class
                 if (rootJson.estatus == 1)
                 {
                     user.Token = _token;
-                    user.completeName = (string)settings["nombre_completo"];
+                    user.completeName = (string) settings["nombre_completo"];
                     ;
                     user.Name = rootJson.perfil.nombre;
                     user.profileID = rootJson.perfil.perfilId.ToString();
 
                     user.profile = rootJson.perfil;
+
+                    if (user.profile.platicar==null)
+                    {
+                        user.profile.platicar =
+                        0;
+                    }
+
+                    if (user.profile.ultima_conexion==
+                    null)
+                    {
+                        user.profile.ultima_conexion =
+                        0;
+                    }
+
+                    if (user.profile.aire==
+                    null)
+                    {
+                        user.profile.aire =
+                        0;
+                    }
+
+                    if (user.profile.carrera ==
+                    null)
+                    {
+                        user.profile.carrera = "";
+                    }
+                    if (user.profile.descripcion ==
+                    null)
+                    {
+                        user.profile.descripcion = "";
+                    }
+
+                    if (user.profile.otrasCostumbres==
+                    null)
+                    {
+                        user.profile.otrasCostumbres =
+                        "";
+                    }
+
+                    if (user.profile.musica==
+                    null)
+                    {
+                        user.profile.musica =
+                        0;
+                    }
+
+                    if (user.profile.mascota==
+                    null)
+                    {
+                        user.profile.mascota =
+                        0;
+                    }
+
+                    if (user.profile.aventones_recibidos_count==
+                    null)
+                    {
+                        user.profile.aventones_recibidos_count =
+                        0;
+                    }
+
+                    if (user.profile.aventones_dados_count==null)
+                    {
+                        user.profile.aventones_dados_count =
+                        0;
+                    }
+                    if (user.profile.fuma==null)
+                    {
+                        user.profile.fuma =
+                        0;
+                    }
+                    if (user.profile.rating==null)
+                    {
+                        user.profile.rating =
+                        0;
+                    }
+                    if (user.profile.rutas_count==null)
+                    {
+                        user.profile.rutas_count =
+                        0;
+                    }
+
+
+ 
                     return user;
                 }
 
@@ -162,26 +260,11 @@ namespace VoyIteso.Class
             return r.Status == "OK" ? GetUserFromJson(r.Data) : null;
         }
 
-        
-        public async Task<string> UploadImage(Stream file,string filename)
-        {
-            HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri(HttpRequest.Url);
-            MultipartFormDataContent form = new MultipartFormDataContent();
-            HttpContent content = new StringContent(_token);
-            form.Add(content, "security_token");
 
-            var stream = file;
-            content = new StreamContent(stream);
-            content.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
-            {
-                Name = "file",
-                FileName = filename
-            };
-            form.Add(content);
-            var response = await client.PostAsync("/perfil/subir_imagen_perfil", form);
-            return response.Content.ReadAsStringAsync().Result;
-        }
+        
+
+
+        
         public async Task GetActiveUserFromSettings()
         {
             if (settings.Contains("perfil_id"))
@@ -199,30 +282,16 @@ namespace VoyIteso.Class
 
 
 
-        //Junk
-        //Responce event
 
-
-        //Actions
-#region Actions
+        //---------------------------Actions---------------------------
+        #region Actions
         
-        public void logOut()
+        
+
+        public async  Task UpdateCurrentUserData()
         {
-            try
-            {
-                settings.Remove("security_token");
-                settings.Remove("perfil_id");
-                settings.Remove("nombre_completo");
-            }
-            catch (Exception)
-            {
-                
-                throw;
-            }
-            
-
+            _activeUser = await GetUserById(_pid);
         }
-        
         public async Task LogIn(string user, string password)
         {
             //Create Request
@@ -280,11 +349,23 @@ namespace VoyIteso.Class
             }
             
         }
-
-        public class BadLoginExeption : Exception
+        public void LogOut()
         {
-            
+            try
+            {
+                settings.Remove("security_token");
+                settings.Remove("perfil_id");
+                settings.Remove("nombre_completo");
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+
         }
+        
 
         public async Task<Appointment[]> LoadCurrentMonthLifts()
         {
@@ -334,7 +415,7 @@ namespace VoyIteso.Class
         //get user form json
         
 
-        public void SaveUserDataToCloud()
+        public async Task<int> SaveUserDataToCloud()//Returns 0 on ok -1 on error
         {
             var r= new HttpRequest();
             r.setAction(@"/perfil/editar");
@@ -347,9 +428,34 @@ namespace VoyIteso.Class
             r.setParameter("mascota", _activeUser.profile.mascota.Value.ToString());
             r.setParameter("platicar", _activeUser.profile.platicar.ToString());
 
-            r.sendPost();
+            await r.sendPost();
+            return r.Status == "OK" ? 0 : -1;
         }
 
+
+
+
+        public async Task<string> UploadImage(byte[] b, string filename)
+        {
+            var client = new RestClient(HttpRequest.Url + @"/perfil/subir_imagen_perfil");
+            var request = new RestRequest(Method.POST);
+
+            request.AddFile("file", b, filename.Substring(filename.LastIndexOf('\\')), "image/jpeg");
+            request.AddParameter("security_token", _token);
+            try
+            {
+                Debug.WriteLine("Uploading File");
+                var r = await client.ExecuteTaskAsync(request);
+                Debug.WriteLine(r.Content);
+                return r.Content;
+            }
+            catch (UriFormatException ex)
+            {
+                Debug.WriteLine("Exeption uploading file: " + ex.Message);
+            }
+
+            return null;
+        }
         public async Task<Rutas> SearchRoute(string origen, string destino, string fecha, double latitud_destino, double longitud_destino, double latitud_origen, double longitud_origen, string hora)
         {
             var r = new HttpRequest();
@@ -376,14 +482,14 @@ namespace VoyIteso.Class
 
         public void UpdateCurrentProfileImage()
         {
-            Uri uri = new Uri(@"https://aplicacionesweb.iteso.mx/VOYAPI/perfil/imagen/" + _pid + "?security_token=" + _token);
+            Uri uri = new Uri(HttpRequest.Url+@"/perfil/imagen/" + _pid + "?security_token=" + _token+"&randData="+_ranData++);
 
             BitmapImage img = new BitmapImage(uri);
-            img.CreateOptions = BitmapCreateOptions.BackgroundCreation;
+            img.CreateOptions = BitmapCreateOptions.None;
             img.ImageOpened += img_ImageOpened;
             _activeUser.Avatar = img;
         }
-        //Todo Add GetUserImgById(_id);
+        
         void img_ImageOpened(object sender, RoutedEventArgs e)
         {
             _activeUser.Avatar = (BitmapImage)(sender);

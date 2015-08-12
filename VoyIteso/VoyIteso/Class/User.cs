@@ -35,8 +35,13 @@ namespace VoyIteso.Class
 
             set 
             {
-                avatar = value;
-                OnUserDataChanged(EventArgs.Empty);
+                if (value!= null)
+                {
+                    avatar = value;
+
+                    OnUserDataChanged(EventArgs.Empty);
+                }
+                
                 
             }
         }
