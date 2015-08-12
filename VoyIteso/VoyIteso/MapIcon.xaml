@@ -13,7 +13,7 @@
 
         <Image Width="33" VerticalAlignment="Center"  Source="pin1.png" Stretch="None" x:Name="pushpin" HorizontalAlignment="Center" Margin="-17,-46,134,50"/>
         <Grid Background="DarkSlateGray" Margin="-165,-96,-20,96">
-            <TextBlock x:Name="pushPinHeader" Text="Name"/>
+            <TextBlock x:Name="pushPinHeader"/>
         </Grid>
     </Grid>
 

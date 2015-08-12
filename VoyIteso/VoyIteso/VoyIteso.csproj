@@ -128,6 +128,12 @@
     <Compile Include="Pages\SecondaryMapPage.xaml.cs" />
     <Compile Include="Pages\SelectType.xaml.cs" />
     <Compile Include="Pages\TheMap.xaml.cs" />
+    <Compile Include="Pages\TheNewMap.xaml.cs">
+      <DependentUpon>TheNewMap.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\TheNewMap_Walker.xaml.cs">
+      <DependentUpon>TheNewMap_Walker.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\TypePage.xaml.cs">
       <DependentUpon>TypePage.xaml</DependentUpon>
     </Compile>
@@ -188,6 +194,14 @@
     <Page Include="Pages\TheMap.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\TheNewMap.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\TheNewMap_Walker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\TypePage.xaml">
       <SubType>Designer</SubType>

@@ -69,17 +69,21 @@ namespace VoyIteso.Pages
             }
         }
 
-
         //<summary>
         //Tap event handler.
         //</summary>
         private void myCalendar_ItemTap(object sender, CalendarItemTapEventArgs e)
         {
-            //appointmentDetails.Text = this.myCalendar.SelectedValue.ToString();
+            appointmentDetails.Text = this.myCalendar.SelectedValue.ToString();
+            //MessageBox.Show("howdy world");
+            //myCalendar_SelectedValueChanged(null,null);
         }
 
-
-
+        /// <summary>
+        /// este metodo imprime en la pantalla los detalles del día seleccionado.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void myCalendar_SelectedValueChanged(object sender, ValueChangedEventArgs<object> e)
         {
             //DateTime? selectedDate = this.myCalendar.SelectedValue;

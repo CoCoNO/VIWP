@@ -97,6 +97,7 @@ namespace VoyIteso
             if (Debugger.IsAttached)
             {
                 // An unhandled exception has occurred; break into the debugger
+                Debug.WriteLine("Valio madre> "+e.ToString());
                 Debugger.Break();
             }
         }

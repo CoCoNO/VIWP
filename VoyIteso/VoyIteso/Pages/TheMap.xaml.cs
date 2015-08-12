@@ -18,6 +18,7 @@ namespace VoyIteso.Pages
 {
     public partial class TheMap : PhoneApplicationPage
     {
+
 #region fields
 
         /// <summary>
@@ -76,17 +77,13 @@ namespace VoyIteso.Pages
         private async void SearchView_Loaded(object sender, RoutedEventArgs e)
         {
             FijarIteso();
-            Salute();
+            MessageBox.Show("presiona y manten en el lugar en el que quieres colocar el destino", "¿a dónde vas?", MessageBoxButton.OK);
+            //este se utiliza para que cuando se regrese el usuario no le salga la ventana de seleccionar entre aventon o dar ride, el usuario va a regresar directamente al menu principal.
             NavigationService.RemoveBackEntry();
             //FijarPosicionActual(); 
             //el progreso debe parar ya que ya se tiene una ubicacion para el usuario.
-            ConfirmedChanged += myConfirmedChanged;
-        }
-
-        private void Salute()
-        {
-            MessageBox.Show("presiona y manten en el lugar que quieras poner el destino", "¿a dónde vas?", MessageBoxButton.OK);
-        }
+            ConfirmedChanged += MyConfirmedChanged;
+        } 
 
         private async void FijarIteso()
         {
@@ -97,7 +94,7 @@ namespace VoyIteso.Pages
             ApplicationBar.IsVisible = true;
             _aconfirmed = true;
             //cargarlista();//cargar la lista de pushpins sugeridos.
-            MessageBox.Show("el origen está fijado en el ITESO, pero puedes fijar tu posición");
+            MessageBox.Show("por defecto, el origen está fijado en el ITESO, pero puedes fijar tu posición");
         }
 
         /// <summary>
@@ -126,6 +123,9 @@ namespace VoyIteso.Pages
             //MyMapControl.Layers.Add(capausuario);
         }
 
+        /// <summary>
+        /// este metodo pedorro regresa los valores a los predeterminados.
+        /// </summary>
         private void ResetValues()
         {
             _routeConfirmed = false;
@@ -141,17 +141,17 @@ namespace VoyIteso.Pages
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="eventArgs"></param>
-        private void myConfirmedChanged(object sender, EventArgs eventArgs)
+        private void MyConfirmedChanged(object sender, EventArgs eventArgs)
         {
             if (Driver)
             {
-                MessageBox.Show("agrega algunos puntos intermedios para facilitar el cálculo de tu ruta", "ya casi..", MessageBoxButton.OKCancel);
+                MessageBox.Show("para facilitar el cálculo de la ruta agrega algunos puntos intermedios y luego presiona en confirmar. Puedes omitir este paso presionando confirmar.", "agrega puntos intermedios", MessageBoxButton.OKCancel);
             }
             
-            flag = true;
+            _flag = true;
         }
 
-        private bool flag = false;
+        private bool _flag = false;
         private bool _paramsConfirmed;
         public bool ParamsConfirmed
         {
@@ -201,7 +201,7 @@ namespace VoyIteso.Pages
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void addWayPoint(object sender, GestureEventArgs e)
+        private void AddWayPoint(object sender, GestureEventArgs e)
         {//issue... tener una lista de waypoints a la cual agregaremos 
             //Find geocoordinate on tapped location.
             var asd = this.MyMapControl.ConvertViewportPointToGeoCoordinate(e.GetPosition(this.MyMapControl));
@@ -216,7 +216,7 @@ namespace VoyIteso.Pages
             MyMapControl.Layers.Add(newLayer);
             //_pointCount++;
 
-            //get properties of the address from the tapped location. 
+            //get properties of the address from the tapped location. we are repeating ourselves, there is a need to refactor code later.
             var query = new ReverseGeocodeQuery { GeoCoordinate = new GeoCoordinate(asd.Latitude, asd.Longitude) };
             query.QueryCompleted += (s, ev) =>
             {
@@ -315,7 +315,6 @@ namespace VoyIteso.Pages
 #endregion
 
 
-
 #region button controls
 
         /// <summary>
@@ -331,17 +330,22 @@ namespace VoyIteso.Pages
             NavigationService.Navigate(new Uri("/Pages/SecondaryMapPage.xaml", UriKind.Relative));
         }
 
+        /// <summary>
+        /// este es el boton de confirmar, 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ApplicationBarIconButton_OnClick(object sender, EventArgs e)
         {
-            SearchNowButton_OnClick(null, null);
+            //SearchNowButton_OnClick(null, null);
             //la flag es la que indica que ya existen tanto punto A (origen) como punto B (destino).
-            if (flag)
+            if (_flag)
             {
                 if (Driver)
                 {
                     if (wayPointList.Count > 0)
                     {
-                        var result = MessageBox.Show("fijar los puntos intermedios a tu ruta, si cancelas tendrás que volver a agregar todos los puntos", "confirmar operación", MessageBoxButton.OKCancel);
+                        var result = MessageBox.Show("vas fijar los puntos intermedios a tu ruta, si cancelas tendrás que volver a agregar todos los puntos", "confirmar operación", MessageBoxButton.OKCancel);
                         if (result == MessageBoxResult.OK)
                         {//issue... acomodar los parametros aqui para el apiconector. fin
                             //navegar aqui para pedir los datos que faltan como la hora, la fecha y la chingada.
@@ -381,54 +385,20 @@ namespace VoyIteso.Pages
                 var mapIcon = BPoint.Content;
                 MessageBox.Show("destino fijado");//falta ponerle en donde 
                 //
-                //MyMapControl.Layers.Add(layer);                    
+                //MyMapControl.Layers.Add(layer);   
+                SearchNowButton_OnClick(null, null); 
             }
             ApplicationBar.Mode = ApplicationBarMode.Minimized;
         }
 
         private void ChangeDestinationButton_OnClick(object sender, EventArgs e)
         {
-            
-            if (flag)
-            {
-                if (wayPointList.Count > 0)
-                {
-                    var result = MessageBox.Show("fijar los puntos intermedios a tu ruta, si cancelas tendrás que volver a agregar todos los puntos", "confirmar operación", MessageBoxButton.OKCancel);
-                    if (result == MessageBoxResult.OK)
-                    {//issue... acomodar los parametros aqui para el apiconector. fin
-                        MessageBox.Show("ruta establecida");
-                        _routeConfirmed = true;
-                    }
-                    else
-                    { // el usuario le pico a cancel entonces se va a borrar la lista de waypoints y eliminar todas las capas q contienen pushpins. excepto el punto a y b
-                        wayPointList.Clear();
-                        foreach (var layer in waylayerList)
-                        {
-                            MyMapControl.Layers.Remove(layer);
-                        }
-                        waylayerList.Clear();
-                    }
-
-                }
-                else
-                {
-                    var res2 = MessageBox.Show("no agregaste puntos intermedios, los puntos intermedios ayudan a definir mejor la ruta ¿quieres avanzar sin hacerlo?", "confirmar operación", MessageBoxButton.OKCancel);
-                    if (res2 == MessageBoxResult.OK)
-                    {
-                        MessageBox.Show("ruta establecida");
-                        _routeConfirmed = true;
-                    }
-                }
-            }
-            else
-            {
-                _confirmed = true;
-                var mapIcon = BPoint.Content;
-                MessageBox.Show("destino fijado");//falta ponerle en donde 
-                //
-                //MyMapControl.Layers.Add(layer);                    
-            }
-            ApplicationBar.Mode = ApplicationBarMode.Minimized;
+            ResetValues();
+            MyMapControl_OnCenterChanged(null,null);
+            MyMapControl.Layers.Remove(_layer);
+            _flag = false;
+            _pointCount = 0;
+            MessageBox.Show("Coloca un nuevo destino","destino borrado",MessageBoxButton.OK);
         }
 
         private void FindMeButton_OnClick(object sender, EventArgs e)
@@ -458,7 +428,7 @@ namespace VoyIteso.Pages
             else
             {
                 ParamsConfirmed = false;
-                flag = false;
+                _flag = false;
             }
         }
 
@@ -481,9 +451,9 @@ namespace VoyIteso.Pages
         /// <param name="e"></param>
         private void MyMapControl_OnHold(object sender, GestureEventArgs e)
         {
-            if (flag && !_routeConfirmed)
+            if (_flag && !_routeConfirmed)
             {
-                addWayPoint(sender, e);
+                AddWayPoint(sender, e);
             }
 
             //if the destination has not been added yet and it has no confirmation, then a new bpoint is going to be added to the map.
@@ -502,10 +472,6 @@ namespace VoyIteso.Pages
         }
 
         #endregion
-
-
-
-
 
         
     }
