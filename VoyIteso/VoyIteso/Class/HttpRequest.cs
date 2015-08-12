@@ -1,10 +1,12 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Animation;
@@ -22,10 +24,11 @@ namespace VoyIteso.Class
         HttpStatusCode _responseStatus;
         string _data;
         string _status;
+        private static int meaninglessData = 0;
         //DispatcherTimer TimeOutTimer = new DispatcherTimer();
 
-        //string _url = @"http://voy.cocoapps.mx/VOYAPI";
-        static string _url = @"https://aplicacionesweb.iteso.mx/VOYAPI";
+        static string _url = @"http://voy.cocoapps.mx/VOYAPI";
+        //static string _url = @"https://aplicacionesweb.iteso.mx/VOYAPI";
         string _action;
 
         public static string Url {
@@ -94,12 +97,24 @@ namespace VoyIteso.Class
         //send Post
         public async Task sendPost()
         {
-           
+#if DEBUG
+            Debug.WriteLine("Sending Post Request to ("+_url + _action+")");
+            Debug.WriteLine("Params");
+            foreach (var item in _parameters)
+            {
+                Debug.WriteLine("   ["+item.Key+"]("+item.Value+")");
+            }
+#endif
             var httpClient = new HttpClient(new HttpClientHandler());
+            //httpClient.MaxResponseContentBufferSize
+            httpClient.DefaultRequestHeaders.Clear();
             httpClient.Timeout = TimeSpan.FromSeconds(20);
 
                 HttpResponseMessage response = await httpClient.PostAsync(_url + _action, new FormUrlEncodedContent(_parameters));
                 httpClient.Dispose();
+            #if DEBUG
+                Debug.WriteLine("Responce: " + response.StatusCode);
+#endif
                 if (response.StatusCode!= HttpStatusCode.OK)
                 {
                     _status = response.StatusCode.ToString();
@@ -111,6 +126,10 @@ namespace VoyIteso.Class
             
                 var responseString = await response.Content.ReadAsStringAsync();
                 _responseStatus = response.StatusCode;
+#if DEBUG
+                Debug.WriteLine("Data: ");
+                Debug.WriteLine(responseString);
+#endif
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 if (responseString != null)
@@ -138,7 +157,15 @@ namespace VoyIteso.Class
         //Send get
         public async Task sendGet()
         {
-
+            _parameters.Add(new KeyValuePair<string, string>("randData",meaninglessData++.ToString()));//Dirty but it works
+#if DEBUG
+            Debug.WriteLine("Sending Get Request to (" + _url + _action + ")");
+            Debug.WriteLine("Params");
+            foreach (var item in _parameters)
+            {
+                Debug.WriteLine("   [" + item.Key + "](" + item.Value + ")");
+            }
+#endif
             string getData = ""; //Data to send
 
             bool firstData = true; //Is the first value?
@@ -156,11 +183,23 @@ namespace VoyIteso.Class
                 getData += item.Key + "=" + item.Value;
             }
 
-            var httpClient = new HttpClient(new HttpClientHandler());
+            var httpClient = new HttpClient();
+            httpClient.DefaultRequestHeaders.Add("Cache-Control", "no-cache");
+            httpClient.DefaultRequestHeaders.CacheControl= new CacheControlHeaderValue();
+            httpClient.DefaultRequestHeaders.CacheControl.NoCache = true;
+            httpClient.DefaultRequestHeaders.CacheControl.MaxAge = TimeSpan.Zero;
+            //httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            //httpClient.DefaultRequestHeaders.CacheControl.NoCache = true;
+
+
+
             httpClient.Timeout = TimeSpan.FromSeconds(20);
 
             HttpResponseMessage response = await httpClient.GetAsync(_url + _action + "?" + getData);
             httpClient.Dispose();
+#if DEBUG
+            Debug.WriteLine("Responce: " + response.StatusCode);
+#endif
             response.EnsureSuccessStatusCode();
 
             if (response.StatusCode != HttpStatusCode.OK)
@@ -172,6 +211,10 @@ namespace VoyIteso.Class
             
             var responseString = await response.Content.ReadAsStringAsync();
             _responseStatus = response.StatusCode;
+#if DEBUG
+            Debug.WriteLine("Data: ");
+            Debug.WriteLine(responseString);
+#endif
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 if (responseString != null)

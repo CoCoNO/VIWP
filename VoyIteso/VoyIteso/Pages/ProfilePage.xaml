@@ -14,7 +14,7 @@
     
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d"
-    shell:SystemTray.IsVisible="True">
+    shell:SystemTray.IsVisible="True" BackKeyPress="PhoneApplicationPage_BackKeyPress">
 
 
     <UserControl.Resources>
@@ -31,8 +31,8 @@
         </Grid.RowDefinitions>
 
         <!--photo grid-->
-        <Grid Margin="10,0">
-            <Image Tap="UserImage_OnTap" x:Name="userImage" Source="/Images/User.jpg" HorizontalAlignment="Left"></Image>
+        <Grid>
+            <Image Tap="UserImage_OnTap" x:Name="userImage" Source="/Images/SMOKE.png" Stretch="UniformToFill"/>
         </Grid>
         <!--info grid-->
         <Grid Margin="10,0" Grid.Row="1">
@@ -166,9 +166,9 @@
     <!--Sample code showing usage of ApplicationBar-->
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar  IsVisible="true" IsMenuEnabled="false" Mode="Minimized">
-            <shell:ApplicationBarIconButton Click="ApplicationBarIconButton_OnClick" IconUri="/Images/appbar_button1.png" Text="modificar"/>
-            
-                <!--
+            <shell:ApplicationBarIconButton x:Name="AppBarEditButton" Click="ApplicationBarIconButton_OnClick" IconUri="/Images/appbar_button1.png" Text="modificar"/>
+
+            <!--
                 <shell:ApplicationBar.MenuItems>
                 
                     <shell:ApplicationBarMenuItem x:Name="ChangeDestinationButton" Text="cambiar el destino"  />
@@ -177,8 +177,8 @@
                 
                 </shell:ApplicationBar.MenuItems>
                 -->
-                
-            
+
+
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
 
