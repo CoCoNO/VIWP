@@ -1,5 +1,5 @@
 ﻿<phone:PhoneApplicationPage
-    x:Class="VoyIteso.Pages.TheNewMap"
+    x:Class="VoyIteso.Pages.TheNewMap_Walker"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
@@ -135,9 +135,7 @@
                                 </Grid.ColumnDefinitions>
 
                                 <Grid Grid.Column="0">
-                                    <TextBlock Name="txtOriginRojo" Height="Auto" FontSize="20" Tap="txtOrigin_Tap" Foreground="Red" TextWrapping="Wrap" >
-                                    	<Run Text="escribe una direcci"/>
-                                    	<Run Text="ón válida"/></TextBlock>
+                                    <TextBlock Name="txtOrigin" Text="Direccion" Height="Auto" FontSize="20" Tap="txtOrigin_Tap" Foreground="Red" TextWrapping="Wrap" Margin="0,0,-215,0" ></TextBlock>
                                 </Grid>
                                 <!--
                                        <Image Grid.Column="2" Source="/Images/Origen.png" Tap="OriginImage_Tap"/>
@@ -158,12 +156,7 @@
                                 <ColumnDefinition Width="12"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Name="lblDestiny" Grid.Row="0" Grid.Column="1" Text="Destino" FontSize="25"></TextBlock>
-                            <TextBlock x:Name="txtDestinyRojo" Grid.Row="2" Grid.Column="1"  Height="Auto" Tap="txtDestiny_Tap" Foreground="Red" TextWrapping="Wrap">
-                            	<Run Text="escribe una direcci"/>
-                            	<Run Text="ón válida"/>
-                            	<LineBreak/>
-                            	<Run Text=""/>
-                            </TextBlock>
+                            <TextBlock x:Name="txtDestiny" Grid.Row="2" Grid.Column="1" Text="Direccion"  Height="Auto" Tap="txtDestiny_Tap" Foreground="Red" TextWrapping="Wrap" Grid.ColumnSpan="2" Margin="0,0,-405,0"/>
                         </Grid>
                         <Grid Grid.Row="5">
                             <Grid.ColumnDefinitions>
@@ -298,11 +291,11 @@
                                             <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="12"/>
                                         </Grid.ColumnDefinitions>
-                                        <TextBlock Name="rOrigin" Grid.Column="1" Text="{Binding origin}" TextWrapping="Wrap" FontSize="15"/>
-                                        <TextBlock Name="rDestiny" Grid.Column="3" Text="{Binding destiny}" TextWrapping="Wrap" FontSize="15"/>
-                                        <TextBlock Name="rUsuario" Grid.Column="5" Text="{Binding user_name}" TextWrapping="Wrap" FontSize="15"/>
-                                        <TextBlock Name="rDate" Grid.Column="7" Text="{Binding begin_date}" TextWrapping="Wrap" FontSize="15"/>
-                                        <TextBlock Name="rArrivalTime" Grid.Column="9" Text="{Binding arrival_time}" TextWrapping="Wrap" FontSize="15"/>
+                                        <TextBlock Name="txtOrigin" Grid.Column="1" Text="{Binding origin}" TextWrapping="Wrap" FontSize="15"/>
+                                        <TextBlock Name="txtDestiny" Grid.Column="3" Text="{Binding destiny}" TextWrapping="Wrap" FontSize="15"/>
+                                        <TextBlock Name="txtUsuario" Grid.Column="5" Text="{Binding user_name}" TextWrapping="Wrap" FontSize="15"/>
+                                        <TextBlock Name="txtDate" Grid.Column="7" Text="{Binding begin_date}" TextWrapping="Wrap" FontSize="15"/>
+                                        <TextBlock Name="txtArrivalTime" Grid.Column="9" Text="{Binding arrival_time}" TextWrapping="Wrap" FontSize="15"/>
                                     </Grid>
                                 </Grid>
                             </DataTemplate>

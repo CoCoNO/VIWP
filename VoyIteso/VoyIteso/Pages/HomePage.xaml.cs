@@ -146,11 +146,20 @@ namespace VoyIteso.Pages
             a.Click += a_Click;
             ApplicationBar.MenuItems.Add(a);
 
+            ApplicationBarMenuItem b = new ApplicationBarMenuItem("ir a lo q estoy haciendo");
+            b.Click += b_Click;
+            ApplicationBar.MenuItems.Add(b);
+
             ApplicationBar.StateChanged += ApplicationBar_StateChanged;
 
             //    // Create a new menu item with the localized string from AppResources.
             //    ApplicationBarMenuItem appBarMenuItem = new ApplicationBarMenuItem(AppResources.AppBarMenuItemText);
             //    ApplicationBar.MenuItems.Add(appBarMenuItem);
+        }
+
+        private void b_Click(object sender, EventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/Pages/TheNewMap_Walker.xaml", UriKind.Relative));
         }
 
         private void a_Click(object sender, EventArgs e)

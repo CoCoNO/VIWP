@@ -393,47 +393,12 @@ namespace VoyIteso.Pages
 
         private void ChangeDestinationButton_OnClick(object sender, EventArgs e)
         {
-            
-            if (_flag)
-            {
-                if (wayPointList.Count > 0)
-                {
-                    var result = MessageBox.Show("vas fijar los puntos intermedios a tu ruta, si cancelas tendrás que volver a agregar todos los puntos", "confirmar operación", MessageBoxButton.OKCancel);
-                    if (result == MessageBoxResult.OK)
-                    {//issue... acomodar los parametros aqui para el apiconector. fin
-                        MessageBox.Show("ruta establecida");
-                        _routeConfirmed = true;
-                    }
-                    else
-                    { // el usuario le pico a cancel entonces se va a borrar la lista de waypoints y eliminar todas las capas q contienen pushpins. excepto el punto a y b
-                        wayPointList.Clear();
-                        foreach (var layer in waylayerList)
-                        {
-                            MyMapControl.Layers.Remove(layer);
-                        }
-                        waylayerList.Clear();
-                    }
-
-                }
-                else
-                {
-                    var res2 = MessageBox.Show("no agregaste puntos intermedios, los puntos intermedios ayudan a definir mejor la ruta ¿quieres avanzar sin hacerlo?", "confirmar operación", MessageBoxButton.OKCancel);
-                    if (res2 == MessageBoxResult.OK)
-                    {
-                        MessageBox.Show("ruta establecida");
-                        _routeConfirmed = true;
-                    }
-                }
-            }
-            else
-            {
-                _confirmed = true;
-                var mapIcon = BPoint.Content;
-                MessageBox.Show("destino fijado");//falta ponerle en donde 
-                //
-                //MyMapControl.Layers.Add(layer);                    
-            }
-            ApplicationBar.Mode = ApplicationBarMode.Minimized;
+            ResetValues();
+            MyMapControl_OnCenterChanged(null,null);
+            MyMapControl.Layers.Remove(_layer);
+            _flag = false;
+            _pointCount = 0;
+            MessageBox.Show("Coloca un nuevo destino","destino borrado",MessageBoxButton.OK);
         }
 
         private void FindMeButton_OnClick(object sender, EventArgs e)

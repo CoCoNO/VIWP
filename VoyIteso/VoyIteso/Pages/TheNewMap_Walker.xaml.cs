@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Device.Location;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Windows;
@@ -18,33 +19,50 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Telerik.Windows.Controls;
 using VoyIteso.Resources;
 using GestureEventArgs = System.Windows.Input.GestureEventArgs;
 
+/*la busqueda de ruta exige:
+        *
+         * 
+         * puntos a y b
+         * fecha de salida: hora, dia, mes, ano.// que se me hace una pendejada, la hora era suficiente, pero asi lo diseno comunicacion social (hate them!)
+         * nombre del a y del b // otra pendejada mas ya que no son mas que para mostrar un texto.
+         * fumador. por si quieres ir con alguien que fuma o no fuma.
+         * genero. por si quieres ir con una mujer o un hombre. En la primera version voy a poner estas ultimas dos por defecto ya que no quiero q voy iteso caiga por su mal diseno. 
+         * 
+         * 
+         */
+//
 
 namespace VoyIteso.Pages
 {
-    public partial class TheNewMap : PhoneApplicationPage
+    public partial class TheNewMap_Walker : PhoneApplicationPage
     {
 
         #region fields
 
-        /// <summary>
-        /// Fields
-        /// </summary>
+        //banderas para manejar los eventos.
+        private bool a = false;//el punto a (origen)
+        private bool b = false;//el punto b (destino)
+        private bool rutaConfirmada = false;// cuando a y b entonces rutaConfirmada.
+        private bool horaDeSalida = false;//
+        private bool fechaDeSalida = false;
+
+        //el temporizador que va a estar contando el tiempo para checar mis banderas cada x tiempo. x = un segundo.
+        readonly DispatcherTimer _timer = new DispatcherTimer();
+
+
         readonly Image _pushPinUsuario = new Image();
-        readonly ProgressIndicator _progress = new ProgressIndicator();
+        //readonly ProgressIndicator _progress = new ProgressIndicator();
         private MapLayer _layer;
-        //private MapLayer _waylayer;
 
         private bool _confirmed;
         private bool _aconfirmed;
         private bool _routeConfirmed;// esta pendejada sirve para que hacer que no se pueda mover una vez q estan fijados los puntos a y b.
         private int _pointCount;
 
-        /// <summary>
-        /// bPoint has an ubicacion which is a GeoCoordinate object (bpoint.GeoCoordinate), and a content which is the mapIcon object.
-        /// </summary>
         public static MapOverlay BPoint { private set; get; }
         public static MapOverlay APoint { get; private set; }
         private MapLayer _aPoint;
@@ -52,49 +70,42 @@ namespace VoyIteso.Pages
         private List<MapLayer> waylayerList = new List<MapLayer>();
         //private List<MapLayer> waylayers = new List<MapLayer>();
         public static bool Driver = false;
-        public static bool Passenger = false; 
+        public static bool Passenger = false;
 
 
 
         #endregion
 
-        public TheNewMap()
+        public TheNewMap_Walker()
         {
             InitializeComponent();
-            
-            _aconfirmed = false;
+
+            //desmadre del timer.
+            _timer.Interval = TimeSpan.FromSeconds(2);
+            _timer.Tick += TimerOnTick;
+            _timer.Start();
+
             ResetValues();
-            //Touch.FrameReported += Touch_FrameReported;  
             _pushPinUsuario.Source = new BitmapImage(new Uri("/Images/u.png", UriKind.Relative));
 
             Loaded += SearchView_Loaded;
             Microsoft.Phone.Maps.MapsSettings.ApplicationContext.ApplicationId = "acc0d8e8-cffc-4bcb-9d28-06444a2fc7d8";
             Microsoft.Phone.Maps.MapsSettings.ApplicationContext.AuthenticationToken = "0FvJj6wXx2HVKh7g-6hRGw";
-        
 
-#region cannibaled constructor
-            states = appBarStates.Map;
-
+            #region cannibaled constructor
+            //iniciaremos preguntando la fecha y la hora asi que nos enfocamos en el comienzo en el panel izquierdo del menu hamburguesa.
+            
             canChangeState = true;
             isSearchTerm = false;
             isOrigin = true;
             isConfirmRoute = false;
-
-            //user.getInfo(user.key);
-
-            //LocationTimer.Interval = TimeSpan.FromSeconds(1);
-            //LocationTimer.Tick += LocationTimer_Tick;
 
             datePicker.ValueChanged += datePicker_ValueChanged;
             timePicker.ValueChanged += timePicker_ValueChanged;
 
             progress = new Progress();
 
-            //maping = new Maping(myMap, InvisibleCanvas);
-
-            //apiConnector = ApiConnector.instance;
-
-            //BuildLocalizedApplicationBar();
+            BuildLocalizedApplicationBar();
 
             setLayout();
 
@@ -103,67 +114,217 @@ namespace VoyIteso.Pages
             ShowRightPanelAnimation.Completed += ShowRightPanelAnimation_Completed;
             ShowRightPanelFromLeftAnimation.Completed += ShowRightPanelFromLeftAnimation_Completed;
             HideLeftPanelAnimation.Completed += HideLeftPanelAnimation_Completed;
-            HideRightPanelAnimation.Completed += HideRightPanelAnimation_Completed;
+            HideRightPanelAnimation.Completed += HideRightPanelAnimation_Completed; 
+              
+            #endregion
 
-            //apiConnector.exceptionChanged += apiConnector_exceptionChanged;
-            //apiConnector.responseChanged += apiConnector_responseChanged;
+            
 
-#endregion
+        }
+
+        private void TimerOnTick(object sender, EventArgs eventArgs)
+        {
+            //timer.Stop();
+            //well here we gonna have to code the function call. the function that will check the event flags. 
+            Debug.WriteLine("timing....");
+            CheckEventFlag();
 
         }
 
         #region methods
 
-        private void Salute()
+        private async void SearchView_Loaded(object sender, RoutedEventArgs e)// este es el metodo que se dispara en cuanto la interfaz grafica se ha cargado y mostrado exitosamente en el telefono.
         {
-            MessageBox.Show("presiona y manten en el lugar que vas para colocar el pin", "¿a dónde vas?", MessageBoxButton.OK);
-            
-            
-        }
 
-        private async void SearchView_Loaded(object sender, RoutedEventArgs e)
-        {
-            
-            //FijarIteso();
-
-            if (!positionAquired)
-            {
-                FijarPosicionActual();
-                Salute();
-            }
-
-            
             //este se utiliza para que cuando se regrese el usuario no le salga la ventana de seleccionar entre aventon o dar ride, el usuario va a regresar directamente al menu principal.
-            NavigationService.RemoveBackEntry();  
+            NavigationService.RemoveBackEntry();
+            //el progreso debe parar ya que ya se tiene una ubicacion para el usuario.
             ConfirmedChanged += MyConfirmedChanged;
 
             Microsoft.Phone.Shell.SystemTray.ForegroundColor = System.Windows.Media.Color.FromArgb(255, 0, 66, 112);
-            //Microsoft.Phone.Shell.SystemTray.ForegroundColor = Colors.LightGray;
-            Microsoft.Phone.Shell.SystemTray.BackgroundColor = Colors.White;
             RouteResult.ResultHeight = (int)(Application.Current.Host.Content.ActualHeight / 4);
             RouteResult.ResultWidth = (int)((Application.Current.Host.Content.ActualWidth / 4) * 3);
-
             BuildLocalizedApplicationBar();
-            //myMap.Focus();
-            //progress.hideProgressIndicator(this);
+            ApplicationBar.IsVisible = false;
+
+            if (!a)
+            {
+                ObtenerPuntoAyb();
+            }
+            
         }
 
-        private async void FijarIteso()
+        private void ObtenerPuntoAyb()
+        {
+            var dialogResult = MessageBox.Show("tu punto de partida se fijará en el iteso, si cancelas se fija tu posición", "¿vienes del ITESO?", MessageBoxButton.OKCancel);
+            if (dialogResult == MessageBoxResult.OK)
+            {
+                FijarIteso();
+                a = true;
+                progress.showProgressIndicator(this, "fijando el iteso");
+                MessageBox.Show("presiona y manten en el mapa para colocar el punto a donde vas", "¿a dónde vas?", MessageBoxButton.OK);
+            }
+            else
+            {
+                FijarPosicionActual();
+                txtOrigin.Text = direccionOrigen;
+                a = true;
+
+                progress.showProgressIndicator(this, "fijando tu posición");
+                //hacer que se fije el punto b en el iteso  ya que es obvio que debe ir al iteso. para eso esta pensada la app. 
+                AddItesoPoint(null, null);
+                txtOrigin.Text = direccionDestino;
+                b = true;
+            }
+
+            progress.hideProgressIndicator(this);
+        }
+
+        private void CheckEventFlag()
+        {
+        
+            if (a)
+            {
+                if (b)
+                {
+                    if (fechaDeSalida && horaDeSalida)
+                    {
+
+                        cargarAResultados();
+                        
+                        _f = true;
+                        if (states!=appBarStates.Foo)
+                        {
+                            if (_f)
+                            {
+                                MessageBox.Show("revisa que tanto el punto de origen como de partida estén correctos y confirma.","Atención",MessageBoxButton.OK);
+                                ShowRightPanelAnimation.Begin();
+                                states = appBarStates.Foo;
+                                BuildLocalizedApplicationBar();
+                                _f = false;
+                            }
+                            
+
+                        }
+                        if (rutaConfirmada)
+                        {
+                            MessageBox.Show("ruta confirmada, mandar parametros");
+                            //aqui puto jairo
+                        }
+                        
+                    }
+                    else
+                    {
+                        
+                        if (!horaDeSalida&&fechaDeSalida)
+                        {
+                            askForTheTime();
+                        }
+                        else if (!fechaDeSalida)
+                        {
+                            askForDate();
+                        }
+                        
+                        
+                    }
+                }
+            }
+        }
+
+        private void cargarAResultados()
+        {
+
+            var a = new ListBoxItem();
+            a.Content = new TextBlock().Text = direccionOrigen;
+            ResultsListBox.Items.Add(a);
+            var b = new ListBoxItem();
+            a.Content = new TextBlock().Text = direccionDestino;
+            ResultsListBox.Items.Add(b);
+            
+
+        }
+
+        private void askForDate()
+        {
+            if (states!=appBarStates.Left)
+            {
+                ShowLeftPanelAnimation.Begin();
+                MessageBox.Show("especifica la fecha");
+            }
+            
+        }
+
+        private void askForTheTime()
+        {
+            if (states != appBarStates.Left)
+            {
+                ShowLeftPanelAnimation.Begin();
+                
+            }
+            if (_f)
+            {
+                MessageBox.Show("especifica la hora");
+                _f = false;
+            }
+            
+            ; 
+        }
+
+        private async void FijarIteso()//si el brother escoge que viene del iteso
         {
             GeoCoordinate migeoCoordenada = new GeoCoordinate(20.608390, -103.414512);
             dibujaru(migeoCoordenada);
             myMap.Center = migeoCoordenada;
             myMap.ZoomLevel = 13;
             //ApplicationBar.IsVisible = true;
-            _aconfirmed = true;
+            //_aconfirmed = true;
             //cargarlista();//cargar la lista de pushpins sugeridos.
-            MessageBox.Show("por defecto, el origen está fijado en el ITESO, pero puedes fijar tu posición");
+            //MessageBox.Show("por defecto, el origen está fijado en el ITESO, pero puedes fijar tu posición");
         }
 
-        /// <summary>
-        /// Draws the user icon on the map.
-        /// </summary>
-        /// <param name="ubicacion"> Is the location where the pushpin is going to be placed. </param>
+        private async void FijarPosicionActual()// si el brother escoge que no viene del iteso
+        {
+            Geolocator migeolocalizador = new Geolocator();
+            Geoposition migeoposicion = await migeolocalizador.GetGeopositionAsync();
+            Geocoordinate migeocoordenada = migeoposicion.Coordinate;
+            GeoCoordinate migeoCoordenada = convertidirGeocoordinate(migeocoordenada);
+            dibujaru(migeoCoordenada);
+            myMap.Center = migeoCoordenada;
+            myMap.ZoomLevel = 13;
+
+            //reverse code query aqui.
+            //get properties of the address from the tapped location. we are repeating ourselves, there is a need to refactor code later.
+            var query = new ReverseGeocodeQuery { GeoCoordinate = new GeoCoordinate(migeoCoordenada.Latitude, migeoCoordenada.Longitude) };
+            query.QueryCompleted += (s, ev) =>
+            {
+                if (ev.Error == null && ev.Result.Count > 0)
+                {
+                    var locations = ev.Result as List<MapLocation>;
+                    // do what you want with the locations...
+                    foreach (var newLocation in locations)
+                    {
+                        //feed.Text += newLocation.Information.Address.Street.ToString();
+                        
+                            //newLocation.Information.Address.Street.ToString();
+                            //newLocation.Information.Description.ToString();
+                            //newLocation.Information.Address.BuildingName.ToString();
+                            direccionOrigen = newLocation.Information.Address.Street.ToString() + " " + newLocation.Information.Address.HouseNumber + "\n" +
+                            newLocation.Information.Address.District.ToString();
+
+
+                    }
+
+                }
+            };
+            query.QueryAsync();
+
+
+//ApplicationBar.IsVisible = true;
+            //_aconfirmed = true;
+            //cargarlista();//cargar la lista de pushpins sugeridos.
+            //MessageBox.Show("origen está fijado en tu posición");
+        }
+
         public void dibujaru(GeoCoordinate ubicacion) // Metodo que dibuja la posicion actual del usuario en el mapa
         {
 
@@ -186,23 +347,14 @@ namespace VoyIteso.Pages
             //MyMapControl.Layers.Add(capausuario);
         }
 
-        /// <summary>
-        /// este metodo pedorro regresa los valores a los predeterminados.
-        /// </summary>
-        private void ResetValues()
+        private void ResetValues()//this method returns all flags to false;
         {
-            _routeConfirmed = false;
-            _confirmed = false;
-            //_aconfirmed = false;
-            _flag = false;
-            BPoint = null;
-            _pointCount = 0;
-            //ApplicationBar.Mode = ApplicationBarMode.Minimized;//there is no app bar build yet.
-            positionAquired = false;
-            //dateString = DateTime.Today.ToString();
-            dateString = string.Format("{0:dd-MM-yyyy}", DateTime.Today);
-            //timeString = DateTime.Now.ToString();
-            timeString = string.Format("{0:HH:mm}", DateTime.Now);
+            a = false;
+            b = false;
+            rutaConfirmada = false;
+            horaDeSalida = false;
+            fechaDeSalida = false;
+
         }
 
         /// <summary>
@@ -210,7 +362,7 @@ namespace VoyIteso.Pages
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="eventArgs"></param>
-        private void MyConfirmedChanged(object sender, EventArgs eventArgs)
+        private void MyConfirmedChanged(object sender, EventArgs eventArgs)// hay que eliminar esta mierda q es inecesaria
         {
             if (Driver)
             {
@@ -303,6 +455,8 @@ namespace VoyIteso.Pages
                             //newLocation.Information.Address.BuildingName.ToString();
                             newLocation.Information.Address.Street.ToString() + " " + newLocation.Information.Address.HouseNumber + "\n" +
                             newLocation.Information.Address.District.ToString();
+
+                        
                     }
 
                 }
@@ -310,7 +464,7 @@ namespace VoyIteso.Pages
             query.QueryAsync();
             wayPointList.Add(newpoint);//add new point to waypoint list.
             waylayerList.Add(newLayer);//takes the value of newLayer so we can find the newLayer in the list and delete it if necesary.
-            
+
         }
 
         /// <summary>
@@ -351,6 +505,10 @@ namespace VoyIteso.Pages
                             //newLocation.Information.Address.BuildingName.ToString();
                             newLocation.Information.Address.Street.ToString() + " " + newLocation.Information.Address.HouseNumber + "\n" +
                             newLocation.Information.Address.District.ToString();
+
+                        direccionDestino = newLocation.Information.Address.Street.ToString() + " " + newLocation.Information.Address.HouseNumber + "\n" +
+                            newLocation.Information.Address.District.ToString();
+
                     }
 
                 }
@@ -362,24 +520,56 @@ namespace VoyIteso.Pages
             ApplicationBar.Mode = ApplicationBarMode.Default;
         }
 
-        private async void FijarPosicionActual()
+        /// <summary>
+        /// Adds the destination point to the map. and does take the value of the local mapOverlay and takes it to the main context, it also gets the temp layer and takes it to the main context, changes the appbarmode to default.
+        /// the mapOverlay object contains the ubicacion and the map icon
+        /// </summary>
+        private async void AddItesoPoint(object sender, GestureEventArgs e)
         {
-            progress.showProgressIndicator(this, "calculando tu ubicación...");
-            Geolocator migeolocalizador = new Geolocator();
-            Geoposition migeoposicion = await migeolocalizador.GetGeopositionAsync();
-            progress.hideProgressIndicator(this);
-            positionAquired = true;
-            Geocoordinate migeocoordenada = migeoposicion.Coordinate;
-            GeoCoordinate migeoCoordenada = convertidirGeocoordinate(migeocoordenada);
-            dibujaru(migeoCoordenada);
-            myMap.Center = migeoCoordenada;
-            myMap.ZoomLevel = 13;
-            ApplicationBar.IsVisible = true;
-            _aconfirmed = true;
+            //_bPointAdded = true;
+            //Find geocoordinate on tapped location.
+            var newLayer = new MapLayer();
+            var mapIcon = new MapIcon();//my Own map icon. (custon map icon).
+            var bpoint = new MapOverlay();
+            var ubicacion = new GeoCoordinate(20.608499, -103.414630);//el iteso 20.608499, -103.414630
+            bpoint.GeoCoordinate = ubicacion;
+            bpoint.Content = mapIcon;
+            newLayer.Add(bpoint);
+            //add pushpin layer to map layers.
+            myMap.Layers.Add(newLayer);
+            _confirmed = true;//esta bandera es la que hace que cuando se mueve el centro del mapa se borre el bpoint debido a q no ha sido confirmado.
 
-            MessageBox.Show("origen está fijado en tu posición, coloca el destino");
+            //get properties of the address from the tapped location. 
+            var query = new ReverseGeocodeQuery { GeoCoordinate = new GeoCoordinate(20.608499, -103.414630) };
+            query.QueryCompleted += (s, ev) =>
+            {
+                if (ev.Error == null && ev.Result.Count > 0)
+                {
+                    var locations = ev.Result as List<MapLocation>;
+                    // do what you want with the locations...
+                    foreach (var newLocation in locations)
+                    {
+                        //feed.Text += newLocation.Information.Address.Street.ToString();
+                        mapIcon.pushPinHeader.Text =
+
+                            //newLocation.Information.Address.Street.ToString();
+                            //newLocation.Information.Description.ToString();
+                            //newLocation.Information.Address.BuildingName.ToString();
+                            newLocation.Information.Address.Street.ToString() + " " + newLocation.Information.Address.HouseNumber + "\n" +
+                            newLocation.Information.Address.District.ToString();
+
+                        direccionDestino = newLocation.Information.Address.Street.ToString() + " " + newLocation.Information.Address.HouseNumber + "\n" +
+                            newLocation.Information.Address.District.ToString();
+                    }
+
+                }
+            };
+            query.QueryAsync();
+            BPoint = bpoint;//take the value of the temp map overlay and take it to the main context.
+            _layer = newLayer;//takes the value of newLayer so we can find the newLayer in the list and delete it if necesary.
+            //change the mode of the applicationBar so the user notices there's an action to be performed (confirm the pushpin location)
+            ApplicationBar.Mode = ApplicationBarMode.Default;
         }
-
 
         #endregion
 
@@ -399,7 +589,7 @@ namespace VoyIteso.Pages
             //NavigationService.Navigate(new Uri("/Pages/SecondaryMapPage.xaml", UriKind.Relative));
 
             //en lugar de navegar a la pag secundaria que habia hecho vamos a abrir el panel izquierdo del menu hamburguesa.
-            appBarSearchButton_Click(null,null);
+            appBarSearchButton_Click(null, null);
         }
 
         /// <summary>
@@ -471,6 +661,18 @@ namespace VoyIteso.Pages
             MessageBox.Show("Coloca un nuevo destino", "destino borrado", MessageBoxButton.OK);
         }
 
+        private void FindMeButton_OnClick(object sender, EventArgs e)
+        {
+            try
+            {
+                myMap.Layers.Remove(_aPoint);
+                FijarPosicionActual();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
 
         /// <summary>
         /// 
@@ -496,10 +698,9 @@ namespace VoyIteso.Pages
             BuildLocalizedApplicationBar();
             ApplicationBar.Mode = ApplicationBarMode.Minimized;
 
-            if (_pointCount > 0 && !_confirmed)
+            if (!_confirmed)
             {
                 myMap.Layers.Remove(_layer);
-                _pointCount--;
             }
 
         }
@@ -511,13 +712,10 @@ namespace VoyIteso.Pages
         /// <param name="e"></param>
         private void MyMapControl_OnHold(object sender, GestureEventArgs e)
         {
-            if (_flag && !_routeConfirmed)
-            {
-                AddWayPoint(sender, e); 
-            }
+            
 
             //if the destination has not been added yet and it has no confirmation, then a new bpoint is going to be added to the map.
-            else if (!_confirmed)
+             if (!_confirmed)
             {
                 if (_pointCount < 1)
                 {
@@ -538,11 +736,10 @@ namespace VoyIteso.Pages
         #endregion
 
 
+        #region Canibalizado
 
-#region Canibalizado
 
-
-#region cannibaled class fields
+        #region cannibaled class fields
         bool canChangeState;
         bool isSearchTerm;
         bool isOrigin;
@@ -555,7 +752,7 @@ namespace VoyIteso.Pages
         int intGender;
         RouteResult currentRoute;
 
-        enum appBarStates { Map, Left, Right, Search, Confirm, Shit };
+        public enum appBarStates { Map, Left, Right, Search, Confirm, Shit, Foo };
         appBarStates states;
 
         //User user = new User();
@@ -564,14 +761,17 @@ namespace VoyIteso.Pages
 
         List<string> autoComplemapingreets;
         Maping maping;
-        private bool positionAquired;
+        private string direccionDestino;
+        private string direccionOrigen;
+        private bool _f = true;
         //ApiConnector apiConnector;
-#endregion
+        #endregion
 
         #region Time & Date Change event
         void timePicker_ValueChanged(object sender, DateTimeValueChangedEventArgs e)
         {
             timeString = string.Format("{0:HH:mm}", e.NewDateTime);
+            horaDeSalida = true;
         }
 
         void datePicker_ValueChanged(object sender, DateTimeValueChangedEventArgs e)
@@ -580,14 +780,15 @@ namespace VoyIteso.Pages
             if (time.Days >= 0)
                 dateString = string.Format("{0:dd-MM-yyyy}", e.NewDateTime);
             else
-                MessageBox.Show("Ingresar un dia que sea apartir de hoy en adelante", "Error", MessageBoxButton.OK);
+                MessageBox.Show("No puedes pedir aventones en el pasado", "¡No te pases de listo!", MessageBoxButton.OK);
+            fechaDeSalida = true;
         }
         #endregion
 
         #region OnBackKeyPress
         protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
         {
-
+            
             if (states == appBarStates.Search)
             {
                 SearchTermGrid.Visibility = System.Windows.Visibility.Collapsed;
@@ -612,7 +813,7 @@ namespace VoyIteso.Pages
 
 
         #endregion
-          
+
         #region myReverseGeocodeQuery_QueryCompleted_2
         private void myReverseGeocodeQuery_QueryCompleted_2(object sender, QueryCompletedEventArgs<IList<MapLocation>> e)
         {
@@ -636,9 +837,9 @@ namespace VoyIteso.Pages
                     }
 
                     if (isOrigin)
-                        txtOriginRojo.Text = direction;
+                        txtOrigin.Text = direction;
                     else
-                        txtDestinyRojo.Text = direction;
+                        txtDestiny.Text = direction;
                 }
             }
             else
@@ -679,31 +880,22 @@ namespace VoyIteso.Pages
             }
         }
         #endregion
-         
+
         private void searchTermBox_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
                 if (searchTermBox.Text.Length > 0)
                 {
-                    //maping.myCoordinates.Clear();
-                    //progress.showProgressIndicator(this, "Buscando");
+                    maping.myCoordinates.Clear();
+                    progress.showProgressIndicator(this, "Buscando");
                     //maping.searchForTerm(searchTermBox.Text, this);
                     //myMap.ZoomLevelChanged += myMap_ZoomLevelChanged;
-                    if (isOrigin)
-                    {
-                       txtOriginRojo.Text = searchTermBox.Text; 
-                    }
-                    else
-                    {
-                        txtDestinyRojo.Text = searchTermBox.Text;
-                    }
-                    searchTermBox.Text = "";
-                    ShowLeftPanelAnimation.Begin();
+
                 }
             }
         }
-         
+
         private void mapLayer_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             if (maping.mapLayer.Count > 1)
@@ -797,41 +989,10 @@ namespace VoyIteso.Pages
         #endregion
 
         #region appBar Buttons
-        async void appBarSearchRouteButton_Click(object sender, EventArgs e)
+        void appBarSearchRouteButton_Click(object sender, EventArgs e)
         {
             progress.showProgressIndicator(this, "Calculando");
             //SendSearchRequest(); 
-            //send request
-            //aqui puto jairo
-            string origen = txtOriginRojo.Text;
-            string destino = txtDestinyRojo.Text;
-            string fecha = dateString;
-            string hora = timeString;
-            double lat_destino = BPoint.GeoCoordinate.Latitude;
-            double lon_destino = BPoint.GeoCoordinate.Longitude;
-            double lat_origen = APoint.GeoCoordinate.Longitude;
-            double lon_origen = APoint.GeoCoordinate.Longitude;
-
-            Rutas rutas = null;
-
-            if (TheMap.Driver)
-            {
-
-            }
-            else
-            {
-                //buscar ruta
-                rutas = await ApiConnector.Instance.SearchRoute(origen, destino, fecha, lat_destino, lon_destino, lat_origen, lon_origen, hora);
-            }
-            
-            TextBlock resultados = new TextBlock();
-            foreach (var ruta in rutas.rutas)
-            {
-                resultados.Text += ruta.persona_nombre + ruta.texto_origen + ruta.texto_destino + ruta.hora_llegada;
-            }
-            
-            ResultsListBox.Items.Add(resultados);
-
         }
 
         void appBarShowResults_Click(object sender, EventArgs e)
@@ -916,27 +1077,10 @@ namespace VoyIteso.Pages
 
         }
 
-        //
-        async void  appBarConfirmButton_Click(object sender, EventArgs e)
+        void appBarConfirmButton_Click(object sender, EventArgs e)
         {
-            //send request 
-            string origen = txtOriginRojo.Text;
-            string destino = txtDestinyRojo.Text;
-            string fecha = dateString;
-            double lat_destino = TheMap.BPoint.GeoCoordinate.Latitude;
-            double lon_destino = TheMap.BPoint.GeoCoordinate.Longitude;
-            double lat_origen = TheMap.APoint.GeoCoordinate.Longitude;
-            double lon_origen = TheMap.APoint.GeoCoordinate.Longitude;
-            string hora = timeString;
+            //SendLiftRequest(currentRoute.route_id);   commented shit
 
-            if (TheMap.Driver)
-            {
-
-            }
-            else
-            {
-                ApiConnector.Instance.SearchRoute(origen, destino, fecha, lat_destino, lon_destino, lat_origen, lon_origen, hora);
-            }
         }
 
         void appBarReturnResultsButton_Click(object sender, EventArgs e)
@@ -972,6 +1116,20 @@ namespace VoyIteso.Pages
                 ApplicationBar.Buttons.Add(appBarResultButton);
 
             }
+
+            else if (states == appBarStates.Foo)
+            {
+                ApplicationBarIconButton confirmarRuta = new ApplicationBarIconButton(new Uri("Assets/feature.check.png", UriKind.Relative));
+                confirmarRuta.Text = "confirmar ruta";
+                confirmarRuta.Click += confirmarRuta_Click;
+                ApplicationBar.Buttons.Add(confirmarRuta);
+
+                ApplicationBarMenuItem comenzarDeNuevo = new ApplicationBarMenuItem();
+                comenzarDeNuevo.Text = "comenzar todo de nuevo";
+                comenzarDeNuevo.Click += comenzarDeNuevo_onClick;
+                ApplicationBar.MenuItems.Add(comenzarDeNuevo);
+
+            }
             else if (states == appBarStates.Shit)
             {
                 ApplicationBarIconButton a = new ApplicationBarIconButton(new Uri("/Images/appbar_button1.png", UriKind.Relative));
@@ -992,7 +1150,7 @@ namespace VoyIteso.Pages
                 appBarResultButton.Text = "Resultados";
                 appBarResultButton.Click += appBarResultButton_Click;
                 ApplicationBar.Buttons.Add(appBarResultButton);
-                
+
             }
             else if (states == appBarStates.Left)
             {
@@ -1046,6 +1204,17 @@ namespace VoyIteso.Pages
                 ApplicationBar.Buttons.Add(appBarReturnResultsButton);
             }
 
+        }
+
+        private void comenzarDeNuevo_onClick(object sender, EventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/Pages/SelectTypePage.xaml", UriKind.Relative))
+                ;
+        }
+
+        private void confirmarRuta_Click(object sender, EventArgs e)
+        {
+            rutaConfirmada = true;
         }
 
 
@@ -1153,8 +1322,8 @@ namespace VoyIteso.Pages
             RightKeyFrameShowFromLeftEnd.SetValue(EasingDoubleKeyFrame.ValueProperty, (double)((panelLeftWidth * -1) - phoneWidth));
             LeftKeyFrameShowFromRightBegin.SetValue(EasingDoubleKeyFrame.ValueProperty, (double)((panelLeftWidth * -1) - phoneWidth));
         }
-        #endregion 
-        
+        #endregion
+
         private void MapGrid_MouseMove(object sender, MouseEventArgs e)
         {
             if (!this.myMap.IsEnabled)
@@ -1178,7 +1347,7 @@ namespace VoyIteso.Pages
         //saendSearchRequest() deleted
 
         //apiConnector_exceptionChanged(object sender, EventArgs e) eliminado
-        
+
         private void pikerSmoke_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (e.AddedItems.Count > 0)
@@ -1227,10 +1396,10 @@ namespace VoyIteso.Pages
         }
 
         //SendLiftRequest(int id) deleted
-        
-        
 
-#endregion
+
+
+        #endregion
 
 
     }

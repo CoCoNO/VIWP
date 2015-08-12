@@ -365,7 +365,7 @@ namespace VoyIteso.Class
             r.setParameter("hora", hora);
             
 
-            r.sendPost();
+            await r.sendPost();
 
             if (r.Status == "Ok" || r.Data== String.Empty)
                 return null;
