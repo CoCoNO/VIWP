@@ -27,8 +27,8 @@ namespace VoyIteso.Class
         private static int meaninglessData = 0;
         //DispatcherTimer TimeOutTimer = new DispatcherTimer();
 
-        static string _url = @"http://voy.cocoapps.mx/VOYAPI";
-        //static string _url = @"https://aplicacionesweb.iteso.mx/VOYAPI";
+        //static string _url = @"http://voy.cocoapps.mx/VOYAPI";
+        static string _url = @"https://aplicacionesweb.iteso.mx/VOYAPI";
         string _action;
 
         public static string Url {

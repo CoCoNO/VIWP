@@ -51,12 +51,15 @@ namespace VoyIteso.Pages
         private List<MapOverlay> wayPointList = new List<MapOverlay>();
         private List<MapLayer> waylayerList = new List<MapLayer>();
         //private List<MapLayer> waylayers = new List<MapLayer>();
-        public static bool Driver = false;
-        public static bool Passenger = false; 
-
+        public static bool Driver;
 
 
         #endregion
+
+        public TheNewMap(bool userType)
+        {
+
+        }
 
         public TheNewMap()
         {
@@ -120,8 +123,8 @@ namespace VoyIteso.Pages
             
             
         }
-
-        private async void SearchView_Loaded(object sender, RoutedEventArgs e)
+        
+        private async void SearchView_Loaded(object sender, RoutedEventArgs e)//loaded method
         {
             
             //FijarIteso();
@@ -311,6 +314,8 @@ namespace VoyIteso.Pages
             wayPointList.Add(newpoint);//add new point to waypoint list.
             waylayerList.Add(newLayer);//takes the value of newLayer so we can find the newLayer in the list and delete it if necesary.
             
+            states = appBarStates.Waypoint;
+            BuildLocalizedApplicationBar();
         }
 
         /// <summary>
@@ -555,7 +560,7 @@ namespace VoyIteso.Pages
         int intGender;
         RouteResult currentRoute;
 
-        enum appBarStates { Map, Left, Right, Search, Confirm, Shit };
+        enum appBarStates { Map, Left, Right, Search, Confirm, Shit, Waypoint };
         appBarStates states;
 
         //User user = new User();
@@ -814,7 +819,7 @@ namespace VoyIteso.Pages
 
             Rutas rutas = null;
 
-            if (TheMap.Driver)
+            if (TheNewMap.Driver)
             {
 
             }
@@ -972,27 +977,51 @@ namespace VoyIteso.Pages
                 ApplicationBar.Buttons.Add(appBarResultButton);
 
             }
-            else if (states == appBarStates.Shit)
+
+            else if (states == appBarStates.Waypoint)
             {
-                ApplicationBarIconButton a = new ApplicationBarIconButton(new Uri("/Images/appbar_button1.png", UriKind.Relative));
+                ApplicationBarIconButton a = new ApplicationBarIconButton(new Uri("/Images/check.png", UriKind.Relative));
                 a.Text = "Confirmar";
                 a.Click += ApplicationBarIconButton_OnClick;
                 ApplicationBar.Buttons.Add(a);
 
-                ApplicationBarMenuItem changeDestination = new ApplicationBarMenuItem();
-                changeDestination.Text = "cambiar el destino";
-                changeDestination.Click += ChangeDestinationButton_OnClick;
+                //ApplicationBarMenuItem changeDestination = new ApplicationBarMenuItem();
+                //changeDestination.Text = "cambiar el destino";
+                //changeDestination.Click += ChangeDestinationButton_OnClick;
 
-                ApplicationBarIconButton appBarSearchButton = new ApplicationBarIconButton(new Uri("Assets/feature.search.png", UriKind.Relative));
-                appBarSearchButton.Text = "Buscar Ruta";
-                appBarSearchButton.Click += appBarSearchButton_Click;
-                ApplicationBar.Buttons.Add(appBarSearchButton);
+                //ApplicationBarIconButton appBarSearchButton = new ApplicationBarIconButton(new Uri("Assets/feature.search.png", UriKind.Relative));
+                //appBarSearchButton.Text = "Buscar Ruta";
+                //appBarSearchButton.Click += appBarSearchButton_Click;
+                //ApplicationBar.Buttons.Add(appBarSearchButton);
 
-                ApplicationBarIconButton appBarResultButton = new ApplicationBarIconButton(new Uri("Assets/next.png", UriKind.Relative));
-                appBarResultButton.Text = "Resultados";
-                appBarResultButton.Click += appBarResultButton_Click;
-                ApplicationBar.Buttons.Add(appBarResultButton);
-                
+                //ApplicationBarIconButton appBarResultButton = new ApplicationBarIconButton(new Uri("Assets/next.png", UriKind.Relative));
+                //appBarResultButton.Text = "Resultados";
+                //appBarResultButton.Click += appBarResultButton_Click;
+                //ApplicationBar.Buttons.Add(appBarResultButton);
+
+            }
+
+            else if (states == appBarStates.Shit)
+            {
+                ApplicationBarIconButton a = new ApplicationBarIconButton(new Uri("/Images/check.png", UriKind.Relative));
+                a.Text = "Confirmar";
+                a.Click += ApplicationBarIconButton_OnClick;
+                ApplicationBar.Buttons.Add(a);
+
+                //ApplicationBarMenuItem changeDestination = new ApplicationBarMenuItem();
+                //changeDestination.Text = "cambiar el destino";
+                //changeDestination.Click += ChangeDestinationButton_OnClick;
+
+                //ApplicationBarIconButton appBarSearchButton = new ApplicationBarIconButton(new Uri("Assets/feature.search.png", UriKind.Relative));
+                //appBarSearchButton.Text = "Buscar Ruta";
+                //appBarSearchButton.Click += appBarSearchButton_Click;
+                //ApplicationBar.Buttons.Add(appBarSearchButton);
+
+                //ApplicationBarIconButton appBarResultButton = new ApplicationBarIconButton(new Uri("Assets/next.png", UriKind.Relative));
+                //appBarResultButton.Text = "Resultados";
+                //appBarResultButton.Click += appBarResultButton_Click;
+                //ApplicationBar.Buttons.Add(appBarResultButton);
+
             }
             else if (states == appBarStates.Left)
             {

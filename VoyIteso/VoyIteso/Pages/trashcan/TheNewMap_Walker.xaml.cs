@@ -49,11 +49,8 @@ namespace VoyIteso.Pages
         private bool rutaConfirmada = false;// cuando a y b entonces rutaConfirmada.
         private bool horaDeSalida = false;//
         private bool fechaDeSalida = false;
-
         //el temporizador que va a estar contando el tiempo para checar mis banderas cada x tiempo. x = un segundo.
         readonly DispatcherTimer _timer = new DispatcherTimer();
-
-
         readonly Image _pushPinUsuario = new Image();
         //readonly ProgressIndicator _progress = new ProgressIndicator();
         private MapLayer _layer;
@@ -68,10 +65,7 @@ namespace VoyIteso.Pages
         private MapLayer _aPoint;
         private List<MapOverlay> wayPointList = new List<MapOverlay>();
         private List<MapLayer> waylayerList = new List<MapLayer>();
-        //private List<MapLayer> waylayers = new List<MapLayer>();
         public static bool Driver = false;
-        public static bool Passenger = false;
-
 
 
         #endregion
@@ -86,6 +80,7 @@ namespace VoyIteso.Pages
             _timer.Start();
 
             ResetValues();
+            Driver = true;//borrar despues. 
             _pushPinUsuario.Source = new BitmapImage(new Uri("/Images/u.png", UriKind.Relative));
 
             Loaded += SearchView_Loaded;
@@ -117,9 +112,7 @@ namespace VoyIteso.Pages
             HideRightPanelAnimation.Completed += HideRightPanelAnimation_Completed; 
               
             #endregion
-
             
-
         }
 
         private void TimerOnTick(object sender, EventArgs eventArgs)

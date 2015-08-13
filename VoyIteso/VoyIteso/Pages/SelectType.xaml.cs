@@ -21,20 +21,18 @@ namespace VoyIteso.Pages
         private void Navigate()
         {
             //NavigationService.Navigate(new Uri("/Pages/SearchRoutePage.xaml", UriKind.Relative));
-            NavigationService.Navigate(new Uri("/Pages/TheMap.xaml", UriKind.Relative));
+            NavigationService.Navigate(new Uri("/Pages/TheNewMap.xaml", UriKind.Relative));
         }
 
         private void PedirRide_OnTap(object sender, GestureEventArgs e)
         {
-            TheMap.Driver = false;
-            TheMap.Passenger = true;
-            Navigate();
+            TheNewMap.Driver = false;
+            Navigate(); 
         }
 
         private void DarRide_OnTap(object sender, GestureEventArgs e)
-        {
-            TheMap.Passenger = false;
-            TheMap.Driver = true;
+        { 
+            TheNewMap.Driver = true;
             Navigate();
         }
     }

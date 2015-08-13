@@ -42,7 +42,7 @@
 
         <TextBlock Name="txtUserName" Grid.Row="1" Text="¡Hola Getsemani!" Grid.Column="1" FontFamily="{StaticResource PhoneFontFamilyNormal}" FontSize="40" TextWrapping="Wrap" />
 
-        <telerickPrimitives:RadCycleHubTile x:Name="notificationsTile" Grid.Row="3" Grid.Column="1" Width="Auto" Height="170" UpdateInterval="0:0:4" ItemsSource="{Binding}" Background="#1E81C0" Margin="0">
+        <telerickPrimitives:RadCycleHubTile  x:Name="notificationsTile" Tap="NotificationsTile_OnTap" Grid.Row="3" Grid.Column="1" Width="Auto" Height="170" UpdateInterval="0:0:4" ItemsSource="{Binding}" Background="#1E81C0" Margin="0">
             <telerickPrimitives:RadCycleHubTile.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
@@ -79,8 +79,11 @@
             <!--<toolkit:HubTile x:Name="profile" Size="Medium" Grid.Column="0" Tap="profile_Tap" Title="Perfil" IsFrozen="True" Background="#F16341" Width="205" Height="Auto"/>-->
             <!--<toolkit:HubTile x:Name="searchOfferMap" Size="Medium" Grid.Column="2"  Tap="searchOfferMap_Tap" Background="#85C340" Width="205" Height="Auto"/>-->
         </Grid>
-        <Image x:Name="TestImage" Grid.Column="1" HorizontalAlignment="Left" Height="110" Margin="175,5,0,-91" Grid.Row="8" VerticalAlignment="Top" Width="105"/>
+        
         <!--
+        
+        <Image x:Name="TestImage" Grid.Column="1" HorizontalAlignment="Left" Height="110" Margin="175,5,0,-91" Grid.Row="8" VerticalAlignment="Top" Width="105"/>
+
         <StackPanel Margin="0,0,0,650" Height="100">
             <TextBlock Text="Bienvenido" FontFamily="{StaticResource PhoneFontFamilySemiBold}" Foreground="{StaticResource PhoneContrastBackgroundBrush}" Margin="15,0,0,0"/>
             <TextBlock Name="txtUserName" FontFamily="{StaticResource PhoneFontFamilySemiBold}" FontSize="{StaticResource PhoneFontSizeLarge}" TextWrapping="Wrap" Margin="15,0,0,0" Height="69"/>

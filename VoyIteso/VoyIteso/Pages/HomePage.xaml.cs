@@ -11,6 +11,7 @@ using VoyIteso.Class;
 using System.Windows.Media.Imaging;
 using VoyIteso.Resources;
 using System.Windows.Media;
+using GestureEventArgs = System.Windows.Input.GestureEventArgs;
 
 namespace VoyIteso.Pages
 {
@@ -117,7 +118,7 @@ namespace VoyIteso.Pages
            // profileImage.Source = ApiConnector.Instance.ActiveUser.Avatar;
             profileTile.Picture.Source = ApiConnector.Instance.ActiveUser.Avatar;
             profileTile.IsFrozen = false;
-            TestImage.Source = ApiConnector.Instance.ActiveUser.Avatar;
+            //TestImage.Source = ApiConnector.Instance.ActiveUser.Avatar;//alv con esto, jairo. 
         }
 
         #region appBar Clicks
@@ -147,9 +148,13 @@ namespace VoyIteso.Pages
             a.Click += a_Click;
             ApplicationBar.MenuItems.Add(a);
 
-            ApplicationBarMenuItem b = new ApplicationBarMenuItem("ir a lo q estoy haciendo");
+            ApplicationBarMenuItem b = new ApplicationBarMenuItem("ir al chat pa' calar");
             b.Click += b_Click;
             ApplicationBar.MenuItems.Add(b);
+
+            ApplicationBarMenuItem c = new ApplicationBarMenuItem("ir a la ventana de detalle de ruta");
+            c.Click += c_Click;
+            ApplicationBar.MenuItems.Add(c);
 
             ApplicationBar.StateChanged += ApplicationBar_StateChanged;
 
@@ -158,9 +163,14 @@ namespace VoyIteso.Pages
             //    ApplicationBar.MenuItems.Add(appBarMenuItem);
         }
 
+        private void c_Click(object sender, EventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/Pages/Notifications/RouteInfo.xaml", UriKind.Relative));
+        }
+
         private void b_Click(object sender, EventArgs e)
         {
-            NavigationService.Navigate(new Uri("/Pages/TheNewMap_Walker.xaml", UriKind.Relative));
+            NavigationService.Navigate(new Uri("/Pages/ChatLayout.xaml", UriKind.Relative));
         }
 
         private void a_Click(object sender, EventArgs e)
@@ -182,40 +192,10 @@ namespace VoyIteso.Pages
         private void profile_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
             NavigationService.Navigate(new Uri("/Pages/ProfilePage.xaml", UriKind.Relative));
-            //Use this navigation example to see other user profile
-            //NavigationService.Navigate(new Uri("/Pages/ProfilePage.xaml?otherUserId=1", UriKind.Relative));
-            //ApiConnector.Instance.ActiveUser.profile.descripcion = "Hola soy una prueba";
-            //ApiConnector.Instance.SaveUserDataToCloud();
         }
 
         private void searchOfferMapTile_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            /*if (user.getLocationAllowed())
-            {
-                if (user.Type == "walker")
-                    NavigationService.Navigate(new Uri("/Pages/SearchRoutePage.xaml", UriKind.Relative));
-                else
-                    NavigationService.Navigate(new Uri("/Pages/OfferRoutePage.xaml", UriKind.Relative));
-            }
-            else
-            {
-                MessageBoxResult result = MessageBox.Show("Tu ubicación actual nos ayuda a proporcionarte mejores servicios de búsqueda y ubicación.\n\nTu informacion no se usará para identificarte ni ponerse en contacto contigo es solo uso y funcionamiento para VoyIteso.", "¿Permitir que VoyIteso acceda a tu ubicación?", MessageBoxButton.OKCancel);
-                if (result == MessageBoxResult.OK)
-                {
-                    user.setLocationPermission(true);
-                    user.setInfo(user.key);
-                    if (user.Type == "walker")
-                        NavigationService.Navigate(new Uri("/Pages/SearchRoutePage.xaml", UriKind.Relative));
-                    else
-                        NavigationService.Navigate(new Uri("/Pages/OfferRoutePage.xaml", UriKind.Relative));
-                }
-                else if (result == MessageBoxResult.Cancel)
-                {
-                    user.setLocationPermission(false);
-                    user.setInfo(user.key);
-                }
-                
-            }*/
             NavigationService.Navigate(new Uri("/Pages/SelectType.xaml", UriKind.Relative));
         }
 
@@ -224,5 +204,9 @@ namespace VoyIteso.Pages
             NavigationService.Navigate(new Uri("/Pages/CalendarPage.xaml", UriKind.Relative));
         }
 
+        private void NotificationsTile_OnTap(object sender, GestureEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/Pages/Notifications.xaml", UriKind.Relative));
+        }
     }
 }
