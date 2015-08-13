@@ -128,8 +128,8 @@
     <Compile Include="Pages\CajitaFeliz.xaml.cs">
       <DependentUpon>CajitaFeliz.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\Cha.xaml.cs">
-      <DependentUpon>Cha.xaml</DependentUpon>
+    <Compile Include="Pages\ChatLayout.xaml.cs">
+      <DependentUpon>ChatLayout.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\Notifications.xaml.cs">
       <DependentUpon>Notifications.xaml</DependentUpon>
@@ -140,17 +140,14 @@
     <Compile Include="Pages\Notifications\RouteInfo.xaml.cs">
       <DependentUpon>RouteInfo.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\SecondaryMapPage.xaml.cs" />
+    <Compile Include="Pages\trashcan\SecondaryMapPage.xaml.cs" />
     <Compile Include="Pages\SelectType.xaml.cs" />
-    <Compile Include="Pages\TheMap.xaml.cs" />
+    <Compile Include="Pages\trashcan\TheMap.xaml.cs" />
     <Compile Include="Pages\TheNewMap.xaml.cs">
       <DependentUpon>TheNewMap.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\TheNewMap_Walker.xaml.cs">
+    <Compile Include="Pages\trashcan\TheNewMap_Walker.xaml.cs">
       <DependentUpon>TheNewMap_Walker.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\TypePage.xaml.cs">
-      <DependentUpon>TypePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\AppResources.Designer.cs">
@@ -202,7 +199,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\Cha.xaml">
+    <Page Include="Pages\ChatLayout.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -218,7 +215,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\SecondaryMapPage.xaml">
+    <Page Include="Pages\trashcan\SecondaryMapPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -226,7 +223,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Pages\TheMap.xaml">
+    <Page Include="Pages\trashcan\TheMap.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -234,11 +231,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\TheNewMap_Walker.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\TypePage.xaml">
+    <Page Include="Pages\trashcan\TheNewMap_Walker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
