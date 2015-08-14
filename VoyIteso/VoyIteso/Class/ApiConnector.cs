@@ -22,8 +22,8 @@ using VoyIteso.Pages;
 using Windows.Storage;
 using Windows.Storage.Streams;
 using RestSharp;
-
-
+using System.Device.Location;
+using Windows.Devices.Geolocation;
 namespace VoyIteso.Class
 {
     class ApiConnector
@@ -134,7 +134,37 @@ namespace VoyIteso.Class
         }
 
 
+        public static string EncodeLocation(IEnumerable<GeoCoordinate> points)
+        {
+            var str = new StringBuilder();
 
+            var encodeDiff = (Action<int>)(diff =>
+            {
+                int shifted = diff << 1;
+                if (diff < 0)
+                    shifted = ~shifted;
+                int rem = shifted;
+                while (rem >= 0x20)
+                {
+                    str.Append((char)((0x20 | (rem & 0x1f)) + 63));
+                    rem >>= 5;
+                }
+                str.Append((char)(rem + 63));
+            });
+
+            int lastLat = 0;
+            int lastLng = 0;
+            foreach (var point in points)
+            {
+                int lat = (int)Math.Round(point.Latitude * 1E5);
+                int lng = (int)Math.Round(point.Longitude * 1E5);
+                encodeDiff(lat - lastLat);
+                encodeDiff(lng - lastLng);
+                lastLat = lat;
+                lastLng = lng;
+            }
+            return str.ToString();
+        }
 
 
         public User GetUserFromJson(string jsonResponse)
@@ -260,11 +290,39 @@ namespace VoyIteso.Class
             return r.Status == "OK" ? GetUserFromJson(r.Data) : null;
         }
 
+        public async Task<Notifications> GetNotifications(int page=1)
+        {
+            var c = new RestClient(HttpRequest.Url);
+            var r = new RestRequest("/perfil/notificaciones", Method.GET);
 
-        
+            r.AddParameter("security_token", _token);
+            r.AddParameter("pagina", page);
+
+            var rs = await c.ExecuteTaskAsync<Notifications>(r);
+
+            return rs.Data;
+
+            //return null;
+        }
 
 
-        
+
+        public async Task<Notifications> CreateRoute(string texto_origen, string texto_destino, DateTime fecha_inicio, DateTime fecha_fin, int hora, int minuto, string dias, int numero_personas, IEnumerable<GeoCoordinate> puntos)
+        {
+            var c = new RestClient(HttpRequest.Url);
+            var r = new RestRequest("/ruta/crear", Method.GET);
+
+            r.AddParameter("security_token", _token);
+            r.AddParameter("pagina", page);
+
+            var rs = await c.ExecuteTaskAsync<Notifications>(r);
+
+            return rs.Data;
+
+            //return null;
+        }
+
+
         public async Task GetActiveUserFromSettings()
         {
             if (settings.Contains("perfil_id"))
@@ -272,7 +330,9 @@ namespace VoyIteso.Class
                 _activeUser = await GetUserById((string)settings["perfil_id"]);
                 if (_activeUser== null)
                 {
-                    throw new BadLoginExeption();
+                    LogOut();
+                    //throw new BadLoginExeption();
+                    
                 }
 
             }
@@ -463,17 +523,28 @@ namespace VoyIteso.Class
             r.setParameter("security_token", _token);
             r.setParameter("origen",origen );
             r.setParameter("destino", destino);
+
+            r.setParameter("distancia", "0.01");
+            r.setParameter("distancia_destino", "0.01");
+
             r.setParameter("fecha", fecha);
+
+            r.setParameter("fumador", "-1");
+            r.setParameter("rol", "-1");
+            r.setParameter("genero", "-1");
+            r.setParameter("calificacion", "-1");
+
             r.setParameter("latitud_destino",latitud_destino.ToString() );
             r.setParameter("longitud_destino",longitud_destino.ToString());
             r.setParameter("latitud_origen",latitud_origen.ToString() );
             r.setParameter("longitud_origen",longitud_origen.ToString() );
+
             r.setParameter("hora", hora);
             
 
             await r.sendPost();
 
-            if (r.Status == "Ok" || r.Data== String.Empty)
+            if (r.Data == String.Empty || r.Status != "OK")
                 return null;
 
             Rutas rootJson = JsonConvert.DeserializeObject<Rutas>(r.Data);
