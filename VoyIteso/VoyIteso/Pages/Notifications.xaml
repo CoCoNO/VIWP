@@ -29,16 +29,8 @@
         <!--ContentPanel - place additional content here-->
         <Grid  x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0" >
 
-            <ListBox Name="lista">
-                <Grid Background="Black" Height="112" Width="446">
-                    <Grid Margin="10,0,366,0">
-                        <Image Source="/Images/you.png"></Image>
-                    </Grid>
-                    <StackPanel Margin="91,0,0,0">
-                        <TextBlock Text="Nombre del cabron(a)" FontSize="13"></TextBlock>
-                        <TextBlock Text="cuerpo de la notificacion del cabron()"></TextBlock>
-                    </StackPanel>
-                </Grid>
+            <ListBox Name="lista" Tap="Lista_OnTap">
+                
             </ListBox>
         </Grid>
     </Grid>

@@ -4,23 +4,17 @@ using System.Linq;
 using System.Net;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Media;
 using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
-using VoyIteso.Pages.Chat2;
 
-namespace VoyIteso.Pages
+namespace VoyIteso.Pages.MapStuff
 {
-    public partial class ChatLayout : PhoneApplicationPage
+    public partial class cajaDeResultados : UserControl
     {
-        public ChatLayout()
+        public cajaDeResultados()
         {
             InitializeComponent();
-            ContentPanel.Children.Add(new ChatView());
         }
-        
-        
     }
 }

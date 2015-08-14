@@ -12,7 +12,7 @@ using System.Windows.Media.Imaging;
 using VoyIteso.Resources;
 using System.Windows.Media;
 using GestureEventArgs = System.Windows.Input.GestureEventArgs;
-
+//ve a la linea 174 
 namespace VoyIteso.Pages
 {
     public partial class HomePage : PhoneApplicationPage
@@ -170,7 +170,11 @@ namespace VoyIteso.Pages
 
         private void b_Click(object sender, EventArgs e)
         {
-            NavigationService.Navigate(new Uri("/Pages/ChatLayout.xaml", UriKind.Relative));
+            //NavigationService.Navigate(new Uri("/Pages/ChatLayout.xaml", UriKind.Relative));
+            NavigationService.Navigate(new Uri("/Pages/NotificationsStuff/NotificationWindow.xaml", UriKind.Relative));
+            //.Navigate(new Uri("/Pages/ChatStuff/ChatWindow.xaml", UriKind.Relative));
+
+
         }
 
         private void a_Click(object sender, EventArgs e)

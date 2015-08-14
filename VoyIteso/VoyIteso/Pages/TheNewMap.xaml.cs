@@ -18,6 +18,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using VoyIteso.Pages.MapStuff;
 using VoyIteso.Resources;
 using GestureEventArgs = System.Windows.Input.GestureEventArgs;
 
@@ -146,9 +147,11 @@ namespace VoyIteso.Pages
             RouteResult.ResultHeight = (int)(Application.Current.Host.Content.ActualHeight / 4);
             RouteResult.ResultWidth = (int)((Application.Current.Host.Content.ActualWidth / 4) * 3);
 
+            states = appBarStates.Init;
             BuildLocalizedApplicationBar();
             //myMap.Focus();
             //progress.hideProgressIndicator(this);
+            ResultsListBox.Items.Add(new cajaDeResultados());
         }
 
         private async void FijarIteso()
@@ -451,7 +454,8 @@ namespace VoyIteso.Pages
                 }
                 else
                 {
-                    NavigateToSecundaryPage();
+                    ShowLeftPanelAnimation.Begin();
+                    //NavigateToSecundaryPage();
                 }
 
             }
@@ -461,6 +465,7 @@ namespace VoyIteso.Pages
                 _confirmed = true;
                 var mapIcon = BPoint.Content;
                 MessageBox.Show("destino fijado");//falta ponerle en donde 
+                ShowLeftPanelAnimation.Begin();
                 //
                 //MyMapControl.Layers.Add(layer);   
                 SearchNowButton_OnClick(null, null);
@@ -560,7 +565,7 @@ namespace VoyIteso.Pages
         int intGender;
         RouteResult currentRoute;
 
-        enum appBarStates { Map, Left, Right, Search, Confirm, Shit, Waypoint };
+        enum appBarStates { Map, Left, Right, Search, Confirm, Shit, Waypoint, Init };
         appBarStates states;
 
         //User user = new User();
@@ -928,13 +933,13 @@ namespace VoyIteso.Pages
             string origen = txtOriginRojo.Text;
             string destino = txtDestinyRojo.Text;
             string fecha = dateString;
-            double lat_destino = TheMap.BPoint.GeoCoordinate.Latitude;
-            double lon_destino = TheMap.BPoint.GeoCoordinate.Longitude;
-            double lat_origen = TheMap.APoint.GeoCoordinate.Longitude;
-            double lon_origen = TheMap.APoint.GeoCoordinate.Longitude;
+            double lat_destino = TheNewMap.BPoint.GeoCoordinate.Latitude;
+            double lon_destino = TheNewMap.BPoint.GeoCoordinate.Longitude;
+            double lat_origen = TheNewMap.APoint.GeoCoordinate.Longitude;
+            double lon_origen = TheNewMap.APoint.GeoCoordinate.Longitude;
             string hora = timeString;
 
-            if (TheMap.Driver)
+            if (TheNewMap.Driver)
             {
 
             }
@@ -978,6 +983,28 @@ namespace VoyIteso.Pages
 
             }
 
+            else if (states == appBarStates.Init)
+            {
+                ApplicationBarIconButton a = new ApplicationBarIconButton(new Uri("/Images/u.png", UriKind.Relative));
+                a.Text = "¿cómo se usa?";
+                a.Click += howToUse_Click;
+                ApplicationBar.Buttons.Add(a);
+
+                //ApplicationBarMenuItem changeDestination = new ApplicationBarMenuItem();
+                //changeDestination.Text = "cambiar el destino";
+                //changeDestination.Click += ChangeDestinationButton_OnClick;
+
+                //ApplicationBarIconButton appBarSearchButton = new ApplicationBarIconButton(new Uri("Assets/feature.search.png", UriKind.Relative));
+                //appBarSearchButton.Text = "Buscar Ruta";
+                //appBarSearchButton.Click += appBarSearchButton_Click;
+                //ApplicationBar.Buttons.Add(appBarSearchButton);
+
+                //ApplicationBarIconButton appBarResultButton = new ApplicationBarIconButton(new Uri("Assets/next.png", UriKind.Relative));
+                //appBarResultButton.Text = "Resultados";
+                //appBarResultButton.Click += appBarResultButton_Click;
+                //ApplicationBar.Buttons.Add(appBarResultButton);
+
+            }
             else if (states == appBarStates.Waypoint)
             {
                 ApplicationBarIconButton a = new ApplicationBarIconButton(new Uri("/Images/check.png", UriKind.Relative));
@@ -1077,6 +1104,10 @@ namespace VoyIteso.Pages
 
         }
 
+        private void howToUse_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("que aqui vaya un tutorial", "Tutorial", MessageBoxButton.OK);
+        }
 
 
         #endregion

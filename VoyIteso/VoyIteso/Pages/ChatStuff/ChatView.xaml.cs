@@ -16,7 +16,6 @@ using Telerik.Windows.Controls;
 namespace VoyIteso.Pages.Chat2
 {
 
-
     public partial class ChatView : UserControl
     {
         ObservableCollection<object> messages = new ObservableCollection<object>();
@@ -176,13 +175,4 @@ namespace VoyIteso.Pages.Chat2
         }
     }
 
-
-
-
-
-
-
-
-    //------------
-     
 }

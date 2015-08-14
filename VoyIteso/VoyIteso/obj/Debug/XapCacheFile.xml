@@ -1,5 +1,5 @@
-﻿<xapCache source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Bin\Debug\VoyIteso_Debug_AnyCPU.xap" wasSigned="False" wasTritonized="False" certificateThumbprint="" TimeStampUrl="" signKeyFile="" signKeyPassword="" lastWriteTime="13/08/2015 03:51:53 p. m.">
-  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\obj\Debug\VoyIteso.dll" archivePath="VoyIteso.dll" lastWriteTime="13/08/2015 03:51:49 p. m." />
+﻿<xapCache source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Bin\Debug\VoyIteso_Debug_AnyCPU.xap" wasSigned="False" wasTritonized="False" certificateThumbprint="" TimeStampUrl="" signKeyFile="" signKeyPassword="" lastWriteTime="14/08/2015 10:29:40 a. m.">
+  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\obj\Debug\VoyIteso.dll" archivePath="VoyIteso.dll" lastWriteTime="14/08/2015 10:29:36 a. m." />
   <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Assets\AC.png" archivePath="Assets\AC.png" lastWriteTime="21/05/2015 08:03:22 p. m." />
   <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Assets\add.png" archivePath="Assets\add.png" lastWriteTime="21/05/2015 08:03:22 p. m." />
   <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Assets\check.png" archivePath="Assets\check.png" lastWriteTime="21/05/2015 08:03:22 p. m." />
@@ -32,6 +32,10 @@
   <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\WXGA-splashscreen.png" archivePath="Images\WXGA-splashscreen.png" lastWriteTime="21/05/2015 08:03:29 p. m." />
   <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\WXGA_splashscreen_voyiteso.png" archivePath="Images\WXGA_splashscreen_voyiteso.png" lastWriteTime="21/05/2015 08:03:29 p. m." />
   <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\you.png" archivePath="Images\you.png" lastWriteTime="13/08/2015 01:12:13 p. m." />
+  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Pages\ChatStuff\Images\SendIcon.png" archivePath="Pages\ChatStuff\Images\SendIcon.png" lastWriteTime="13/08/2015 11:12:42 p. m." />
+  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Pages\NotificationsStuff\Images\dummy.png" archivePath="Pages\NotificationsStuff\Images\dummy.png" lastWriteTime="13/08/2015 11:08:17 p. m." />
+  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Pages\NotificationsStuff\Images\ExpanderArrow.png" archivePath="Pages\NotificationsStuff\Images\ExpanderArrow.png" lastWriteTime="13/08/2015 10:25:31 p. m." />
+  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Pages\NotificationsStuff\Images\FrameThumbnail.png" archivePath="Pages\NotificationsStuff\Images\FrameThumbnail.png" lastWriteTime="13/08/2015 10:25:31 p. m." />
   <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\pin1.png" archivePath="pin1.png" lastWriteTime="12/08/2015 06:35:44 p. m." />
   <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\ServiceReferences.ClientConfig" archivePath="ServiceReferences.ClientConfig" lastWriteTime="21/05/2015 08:03:21 p. m." />
   <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Assets\AlignmentGrid.png" archivePath="Assets\AlignmentGrid.png" lastWriteTime="21/05/2015 08:03:22 p. m." />
@@ -39,7 +43,7 @@
   <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Toolkit.Content\ApplicationBar.Add.png" archivePath="Toolkit.Content\ApplicationBar.Add.png" lastWriteTime="21/05/2015 08:03:42 p. m." />
   <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Toolkit.Content\ApplicationBar.Cancel.png" archivePath="Toolkit.Content\ApplicationBar.Cancel.png" lastWriteTime="21/05/2015 08:03:42 p. m." />
   <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Toolkit.Content\ApplicationBar.Select.png" archivePath="Toolkit.Content\ApplicationBar.Select.png" lastWriteTime="21/05/2015 08:03:42 p. m." />
-  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Bin\Debug\AppManifest.xaml" archivePath="AppManifest.xaml" lastWriteTime="13/08/2015 01:46:26 p. m." />
+  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Bin\Debug\AppManifest.xaml" archivePath="AppManifest.xaml" lastWriteTime="13/08/2015 11:12:59 p. m." />
   <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Bin\Debug\Assets\ApplicationIcon.png" archivePath="Assets\ApplicationIcon.png" lastWriteTime="21/05/2015 08:03:22 p. m." />
   <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\packages\WPtoolkit.4.2013.08.16\lib\wp8\Microsoft.Phone.Controls.Toolkit.dll" archivePath="Microsoft.Phone.Controls.Toolkit.dll" lastWriteTime="21/05/2015 08:03:12 p. m." />
   <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\packages\Newtonsoft.Json.6.0.7\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll" archivePath="Newtonsoft.Json.dll" lastWriteTime="21/05/2015 08:03:04 p. m." />
@@ -72,5 +76,5 @@
   <file source="C:\Program Files (x86)\Telerik\UI for Windows Phone 8 Q2 2015\Binaries\WindowsPhone\Telerik.Windows.Core.xml" archivePath="Telerik.Windows.Core.xml" lastWriteTime="23/06/2015 11:27:44 a. m." />
   <file source="C:\Program Files (x86)\Telerik\UI for Windows Phone 8 Q2 2015\Binaries\WindowsPhone\Telerik.Windows.Data.xml" archivePath="Telerik.Windows.Data.xml" lastWriteTime="23/06/2015 11:28:08 a. m." />
   <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Assets\Tiles\FlipCycleTileMedium.png" archivePath="Assets\Tiles\FlipCycleTileMedium.png" lastWriteTime="04/03/2015 01:46:27 p. m." />
-  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Bin\Debug\Properties\WMAppManifest.xml" archivePath="WMAppManifest.xml" lastWriteTime="13/08/2015 01:46:26 p. m." />
+  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Bin\Debug\Properties\WMAppManifest.xml" archivePath="WMAppManifest.xml" lastWriteTime="13/08/2015 11:12:59 p. m." />
 </xapCache>
