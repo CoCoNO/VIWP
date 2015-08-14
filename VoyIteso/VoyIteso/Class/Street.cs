@@ -22,6 +22,21 @@ namespace VoyIteso.Class
         }
     }
 
+    public class Mensaje
+    {
+        public int id { get; set; }
+        public int perfil_id { get; set; }
+        public string texto { get; set; }
+        public string tiempo { get; set; }
+        public long fecha { get; set; }
+    }
+
+    public class Mensajes
+    {
+        public List<Mensaje> mensajes { get; set; }
+        public int estatus { get; set; }
+    }
+
     public class RouteResult
     {
         public string destiny { get; set; }
@@ -202,6 +217,7 @@ namespace VoyIteso.Class
         //public int statusCode;
         public int estatus { get; set; }
         public string error { get; set; }
+        public string message { get; set; }
     }
     public class Aventone
     {
@@ -244,7 +260,7 @@ namespace VoyIteso.Class
         public long hora_llegada { get; set; }
         public string puntos { get; set; }
         public double latitud_origen { get; set; }
-        public object fecha_fin { get; set; }
+        public long fecha_fin { get; set; }
         public double longitud_origen { get; set; }
         public int numero_personas { get; set; }
         public double latitud_destino { get; set; }

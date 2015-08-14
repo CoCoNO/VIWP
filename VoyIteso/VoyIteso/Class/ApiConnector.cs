@@ -290,7 +290,7 @@ namespace VoyIteso.Class
             return r.Status == "OK" ? GetUserFromJson(r.Data) : null;
         }
 
-        public async Task<Notifications> GetNotifications(int page=1)
+        public async Task<Notifications> NotificationsGet(int page = 1)
         {
             var c = new RestClient(HttpRequest.Url);
             var r = new RestRequest("/perfil/notificaciones", Method.GET);
@@ -307,21 +307,173 @@ namespace VoyIteso.Class
 
 
 
-        public async Task<Notifications> CreateRoute(string texto_origen, string texto_destino, DateTime fecha_inicio, DateTime fecha_fin, int hora, int minuto, string dias, int numero_personas, IEnumerable<GeoCoordinate> puntos)
+        public async Task<ResponceObject> RouteCreate(string texto_origen, string texto_destino, DateTime fecha_inicio, DateTime fecha_fin, string dias, int numero_personas, IEnumerable<GeoCoordinate> puntos)
         {
             var c = new RestClient(HttpRequest.Url);
-            var r = new RestRequest("/ruta/crear", Method.GET);
+            var r = new RestRequest("/ruta/crear", Method.POST);
 
             r.AddParameter("security_token", _token);
-            r.AddParameter("pagina", page);
+            r.AddParameter("perfil_id", ActiveUser.profileID);
 
-            var rs = await c.ExecuteTaskAsync<Notifications>(r);
+            r.AddParameter("texto_origen", texto_origen);
+            r.AddParameter("texto_destino", texto_destino);
+
+            r.AddParameter("latitud_origen", puntos.ElementAt(0).Latitude);
+            r.AddParameter("longitud_origen", puntos.ElementAt(0).Longitude);
+
+            r.AddParameter("latitud_destino", puntos.ElementAt(puntos.Count()-1).Latitude);
+            r.AddParameter("longitud_destino", puntos.ElementAt(puntos.Count()-1).Longitude);
+
+
+            r.AddParameter("fecha_inicio", string.Format("{0}-{1}-{2}",fecha_inicio.Day,fecha_inicio.Month,fecha_inicio.Year));
+            r.AddParameter("fecha_fin", string.Format("{0}-{1}-{2}",fecha_fin.Day,fecha_fin.Month,fecha_fin.Year));
+            r.AddParameter("hora", fecha_inicio.Hour);
+            r.AddParameter("minuto", fecha_inicio.Minute);
+            r.AddParameter("dias", dias);
+            r.AddParameter("numero_personas", numero_personas);
+
+            bool isFirst = true;
+            string puntosIntermedios = "[";
+            foreach (var item in puntos)
+            {
+                if (isFirst)
+                {
+                    isFirst = false;
+                }
+                else
+                {
+                    puntosIntermedios += ",";
+                }
+                puntosIntermedios += "{\"lat\":" + item.Latitude + ",\"lng\"" + item.Longitude + "}";
+            }
+            puntosIntermedios += "]";
+            r.AddParameter("puntos_intermedios", puntosIntermedios);
+            r.AddParameter("polilinea_codificada", EncodeLocation(puntos));
+            r.AddParameter("tipo_mapa", 4);
+
+            var rs = await c.ExecuteTaskAsync<ResponceObject>(r);
 
             return rs.Data;
 
             //return null;
         }
+        ///aventon/solicitar
+        public async Task<ResponceObject> LiftRequest(int routeID, string requestMessage, DateTime requestDate)
+        {
+            var c = new RestClient(HttpRequest.Url);
+            var r = new RestRequest(string.Format("/aventon/solicitar"), Method.POST);
 
+            r.AddParameter("security_token", _token);
+
+            r.AddParameter("ruta_id", routeID);
+
+            r.AddParameter("mensaje_solicitud", requestMessage);
+
+            r.AddParameter("fecha_solicitud", string.Format("{0}/{1}/{2}",requestDate.Day,requestDate.Month,requestDate.Year));
+
+            var rs = await c.ExecuteTaskAsync<ResponceObject>(r);
+
+            return rs.Data;
+        }
+        public async Task<ResponceObject> LiftAccept(int routeID, string Message = null)
+        {
+            var c = new RestClient(HttpRequest.Url);
+            var r = new RestRequest(string.Format("/aventon/{ruta_id}/aceptar", routeID), Method.POST);
+
+            r.AddParameter("security_token", _token);
+            if (Message!= null)
+            {
+                r.AddParameter("mensaje", Message);
+            }
+
+            var rs = await c.ExecuteTaskAsync<ResponceObject>(r);
+
+            return rs.Data;
+        }
+        public async Task<ResponceObject> LiftReject(int routeID, string Message)
+        {
+            var c = new RestClient(HttpRequest.Url);
+            var r = new RestRequest(string.Format("/aventon/{ruta_id}/rechazar", routeID), Method.POST);
+
+            r.AddParameter("security_token", _token);
+
+                r.AddParameter("mensaje", Message);
+
+
+            var rs = await c.ExecuteTaskAsync<ResponceObject>(r);
+
+            return rs.Data;
+        }
+
+        public async Task<ResponceObject> LiftCancel(int routeID, string Message)
+        {
+            var c = new RestClient(HttpRequest.Url);
+            var r = new RestRequest(string.Format("/aventon/{ruta_id}/cancelar", routeID), Method.POST);
+
+            r.AddParameter("security_token", _token);
+
+            r.AddParameter("mensaje", Message);
+
+
+            var rs = await c.ExecuteTaskAsync<ResponceObject>(r);
+
+            return rs.Data;
+        }
+
+        public async Task<ResponceObject> RouteDelete(int routeID)
+        {
+            var c = new RestClient(HttpRequest.Url);
+            var r = new RestRequest(string.Format("/ruta/{ruta_id}/eliminar", routeID), Method.POST);
+
+            r.AddParameter("security_token", _token);
+            var rs = await c.ExecuteTaskAsync<ResponceObject>(r);
+
+            return rs.Data;
+        }
+        public async Task<ResponceObject> RouteGet(int routeID)
+        {
+            var c = new RestClient(HttpRequest.Url);
+            var r = new RestRequest(string.Format("/ruta/{ruta_id}/ver", routeID), Method.POST);
+
+            r.AddParameter("security_token", _token);
+            var rs = await c.ExecuteTaskAsync<ResponceObject>(r);
+
+            return rs.Data;
+        }
+        public async Task<ResponceObject> RouteEdit(int routeId,string texto_origen, string texto_destino, DateTime fecha_inicio, DateTime fecha_fin, string dias, int numero_personas, IEnumerable<GeoCoordinate> puntos)
+        {
+            var c = new RestClient(HttpRequest.Url);
+            var r = new RestRequest("/ruta/crear", Method.POST);
+
+            r.AddParameter("security_token", _token);
+            r.AddParameter("ruta_id", routeId);
+
+            r.AddParameter("texto_origen", texto_origen);
+            r.AddParameter("texto_destino", texto_destino);
+
+            r.AddParameter("latitud_origen", puntos.ElementAt(0).Latitude);
+            r.AddParameter("longitud_origen", puntos.ElementAt(0).Longitude);
+
+            r.AddParameter("latitud_destino", puntos.ElementAt(puntos.Count() - 1).Latitude);
+            r.AddParameter("longitud_destino", puntos.ElementAt(puntos.Count() - 1).Longitude);
+
+
+            r.AddParameter("fecha_inicio", string.Format("{0}-{1}-{2}", fecha_inicio.Day, fecha_inicio.Month, fecha_inicio.Year));
+            r.AddParameter("fecha_fin", string.Format("{0}-{1}-{2}", fecha_fin.Day, fecha_fin.Month, fecha_fin.Year));
+
+            //r.AddParameter("hora", fecha_inicio.Hour);
+            //r.AddParameter("minuto", fecha_inicio.Minute);
+            r.AddParameter("dias", dias);
+            r.AddParameter("numero_personas", numero_personas);
+
+            
+
+            var rs = await c.ExecuteTaskAsync<ResponceObject>(r);
+
+            return rs.Data;
+
+            //return null;
+        }
 
         public async Task GetActiveUserFromSettings()
         {
@@ -425,8 +577,45 @@ namespace VoyIteso.Class
 
 
         }
-        
 
+        public async Task<Mensajes> LiftMessagesGet(int liftID)
+        {
+            var c = new RestClient(HttpRequest.Url);
+            var r = new RestRequest("/aventon/"+liftID+"/chat",Method.GET);
+
+            r.AddParameter("security_token", _token);
+
+            var rs = await c.ExecuteTaskAsync<Mensajes>(r);
+            return rs.Data;
+        }
+        public async Task<ResponceObject> LiftMessagesSend(int routeID,string Message)
+        {
+            var c = new RestClient(HttpRequest.Url);
+            var r = new RestRequest(string.Format("/aventon/{ruta_id}/nuevomensaje", routeID), Method.POST);
+
+            r.AddParameter("security_token", _token);
+            r.AddParameter("texto", Message);
+
+            var rs = await c.ExecuteTaskAsync<ResponceObject>(r);
+
+            return rs.Data;
+        }
+        public async Task<ResponceObject> LiftRate(int routeID, int succesful, int punctuality,int rating, string Message)
+        {
+            var c = new RestClient(HttpRequest.Url);
+            var r = new RestRequest(string.Format("/aventon/{ruta_id}/calificar", routeID), Method.POST);
+
+            r.AddParameter("security_token", _token);
+            r.AddParameter("fue_exitoso", succesful);
+            r.AddParameter("puntualidad", punctuality);
+            r.AddParameter("calificacion", rating);
+            r.AddParameter("comentario", Message);
+
+
+            var rs = await c.ExecuteTaskAsync<ResponceObject>(r);
+
+            return rs.Data;
+        }
         public async Task<Appointment[]> LoadCurrentMonthLifts()
         {
             if (_token == null) return null;
@@ -516,7 +705,7 @@ namespace VoyIteso.Class
 
             return null;
         }
-        public async Task<Rutas> SearchRoute(string origen, string destino, string fecha, double latitud_destino, double longitud_destino, double latitud_origen, double longitud_origen, string hora)
+        public async Task<Rutas> RouteSearch(string origen, string destino, string fecha, double latitud_destino, double longitud_destino, double latitud_origen, double longitud_origen, string hora)
         {
             var r = new HttpRequest();
             r.setAction(@"/ruta/busqueda");
