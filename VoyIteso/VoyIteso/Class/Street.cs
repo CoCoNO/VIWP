@@ -258,4 +258,29 @@ namespace VoyIteso.Class
     {
         public List<Ruta> rutas { get; set; }
     }
+    public class Notificacione
+    {
+        public string nombre { get; set; }
+        public int perfil_id { get; set; }
+        public int aventon_id { get; set; }
+        public string fecha { get; set; }
+        public string fecha_aventon { get; set; }
+        public object descripcion { get; set; }
+        public string estatus_aventon { get; set; }
+        public string rol { get; set; }
+        public object foto { get; set; }
+        public int activo { get; set; }
+        public int perfilconductor_id { get; set; }
+        public int perfilpasajero_id { get; set; }
+        public int id { get; set; }
+        public string origen { get; set; }
+        public string destino { get; set; }
+        public string tipo { get; set; }
+    }
+
+    public class Notifications
+    {
+        public List<Notificacione> notificaciones { get; set; }
+    }
+
 }
