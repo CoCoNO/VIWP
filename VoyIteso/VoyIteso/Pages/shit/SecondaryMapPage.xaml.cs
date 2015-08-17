@@ -36,7 +36,7 @@ namespace VoyIteso.Pages
             }
             else
             {
-                ApiConnector.Instance.SearchRoute(origen, destino, fecha, lat_destino,lon_destino,lat_origen,lon_origen,hora);  
+                ApiConnector.Instance.RouteSearch(origen, destino, fecha, lat_destino,lon_destino,lat_origen,lon_origen,hora);  
             }
 
         }

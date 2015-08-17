@@ -144,15 +144,15 @@ namespace VoyIteso.Pages
             appBarSingOut.Click += appBarSingOut_Click;
             ApplicationBar.MenuItems.Add(appBarSingOut);
 
-            ApplicationBarMenuItem a = new ApplicationBarMenuItem("ir al nuevo mapa");
-            a.Click += a_Click;
-            ApplicationBar.MenuItems.Add(a);
+            //ApplicationBarMenuItem a = new ApplicationBarMenuItem("ir al nuevo mapa");
+            //a.Click += a_Click;
+            //ApplicationBar.MenuItems.Add(a);
 
-            ApplicationBarMenuItem b = new ApplicationBarMenuItem("ir al chat pa' calar");
+            ApplicationBarMenuItem b = new ApplicationBarMenuItem("ir al chat pa' ver como se ve");
             b.Click += b_Click;
             ApplicationBar.MenuItems.Add(b);
 
-            ApplicationBarMenuItem c = new ApplicationBarMenuItem("ir a la ventana de detalle de ruta");
+            ApplicationBarMenuItem c = new ApplicationBarMenuItem("ir a ShowRoute");
             c.Click += c_Click;
             ApplicationBar.MenuItems.Add(c);
 
@@ -165,22 +165,23 @@ namespace VoyIteso.Pages
 
         private void c_Click(object sender, EventArgs e)
         {
-            NavigationService.Navigate(new Uri("/Pages/Notifications/RouteInfo.xaml", UriKind.Relative));
+            //NavigationService.Navigate(new Uri("/Pages/Notifications/RouteInfo.xaml", UriKind.Relative));
+            NavigationService.Navigate(new Uri("/Pages/ShowRoutes.xaml", UriKind.Relative));
         }
 
         private void b_Click(object sender, EventArgs e)
         {
-            //NavigationService.Navigate(new Uri("/Pages/ChatLayout.xaml", UriKind.Relative));
-            NavigationService.Navigate(new Uri("/Pages/NotificationsStuff/NotificationWindow.xaml", UriKind.Relative));
-            //.Navigate(new Uri("/Pages/ChatStuff/ChatWindow.xaml", UriKind.Relative));
+            NavigationService.Navigate(new Uri("/Pages/ChatLayout.xaml", UriKind.Relative));
+            //NavigationService.Navigate(new Uri("/Pages/NotificationsStuff/NotificationWindow.xaml", UriKind.Relative));
+            //NavigationService.Navigate(new Uri("/Pages/ChatStuff/ChatWindow.xaml", UriKind.Relative));
 
 
         }
 
-        private void a_Click(object sender, EventArgs e)
-        {
-            NavigationService.Navigate(new Uri("/Pages/TheNewMap.xaml", UriKind.Relative));
-        }
+        //private void a_Click(object sender, EventArgs e)
+        //{
+        //    NavigationService.Navigate(new Uri("/Pages/TheNewMap.xaml", UriKind.Relative));
+        //}
 
         void ApplicationBar_StateChanged(object sender, ApplicationBarStateChangedEventArgs e)
         {

@@ -7,10 +7,10 @@
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
-    d:DesignHeight="480" d:DesignWidth="480">
+    d:DesignHeight="150" d:DesignWidth="440">
 
     <Grid x:Name="LayoutRoot" Background="{StaticResource PhoneChromeBrush}">
-        <Grid Background="Green" Width="440" Height="150" Margin="30,168,10,162">
+        <Grid Background="Green" Width="440" Height="150">
 
             <!--
             <Grid Margin="10,0,324,0">

@@ -18,8 +18,8 @@ namespace VoyIteso.Pages.Chat2
 
     public partial class ChatView : UserControl
     {
-        ObservableCollection<object> messages = new ObservableCollection<object>();
-        ObservableCollection<string> dummyMessages = new ObservableCollection<string>()
+        public static ObservableCollection<object> messages = new ObservableCollection<object>();
+        public static ObservableCollection<string> dummyMessages = new ObservableCollection<string>()
         {
             "Hey you! I'm Dummy. Tell me what's on your mind!",
             "Great talkers are little doers. Are you a great talker?",
@@ -27,7 +27,7 @@ namespace VoyIteso.Pages.Chat2
             "One ring to rule them all. One ring to bind them, and in the darkness bind them!",
             "Wow!",
             "I'm not speaking to you ever again!",
-            "Thor is here!",
+            "Chinga tu madre wey!",
             "The force flows strong in you!",
             "虎穴に入らずんば虎子を得ず ^^",
             "Hodor!",
@@ -48,19 +48,23 @@ namespace VoyIteso.Pages.Chat2
             Interval = TimeSpan.FromSeconds(1)
         };
 
-        public ChatView()
+        public ChatView()//(ObservableCollection<object> myMessages, ObservableCollection<string> secondPartyMessages)
         {
             InitializeComponent();
 
-            this.dummyMessagesEnumerator = new InfiniteEnumerator(this.dummyMessages);
+            //this.messages = myMessages;
+            //this.dummyMessages = secondPartyMessages;
+
+            this.dummyMessagesEnumerator = new InfiniteEnumerator(dummyMessages);
             this.timer.Tick += this.OnTimerTick;
             this.startTimer.Tick += this.OnStartTimerTick;
 
-            this.conversationView.ItemsSource = this.messages;
+            this.conversationView.ItemsSource = messages;
             this.conversationView.CreateMessage = (string text) => new CustomMessage(text, DateTime.Now, ConversationViewMessageType.Outgoing);
 
             this.dummyMessagesEnumerator.MoveNext();
-            this.messages.Add(this.CreateIncomingMessage(this.dummyMessagesEnumerator.Current));
+            messages.Add(this.CreateIncomingMessage(this.dummyMessagesEnumerator.Current)); 
+            
         }
 
         private CustomMessage CreateIncomingMessage(string text)
@@ -79,7 +83,7 @@ namespace VoyIteso.Pages.Chat2
         {
             this.typingTextBlock.Text = "";
             this.dummyMessagesEnumerator.MoveNext();
-            this.messages.Add(this.CreateIncomingMessage(this.dummyMessagesEnumerator.Current));
+            messages.Add(this.CreateIncomingMessage(this.dummyMessagesEnumerator.Current));
             this.timer.Stop();
             VibrateController.Default.Start(TimeSpan.FromSeconds(0.2));
         }
@@ -91,7 +95,7 @@ namespace VoyIteso.Pages.Chat2
                 return;
             }
 
-            this.messages.Add(e.Message);
+            messages.Add(e.Message);
 
             if (this.timer.IsEnabled || this.startTimer.IsEnabled)
             {

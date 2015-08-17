@@ -45,7 +45,9 @@
                    Margin="12"
                    Source="/Images/you.png"/>
         </StackPanel>
-
+        <TextBlock x:Name="typingTextBlock" 
+                   Margin="10,306,14,70" Foreground="#A200FF"
+                   IsHitTestVisible="False" Grid.Row="1"/>
         <telerikData:RadConversationView Grid.Row="1"
                                          x:Name="conversationView"
                                          SendingMessage="OnSendingMessage">
@@ -134,6 +136,7 @@
             <telerikData:RadConversationView.TextBoxTemplate>
                 <DataTemplate>
                     <Grid Margin="0, 24, 0, 0">
+                        
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="3*"/>
@@ -172,13 +175,13 @@
                                 </telerikPrimitives:RadTextBox.ActionButtonStyle>
                             </telerikPrimitives:RadTextBox>
                         </primitives:RadPointerContentControl>
+                        
                     </Grid>
+                    
                 </DataTemplate>
             </telerikData:RadConversationView.TextBoxTemplate>
         </telerikData:RadConversationView>
-        <TextBlock x:Name="typingTextBlock" 
-                   Margin="12,435,12,25" Foreground="#A200FF" Grid.RowSpan="2"
-                   IsHitTestVisible="False"/>
+        
     </Grid>
-    
+
 </UserControl>

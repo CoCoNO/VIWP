@@ -18,22 +18,21 @@ namespace VoyIteso.Pages
             InitializeComponent();
         }
 
-        private void Navigate()
+        private void Navigate(string pageRoute)//this will take you to TheNewMap layout.
         {
-            //NavigationService.Navigate(new Uri("/Pages/SearchRoutePage.xaml", UriKind.Relative));
-            NavigationService.Navigate(new Uri("/Pages/TheNewMap.xaml", UriKind.Relative));
+            NavigationService.Navigate(new Uri(pageRoute, UriKind.Relative));
         }
 
         private void PedirRide_OnTap(object sender, GestureEventArgs e)
         {
             TheNewMap.Driver = false;
-            Navigate(); 
+            Navigate("/Pages/TheNewMap.xaml"); 
         }
 
         private void DarRide_OnTap(object sender, GestureEventArgs e)
         { 
             TheNewMap.Driver = true;
-            Navigate();
+            Navigate("/Pages/ShowRoutes.xaml");
         }
     }
 }

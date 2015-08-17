@@ -11,6 +11,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
+using VoyIteso.Class;
 using VoyIteso.Pages.Chat2;
 using VoyIteso.Pages.NotificationsStuff;
 using GestureEventArgs = System.Windows.Input.GestureEventArgs;
@@ -19,66 +20,77 @@ namespace VoyIteso.Pages
 {
     public partial class Notifications : PhoneApplicationPage
     {
-        private List<CajaDeNotificacion> allMyNotifications; 
+        private Progress _progress;
+        private readonly List<CajaDeNotificacion> _allMyNotifications;
+        private Class.Notifications _listOfNotifications;
+        public static Notificacione NotificationItem;
+
         public Notifications()
         {
             InitializeComponent();
-            allMyNotifications = new List<CajaDeNotificacion>();
+            _allMyNotifications = new List<CajaDeNotificacion>();
+            _progress = new Progress();
         }
 
-        private void CrearNuevaCajitaFeliz_click(object sender, EventArgs e)
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
-            //pinche trampa sucia! pero funciona y se ve muy bien. 
+            base.OnNavigatedTo(e);
+            //Class.Notifications
+            _progress.showProgressIndicator(this, "espera un momento");
+            _listOfNotifications = await ApiConnector.Instance.NotificationsGet(); 
+            _progress.hideProgressIndicator(this);
+            foreach (var item in _listOfNotifications.notificaciones)
+            {
+                ConstructNewNotification(item);
+            }
+        }
+        private void CrearNuevaCajitaFeliz_click(object sender, EventArgs e)// este es de prueba. borrar a la goma ya que termine su proposito. 
+        {
+            //pinche trampa sucia! pero funciona y se ve muy bien. repetir en caja de resultados en mapa XD. 
             var grid = new Grid();
             grid.Width = 440;
             grid.Height = 20;
             lista.Items.Add(grid);
 
             //Este es el grid importante. 
-
-
-
-            //grid = new Grid();
-            //grid.Width = 440;
-            //grid.Height = 112;//150
-            //grid.Background = new SolidColorBrush(Color.FromArgb(255, 133, 187, 220));//este es el color de prueba. 
-
-            //var sgrid = new Grid();
-            //sgrid.Margin = new Thickness(10,0,366,0);//10,0,366,0
-            //var img = new Image();
-            //var bmp = new BitmapImage();
-            //var uir = new Uri("Images/you.jpg", UriKind.Relative);//("ms-appx:///Images/you.png");
-            //bmp.UriSource = uir;
-            //img.Source = bmp;
-            //sgrid.Children.Add(img);
-
-            //var sp = new StackPanel();
-            //sp.Margin = new Thickness(91,0,0,0);
-            //var tb = new TextBlock();
-            //tb.FontSize = 13;
-            //tb.Text = "header";
-            //var tb2 = new TextBlock();
-            //tb2.Text = "content";
-
-            //sp.Children.Add(sgrid);
-            //sp.Children.Add(tb);
-            //sp.Children.Add(tb2);
-
-            //grid.Children.Add(sp);
-
-            //lista.Items.Add(grid);
-
             var newBox = new CajaDeNotificacion();
-            allMyNotifications.Add(newBox);
+            _allMyNotifications.Add(newBox);
             lista.Items.Add(newBox);
-
-
         }
 
-        private void Lista_OnTap(object sender, GestureEventArgs e)
+        private void Lista_OnTap(object sender, GestureEventArgs e)//cuando le dio clic a un elemento de la lista.
         {
-            var index = lista.SelectedIndex;
-            Debug.WriteLine(index);
+            var index = lista.SelectedIndex-1;
+            //Debug.WriteLine(index/2);
+
+            if (index % 2 != 0 || index < 0)
+            {
+                return;
+            }
+            var item = _listOfNotifications.notificaciones[index/2];
+            NotificationItem = item;
+
+            NavigationService.Navigate(new Uri("/Pages/NotificationsStuff/RouteInfo.xaml", UriKind.Relative));//?key=value&key2=value
         }
+
+        private void ConstructNewNotification(Notificacione item)
+        {
+            //pinche trampa sucia! pero funciona y se ve muy bien. repetir en caja de resultados en mapa XD. 
+            var grid = new Grid();
+            grid.Width = 440;
+            grid.Height = 20;
+            lista.Items.Add(grid);
+
+            //Este es el grid importante. 
+            var newBox = new CajaDeNotificacion();
+            newBox.header.Text = item.nombre;
+            newBox.body.Text = "";
+            newBox.body.Text += item.descripcion;
+            _allMyNotifications.Add(newBox);
+            lista.Items.Add(newBox);
+        }
+
+
+
     }
 }

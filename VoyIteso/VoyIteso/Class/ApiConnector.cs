@@ -277,7 +277,7 @@ namespace VoyIteso.Class
 
 
 
-        async Task<User> GetUserById(string uID)
+        public async Task<User> GetUserById(string uID)
         {
             if (_token == null) return null;
 
@@ -651,6 +651,8 @@ namespace VoyIteso.Class
                         p.Location = app.texto_origen;
                         p.EndDate = p.StartDate.AddHours(1);
                         p.Subject = "De " + app.texto_origen + " a " + app.texto_destino;
+
+                        p.LiftID = app.id;
                         appointments.Add(p);
                     }
 

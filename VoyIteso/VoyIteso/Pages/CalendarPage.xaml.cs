@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Windows;
@@ -9,6 +10,7 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using Telerik.Windows.Controls;
 using VoyIteso.Class;
+using GestureEventArgs = System.Windows.Input.GestureEventArgs;
 
 namespace VoyIteso.Pages
 {
@@ -49,7 +51,8 @@ namespace VoyIteso.Pages
                 Details = "details of appointshit",
                 Location = "Zapopan, Jal. Mex"
             });*/
-            Appointment[] apps=await ApiConnector.Instance.LoadCurrentMonthLifts();
+
+            Appointment[] apps=await ApiConnector.Instance.LoadCurrentMonthLifts();//a lift is an appointment
             foreach (var appointment in apps)
             {
                 myAppointmentSource.addAppointment(appointment);
@@ -59,14 +62,15 @@ namespace VoyIteso.Pages
             // add appointment source to calendar
             myCalendar.AppointmentSource = myAppointmentSource;
 
-            var a = myAppointmentSource.getAppointmentList();
+            //var a = myAppointmentSource.getAppointmentList();
             //myAppointmentSource.Fetch();
-
-            foreach (var appointment in a)
-            {
-                Appointment ap = appointment;
-                appointmentDetails.Text += ap.Subject + "\n" + ap.StartDate + "\n" + "\n" + ap.Details + "\n\n";
-            }
+            
+            //foreach (var appointment in a)
+            //{
+            //    Appointment ap = appointment;
+            //    appointmentDetails.Text = "";
+            //    appointmentDetails.Text += "-->" + ap.Subject + "\n" + ap.StartDate + "\n\n" + ap.Details;
+            //}
         }
 
         //<summary>
@@ -75,6 +79,7 @@ namespace VoyIteso.Pages
         private void myCalendar_ItemTap(object sender, CalendarItemTapEventArgs e)
         {
             appointmentDetails.Text = this.myCalendar.SelectedValue.ToString();
+            //myCalendar_SelectedValueChanged(null,null);
             //MessageBox.Show("howdy world");
             //myCalendar_SelectedValueChanged(null,null);
         }
@@ -96,7 +101,7 @@ namespace VoyIteso.Pages
             {
                 if (item.StartDate.Day == selectedDate.Day)
                 {
-                    appointmentDetails.Text += item.Subject + "\n" + item.StartDate + "\n" + item.Details + "\n\n";
+                    appointmentDetails.Text += "-->" + item.Subject + "\n" + item.StartDate + "\n\n" + item.Details; 
                 }
             }
 
@@ -106,6 +111,39 @@ namespace VoyIteso.Pages
 
             }
         }
+
+        private void AppointmentDetails_OnTap(object sender, GestureEventArgs e)
+        {
+            //esta es el evento de tap al texto
+            //NavigationService.Navigate(new Uri("/Pages/NotificationsStuff/RouteInfo.xaml",UriKind.Relative));
+            Debug.WriteLine("Not yet implemented."); 
+        }
+
+        private void BuildLocalizedApplicationBar()
+        {
+            ApplicationBar = new ApplicationBar();
+            ApplicationBar.Mode = ApplicationBarMode.Default;
+            ApplicationBar.Opacity = 1.0;
+            ApplicationBar.IsMenuEnabled = true;
+            ApplicationBar.IsVisible = true;
+
+            ApplicationBarIconButton advancedDetailButton = new ApplicationBarIconButton(new Uri("Assets/check.png", UriKind.Relative));
+            advancedDetailButton.Text = "detalles";
+            advancedDetailButton.Click += advancedDetailButton_Click;
+            ApplicationBar.Buttons.Add(advancedDetailButton);
+
+        }
+
+        private async void advancedDetailButton_Click(object sender, EventArgs e)
+        {// esta madre es la del appbar
+            
+            //var a = await ApiConnector.Instance.NotificationsGet();
+            //Debug.WriteLine("lista notifs..."+a.notificaciones.Count.ToString());
+            //var b = await ApiConnector.Instance.LoadCurrentMonthLifts();
+            //Debug.WriteLine("lista current month lifts"+b.Count().ToString());
+            ////NavigationService.Navigate(new Uri("/Pages/NotificationsStuff/RouteInfo.xaml",UriKind.Relative));
+        }
+
     }
 
     public class MyAppointmentSource : AppointmentSource
@@ -232,6 +270,8 @@ namespace VoyIteso.Pages
             get;
             set;
         }
+
+        public int LiftID { get; set; }
 
         /// <summary> 
         /// Gets a string representation of the appointment 

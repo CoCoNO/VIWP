@@ -122,9 +122,6 @@
     <Compile Include="Pages\ChatStuff\ChatView.xaml.cs">
       <DependentUpon>ChatView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\ChatStuff\ChatWindow.xaml.cs">
-      <DependentUpon>ChatWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Pages\ChatStuff\ViewModels\MessagesViewModel.cs" />
     <Compile Include="Pages\HomePage.xaml.cs">
       <DependentUpon>HomePage.xaml</DependentUpon>
@@ -145,9 +142,6 @@
       <DependentUpon>CajaDeNotificacion.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\NotificationsStuff\Helpers\StringToUpperConverter.cs" />
-    <Compile Include="Pages\NotificationsStuff\NotificationWindow.xaml.cs">
-      <DependentUpon>NotificationWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Pages\NotificationsStuff\ViewModels\DataItemViewModel.cs" />
     <Compile Include="Pages\NotificationsStuff\ViewModels\HierarchicalDataViewModel.cs" />
     <Compile Include="Pages\ProfilePage.xaml.cs">
@@ -159,6 +153,12 @@
     <Compile Include="Pages\shit\SecondaryMapPage.xaml.cs" />
     <Compile Include="Pages\SelectType.xaml.cs" />
     <Compile Include="Pages\shit\TheMap.xaml.cs" />
+    <Compile Include="Pages\ShowRoutes.xaml.cs">
+      <DependentUpon>ShowRoutes.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\ShowRoutesComponents\ShowRouteBox.xaml.cs">
+      <DependentUpon>ShowRouteBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\TheNewMap.xaml.cs">
       <DependentUpon>TheNewMap.xaml</DependentUpon>
     </Compile>
@@ -207,10 +207,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\ChatStuff\ChatWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Pages\HomePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -235,10 +231,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\NotificationsStuff\NotificationWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Pages\ProfilePage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -258,6 +250,14 @@
     <Page Include="Pages\shit\TheMap.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\ShowRoutes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\ShowRoutesComponents\ShowRouteBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\TheNewMap.xaml">
       <SubType>Designer</SubType>

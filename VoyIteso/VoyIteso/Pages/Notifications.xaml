@@ -14,7 +14,7 @@
     shell:SystemTray.IsVisible="True">
 
     <!--LayoutRoot is the root grid where all page content is placed-->
-    <Grid x:Name="LayoutRoot" Background="#a248" >
+    <Grid x:Name="LayoutRoot" Background="#1D80BE" >
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -37,7 +37,7 @@
 
     <!--Sample code showing usage of ApplicationBar-->
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar  IsVisible="True" IsMenuEnabled="True">
+        <shell:ApplicationBar  IsVisible="False" IsMenuEnabled="True">
             <shell:ApplicationBarIconButton Click="CrearNuevaCajitaFeliz_click" IconUri="/Images/appbar_button1.png" Text="confirmar"/>
             <shell:ApplicationBar.MenuItems>
                 <!--
