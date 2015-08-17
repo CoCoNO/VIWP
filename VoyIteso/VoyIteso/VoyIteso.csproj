@@ -116,6 +116,9 @@
     <Compile Include="Pages\AutentificationPage.xaml.cs">
       <DependentUpon>AutentificationPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\CalendarComponents\SpecialDays.xaml.cs">
+      <DependentUpon>SpecialDays.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\CalendarPage.xaml.cs">
       <DependentUpon>CalendarPage.xaml</DependentUpon>
     </Compile>
@@ -181,6 +184,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="WeekendDaySelector.cs" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -196,6 +200,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\AutentificationPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\CalendarComponents\SpecialDays.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -337,6 +345,7 @@
     <Content Include="Assets\Tiles\IconicTileSmall.png" />
     <Content Include="Images\AC.png" />
     <Content Include="Images\Camara.png" />
+    <Content Include="Images\Carro.png" />
     <Content Include="Images\check.png" />
     <Content Include="Images\chingadera.PNG" />
     <Content Include="Images\dummy.png" />

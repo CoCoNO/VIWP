@@ -30,7 +30,7 @@
             <ScrollViewer Margin="0,441,0,0">
                 <TextBlock x:Name="appointmentDetails" Tap="AppointmentDetails_OnTap" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Selecciona una fecha" VerticalAlignment="Top" Height="317" Width="446"/>
             </ScrollViewer>
-             
+
         </Grid>
     </Grid>
 

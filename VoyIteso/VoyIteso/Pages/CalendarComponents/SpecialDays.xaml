@@ -1,0 +1,35 @@
+﻿<UserControl x:Class="VoyIteso.Pages.CalendarComponents.SpecialDays"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:telerikInput="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Input"
+    xmlns:voyIteso="clr-namespace:VoyIteso"
+    mc:Ignorable="d"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    d:DesignHeight="480" d:DesignWidth="480">
+
+    <UserControl.Resources>
+        <voyIteso:WeekendDaySelector x:Key="WeekendDaySelector">
+            <voyIteso:WeekendDaySelector.SpecialTemplate>
+                <DataTemplate>
+                    <Grid Margin="5">
+                        <Image Source="/Images/carro.png" Width="24" Height="24"/>
+                        <TextBlock Text="{Binding Text}" x:Name="TextPresenter" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
+                    </Grid>
+                </DataTemplate>
+            </voyIteso:WeekendDaySelector.SpecialTemplate>
+        </voyIteso:WeekendDaySelector>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <telerikInput:RadCalendar ItemTemplateSelector="{StaticResource WeekendDaySelector}" FirstDayOfWeek="Monday" MonthInfoDisplayMode="Small" Margin="-14,0,-18,0" />
+        <TextBlock Text="Any content is supported for special days." Grid.Row="1"  Margin="12,12,12,0"/>
+    </Grid>
+    
+</UserControl>

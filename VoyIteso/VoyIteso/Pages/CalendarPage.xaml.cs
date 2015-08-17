@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
+using System.Reflection.Emit;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
@@ -21,7 +22,11 @@ namespace VoyIteso.Pages
             InitializeComponent();
 
             initAppointments();
+
+            
         }
+
+        
 
         //<summary>
         //This method gets the appointments and display them in the appointment detail text.

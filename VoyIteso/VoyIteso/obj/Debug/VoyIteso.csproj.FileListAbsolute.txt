@@ -448,3 +448,4 @@ C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\obj\Debug\Pages\MapStuf
 C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\obj\Debug\Pages\ShowRoutes.g.cs
 C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\obj\Debug\Pages\ShowRoutesComponents\ShowRouteBox.g.cs
 C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\obj\Debug\VoyIteso.csprojResolveAssemblyReference.cache
+C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\obj\Debug\Pages\CalendarComponents\SpecialDays.g.cs
