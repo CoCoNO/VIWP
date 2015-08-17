@@ -75,11 +75,15 @@
                     <Image/>
                 </telerickPrimitives:RadSlideHubTile.Picture>
             </telerickPrimitives:RadSlideHubTile>
-            <telerickPrimitives:RadSlideHubTile x:Name="searchOfferMapTile" Grid.Column="2"  Background="#85C340" Width="205" Height="205" Margin="0"  Tap="searchOfferMapTile_Tap"/>
+            <telerickPrimitives:RadSlideHubTile x:Name="searchOfferMapTile"  Grid.Column="2" Width="205" Height="205" Margin="0"  Tap="searchOfferMapTile_Tap">
+                <telerickPrimitives:RadSlideHubTile.Background>
+                    <ImageBrush Stretch="Fill" ImageSource="/Images/chingadera.PNG"/>
+                </telerickPrimitives:RadSlideHubTile.Background>
+            </telerickPrimitives:RadSlideHubTile>
             <!--<toolkit:HubTile x:Name="profile" Size="Medium" Grid.Column="0" Tap="profile_Tap" Title="Perfil" IsFrozen="True" Background="#F16341" Width="205" Height="Auto"/>-->
             <!--<toolkit:HubTile x:Name="searchOfferMap" Size="Medium" Grid.Column="2"  Tap="searchOfferMap_Tap" Background="#85C340" Width="205" Height="Auto"/>-->
         </Grid>
-        
+
         <!--
         
         <Image x:Name="TestImage" Grid.Column="1" HorizontalAlignment="Left" Height="110" Margin="175,5,0,-91" Grid.Row="8" VerticalAlignment="Top" Width="105"/>

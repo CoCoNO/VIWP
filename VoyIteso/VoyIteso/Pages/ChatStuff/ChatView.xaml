@@ -22,7 +22,8 @@
 
         <StackPanel HorizontalAlignment="Left"
                     Orientation="Horizontal">
-            <Image Width="60"
+            <Image Name="SecondPartyAvatar"
+                   Width="60"
                    Height="60"
                    Margin="12"
                    Source="/Images/dummy.png"/>
@@ -40,7 +41,8 @@
                        FontSize="{StaticResource PhoneFontSizeNormal}"
                        FontWeight="Black"
                        VerticalAlignment="Top"/>
-            <Image Width="60"
+            <Image Name="UserAvatar"
+                   Width="60"
                    Height="60"
                    Margin="12"
                    Source="/Images/you.png"/>

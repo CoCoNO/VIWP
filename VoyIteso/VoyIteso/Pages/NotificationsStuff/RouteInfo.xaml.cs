@@ -4,10 +4,12 @@ using System.Linq;
 using System.Net;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using Microsoft.Phone.Tasks;
+using Microsoft.Xna.Framework;
 using VoyIteso.Class;
 
 namespace VoyIteso.Pages
@@ -40,11 +42,17 @@ namespace VoyIteso.Pages
         {
             base.OnNavigatedTo(e);
             LiftDetails.Text = "Origen: " + Notificacion.origen + "\n\n" + "Destino: " + Notificacion.destino;
-            if (Notificacion.tipo.ToString().Substring(0,1).Equals("A"))//Notificacion.estatus_aventon//Solicitud, Cancelacion, Aceptada
+            ocultarMierda();
+            
+        }
+
+        private void ocultarMierda()
+        {
+            if (Notificacion.tipo.ToString().Substring(0, 1).Equals("A"))//Notificacion.estatus_aventon//Solicitud, Cancelacion, Aceptada
             {
                 GridDeBotones.Children.Remove(BotonAceptar);
                 GridDeBotones.Children.Remove(BotonRechazar);
-                var a = new TextBlock(){ Text = "Aventón aceptado"};
+                var a = new TextBlock() { Text = "El aventón ha sido aceptado", Foreground = new SolidColorBrush(Colors.Black) };
                 GridDeBotones.Children.Add(a);
             }
         }
@@ -53,6 +61,21 @@ namespace VoyIteso.Pages
         {
             var index = Notificacion.aventon_id.ToString();
             NavigationService.Navigate(new Uri("/Pages/ChatLayout.xaml?key="+index, UriKind.Relative));
+        }
+
+        private async void BotonAceptar_OnClick(object sender, RoutedEventArgs e)
+        {
+            var a = await ApiConnector.Instance.LiftAccept(Notificacion.aventon_id, "El aventón ha sido aceptado");// response status, si es uno fue exitosa, 0 lo contrario.
+            //poner en progress que se ha aceptado. o que fallo la peticion.
+            if (a.estatus==1)
+            {
+                MessageBox.Show("Solicitud aceptada");
+                ocultarMierda();
+            }
+            else
+            {
+                MessageBox.Show("No se pudo procesar, intenta más tarde");
+            }
         }
     }
 }

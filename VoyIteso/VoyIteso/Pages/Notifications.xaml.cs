@@ -82,7 +82,9 @@ namespace VoyIteso.Pages
             lista.Items.Add(grid);
 
             //Este es el grid importante. 
+            var imagen = ApiConnector.Instance.GetUserImageById(item.perfil_id);
             var newBox = new CajaDeNotificacion();
+            newBox.Avatar = imagen;
             newBox.header.Text = item.nombre;
             newBox.body.Text = "";
             newBox.body.Text += item.descripcion;

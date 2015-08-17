@@ -275,7 +275,14 @@ namespace VoyIteso.Class
 
         }
 
+        public BitmapImage GetUserImageById(int id)
+        {
+            Uri uri = new Uri(HttpRequest.Url + @"/perfil/imagen/" + id + "?security_token=" + _token + "&randData=" + _ranData++);
 
+            BitmapImage img = new BitmapImage(uri);
+            img.CreateOptions = BitmapCreateOptions.None;
+            return img;
+        }
 
         public async Task<User> GetUserById(string uID)
         {
@@ -378,7 +385,7 @@ namespace VoyIteso.Class
         public async Task<ResponceObject> LiftAccept(int routeID, string Message = null)
         {
             var c = new RestClient(HttpRequest.Url);
-            var r = new RestRequest(string.Format("/aventon/{ruta_id}/aceptar", routeID), Method.POST);
+            var r = new RestRequest(string.Format("/aventon/{0}/aceptar", routeID), Method.POST);
 
             r.AddParameter("security_token", _token);
             if (Message!= null)
@@ -393,7 +400,7 @@ namespace VoyIteso.Class
         public async Task<ResponceObject> LiftReject(int routeID, string Message)
         {
             var c = new RestClient(HttpRequest.Url);
-            var r = new RestRequest(string.Format("/aventon/{ruta_id}/rechazar", routeID), Method.POST);
+            var r = new RestRequest(string.Format("/aventon/{0}/rechazar", routeID), Method.POST);
 
             r.AddParameter("security_token", _token);
 
@@ -408,7 +415,7 @@ namespace VoyIteso.Class
         public async Task<ResponceObject> LiftCancel(int routeID, string Message)
         {
             var c = new RestClient(HttpRequest.Url);
-            var r = new RestRequest(string.Format("/aventon/{ruta_id}/cancelar", routeID), Method.POST);
+            var r = new RestRequest(string.Format("/aventon/{0}/cancelar", routeID), Method.POST);
 
             r.AddParameter("security_token", _token);
 
@@ -423,20 +430,30 @@ namespace VoyIteso.Class
         public async Task<ResponceObject> RouteDelete(int routeID)
         {
             var c = new RestClient(HttpRequest.Url);
-            var r = new RestRequest(string.Format("/ruta/{ruta_id}/eliminar", routeID), Method.POST);
+            var r = new RestRequest(string.Format("/ruta/{0}/eliminar", routeID), Method.POST);
 
             r.AddParameter("security_token", _token);
             var rs = await c.ExecuteTaskAsync<ResponceObject>(r);
 
             return rs.Data;
         }
-        public async Task<ResponceObject> RouteGet(int routeID)
+        public async Task<Ruta> RouteGet(int routeID)
         {
             var c = new RestClient(HttpRequest.Url);
-            var r = new RestRequest(string.Format("/ruta/{ruta_id}/ver", routeID), Method.POST);
+            var r = new RestRequest(string.Format("/ruta/{0}/ver", routeID), Method.GET);
 
             r.AddParameter("security_token", _token);
-            var rs = await c.ExecuteTaskAsync<ResponceObject>(r);
+            var rs = await c.ExecuteTaskAsync<Ruta>(r);
+
+            return rs.Data;
+        }
+        public async Task<Rutas> RouteGetAllByUserID(int UserID)
+        {
+            var c = new RestClient(HttpRequest.Url);
+            var r = new RestRequest(string.Format("/perfil/{0}/rutas", UserID), Method.GET);
+
+            r.AddParameter("security_token", _token);
+            var rs = await c.ExecuteTaskAsync<Rutas>(r);
 
             return rs.Data;
         }
@@ -568,6 +585,7 @@ namespace VoyIteso.Class
                 settings.Remove("security_token");
                 settings.Remove("perfil_id");
                 settings.Remove("nombre_completo");
+                IsLoggedIn = false;
             }
             catch (Exception)
             {
@@ -591,7 +609,7 @@ namespace VoyIteso.Class
         public async Task<ResponceObject> LiftMessagesSend(int routeID,string Message)
         {
             var c = new RestClient(HttpRequest.Url);
-            var r = new RestRequest(string.Format("/aventon/{ruta_id}/nuevomensaje", routeID), Method.POST);
+            var r = new RestRequest(string.Format("/aventon/{0}/nuevomensaje", routeID), Method.POST);
 
             r.AddParameter("security_token", _token);
             r.AddParameter("texto", Message);
@@ -603,7 +621,7 @@ namespace VoyIteso.Class
         public async Task<ResponceObject> LiftRate(int routeID, int succesful, int punctuality,int rating, string Message)
         {
             var c = new RestClient(HttpRequest.Url);
-            var r = new RestRequest(string.Format("/aventon/{ruta_id}/calificar", routeID), Method.POST);
+            var r = new RestRequest(string.Format("/aventon/{0}/calificar", routeID), Method.POST);
 
             r.AddParameter("security_token", _token);
             r.AddParameter("fue_exitoso", succesful);
@@ -651,8 +669,6 @@ namespace VoyIteso.Class
                         p.Location = app.texto_origen;
                         p.EndDate = p.StartDate.AddHours(1);
                         p.Subject = "De " + app.texto_origen + " a " + app.texto_destino;
-
-                        p.LiftID = app.id;
                         appointments.Add(p);
                     }
 

@@ -44,13 +44,14 @@ namespace VoyIteso.Pages
             }
             foreach (var mensaje in listaDeMensajes.mensajes)
             {
-                if (mensaje.perfil_id.ToString().Equals(ApiConnector.Instance.ActiveUser.profileID))
+                if (mensaje.perfil_id.ToString().Equals(ApiConnector.Instance.ActiveUser.profileID))//si el mensaje pertenece al usuario. 
                 {
                     ChatView.messages.Add(mensaje.texto);
                 }
-                else
+                else//sino pertenece a la segunda persona. 
                 {
                     //ChatView.dummyMessages.Add(mensaje.texto);
+
                 }
 
             }

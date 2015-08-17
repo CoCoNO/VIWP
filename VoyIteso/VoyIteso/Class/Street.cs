@@ -67,7 +67,7 @@ namespace VoyIteso.Class
             this.creation_date = getDate(ruta.fecha_creacion).ToString("dd-MM-yyyy");
             this.arrival_time = getDate(ruta.hora_llegada).ToString("hh:mm tt");
             this.begin_date = getDate(ruta.fecha_inicio).ToString("dd-MM-yyyy");
-            this.points = ruta.puntos;
+            //this.points = ruta.puntos;
             getPoints();
         }
 
@@ -258,7 +258,7 @@ namespace VoyIteso.Class
         public string persona_edad { get; set; }
         public long ultima_conexion { get; set; }
         public long hora_llegada { get; set; }
-        public string puntos { get; set; }
+        //public string puntos { get; set; }
         public double latitud_origen { get; set; }
         public long fecha_fin { get; set; }
         public double longitud_origen { get; set; }
@@ -268,6 +268,15 @@ namespace VoyIteso.Class
         public double longitud_destino { get; set; }
         public int ruta_id { get; set; }
         public long fecha_inicio { get; set; }
+        public Puntos puntos { get; set; }
+    }
+
+
+    public class Puntos
+    {
+        public Start start { get; set; }
+        public End end { get; set; }
+        public List<List<double>> waypoints { get; set; }
     }
 
     public class Rutas
@@ -292,11 +301,16 @@ namespace VoyIteso.Class
         public string origen { get; set; }
         public string destino { get; set; }
         public string tipo { get; set; }
+        
     }
-
+    
     public class Notifications
     {
         public List<Notificacione> notificaciones { get; set; }
     }
+
+    //****/
+    
+    //****/
 
 }
