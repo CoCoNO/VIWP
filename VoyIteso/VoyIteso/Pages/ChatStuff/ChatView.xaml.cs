@@ -6,12 +6,14 @@ using System.Linq;
 using System.Net;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Threading;
 using Microsoft.Devices;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using Telerik.Windows.Controls;
+using VoyIteso.Class;
 
 namespace VoyIteso.Pages.Chat2
 {
@@ -52,6 +54,7 @@ namespace VoyIteso.Pages.Chat2
         {
             InitializeComponent();
 
+            //UserAvatar = new BitmapImage();// ApiConnector.Instance.ActiveUser.Avatar;
             //this.messages = myMessages;
             //this.dummyMessages = secondPartyMessages;
 

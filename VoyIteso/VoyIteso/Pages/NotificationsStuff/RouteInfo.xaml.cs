@@ -39,7 +39,14 @@ namespace VoyIteso.Pages
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            LiftDetails.Text = "Origen: " + Notificacion.origen + "\n\n" + "Destino: " + Notificacion.destino; 
+            LiftDetails.Text = "Origen: " + Notificacion.origen + "\n\n" + "Destino: " + Notificacion.destino;
+            if (Notificacion.tipo.ToString().Substring(0,1).Equals("A"))//Notificacion.estatus_aventon//Solicitud, Cancelacion, Aceptada
+            {
+                GridDeBotones.Children.Remove(BotonAceptar);
+                GridDeBotones.Children.Remove(BotonRechazar);
+                var a = new TextBlock(){ Text = "Aventón aceptado"};
+                GridDeBotones.Children.Add(a);
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)//chat button clicked. 
