@@ -8,8 +8,7 @@
     mc:Ignorable="d"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
-    Foreground="{StaticResource PhoneForegroundBrush}"
-    d:DesignHeight="480" d:DesignWidth="480">
+    Foreground="{StaticResource PhoneForegroundBrush}" d:DesignWidth="480" Height="669.501">
 
     <UserControl.Resources>
         <voyIteso:WeekendDaySelector x:Key="WeekendDaySelector">
@@ -28,8 +27,26 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <telerikInput:RadCalendar ItemTemplateSelector="{StaticResource WeekendDaySelector}" FirstDayOfWeek="Monday" MonthInfoDisplayMode="Small" Margin="-14,0,-18,0" />
-        <TextBlock Text="Any content is supported for special days." Grid.Row="1"  Margin="12,12,12,0"/>
+        <telerikInput:RadCalendar ItemTemplateSelector="{StaticResource WeekendDaySelector}" 
+                                  FirstDayOfWeek="Monday" 
+                                  MonthInfoDisplayMode="Small" 
+                                  SelectionBackground="Gray"  
+                                  SelectedValueChanged="myCalendar_SelectedValueChanged"
+                                  x:Name="MyCalendar" />
+        <ListBox Grid.Row="1">
+            <ListBoxItem>
+                <TextBlock x:Name="AppointmentDetails" FontSize="12" Text="Selecciona un día" Grid.Row="1" Width="473" Height="71"/>
+            </ListBoxItem>
+            <ListBoxItem>
+                <TextBlock x:Name="AppointmentDetails2" FontSize="12" Text="" Grid.Row="1" Width="473" Height="71"/>
+            </ListBoxItem>
+            <ListBoxItem>
+                <TextBlock x:Name="AppointmentDetails3" FontSize="12" Text="" Grid.Row="1" Width="473" Height="71"/>
+            </ListBoxItem>
+        </ListBox>
+        
+        
+
     </Grid>
-    
+
 </UserControl>

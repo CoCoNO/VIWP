@@ -1,5 +1,5 @@
-﻿<xapCache source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Bin\Debug\VoyIteso_Debug_AnyCPU.xap" wasSigned="False" wasTritonized="False" certificateThumbprint="" TimeStampUrl="" signKeyFile="" signKeyPassword="" lastWriteTime="17/08/2015 12:16:53 p. m.">
-  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\obj\Debug\VoyIteso.dll" archivePath="VoyIteso.dll" lastWriteTime="17/08/2015 12:16:48 p. m." />
+﻿<xapCache source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Bin\Debug\VoyIteso_Debug_AnyCPU.xap" wasSigned="False" wasTritonized="False" certificateThumbprint="" TimeStampUrl="" signKeyFile="" signKeyPassword="" lastWriteTime="20/08/2015 02:07:17 p. m.">
+  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\obj\Debug\VoyIteso.dll" archivePath="VoyIteso.dll" lastWriteTime="20/08/2015 02:07:14 p. m." />
   <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Assets\AC.png" archivePath="Assets\AC.png" lastWriteTime="21/05/2015 08:03:22 p. m." />
   <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Assets\add.png" archivePath="Assets\add.png" lastWriteTime="21/05/2015 08:03:22 p. m." />
   <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Assets\check.png" archivePath="Assets\check.png" lastWriteTime="21/05/2015 08:03:22 p. m." />
@@ -45,7 +45,7 @@
   <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Toolkit.Content\ApplicationBar.Add.png" archivePath="Toolkit.Content\ApplicationBar.Add.png" lastWriteTime="21/05/2015 08:03:42 p. m." />
   <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Toolkit.Content\ApplicationBar.Cancel.png" archivePath="Toolkit.Content\ApplicationBar.Cancel.png" lastWriteTime="21/05/2015 08:03:42 p. m." />
   <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Toolkit.Content\ApplicationBar.Select.png" archivePath="Toolkit.Content\ApplicationBar.Select.png" lastWriteTime="21/05/2015 08:03:42 p. m." />
-  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Bin\Debug\AppManifest.xaml" archivePath="AppManifest.xaml" lastWriteTime="17/08/2015 12:16:51 p. m." />
+  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Bin\Debug\AppManifest.xaml" archivePath="AppManifest.xaml" lastWriteTime="20/08/2015 02:05:11 p. m." />
   <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Bin\Debug\Assets\ApplicationIcon.png" archivePath="Assets\ApplicationIcon.png" lastWriteTime="21/05/2015 08:03:22 p. m." />
   <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\packages\WPtoolkit.4.2013.08.16\lib\wp8\Microsoft.Phone.Controls.Toolkit.dll" archivePath="Microsoft.Phone.Controls.Toolkit.dll" lastWriteTime="21/05/2015 08:03:12 p. m." />
   <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\packages\Newtonsoft.Json.6.0.7\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll" archivePath="Newtonsoft.Json.dll" lastWriteTime="21/05/2015 08:03:04 p. m." />
@@ -78,5 +78,5 @@
   <file source="C:\Program Files (x86)\Telerik\UI for Windows Phone 8 Q2 2015\Binaries\WindowsPhone\Telerik.Windows.Core.xml" archivePath="Telerik.Windows.Core.xml" lastWriteTime="23/06/2015 11:27:44 a. m." />
   <file source="C:\Program Files (x86)\Telerik\UI for Windows Phone 8 Q2 2015\Binaries\WindowsPhone\Telerik.Windows.Data.xml" archivePath="Telerik.Windows.Data.xml" lastWriteTime="23/06/2015 11:28:08 a. m." />
   <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Assets\Tiles\FlipCycleTileMedium.png" archivePath="Assets\Tiles\FlipCycleTileMedium.png" lastWriteTime="04/03/2015 01:46:27 p. m." />
-  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Bin\Debug\Properties\WMAppManifest.xml" archivePath="WMAppManifest.xml" lastWriteTime="17/08/2015 12:16:51 p. m." />
+  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Bin\Debug\Properties\WMAppManifest.xml" archivePath="WMAppManifest.xml" lastWriteTime="20/08/2015 02:05:11 p. m." />
 </xapCache>

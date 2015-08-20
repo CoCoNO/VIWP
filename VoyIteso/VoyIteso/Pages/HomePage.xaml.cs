@@ -19,33 +19,33 @@ namespace VoyIteso.Pages
     {
         //User
         User user = new User();
-        
+
         //Web Service
         //ServiceReferenceVoyItesoMovil.VoyItesoMovilClient clientVoyIteso = new ServiceReferenceVoyItesoMovil.VoyItesoMovilClient();
-        
+
 
         public HomePage()
         {
             InitializeComponent();
 
             //User
-            
+
             //AppBar
-            BuildLocalizedApplicationBar();                                     
+            BuildLocalizedApplicationBar();
             //WebService
             //clientVoyIteso.GetPersonImageCompleted += clientVoyIteso_GetPersonImageCompleted;
-            
-                /*
-            else
-            {
 
-            }*/
-            
-           // if (user.Name.Length > 7)
-             //   profile.FontSize = 5;
+            /*
+        else
+        {
 
-            
-            
+        }*/
+
+            // if (user.Name.Length > 7)
+            //   profile.FontSize = 5;
+
+
+
         }
         /*
         private void clientVoyIteso_GetPersonImageCompleted(object sender, ServiceReferenceVoyItesoMovil.GetPersonImageCompletedEventArgs e)
@@ -81,9 +81,9 @@ namespace VoyIteso.Pages
             //profile.IsFrozen = false;
         }
         */
-
+        public static Appointment[] apps;
         #region OnNavigatedTo
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
             NavigationService.RemoveBackEntry();
@@ -93,29 +93,33 @@ namespace VoyIteso.Pages
             ApiConnector.Instance.UpdateCurrentProfileImage();
 
             user.getInfo(user.key);
-            
-            txtUserName.Text = AppResources.HelloUsertxt + " " +  ApiConnector.Instance.ActiveUser.Name + "!";
+
+            txtUserName.Text = AppResources.HelloUsertxt + " " + ApiConnector.Instance.ActiveUser.Name + "!";
 
             profileTile.Title = ApiConnector.Instance.ActiveUser.Name;
-            
 
-            //if (user.setImageUrl())
-            {
-                //profileImage.Source = (new BitmapImage(new Uri(string.Format(user.imageUrl + "?Refresh=true&random={0}", Guid.NewGuid()), UriKind.Absolute)));
-                //profileImage.Source = ApiConnector.instance.ActiveUser.Avatar;
-                //ApiConnector.instance.ActiveUser.UserDataChanged += UserDataChanged;
-                //ApiConnector.instance.UpdateCurrentProfileImage();
-                //profileTile.IsFrozen = false;
-            }
-            //ApiConnector.instance.ActiveUser.OnUserDataChanged +=
+
+            ////if (user.setImageUrl())
+            //{
+            //    //profileImage.Source = (new BitmapImage(new Uri(string.Format(user.imageUrl + "?Refresh=true&random={0}", Guid.NewGuid()), UriKind.Absolute)));
+            //    //profileImage.Source = ApiConnector.instance.ActiveUser.Avatar;
+            //    //ApiConnector.instance.ActiveUser.UserDataChanged += UserDataChanged;
+            //    //ApiConnector.instance.UpdateCurrentProfileImage();
+            //    //profileTile.IsFrozen = false;
+            //}
+            ////ApiConnector.instance.ActiveUser.OnUserDataChanged +=
+
+            new Progress().showProgressIndicator(this,"cargando citas para el calendario");
+            apps = await ApiConnector.Instance.LoadCurrentMonthLifts();//a lift is an appointment
+            new Progress().hideProgressIndicator(this);
             Microsoft.Phone.Shell.SystemTray.ForegroundColor = Color.FromArgb(255, 110, 207, 243);
-            
+
         }
         #endregion
         void UserDataChanged(object sender, EventArgs e)
         {
             ApiConnector.Instance.ActiveUser.UserDataChanged -= UserDataChanged;
-           // profileImage.Source = ApiConnector.Instance.ActiveUser.Avatar;
+            // profileImage.Source = ApiConnector.Instance.ActiveUser.Avatar;
             profileTile.Picture.Source = ApiConnector.Instance.ActiveUser.Avatar;
             profileTile.IsFrozen = false;
             //TestImage.Source = ApiConnector.Instance.ActiveUser.Avatar;//alv con esto, jairo. 
@@ -206,7 +210,8 @@ namespace VoyIteso.Pages
 
         private void calendarTile_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            NavigationService.Navigate(new Uri("/Pages/CalendarPage.xaml", UriKind.Relative));
+            //NavigationService.Navigate(new Uri("/Pages/CalendarPage.xaml", UriKind.Relative));
+            NavigationService.Navigate(new Uri("/Pages/TheNewCalendar.xaml", UriKind.Relative));
         }
 
         private void NotificationsTile_OnTap(object sender, GestureEventArgs e)

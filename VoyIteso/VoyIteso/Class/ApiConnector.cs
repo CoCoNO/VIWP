@@ -655,8 +655,8 @@ namespace VoyIteso.Class
                     foreach (var app in rootJson.aventones)
                     {
                         var p = new Appointment();
-                        p.Details = "De " + app.texto_origen + " a " + app.texto_destino + " a las " + app.hora_llegada +
-                                    " el dia " + app.fecha + " con " +
+                        p.Details = "De " + app.texto_origen + "*a " + app.texto_destino + "* a las " + app.hora_llegada +
+                                    " *el dia " + app.fecha + " *con " +
                                     (app.conductor == string.Empty ? app.pasajero : app.conductor) + " como " + app.rol + ". Estatus " + app.estatus_aventon;
                         var st = app.fecha.Substring(4, 4);
                         p.StartDate = new DateTime(
