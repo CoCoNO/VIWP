@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Net;
 using System.Windows;
@@ -7,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
+using VoyIteso.Class;
 using VoyIteso.Pages.ShowRoutesComponents;
 
 namespace VoyIteso.Pages
@@ -38,7 +40,32 @@ namespace VoyIteso.Pages
             ApplicationBar.Buttons.Add(b);
             
         }
-        
+
+
+        protected async override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            var user = ApiConnector.Instance.ActiveUser;
+            var rutas = await ApiConnector.Instance.RouteGetAllByUserID(Convert.ToInt32(user.profileID));
+
+        }
+
+
+        protected override void OnBackKeyPress(CancelEventArgs e)
+        {
+            base.OnBackKeyPress(e);
+            NavigationService.Navigate(new Uri("/Pages/HomePage.xaml", UriKind.Relative));
+            while (true)
+            {
+                if (NavigationService.RemoveBackEntry() == null)
+                {
+                    break;
+                }
+            }
+
+        }
+
+        //esta es de prueba,.
         private void a_Click(object sender, EventArgs e)
         {
             var a = new Grid(){Height = 20};

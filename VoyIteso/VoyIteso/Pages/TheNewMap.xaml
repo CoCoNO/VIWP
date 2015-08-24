@@ -276,37 +276,7 @@
                         <ColumnDefinition Width="12"/>
                     </Grid.ColumnDefinitions>
                     <ListBox x:Name="ResultsListBox" Grid.Column="1" ItemsSource="{Binding}" Background="Coral" SelectionChanged="ResultsListBox_SelectionChanged">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <Grid Name="ResultRouteRectangle" Tag="{Binding route_id}"  Background="AliceBlue" Width="{Binding ResultWidth}" Height="{Binding ResultHeight}" VerticalAlignment="Center">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="12"/>
-                                        <RowDefinition Height="*"/>
-                                        <RowDefinition Height="12"/>
-                                    </Grid.RowDefinitions>
-                                    <Grid Grid.Row="1" Background="Beige">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="12"/>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="12"/>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="12"/>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="12"/>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="12"/>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="12"/>
-                                        </Grid.ColumnDefinitions>
-                                        <TextBlock Name="rOrigin" Grid.Column="1" Text="{Binding origin}" TextWrapping="Wrap" FontSize="15"/>
-                                        <TextBlock Name="rDestiny" Grid.Column="3" Text="{Binding destiny}" TextWrapping="Wrap" FontSize="15"/>
-                                        <TextBlock Name="rUsuario" Grid.Column="5" Text="{Binding user_name}" TextWrapping="Wrap" FontSize="15"/>
-                                        <TextBlock Name="rDate" Grid.Column="7" Text="{Binding begin_date}" TextWrapping="Wrap" FontSize="15"/>
-                                        <TextBlock Name="rArrivalTime" Grid.Column="9" Text="{Binding arrival_time}" TextWrapping="Wrap" FontSize="15"/>
-                                    </Grid>
-                                </Grid>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
+                        
                     </ListBox>
                 </Grid>
 

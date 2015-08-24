@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Device.Location;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -57,10 +58,6 @@ namespace VoyIteso.Pages
 
         #endregion
 
-        public TheNewMap(bool userType)
-        {
-
-        }
 
         public TheNewMap()
         {
@@ -74,18 +71,28 @@ namespace VoyIteso.Pages
             Loaded += SearchView_Loaded;
             Microsoft.Phone.Maps.MapsSettings.ApplicationContext.ApplicationId = "acc0d8e8-cffc-4bcb-9d28-06444a2fc7d8";
             Microsoft.Phone.Maps.MapsSettings.ApplicationContext.AuthenticationToken = "0FvJj6wXx2HVKh7g-6hRGw";
-        
+
+            //lo q estaba en el metodo view_loaded
+            states = appBarStates.Init;
+            BuildLocalizedApplicationBar();
+
+            //this is somehow stupid
+            if (!positionAquired)
+            {
+                //FijarPosicionActual();
+                FijarIteso();
+                Salute();
+            }
+            ////////////////////
 
 #region cannibaled constructor
-            states = appBarStates.Map;
 
             canChangeState = true;
             isSearchTerm = false;
             isOrigin = true;
             isConfirmRoute = false;
 
-            //user.getInfo(user.key);
-
+            //user.getInfo(user.key); 
             //LocationTimer.Interval = TimeSpan.FromSeconds(1);
             //LocationTimer.Tick += LocationTimer_Tick;
 
@@ -94,10 +101,8 @@ namespace VoyIteso.Pages
 
             progress = new Progress();
 
-            //maping = new Maping(myMap, InvisibleCanvas);
-
-            //apiConnector = ApiConnector.instance;
-
+            //maping = new Maping(myMap, InvisibleCanvas); 
+            //apiConnector = ApiConnector.instance; 
             //BuildLocalizedApplicationBar();
 
             setLayout();
@@ -120,21 +125,18 @@ namespace VoyIteso.Pages
 
         private void Salute()
         {
-            MessageBox.Show("presiona y manten en el lugar que vas para colocar el pin", "¿a dónde vas?", MessageBoxButton.OK);
-            
-            
+            MessageBox.Show("coloca el destino presionando y manteniendo", "¿a dónde vas?", MessageBoxButton.OK);
         }
         
         private async void SearchView_Loaded(object sender, RoutedEventArgs e)//loaded method
         {
-            
-            //FijarIteso();
-
-            if (!positionAquired)
-            {
-                FijarPosicionActual();
-                Salute();
-            }
+            ////this is somehow stupid
+            //if (!positionAquired)
+            //{
+            //    //FijarPosicionActual();
+            //    FijarIteso();
+            //    Salute();
+            //}
 
             
             //este se utiliza para que cuando se regrese el usuario no le salga la ventana de seleccionar entre aventon o dar ride, el usuario va a regresar directamente al menu principal.
@@ -147,23 +149,24 @@ namespace VoyIteso.Pages
             RouteResult.ResultHeight = (int)(Application.Current.Host.Content.ActualHeight / 4);
             RouteResult.ResultWidth = (int)((Application.Current.Host.Content.ActualWidth / 4) * 3);
 
-            states = appBarStates.Init;
-            BuildLocalizedApplicationBar();
+            //states = appBarStates.Init;
+            //BuildLocalizedApplicationBar();
             //myMap.Focus();
             //progress.hideProgressIndicator(this);
-            ResultsListBox.Items.Add(new cajaDeResultados());
+            //ResultsListBox.Items.Add(new cajaDeResultados());
         }
 
         private async void FijarIteso()
         {
-            GeoCoordinate migeoCoordenada = new GeoCoordinate(20.608390, -103.414512);
+            var migeoCoordenada = new GeoCoordinate(20.608390, -103.414512);
             dibujaru(migeoCoordenada);
             myMap.Center = migeoCoordenada;
             myMap.ZoomLevel = 13;
             //ApplicationBar.IsVisible = true;
             _aconfirmed = true;
             //cargarlista();//cargar la lista de pushpins sugeridos.
-            MessageBox.Show("por defecto, el origen está fijado en el ITESO, pero puedes fijar tu posición");
+            MessageBox.Show("por defecto, el origen está fijado en el ITESO, pero puedes modificarlo.");
+            ReverseQuery();
         }
 
         /// <summary>
@@ -185,6 +188,7 @@ namespace VoyIteso.Pages
 
 
             var capausuario = new MapLayer { imgusuarioenelmapa };
+            myMap.Layers.Remove(_aPoint);
             _aPoint = capausuario;
             myMap.Layers.Add(capausuario);
             //var capausuario = new MapLayer();
@@ -351,6 +355,7 @@ namespace VoyIteso.Pages
                     // do what you want with the locations...
                     foreach (var newLocation in locations)
                     {
+                        mapIcon.StreetName = newLocation.Information.Address.Street.ToString();
                         //feed.Text += newLocation.Information.Address.Street.ToString();
                         mapIcon.pushPinHeader.Text =
 
@@ -385,7 +390,7 @@ namespace VoyIteso.Pages
             ApplicationBar.IsVisible = true;
             _aconfirmed = true;
 
-            MessageBox.Show("origen está fijado en tu posición, coloca el destino");
+            MessageBox.Show("origen está fijado en tu posición");
         }
 
 
@@ -415,17 +420,17 @@ namespace VoyIteso.Pages
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void ApplicationBarIconButton_OnClick(object sender, EventArgs e)
+        private void ApplicationBarIconButton_OnClick(object sender, EventArgs e)// 
         {
             //SearchNowButton_OnClick(null, null);
             //la flag es la que indica que ya existen tanto punto A (origen) como punto B (destino).
             if (_flag)
             {
-                if (Driver)
+                if (Driver)// si es usuario q da ride pasa esto.
                 {
                     if (wayPointList.Count > 0)
                     {
-                        var result = MessageBox.Show("vas fijar los puntos intermedios a tu ruta, si cancelas tendrás que volver a agregar todos los puntos", "confirmar operación", MessageBoxButton.OKCancel);
+                        var result = MessageBox.Show("vas fijar los puntos intermedios a tu ruta, si cancelas tendrás que volver a agregar los puntos intermedios", "confirmar operación", MessageBoxButton.OKCancel);
                         if (result == MessageBoxResult.OK)
                         {//issue... acomodar los parametros aqui para el apiconector. fin
                             //navegar aqui para pedir los datos que faltan como la hora, la fecha y la chingada.
@@ -452,7 +457,7 @@ namespace VoyIteso.Pages
                         }
                     }
                 }
-                else
+                else// si es usuairo q pide ride pasa esto. 
                 {
                     ShowLeftPanelAnimation.Begin();
                     //NavigateToSecundaryPage();
@@ -463,22 +468,68 @@ namespace VoyIteso.Pages
             else
             {
                 _confirmed = true;
-                var mapIcon = BPoint.Content;
-                MessageBox.Show("destino fijado");//falta ponerle en donde 
-                ShowLeftPanelAnimation.Begin();
-                //
-                //MyMapControl.Layers.Add(layer);   
+                var mapIcon = (MapIcon) BPoint.Content;//destino
+                //var mapIcon2 = (MapIcon) APoint.Content;//origen
+                MessageBox.Show("destino fijado");
+                txtOriginRojo.Text = aStreetName;
+                txtDestinyRojo.Text = mapIcon.StreetName;
                 SearchNowButton_OnClick(null, null);
+                ApplicationBar.Mode = ApplicationBarMode.Minimized;
+                if (Driver) return;
+                ShowLeftPanelAnimation.Begin(); 
+                
             }
             ApplicationBar.Mode = ApplicationBarMode.Minimized;
         }
 
+
+        private void ReverseQuery()
+        {
+            var asd = APoint.GeoCoordinate;
+            //get properties of the address from the tapped location. 
+            var query = new ReverseGeocodeQuery { GeoCoordinate = new GeoCoordinate(asd.Latitude, asd.Longitude) };
+            query.QueryCompleted += (s, ev) =>
+            {
+                if (ev.Error == null && ev.Result.Count > 0)
+                {
+                    var locations = ev.Result as List<MapLocation>;
+                    // do what you want with the locations...
+                    foreach (var newLocation in locations)
+                    {
+                        aStreetName = newLocation.Information.Address.Street.ToString();
+                        //feed.Text += newLocation.Information.Address.Street.ToString();
+                        //mapIcon.pushPinHeader.Text =
+
+                        //    //newLocation.Information.Address.Street.ToString();
+                        //    //newLocation.Information.Description.ToString();
+                        //    //newLocation.Information.Address.BuildingName.ToString();
+                        //    newLocation.Information.Address.Street.ToString() + " " + newLocation.Information.Address.HouseNumber + "\n" +
+                        //    newLocation.Information.Address.District.ToString();
+                    }
+
+                }
+            };
+            query.QueryAsync();
+        }
+
+
+
+
         private void ChangeDestinationButton_OnClick(object sender, EventArgs e)
         {
             ResetValues();
+            if (Driver)
+            {
+                startOverWayPoints_OnClick(null,null);
+            }
+            var a = states;
             MyMapControl_OnCenterChanged(null, null);
             myMap.Layers.Remove(_layer);
-            MessageBox.Show("Coloca un nuevo destino", "destino borrado", MessageBoxButton.OK);
+            MessageBox.Show("Coloca un nuevo destino para continuar", "destino borrado", MessageBoxButton.OK);
+            if (a == appBarStates.Left)
+            {
+                HideLeftPanelAnimation.Begin();   
+            }
         }
 
 
@@ -502,7 +553,8 @@ namespace VoyIteso.Pages
 
         private void MyMapControl_OnCenterChanged(object sender, MapCenterChangedEventArgs e)
         {
-            states = appBarStates.Map;
+            states = _pointCount>0 ? appBarStates.Shit2 : appBarStates.Init;
+
             BuildLocalizedApplicationBar();
             ApplicationBar.Mode = ApplicationBarMode.Minimized;
 
@@ -515,12 +567,40 @@ namespace VoyIteso.Pages
         }
 
         /// <summary>
+        /// esta cosa la hice provisional para mostarr mensaje de espera cuando el usuario agrega un punto b o waypoint. para el tiempo en 
+        /// que se tarda en haer el reverse query. 
+        /// </summary>
+        /// <returns></returns>
+        public Task ExpensiveTaskAsync()
+        {
+            return Task.Run(() => ExpensiveTask()); 
+        }
+
+        private void ExpensiveTask()
+        {
+           // MessageBox.Show("expensive task completed...");
+            //for (int i = 0; i < 10000000; i++)
+            //{
+            //    i = i;
+            //}
+
+        }
+        async public void DoStuff()
+        {
+            //PrepareExpensiveTask();
+            progress.showProgressIndicator(this,"esperando");
+            await ExpensiveTaskAsync();
+            progress.hideProgressIndicator(this);
+            //UseResultsOfExpensiveTask();
+        }
+        /// <summary>
         /// This event adds a new layer with a puonshpin on the holded location with district and street and number.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void MyMapControl_OnHold(object sender, GestureEventArgs e)
         {
+            //DoStuff();
             if (_flag && !_routeConfirmed)
             {
                 AddWayPoint(sender, e); 
@@ -565,7 +645,7 @@ namespace VoyIteso.Pages
         int intGender;
         RouteResult currentRoute;
 
-        enum appBarStates { Map, Left, Right, Search, Confirm, Shit, Waypoint, Init };
+        enum appBarStates { Map, Left, Right, Search, Confirm, Shit, Waypoint, Init, Shit2 };
         appBarStates states;
 
         //User user = new User();
@@ -575,6 +655,7 @@ namespace VoyIteso.Pages
         List<string> autoComplemapingreets;
         Maping maping;
         private bool positionAquired;
+        private string aStreetName;
         //ApiConnector apiConnector;
 #endregion
 
@@ -746,6 +827,10 @@ namespace VoyIteso.Pages
             canChangeState = true;
             isSearchTerm = false;
             BuildLocalizedApplicationBar();
+            if (_pointCount>0)
+            {
+                MessageBox.Show("para continuar presiona en confirmar", "Configura fecha y horario", MessageBoxButton.OK);
+            }
         }
 
         void ShowRightPanelAnimation_Completed(object sender, EventArgs e)
@@ -809,38 +894,68 @@ namespace VoyIteso.Pages
         #region appBar Buttons
         async void appBarSearchRouteButton_Click(object sender, EventArgs e)
         {
-            progress.showProgressIndicator(this, "Calculando");
+            progress.showProgressIndicator(this, "Espera un momento, por favor");
             //SendSearchRequest(); 
             //send request
             //aqui puto jairo
             string origen = txtOriginRojo.Text;
             string destino = txtDestinyRojo.Text;
-            string fecha = dateString;
+            string fecha = dateString;// la fecha de inicia obtenida del time picker
+            DateTime myDateTime;
+            myDateTime = DateTime.ParseExact(dateString, "dd-MM-yyyy", 
+                                             null);//yyyy-MM-dd HH:mm tt
             string hora = timeString;
             double lat_destino = BPoint.GeoCoordinate.Latitude;
             double lon_destino = BPoint.GeoCoordinate.Longitude;
-            double lat_origen = APoint.GeoCoordinate.Longitude;
+            double lat_origen = APoint.GeoCoordinate.Latitude;
             double lon_origen = APoint.GeoCoordinate.Longitude;
 
-            Rutas rutas = null;
-
-            if (TheNewMap.Driver)
+            if (TheNewMap.Driver)// si estas creando ruta
             {
+                List<GeoCoordinate> myList = wayPointList.Select(mapOverlay => mapOverlay.GeoCoordinate).ToList();
+                IEnumerable<GeoCoordinate> myEnumerable = myList;
+                //List<string> listAgain = myEnumerable.ToList();//para convertir atras.
 
+                var a = await ApiConnector.Instance.RouteCreate(origen, destino, myDateTime, myDateTime.AddHours(1), "1", 2, myEnumerable);
+                progress.hideProgressIndicator(this);
+                if (a.estatus==1)
+                {
+                    MessageBox.Show("ruta agregada exitosamente");
+                    NavigationService.Navigate(new Uri("/Pages/ShowRoutes.xaml",UriKind.Relative));
+                }
+                else
+                {
+                    MessageBox.Show(a.error,"Hubo un error en el sistema",MessageBoxButton.OK);
+                }
             }
-            else
+            else// sino, estas buscando una ruta.
             {
                 //buscar ruta
-                rutas = await ApiConnector.Instance.RouteSearch(origen, destino, fecha, lat_destino, lon_destino, lat_origen, lon_origen, hora);
+                var rutas = await ApiConnector.Instance.RouteSearch(origen, destino, fecha, lat_destino, lon_destino, lat_origen, lon_origen, hora);
+                progress.hideProgressIndicator(this);
+                
+                if (rutas.rutas.Count > 0)
+                {
+                    foreach (var ruta in rutas.rutas)
+                    {
+                        var resultados = new cajaDeResultados();
+                        resultados.NombreDelConductor.Text = ruta.persona_nombre;
+                        resultados.DescripcionDeRuta.Text = ruta.texto_origen + "\n" + ruta.texto_destino + "\na las " + ruta.hora_llegada + " en " + ruta.fecha_inicio;
+                        //resultados.Text += ruta.persona_nombre + ruta.texto_origen + ruta.texto_destino + ruta.hora_llegada;
+                        ResultsListBox.Items.Add(resultados);
+                    }
+
+                }
+                else
+                {
+                    MessageBox.Show("No hay rutas disponibles, intenta otro horario");
+                }
             }
             
-            TextBlock resultados = new TextBlock();
-            foreach (var ruta in rutas.rutas)
-            {
-                resultados.Text += ruta.persona_nombre + ruta.texto_origen + ruta.texto_destino + ruta.hora_llegada;
-            }
+
             
-            ResultsListBox.Items.Add(resultados);
+
+            //ResultsListBox.Items.Add(resultados);
 
         }
 
@@ -885,6 +1000,8 @@ namespace VoyIteso.Pages
             {
                 canChangeState = false;
                 ShowLeftPanelAnimation.Begin();
+                //System.Threading.Thread.Sleep(1000);//number is expressed in miliseconds. 
+                //MessageBox.Show("para continuar presiona en confirmar","Configura fecha y horario",MessageBoxButton.OK);
             }
         }
 
@@ -981,57 +1098,68 @@ namespace VoyIteso.Pages
                 appBarResultButton.Click += appBarResultButton_Click;
                 ApplicationBar.Buttons.Add(appBarResultButton);
 
+                ApplicationBarMenuItem fijarme = new ApplicationBarMenuItem();
+                fijarme.Text = "fijar mi posición";
+                fijarme.Click += fijarme_OnClick;
+                ApplicationBar.MenuItems.Add(fijarme);
+
+                if (_pointCount <= 0) return;
+                ApplicationBarMenuItem changeDestination = new ApplicationBarMenuItem();
+                changeDestination.Text = "cambiar el destino";
+                changeDestination.Click += ChangeDestinationButton_OnClick;
+                ApplicationBar.MenuItems.Add(changeDestination);
+            }
+
+            else if (states == appBarStates.Shit2)
+            {
+                ApplicationBarIconButton a = new ApplicationBarIconButton(new Uri("/Images/u.png", UriKind.Relative));
+                a.Text = "cómo usar";
+                a.Click += howToUse_Click;
+                ApplicationBar.Buttons.Add(a);
+
+                ApplicationBarMenuItem fijarme = new ApplicationBarMenuItem();
+                fijarme.Text = "fijar mi posición";
+                fijarme.Click += fijarme_OnClick;
+                ApplicationBar.MenuItems.Add(fijarme);
+
+                if (_pointCount <= 0) return;
+                ApplicationBarMenuItem changeDestination = new ApplicationBarMenuItem();
+                changeDestination.Text = "cambiar el destino";
+                changeDestination.Click += ChangeDestinationButton_OnClick;
+                ApplicationBar.MenuItems.Add(changeDestination);
+
             }
 
             else if (states == appBarStates.Init)
             {
                 ApplicationBarIconButton a = new ApplicationBarIconButton(new Uri("/Images/u.png", UriKind.Relative));
-                a.Text = "¿cómo se usa?";
+                a.Text = "cómo usar";
                 a.Click += howToUse_Click;
                 ApplicationBar.Buttons.Add(a);
 
-                //ApplicationBarMenuItem changeDestination = new ApplicationBarMenuItem();
-                //changeDestination.Text = "cambiar el destino";
-                //changeDestination.Click += ChangeDestinationButton_OnClick;
-
-                //ApplicationBarIconButton appBarSearchButton = new ApplicationBarIconButton(new Uri("Assets/feature.search.png", UriKind.Relative));
-                //appBarSearchButton.Text = "Buscar Ruta";
-                //appBarSearchButton.Click += appBarSearchButton_Click;
-                //ApplicationBar.Buttons.Add(appBarSearchButton);
-
-                //ApplicationBarIconButton appBarResultButton = new ApplicationBarIconButton(new Uri("Assets/next.png", UriKind.Relative));
-                //appBarResultButton.Text = "Resultados";
-                //appBarResultButton.Click += appBarResultButton_Click;
-                //ApplicationBar.Buttons.Add(appBarResultButton);
-
+                ApplicationBarMenuItem fijarme = new ApplicationBarMenuItem();
+                fijarme.Text = "fijar mi posición";
+                fijarme.Click += fijarme_OnClick;
+                ApplicationBar.MenuItems.Add(fijarme);
             }
+
             else if (states == appBarStates.Waypoint)
             {
                 ApplicationBarIconButton a = new ApplicationBarIconButton(new Uri("/Images/check.png", UriKind.Relative));
-                a.Text = "Confirmar";
+                a.Text = "confirmar puntos";
                 a.Click += ApplicationBarIconButton_OnClick;
                 ApplicationBar.Buttons.Add(a);
 
-                //ApplicationBarMenuItem changeDestination = new ApplicationBarMenuItem();
-                //changeDestination.Text = "cambiar el destino";
-                //changeDestination.Click += ChangeDestinationButton_OnClick;
-
-                //ApplicationBarIconButton appBarSearchButton = new ApplicationBarIconButton(new Uri("Assets/feature.search.png", UriKind.Relative));
-                //appBarSearchButton.Text = "Buscar Ruta";
-                //appBarSearchButton.Click += appBarSearchButton_Click;
-                //ApplicationBar.Buttons.Add(appBarSearchButton);
-
-                //ApplicationBarIconButton appBarResultButton = new ApplicationBarIconButton(new Uri("Assets/next.png", UriKind.Relative));
-                //appBarResultButton.Text = "Resultados";
-                //appBarResultButton.Click += appBarResultButton_Click;
-                //ApplicationBar.Buttons.Add(appBarResultButton);
-
+                ApplicationBarMenuItem b = new ApplicationBarMenuItem();
+                b.Text = "volver a empezar";//
+                b.Click += startOverWayPoints_OnClick;
+                ApplicationBar.MenuItems.Add(b);
             }
 
             else if (states == appBarStates.Shit)
             {
                 ApplicationBarIconButton a = new ApplicationBarIconButton(new Uri("/Images/check.png", UriKind.Relative));
-                a.Text = "Confirmar";
+                a.Text = "confirmar";
                 a.Click += ApplicationBarIconButton_OnClick;
                 ApplicationBar.Buttons.Add(a);
 
@@ -1053,19 +1181,25 @@ namespace VoyIteso.Pages
             else if (states == appBarStates.Left)
             {
                 ApplicationBarIconButton appBarSearchRouteButton = new ApplicationBarIconButton(new Uri("Assets/check.png", UriKind.Relative));
-                appBarSearchRouteButton.Text = "Buscar";
+                appBarSearchRouteButton.Text = "confirmar";
                 appBarSearchRouteButton.Click += appBarSearchRouteButton_Click;
                 ApplicationBar.Buttons.Add(appBarSearchRouteButton);
 
                 ApplicationBarIconButton appBarShowMapButton = new ApplicationBarIconButton(new Uri("Assets/next.png", UriKind.Relative));
-                appBarShowMapButton.Text = "Mostrar Mapa";
+                appBarShowMapButton.Text = "mapa";
                 appBarShowMapButton.Click += appBarShowMapButton_Click;
                 ApplicationBar.Buttons.Add(appBarShowMapButton);
 
                 ApplicationBarIconButton appBarShowResultsButton = new ApplicationBarIconButton(new Uri("Assets/next.png", UriKind.Relative));
-                appBarShowResultsButton.Text = "Mostrar resultados";
+                appBarShowResultsButton.Text = "resultados";
                 appBarShowResultsButton.Click += appBarShowResults_Click;
                 ApplicationBar.Buttons.Add(appBarShowResultsButton);
+
+                if (_pointCount <= 0) return;
+                ApplicationBarMenuItem changeDestination = new ApplicationBarMenuItem();
+                changeDestination.Text = "cambiar el destino";
+                changeDestination.Click += ChangeDestinationButton_OnClick;
+                ApplicationBar.MenuItems.Add(changeDestination);
             }
 
             else if (states == appBarStates.Right)
@@ -1104,9 +1238,26 @@ namespace VoyIteso.Pages
 
         }
 
+        private void startOverWayPoints_OnClick(object sender, EventArgs e)
+        {
+            wayPointList.Clear();
+            foreach (var a in waylayerList)
+            {
+                myMap.Layers.Remove(a);
+            }
+            waylayerList.Clear();
+            
+            MessageBox.Show("Enfócate en colocar los puntos intermedios","Puntos intermedios borrados",MessageBoxButton.OK);
+        }
+
+        private void fijarme_OnClick(object sender, EventArgs e)
+        {
+            FijarPosicionActual();
+        }
+
         private void howToUse_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("que aqui vaya un tutorial", "Tutorial", MessageBoxButton.OK);
+            MessageBox.Show("que aqui vaya un tutorial, Fer, ahi te encargo", "Tutorial", MessageBoxButton.OK);
         }
 
 
