@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Windows;
@@ -28,21 +29,6 @@ namespace VoyIteso.Pages.CalendarComponents
         {
             InitializeComponent();
             InitAppointments();
-            //myCalendar_SelectedValueChanged(null,null);
-            //UpdateLayout();
-            DateTime fechaFin = new DateTime(2015, 9, 1);
-            var fechaInicio = new DateTime(2015, 8, 1);
-            while (fechaInicio > fechaFin)
-            {
-                // do something with target.Month and target.Year
-                fechaFin = fechaFin.AddDays(1);
-                Days.Add(fechaFin);
-            }
-
-            foreach (var d in Days)
-            {
-                MyCalendar.SelectedValue = d.Date;
-            }
         }
 
 
@@ -96,20 +82,30 @@ namespace VoyIteso.Pages.CalendarComponents
                 DateTime selectedDate = (DateTime)selectedValue;
                 MyAppointmentSource appointmentSource = (MyAppointmentSource)MyCalendar.AppointmentSource;
                 var list = appointmentSource.getAppointmentList();//List<Appointment>. list of appointments.
-                AppointmentDetails.Text = "";
-                AppointmentDetails2.Text = "";
-                AppointmentDetails3.Text = "";
+
+                
+                //AppointmentDetails.Text = "";
 
                 foreach (var item in list)
                 {
+                    //build a new listboxitem.
+                    var listItem = new ListBoxItem();
+                    listItem.Content = "";
+                    listItem.FontSize = 13;
+
                     string exampleString = item.Details;
                     string[] words = exampleString.Split('*');
                     if (item.StartDate.Day == selectedDate.Day)
                     {
-                        AppointmentDetails.Text += words[0];
-                        AppointmentDetails2.Text += words[1];
-                        AppointmentDetails3.Text += words[2];
+                        listItem.Content += words[0];
+                        listItem.Content += "\n" + words[1];
+                        listItem.Content += "\n" + words[2];
+                        //AppointmentDetails.Text += words[0];
+                        //AppointmentDetails.Text += "\n" + words[1];
+                        //AppointmentDetails.Text += "\n" + words[2];
+                        listItem.Tap += item_onClicked;
                     }
+                    ListaDeApointments.Items.Add(listItem);
                 }
             }
 
@@ -119,6 +115,12 @@ namespace VoyIteso.Pages.CalendarComponents
             //    return;
             //}
 
+        }
+
+        private void item_onClicked(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            //MessageBox.Show("hola mundo, ya me tapearon.");
+            Debug.WriteLine("ya me tapearon.");
         }
 
 

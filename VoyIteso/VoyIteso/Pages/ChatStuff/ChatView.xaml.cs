@@ -12,33 +12,35 @@ using System.Windows.Threading;
 using Microsoft.Devices;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
+using RestSharp.Extensions;
 using Telerik.Windows.Controls;
 using VoyIteso.Class;
 
-namespace VoyIteso.Pages.Chat2
+namespace VoyIteso.Pages.ChatStuff
 {
 
     public partial class ChatView : UserControl
     {
-        public static ObservableCollection<object> messages = new ObservableCollection<object>();
-        public static ObservableCollection<string> dummyMessages = new ObservableCollection<string>()
-        {
-            "Hey you! I'm Dummy. Tell me what's on your mind!",
-            "Great talkers are little doers. Are you a great talker?",
-            "Huh?",
-            "One ring to rule them all. One ring to bind them, and in the darkness bind them!",
-            "Wow!",
-            "I'm not speaking to you ever again!",
-            "Chinga tu madre wey!",
-            "The force flows strong in you!",
-            "虎穴に入らずんば虎子を得ず ^^",
-            "Hodor!",
-            "Talk to the hand!",
-            "You shall not pass!",
-            "Moo! I'm a goat!",
-            "Sup' dawg?",
-            "I'll be back!"
-        };
+        public ObservableCollection<object> messages = new ObservableCollection<object>();
+        public ObservableCollection<string> dummyMessages = new ObservableCollection<string>();
+        //public static ObservableCollection<string> dummyMessages = new ObservableCollection<string>()
+        //{
+        //    "Hey you! I'm Dummy. Tell me what's on your mind!",
+        //    "Great talkers are little doers. Are you a great talker?",
+        //    "Huh?",
+        //    "One ring to rule them all. One ring to bind them, and in the darkness bind them!",
+        //    "Wow! how stupid you are",
+        //    "I'm not speaking to you ever again!",
+        //    "Chinga tu madre wey!",
+        //    "The force flows strong in you!",
+        //    "虎穴に入らずんば虎子を得ず ^^",
+        //    "Hodor!",
+        //    "Talk to the hand!",
+        //    "You shall not pass!",
+        //    "Moo! I'm a goat!",
+        //    "Sup' dawg?",
+        //    "I'll be back!"
+        //};
 
         IEnumerator<string> dummyMessagesEnumerator;
         DispatcherTimer timer = new DispatcherTimer()
@@ -58,17 +60,64 @@ namespace VoyIteso.Pages.Chat2
             //this.messages = myMessages;
             //this.dummyMessages = secondPartyMessages;
 
-            this.dummyMessagesEnumerator = new InfiniteEnumerator(dummyMessages);
-            this.timer.Tick += this.OnTimerTick;
-            this.startTimer.Tick += this.OnStartTimerTick;
+            //foo();
+            //this.dummyMessagesEnumerator = new InfiniteEnumerator(dummyMessages);
+            //this.timer.Tick += this.OnTimerTick;
+            //this.startTimer.Tick += this.OnStartTimerTick;
+
+            //this.conversationView.ItemsSource = messages;
+            //this.conversationView.CreateMessage = (string text) => new CustomMessage(text, DateTime.Now, ConversationViewMessageType.Outgoing);
+
+            //this.dummyMessagesEnumerator.MoveNext();
+            //messages.Add(this.CreateIncomingMessage(this.dummyMessagesEnumerator.Current)); 
+            
+        }
+
+        public async void foo()
+        {
+            //this.dummyMessagesEnumerator = new InfiniteEnumerator(dummyMessages);
+            //this.dummyMessagesEnumerator = new 
 
             this.conversationView.ItemsSource = messages;
             this.conversationView.CreateMessage = (string text) => new CustomMessage(text, DateTime.Now, ConversationViewMessageType.Outgoing);
 
-            this.dummyMessagesEnumerator.MoveNext();
-            messages.Add(this.CreateIncomingMessage(this.dummyMessagesEnumerator.Current)); 
-            
+            //this.dummyMessagesEnumerator.MoveNext();
+
+            //foreach (var message in dummyMessages)
+            //{
+            //    messages.Add(this.CreateIncomingMessage(this.dummyMessagesEnumerator.Current));
+            //    this.dummyMessagesEnumerator.MoveNext();
+            //}
+
+            Mensajes listaDeMensajes = null;
+
+            var key = ChatLayout.key;
+
+            new Progress().showProgressIndicator(this, "cargando mensajes");
+            listaDeMensajes = await ApiConnector.Instance.LiftMessagesGet(Convert.ToInt32(key));//aqui se obtiene la lista de mensajes del aventon seleccionado.
+            new Progress().hideProgressIndicator(this);
+
+            foreach (var mensaje in listaDeMensajes.mensajes)
+            {
+                var custommessa = new CustomMessage("",DateTime.Now,ConversationViewMessageType.Incoming);
+                /////si el mensaje pertenece al usuario/////
+                if (mensaje.perfil_id.ToString().Equals(ApiConnector.Instance.ActiveUser.profileID))//si el mensaje pertenece al usuario. 
+                {
+                    custommessa = new CustomMessage(mensaje.texto, DateTime.Now, ConversationViewMessageType.Outgoing);
+                    messages.Add(custommessa);
+                }
+                /////sino el mensaje pertenece a la segunda persona./////
+                else
+                {
+                    custommessa = new CustomMessage(mensaje.texto, DateTime.Now, ConversationViewMessageType.Incoming);
+                    messages.Add(custommessa);
+                }
+
+            }
+
+
         }
+
 
         private CustomMessage CreateIncomingMessage(string text)
         {
@@ -99,6 +148,7 @@ namespace VoyIteso.Pages.Chat2
             }
 
             messages.Add(e.Message);
+            //aqui va a mandar el mensaje puto jairo.
 
             if (this.timer.IsEnabled || this.startTimer.IsEnabled)
             {

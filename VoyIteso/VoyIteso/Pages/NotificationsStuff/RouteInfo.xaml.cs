@@ -34,8 +34,10 @@ namespace VoyIteso.Pages
 
         private async void loadData()
         {
+            new Progress().showProgressIndicator(this,"espera");
             var user = await ApiConnector.Instance.GetUserById(Notificacion.perfil_id.ToString());
             UserDetails.Text = user.Name + "\n" + user.profile.edad + " años\n" + user.profile.carrera;
+            new Progress().hideProgressIndicator(this);
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -48,11 +50,12 @@ namespace VoyIteso.Pages
 
         private void ocultarMierda()
         {
+            //si el estatus del aventon ha sido aceptado.
             if (Notificacion.tipo.ToString().Substring(0, 1).Equals("A"))//Notificacion.estatus_aventon//Solicitud, Cancelacion, Aceptada
             {
                 GridDeBotones.Children.Remove(BotonAceptar);
                 GridDeBotones.Children.Remove(BotonRechazar);
-                var a = new TextBlock() { Text = "El aventón ha sido aceptado", Foreground = new SolidColorBrush(Colors.Black) };
+                var a = new TextBlock() { Text = "El aventón ya ha sido aceptado", Foreground = new SolidColorBrush(Colors.Black) };
                 GridDeBotones.Children.Add(a);
             }
         }

@@ -47,7 +47,6 @@ namespace VoyIteso.Pages
             base.OnNavigatedTo(e);
             var user = ApiConnector.Instance.ActiveUser;
             var rutas = await ApiConnector.Instance.RouteGetAllByUserID(Convert.ToInt32(user.profileID));
-
         }
 
 

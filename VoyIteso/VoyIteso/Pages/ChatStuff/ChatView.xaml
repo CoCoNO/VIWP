@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="VoyIteso.Pages.Chat2.ChatView"
+﻿<UserControl x:Class="VoyIteso.Pages.ChatStuff.ChatView"
              
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"

@@ -46,7 +46,7 @@
             <telerickPrimitives:RadCycleHubTile.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
-                        <TextBlock Text="Notificaciones" Margin="280,130,0,0"/>
+                        <TextBlock x:Name="textNotificaciones" Text="Notificaciones" Margin="10,130,10,0" HorizontalAlignment="Right"/>
                     </StackPanel>
                 </DataTemplate>
             </telerickPrimitives:RadCycleHubTile.ItemTemplate>
@@ -60,7 +60,7 @@
             </telerickPrimitives:RadCustomHubTile.FrontContent>
             <telerickPrimitives:RadCustomHubTile.BackContent>
                 <Grid Margin="0,0,0,0" Background="#6ECFF3">
-                    <TextBlock Text="YES" FontSize="{StaticResource PhoneFontSizeMedium}" FontFamily="{StaticResource PhoneFontFamilySemiBold}" Margin="280,120,75,15"/>
+                    <TextBlock x:Name="atrasCalendario" Text="YES" FontSize="{StaticResource PhoneFontSizeMedium}" FontFamily="{StaticResource PhoneFontFamilySemiBold}" Margin="280,120,75,15"/>
                 </Grid>
             </telerickPrimitives:RadCustomHubTile.BackContent>
         </telerickPrimitives:RadCustomHubTile>

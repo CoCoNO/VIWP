@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Device.Location;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -216,7 +217,7 @@ namespace VoyIteso.Pages
         }
 
         /// <summary>
-        /// es disparado cuando hay punto a y b fijados. (origen y destino)
+        /// es disparado cuando hay punto a y b fijados. (origen y destino). play>>>
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="eventArgs"></param>
@@ -420,13 +421,18 @@ namespace VoyIteso.Pages
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void ApplicationBarIconButton_OnClick(object sender, EventArgs e)// 
+        private void Play(object sender, EventArgs e)// 
         {
             //SearchNowButton_OnClick(null, null);
-            //la flag es la que indica que ya existen tanto punto A (origen) como punto B (destino).
+            //la flag es la que indica que ya existen tanto punto A (origen) como punto B (destino). cambiar estas babosadas
             if (_flag)
-            {
-                if (Driver)// si es usuario q da ride pasa esto.
+            {   
+                
+                
+                
+                
+                
+                if (Driver)
                 {
                     if (wayPointList.Count > 0)
                     {
@@ -439,9 +445,11 @@ namespace VoyIteso.Pages
                         else
                         { // el usuario le pico a cancel entonces se va a borrar la lista de waypoints y eliminar todas las capas q contienen pushpins. excepto el punto a y b
                             wayPointList.Clear();
+                            //se sugiere myMap.Layers.Clear();
                             foreach (var layer in waylayerList)
                             {
                                 myMap.Layers.Remove(layer);
+                                
                             }
                             waylayerList.Clear();
                         }
@@ -457,7 +465,12 @@ namespace VoyIteso.Pages
                         }
                     }
                 }
-                else// si es usuairo q pide ride pasa esto. 
+
+
+
+
+                
+                else 
                 {
                     ShowLeftPanelAnimation.Begin();
                     //NavigateToSecundaryPage();
@@ -671,7 +684,7 @@ namespace VoyIteso.Pages
             if (time.Days >= 0)
                 dateString = string.Format("{0:dd-MM-yyyy}", e.NewDateTime);
             else
-                MessageBox.Show("Ingresar un dia que sea apartir de hoy en adelante", "Error", MessageBoxButton.OK);
+                MessageBox.Show("No puedes agendar aventones para el pasado, ¿te crees Marty McFly?", "No te pases de listo", MessageBoxButton.OK);
         }
         #endregion
 
@@ -910,8 +923,13 @@ namespace VoyIteso.Pages
             double lat_origen = APoint.GeoCoordinate.Latitude;
             double lon_origen = APoint.GeoCoordinate.Longitude;
 
+
+
+
+            ///DAR AVENTON
             if (TheNewMap.Driver)// si estas creando ruta
             {
+                //convierto mis waypoins en un enumerable para pasarlo al metodo de crear ruta.
                 List<GeoCoordinate> myList = wayPointList.Select(mapOverlay => mapOverlay.GeoCoordinate).ToList();
                 IEnumerable<GeoCoordinate> myEnumerable = myList;
                 //List<string> listAgain = myEnumerable.ToList();//para convertir atras.
@@ -928,28 +946,42 @@ namespace VoyIteso.Pages
                     MessageBox.Show(a.error,"Hubo un error en el sistema",MessageBoxButton.OK);
                 }
             }
-            else// sino, estas buscando una ruta.
+
+
+
+            ///BUSCAR AVENTON
+            else
             {
                 //buscar ruta
                 var rutas = await ApiConnector.Instance.RouteSearch(origen, destino, fecha, lat_destino, lon_destino, lat_origen, lon_origen, hora);
                 progress.hideProgressIndicator(this);
-                
-                if (rutas.rutas.Count > 0)
-                {
-                    foreach (var ruta in rutas.rutas)
-                    {
-                        var resultados = new cajaDeResultados();
-                        resultados.NombreDelConductor.Text = ruta.persona_nombre;
-                        resultados.DescripcionDeRuta.Text = ruta.texto_origen + "\n" + ruta.texto_destino + "\na las " + ruta.hora_llegada + " en " + ruta.fecha_inicio;
-                        //resultados.Text += ruta.persona_nombre + ruta.texto_origen + ruta.texto_destino + ruta.hora_llegada;
-                        ResultsListBox.Items.Add(resultados);
-                    }
 
-                }
-                else
+                try
                 {
-                    MessageBox.Show("No hay rutas disponibles, intenta otro horario");
+                    if (rutas.rutas.Count > 0)
+                    {
+                        foreach (var ruta in rutas.rutas)
+                        {
+                            var resultados = new cajaDeResultados();
+                            resultados.NombreDelConductor.Text = ruta.persona_nombre;
+                            resultados.DescripcionDeRuta.Text = ruta.texto_origen + "\n" + ruta.texto_destino + "\na las " + ruta.hora_llegada + " en " + ruta.fecha_inicio;
+                            //resultados.Text += ruta.persona_nombre + ruta.texto_origen + ruta.texto_destino + ruta.hora_llegada;
+                            ResultsListBox.Items.Add(resultados);
+                        }
+
+                    }
+                    else
+                    {
+                        MessageBox.Show("No hay rutas disponibles, intenta otro horario");
+                    }
                 }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Algo salio mal. vuelve a intentar");
+                    Debug.WriteLine("algo salio mal>>>" + ex.Message);
+                    //throw;
+                }
+                
             }
             
 
@@ -994,6 +1026,7 @@ namespace VoyIteso.Pages
             }
         }
 
+        //play
         void appBarSearchButton_Click(object sender, EventArgs e)
         {
             if (canChangeState)
@@ -1043,7 +1076,7 @@ namespace VoyIteso.Pages
 
         }
 
-        //
+        //PLAY>>>>metodo viejo de jairo.
         async void  appBarConfirmButton_Click(object sender, EventArgs e)
         {
             //send request 
@@ -1147,7 +1180,7 @@ namespace VoyIteso.Pages
             {
                 ApplicationBarIconButton a = new ApplicationBarIconButton(new Uri("/Images/check.png", UriKind.Relative));
                 a.Text = "confirmar puntos";
-                a.Click += ApplicationBarIconButton_OnClick;
+                a.Click += Play;
                 ApplicationBar.Buttons.Add(a);
 
                 ApplicationBarMenuItem b = new ApplicationBarMenuItem();
@@ -1160,7 +1193,7 @@ namespace VoyIteso.Pages
             {
                 ApplicationBarIconButton a = new ApplicationBarIconButton(new Uri("/Images/check.png", UriKind.Relative));
                 a.Text = "confirmar";
-                a.Click += ApplicationBarIconButton_OnClick;
+                a.Click += Play;
                 ApplicationBar.Buttons.Add(a);
 
                 //ApplicationBarMenuItem changeDestination = new ApplicationBarMenuItem();

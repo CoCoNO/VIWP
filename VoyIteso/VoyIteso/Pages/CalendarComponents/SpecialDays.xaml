@@ -33,16 +33,10 @@
                                   SelectionBackground="Gray"  
                                   SelectedValueChanged="myCalendar_SelectedValueChanged"
                                   x:Name="MyCalendar" />
-        <ListBox Grid.Row="1">
-            <ListBoxItem>
+        <ListBox x:Name="ListaDeApointments" Grid.Row="1">
+            <!--<ListBoxItem>
                 <TextBlock x:Name="AppointmentDetails" FontSize="12" Text="Selecciona un día" Grid.Row="1" Width="473" Height="71"/>
-            </ListBoxItem>
-            <ListBoxItem>
-                <TextBlock x:Name="AppointmentDetails2" FontSize="12" Text="" Grid.Row="1" Width="473" Height="71"/>
-            </ListBoxItem>
-            <ListBoxItem>
-                <TextBlock x:Name="AppointmentDetails3" FontSize="12" Text="" Grid.Row="1" Width="473" Height="71"/>
-            </ListBoxItem>
+            </ListBoxItem>-->
         </ListBox>
         
         

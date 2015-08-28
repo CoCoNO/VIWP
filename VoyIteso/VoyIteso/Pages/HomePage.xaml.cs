@@ -11,77 +11,100 @@ using VoyIteso.Class;
 using System.Windows.Media.Imaging;
 using VoyIteso.Resources;
 using System.Windows.Media;
+using Telerik.Windows.Controls;
 using GestureEventArgs = System.Windows.Input.GestureEventArgs;
 //ve a la linea 174 
 namespace VoyIteso.Pages
 {
     public partial class HomePage : PhoneApplicationPage
     {
-        //User
+
+        /////class fields//////
         User user = new User();
+        public static Notificacione NotificationItem; 
+        public static Class.Notifications ListOfNotifications;
 
-        //Web Service
-        //ServiceReferenceVoyItesoMovil.VoyItesoMovilClient clientVoyIteso = new ServiceReferenceVoyItesoMovil.VoyItesoMovilClient();
 
-
-        public HomePage()
+        public  HomePage()
         {
             InitializeComponent();
 
-            //User
+            GetNotifs(); 
 
-            //AppBar
             BuildLocalizedApplicationBar();
-            //WebService
-            //clientVoyIteso.GetPersonImageCompleted += clientVoyIteso_GetPersonImageCompleted;
 
-            /*
-        else
-        {
+            //contenido del azulejo de calendario. 
+            txtDayString.Text = foo();//mes nombre
+            txtDayNumber.Text = DateTime.Today.Day.ToString();//dia numero
+            atrasCalendario.Text = "Agenda";
+            //termina el contenido del calendario. 
 
-        }*/
-
-            // if (user.Name.Length > 7)
-            //   profile.FontSize = 5;
-
+            //contenido notificaciones.
+            
 
 
         }
-        /*
-        private void clientVoyIteso_GetPersonImageCompleted(object sender, ServiceReferenceVoyItesoMovil.GetPersonImageCompletedEventArgs e)
+
+        private async void GetNotifs()
         {
-            byte[] buffer;
-
-            buffer = e.Result;
-            if(buffer == null)
-            {
-                if (user.Gender == "M")
-                    user.defaultImage += "H.png";
-                else
-                    user.defaultImage += "M.png";
-                Uri uri = new Uri(user.defaultImage, UriKind.Absolute);
-                BitmapImage img = new BitmapImage(uri);
-                img.DecodePixelHeight = 70;
-                img.DecodePixelWidth = 70;
-                profile.Source = img;
-                
-            }
-            else
-            {
-                user.UserImage = buffer;
-            }
-
-            profile.IsFrozen = false;
-
-            //user.UserImage = e.Result;
-
-            //set the Image of default
-            //if (user.UserImage != null)
-                //code
-            //profile.IsFrozen = false;
+            new Progress().showProgressIndicator(this, "Ocupado");
+            ListOfNotifications = await ApiConnector.Instance.NotificationsGet();
+            new Progress().hideProgressIndicator(this);
         }
-        */
+
+        private string foo()
+        {
+            var a = DateTime.Today.Month.ToString();
+
+            switch (a)
+            {
+                case "1":
+                    return "ene";
+                    break;
+                case "2":
+                    return "feb";
+                    break;
+                case "3":
+                    return "mar";
+                    break;
+                case "4":
+                    return "abr";
+                    break;
+                case "5":
+                    return "may";
+                    break;
+                case "6":
+                    return "jun";
+                    break;
+                case "7":
+                    return "jul";
+                    break;
+                case "8":
+                    return "ago";
+                    break;
+                case "9":
+                    return "sep";
+                    break;
+                case "10":
+                    return "oct";
+                    break;
+                case "11":
+                    return "nov";
+                    break;
+                case "12":
+                    return "dic";
+                    break;
+
+                default:
+                    return "n/a";
+
+            }
+
+        }
+
+
         public static Appointment[] apps;
+
         #region OnNavigatedTo
         protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
@@ -152,13 +175,13 @@ namespace VoyIteso.Pages
             //a.Click += a_Click;
             //ApplicationBar.MenuItems.Add(a);
 
-            ApplicationBarMenuItem b = new ApplicationBarMenuItem("ir al chat pa' ver como se ve");
-            b.Click += b_Click;
-            ApplicationBar.MenuItems.Add(b);
+            //ApplicationBarMenuItem b = new ApplicationBarMenuItem("ir al chat pa' ver como se ve");
+            //b.Click += b_Click;
+            //ApplicationBar.MenuItems.Add(b);
 
-            ApplicationBarMenuItem c = new ApplicationBarMenuItem("ir a ShowRoute");
-            c.Click += c_Click;
-            ApplicationBar.MenuItems.Add(c);
+            //ApplicationBarMenuItem c = new ApplicationBarMenuItem("ir a ShowRoute");
+            //c.Click += c_Click;
+            //ApplicationBar.MenuItems.Add(c);
 
             ApplicationBar.StateChanged += ApplicationBar_StateChanged;
 

@@ -12,7 +12,7 @@ using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using VoyIteso.Class;
-using VoyIteso.Pages.Chat2;
+using VoyIteso.Pages.ChatStuff;
 using VoyIteso.Pages.NotificationsStuff;
 using GestureEventArgs = System.Windows.Input.GestureEventArgs;
 
@@ -37,7 +37,8 @@ namespace VoyIteso.Pages
             base.OnNavigatedTo(e);
             //Class.Notifications
             _progress.showProgressIndicator(this, "espera un momento");
-            _listOfNotifications = await ApiConnector.Instance.NotificationsGet(); 
+            _listOfNotifications = await ApiConnector.Instance.NotificationsGet();
+            //_listOfNotifications = HomePage.ListOfNotifications; 
             _progress.hideProgressIndicator(this);
             foreach (var item in _listOfNotifications.notificaciones)
             {
