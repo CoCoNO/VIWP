@@ -172,6 +172,7 @@
         <Image Source="Images/WVGA_splashscreen_voyiteso480x800.png" Width="480" Height="800"/>-->
         <Image Source="Images/Splashscreen_VoyITESO.png"/>
         <TextBlock x:Name="versionControlSplash" HorizontalAlignment="Left" Margin="10,29,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Width="460"/>
+        <TextBlock TextAlignment="Center" x:Name="cargandoText" HorizontalAlignment="Left" Margin="10,608,0,0" TextWrapping="Wrap" Text="Cargando..." VerticalAlignment="Top" Width="460"/>
 
     </Grid>
 

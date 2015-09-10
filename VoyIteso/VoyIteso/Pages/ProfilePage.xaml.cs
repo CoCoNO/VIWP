@@ -58,6 +58,7 @@ namespace VoyIteso.Pages
             _editionEnabled = false;
             photoChooserTask = new PhotoChooserTask();
             photoChooserTask.Completed += photoChooserTask_Completed;
+            userImage.Tap += BtnChooseImage_Click;
             UserDataChanged();
             queryUserData();
         }
@@ -179,6 +180,10 @@ namespace VoyIteso.Pages
                 if (ApiConnector.Instance.ActiveUser.Avatar!=null)
                 {
                     userImage.Source = ApiConnector.Instance.ActiveUser.Avatar;
+                }
+                else
+                {
+                    userImage.Source = new BitmapImage(new Uri("/Images/SMOKE.png", UriKind.Relative));
                 }
                 
                 userName.Text = ApiConnector.Instance.ActiveUser.profile.nombre;

@@ -70,9 +70,10 @@ namespace VoyIteso.Pages
             }
             var item = _listOfNotifications.notificaciones[index/2];
             NotificationItem = item;
-
+            TheNewMap.caja = null;
             NavigationService.Navigate(new Uri("/Pages/NotificationsStuff/RouteInfo.xaml", UriKind.Relative));//?key=value&key2=value
         }
+
 
         private void ConstructNewNotification(Notificacione item)
         {
@@ -91,6 +92,8 @@ namespace VoyIteso.Pages
             newBox.body.Text += item.descripcion;
             _allMyNotifications.Add(newBox);
             lista.Items.Add(newBox);
+
+
         }
 
 

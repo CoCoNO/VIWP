@@ -23,6 +23,7 @@ using System.Windows.Shapes;
 using VoyIteso.Pages.MapStuff;
 using VoyIteso.Resources;
 using GestureEventArgs = System.Windows.Input.GestureEventArgs;
+using System.Windows.Navigation;
 
 
 namespace VoyIteso.Pages
@@ -530,6 +531,7 @@ namespace VoyIteso.Pages
 
         private void ChangeDestinationButton_OnClick(object sender, EventArgs e)
         {
+            
             ResetValues();
             if (Driver)
             {
@@ -566,11 +568,15 @@ namespace VoyIteso.Pages
 
         private void MyMapControl_OnCenterChanged(object sender, MapCenterChangedEventArgs e)
         {
-            states = _pointCount>0 ? appBarStates.Shit2 : appBarStates.Init;
+            if (Driver)
+            {
+                states = _pointCount > 0 ? appBarStates.Shit2 : appBarStates.Init;
 
-            BuildLocalizedApplicationBar();
-            ApplicationBar.Mode = ApplicationBarMode.Minimized;
+                BuildLocalizedApplicationBar();
+                ApplicationBar.Mode = ApplicationBarMode.Minimized;
 
+            }
+            
             if (_pointCount > 0 && !_confirmed)
             {
                 myMap.Layers.Remove(_layer);
@@ -652,7 +658,7 @@ namespace VoyIteso.Pages
         bool isConfirmRoute;
         //DispatcherTimer LocationTimer = new DispatcherTimer();
         String timeString;
-        String dateString;
+        public static String dateString;
         Progress progress;
         int intSmoker;
         int intGender;
@@ -929,11 +935,26 @@ namespace VoyIteso.Pages
             ///DAR AVENTON
             if (TheNewMap.Driver)// si estas creando ruta
             {
+                IEnumerable<GeoCoordinate> myEnumerable;
                 //convierto mis waypoins en un enumerable para pasarlo al metodo de crear ruta.
-                List<GeoCoordinate> myList = wayPointList.Select(mapOverlay => mapOverlay.GeoCoordinate).ToList();
-                IEnumerable<GeoCoordinate> myEnumerable = myList;
+                if (wayPointList.Count > 0)
+                {
+                    List<GeoCoordinate> myList = wayPointList.Select(mapOverlay => mapOverlay.GeoCoordinate).ToList();
+                    myEnumerable = myList;
+                }
+                else
+                {
+                    var newpoint = new MapOverlay(); 
+                    var ubicacion = new GeoCoordinate(20.608390, -103.414512);// voy a agregar iteso si no pone waypoints.
+                    newpoint.GeoCoordinate = ubicacion;
+                    wayPointList.Add(newpoint);
+                    List<GeoCoordinate> myList = wayPointList.Select(mapOverlay => mapOverlay.GeoCoordinate).ToList();
+                    myEnumerable = myList;
+                }
+                
+                
                 //List<string> listAgain = myEnumerable.ToList();//para convertir atras.
-
+                //Rutai rutai = new Rutai();
                 var a = await ApiConnector.Instance.RouteCreate(origen, destino, myDateTime, myDateTime.AddHours(1), "1", 2, myEnumerable);
                 progress.hideProgressIndicator(this);
                 if (a.estatus==1)
@@ -962,12 +983,28 @@ namespace VoyIteso.Pages
                     {
                         foreach (var ruta in rutas.rutas)
                         {
+                            //pinche trampa sucia! pero funciona y se ve muy bien. repetir en caja de resultados en mapa XD. 
+                            var grid = new Grid();
+                            grid.Width = 440;
+                            grid.Height = 20;
+                            ResultsListBox.Items.Add(grid);
+
                             var resultados = new cajaDeResultados();
                             resultados.NombreDelConductor.Text = ruta.persona_nombre;
                             resultados.DescripcionDeRuta.Text = ruta.texto_origen + "\n" + ruta.texto_destino + "\na las " + ruta.hora_llegada + " en " + ruta.fecha_inicio;
+                            resultados.routeID = ruta.ruta_id;
+
+                            resultados.routeID = ruta.ruta_id;
+                            resultados.perfil_id = ruta.perfil_id.ToString();
+                            //resultados.aventon_id = ruta.;
+                            resultados.texto_origen = ruta.texto_origen;
+                            resultados.texto_destino = ruta.texto_destino;
+
                             //resultados.Text += ruta.persona_nombre + ruta.texto_origen + ruta.texto_destino + ruta.hora_llegada;
                             ResultsListBox.Items.Add(resultados);
+
                         }
+                        ShowRightPanelAnimation.Begin();
 
                     }
                     else
@@ -985,11 +1022,11 @@ namespace VoyIteso.Pages
             }
             
 
-            
-
             //ResultsListBox.Items.Add(resultados);
 
         }
+
+        private List<Notificacione> a; 
 
         void appBarShowResults_Click(object sender, EventArgs e)
         {
@@ -999,7 +1036,6 @@ namespace VoyIteso.Pages
                 ShowRightPanelFromLeftAnimation.Begin();
             }
         }
-
         void appBarShowMapButton_Click(object sender, EventArgs e)
         {
             if (canChangeState)
@@ -1016,7 +1052,6 @@ namespace VoyIteso.Pages
                 ShowLeftPanelFromRightAnimation.Begin();
             }
         }
-
         void appBarShowMapFromRight_Click(object sender, EventArgs e)
         {
             if (canChangeState)
@@ -1025,8 +1060,7 @@ namespace VoyIteso.Pages
                 HideRightPanelAnimation.Begin();
             }
         }
-
-        //play
+        //primer confirmacion, la del punto b colocado correctamente
         void appBarSearchButton_Click(object sender, EventArgs e)
         {
             if (canChangeState)
@@ -1037,7 +1071,6 @@ namespace VoyIteso.Pages
                 //MessageBox.Show("para continuar presiona en confirmar","Configura fecha y horario",MessageBoxButton.OK);
             }
         }
-
         void appBarResultButton_Click(object sender, EventArgs e)
         {
             if (canChangeState)
@@ -1046,8 +1079,6 @@ namespace VoyIteso.Pages
                 ShowRightPanelAnimation.Begin();
             }
         }
-
-
         void appBarSearchLocationButton_Click(object sender, EventArgs e)
         {
             if (isOrigin)
@@ -1076,7 +1107,7 @@ namespace VoyIteso.Pages
 
         }
 
-        //PLAY>>>>metodo viejo de jairo.
+        //PLAY>>>>metodo viejo de jairo. deprecado.
         async void  appBarConfirmButton_Click(object sender, EventArgs e)
         {
             //send request 
@@ -1095,11 +1126,13 @@ namespace VoyIteso.Pages
             }
             else
             {
-                ApiConnector.Instance.RouteSearch(origen, destino, fecha, lat_destino, lon_destino, lat_origen, lon_origen, hora);
+                new Progress().showProgressIndicator(this, "espera un momento");
+                await ApiConnector.Instance.RouteSearch(origen, destino, fecha, lat_destino, lon_destino, lat_origen, lon_origen, hora);
+                new Progress().hideProgressIndicator(this);
             }
         }
 
-        void appBarReturnResultsButton_Click(object sender, EventArgs e)
+        void appBarReturnResultsButton_Click(object sender, EventArgs e)//metodo viejo de emmanuel, no se esta usando ya que jamas entramos al estado confirm. del appbar. 
         {
             isConfirmRoute = false;
             maping.DrawMapLocation();
@@ -1273,14 +1306,22 @@ namespace VoyIteso.Pages
 
         private void startOverWayPoints_OnClick(object sender, EventArgs e)
         {
-            wayPointList.Clear();
-            foreach (var a in waylayerList)
+            if (!Driver)
             {
-                myMap.Layers.Remove(a);
+                ChangeDestinationButton_OnClick(null, null);
             }
-            waylayerList.Clear();
-            
-            MessageBox.Show("Enfócate en colocar los puntos intermedios","Puntos intermedios borrados",MessageBoxButton.OK);
+            else
+            {
+                wayPointList.Clear();
+                foreach (var a in waylayerList)
+                {
+                    myMap.Layers.Remove(a);
+                }
+                waylayerList.Clear();
+
+                MessageBox.Show("Enfócate en colocar los puntos intermedios", "Puntos intermedios borrados", MessageBoxButton.OK);                    
+            }
+
         }
 
         private void fijarme_OnClick(object sender, EventArgs e)
@@ -1449,24 +1490,47 @@ namespace VoyIteso.Pages
             }
         }
 
-        private void ResultsListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            //progress.showProgressIndicator(this, "Calculando");
-            currentRoute = (RouteResult)ResultsListBox.SelectedItem;
-            if (currentRoute != null)
+        private Class.Notifications _listOfNotifications;
+        public static Notificacione NotificationItem;
+        public static cajaDeResultados caja;
+        private async void ResultsListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {//solilcitar aventon, solicitud de aventon, listbox de resultados.
+            
+            var index = ResultsListBox.SelectedIndex - 1;
+            
+            if (index % 2 != 0 || index < 0)
             {
-                List<GeoCoordinate> ABpoints = new List<GeoCoordinate>();
-                ABpoints.Add(currentRoute.origin_coordinate);
-                ABpoints.Add(currentRoute.destiny_coordinate);
-                maping.myCoordinates = ABpoints;
-                maping.DrawMapMarkers();
-                maping.DrawRoute(ABpoints);
-                isConfirmRoute = true;
-                HideRightPanelAnimation.Begin();
+                return;
             }
-            //delete routes from the beginin
-            //create a new state on the serch called confirm route with just one button on appbar
-            //do testing
+
+            var item = (cajaDeResultados) ResultsListBox.SelectedItem;
+            item.myBool = true;
+            //caja = item;
+            //var item = _listOfNotifications.notificaciones[index / 2];
+            //NotificationItem = item;
+            //item.routeID
+
+            //new RouteInfo().foo(item);
+            caja = item;
+            NavigationService.Navigate(new Uri("/Pages/NotificationsStuff/RouteInfo.xaml", UriKind.Relative));//?key=value&key2=value
+            
+
+            //this.NavigationService.Navigate();
+            //new Progress().showProgressIndicator(this, "esperate poquito brother, ya vamos");
+            //_listOfNotifications = await ApiConnector.Instance.NotificationsGet();
+            //new Progress().hideProgressIndicator(this);
+
+            //foreach (var noti in _listOfNotifications.notificaciones)
+            //{
+            //    if (noti.aventon_id == item.routeID)
+            //    {
+            //        NotificationItem = noti;
+            //        NavigationService.Navigate(new Uri("/Pages/NotificationsStuff/RouteInfo.xaml", UriKind.Relative));//?key=value&key2=value
+            //        return;
+            //    }
+            //}
+
+            //NavigationService.Navigate(new Uri("/Pages/NotificationsStuff/RouteInfo.xaml", UriKind.Relative));//?key=value&key2=value
 
         }
 

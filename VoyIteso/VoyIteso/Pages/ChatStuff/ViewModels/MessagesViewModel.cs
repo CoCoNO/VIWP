@@ -167,12 +167,14 @@ namespace VoyIteso.Pages.ChatStuff.ViewModels
                 int id = this.SenderId % 6;
                 switch (id)
                 {
-                    case 0: return new SolidColorBrush(Color.FromArgb(255, 51, 153, 51));
-                    case 1: return new SolidColorBrush(Color.FromArgb(255, 27, 161, 226));
-                    case 2: return new SolidColorBrush(Color.FromArgb(255, 255, 0, 151));
-                    case 3: return new SolidColorBrush(Color.FromArgb(255, 240, 150, 9));
-                    case 4: return new SolidColorBrush(Color.FromArgb(255, 0, 171, 169));
-                    case 5: return new SolidColorBrush(Color.FromArgb(255, 140, 191, 38));
+                    //case 0: return new SolidColorBrush(Color.FromArgb(255, 51, 153, 51));
+                    //case 1: return new SolidColorBrush(Color.FromArgb(255, 27, 161, 226));
+                    //case 2: return new SolidColorBrush(Color.FromArgb(255, 255, 0, 151));
+                    //case 3: return new SolidColorBrush(Color.FromArgb(255, 240, 150, 9));
+                    //case 4: return new SolidColorBrush(Color.FromArgb(255, 0, 171, 169));
+                    //case 5: return new SolidColorBrush(Color.FromArgb(255, 140, 191, 38));
+                    
+                    default: return new SolidColorBrush(Color.FromArgb(255, 143, 205, 241));
                 }
                 return App.Current.Resources["PhoneAccentBrush"] as SolidColorBrush;
             }

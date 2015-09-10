@@ -304,7 +304,7 @@ namespace VoyIteso.Class
 
             r.AddParameter("security_token", _token);
             r.AddParameter("pagina", page);
-
+            r.AddParameter("randData", _ranData++);
             var rs = await c.ExecuteTaskAsync<Notifications>(r);
 
             return rs.Data;
@@ -443,17 +443,19 @@ namespace VoyIteso.Class
             var r = new RestRequest(string.Format("/ruta/{0}/ver", routeID), Method.GET);
 
             r.AddParameter("security_token", _token);
+            r.AddParameter("randata", _ranData++);
             var rs = await c.ExecuteTaskAsync<Ruta>(r);
 
             return rs.Data;
         }
-        public async Task<Rutas> RouteGetAllByUserID(int UserID)
+        public async Task<Rutes> RouteGetAllByUserID(int UserID)
         {
             var c = new RestClient(HttpRequest.Url);
             var r = new RestRequest(string.Format("/perfil/{0}/rutas", UserID), Method.GET);
 
             r.AddParameter("security_token", _token);
-            var rs = await c.ExecuteTaskAsync<Rutas>(r);
+            r.AddParameter("randata", _ranData++);
+            var rs = await c.ExecuteTaskAsync<Rutes>(r);
 
             return rs.Data;
         }
@@ -602,6 +604,7 @@ namespace VoyIteso.Class
             var r = new RestRequest("/aventon/"+liftID+"/chat",Method.GET);
 
             r.AddParameter("security_token", _token);
+            r.AddParameter("randata", _ranData++);
 
             var rs = await c.ExecuteTaskAsync<Mensajes>(r);
             return rs.Data;
@@ -655,10 +658,10 @@ namespace VoyIteso.Class
                     foreach (var app in rootJson.aventones)
                     {
                         var p = new Appointment();
-                        p.Details = "De " + app.texto_origen + "*a " + app.texto_destino + "* a las " + app.hora_llegada +
-                                    " *el dia " + app.fecha + " *con " +
-                                    (app.conductor == string.Empty ? app.pasajero : app.conductor) + " como " + app.rol + ". Estatus " + app.estatus_aventon;
-                        var st = app.fecha.Substring(4, 4);
+                        p.Details = "Origen:\t" + app.texto_origen + "*Destino:\t" + app.texto_destino + "*Hora:\t\t" + app.hora_llegada + 
+                                     " *el dia " + app.fecha + " *con " + 
+                                     (app.conductor == string.Empty ? app.pasajero : app.conductor) + " como " + app.rol + ". Estatus " + app.estatus_aventon; 
+                         var st = app.fecha.Substring(4, 4); 
                         p.StartDate = new DateTime(
                             int.Parse(app.fecha.Substring(4, 4)),//yyyy
                             int.Parse(app.fecha.Substring(2, 2)),//mm
@@ -723,7 +726,7 @@ namespace VoyIteso.Class
 
             return null;
         }
-        public async Task<Rutas> RouteSearch(string origen, string destino, string fecha, double latitud_destino, double longitud_destino, double latitud_origen, double longitud_origen, string hora)
+        public async Task<Rutes> RouteSearch(string origen, string destino, string fecha, double latitud_destino, double longitud_destino, double latitud_origen, double longitud_origen, string hora)
         {
             var r = new HttpRequest();
             r.setAction(@"/ruta/busqueda");
@@ -731,8 +734,8 @@ namespace VoyIteso.Class
             r.setParameter("origen",origen );
             r.setParameter("destino", destino);
 
-            r.setParameter("distancia", "0.01");
-            r.setParameter("distancia_destino", "0.01");
+            r.setParameter("distancia", "0.045");
+            r.setParameter("distancia_destino", "0.045");
 
             r.setParameter("fecha", fecha);
 
@@ -754,7 +757,7 @@ namespace VoyIteso.Class
             if (r.Data == String.Empty || r.Status != "OK")
                 return null;
 
-            Rutas rootJson = JsonConvert.DeserializeObject<Rutas>(r.Data);
+            Rutes rootJson = JsonConvert.DeserializeObject<Rutes>(r.Data);
             return rootJson;
         }
 

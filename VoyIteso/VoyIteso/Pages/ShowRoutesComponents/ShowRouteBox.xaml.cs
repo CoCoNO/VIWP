@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
+using GestureEventArgs = System.Windows.Input.GestureEventArgs;
 
 namespace VoyIteso.Pages.ShowRoutesComponents
 {
@@ -16,5 +17,6 @@ namespace VoyIteso.Pages.ShowRoutesComponents
         {
             InitializeComponent();
         }
+
     }
 }

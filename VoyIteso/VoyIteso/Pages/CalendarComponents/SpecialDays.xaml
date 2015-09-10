@@ -30,7 +30,7 @@
         <telerikInput:RadCalendar ItemTemplateSelector="{StaticResource WeekendDaySelector}" 
                                   FirstDayOfWeek="Monday" 
                                   MonthInfoDisplayMode="Small" 
-                                  SelectionBackground="Gray"  
+                                  SelectionBackground="Gray"  DisplayDateChanged="MyCalendar_OnDisplayDateChanged" DisplayDateChanging="MyCalendar_OnDisplayDateChanging"
                                   SelectedValueChanged="myCalendar_SelectedValueChanged"
                                   x:Name="MyCalendar" />
         <ListBox x:Name="ListaDeApointments" Grid.Row="1">

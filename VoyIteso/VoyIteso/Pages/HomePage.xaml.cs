@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Windows;
@@ -240,6 +241,11 @@ namespace VoyIteso.Pages
         private void NotificationsTile_OnTap(object sender, GestureEventArgs e)
         {
             NavigationService.Navigate(new Uri("/Pages/Notifications.xaml", UriKind.Relative));
+        }
+
+        private void Selector_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ListBox.SelectedIndex = -1;
         }
     }
 }

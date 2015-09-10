@@ -45,7 +45,10 @@ namespace VoyIteso.Pages.CalendarComponents
             myAppointmentSource.clearAllAppointments();
 
             //Appointment[] apps = await ApiConnector.Instance.LoadCurrentMonthLifts();//a lift is an appointment
-            Appointment[] apps = HomePage.apps;//a lift is an appointment
+            Appointment[] apps = HomePage.apps;
+            //await ApiConnector.Instance.LoadCurrentMonthLifts();
+            //await ApiConnector.Instance.LoadCurrentMonthLifts();
+                ////a lift is an appointment
             
             foreach (var appointment in apps)
             {
@@ -60,7 +63,14 @@ namespace VoyIteso.Pages.CalendarComponents
         }
 
 
-        
+        public void foo()
+        {
+            //Appointment[] apps = HomePage.apps;//a lift is an appointment
+        }
+
+
+
+
 
 
         /// <summary>
@@ -85,6 +95,7 @@ namespace VoyIteso.Pages.CalendarComponents
 
                 
                 //AppointmentDetails.Text = "";
+                ListaDeApointments.Items.Clear();
 
                 foreach (var item in list)
                 {
@@ -183,5 +194,16 @@ namespace VoyIteso.Pages.CalendarComponents
          
          */
 
+        private void MyCalendar_OnDisplayDateChanged(object sender, ValueChangedEventArgs<object> e)
+        {
+            Debug.WriteLine("date changed");
+            //InitAppointments();
+        }
+
+
+        private void MyCalendar_OnDisplayDateChanging(object sender, ValueChangingEventArgs<object> e)
+        {
+            InitAppointments();
+        }
     }
 }

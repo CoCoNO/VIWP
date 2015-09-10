@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Windows;
@@ -18,9 +19,9 @@ using VoyIteso.Class;
 
 namespace VoyIteso.Pages.ChatStuff
 {
-
     public partial class ChatView : UserControl
     {
+        Mensajes listaDeMensajes = null;
         public ObservableCollection<object> messages = new ObservableCollection<object>();
         public ObservableCollection<string> dummyMessages = new ObservableCollection<string>();
         //public static ObservableCollection<string> dummyMessages = new ObservableCollection<string>()
@@ -45,7 +46,7 @@ namespace VoyIteso.Pages.ChatStuff
         IEnumerator<string> dummyMessagesEnumerator;
         DispatcherTimer timer = new DispatcherTimer()
         {
-            Interval = TimeSpan.FromSeconds(2),
+            Interval = TimeSpan.FromSeconds(5),
         };
         DispatcherTimer startTimer = new DispatcherTimer()
         {
@@ -55,14 +56,17 @@ namespace VoyIteso.Pages.ChatStuff
         public ChatView()//(ObservableCollection<object> myMessages, ObservableCollection<string> secondPartyMessages)
         {
             InitializeComponent();
-
-            //UserAvatar = new BitmapImage();// ApiConnector.Instance.ActiveUser.Avatar;
+            
+            
+            UserAvatar.Source = ApiConnector.Instance.ActiveUser.Avatar;
+            //SecondPartyAvatar.Source = ApiConnector.Instance.GetUserImageById(item.perfil_id);//
             //this.messages = myMessages;
             //this.dummyMessages = secondPartyMessages;
 
             //foo();
             //this.dummyMessagesEnumerator = new InfiniteEnumerator(dummyMessages);
-            //this.timer.Tick += this.OnTimerTick;
+            this.timer.Tick += this.OnTimerTick;
+            this.timer.Start();
             //this.startTimer.Tick += this.OnStartTimerTick;
 
             //this.conversationView.ItemsSource = messages;
@@ -95,7 +99,10 @@ namespace VoyIteso.Pages.ChatStuff
 
             new Progress().showProgressIndicator(this, "cargando mensajes");
             listaDeMensajes = await ApiConnector.Instance.LiftMessagesGet(Convert.ToInt32(key));//aqui se obtiene la lista de mensajes del aventon seleccionado.
-            new Progress().hideProgressIndicator(this);
+            
+
+            todosLosMensajes = listaDeMensajes;
+            var item = new int();
 
             foreach (var mensaje in listaDeMensajes.mensajes)
             {
@@ -109,13 +116,22 @@ namespace VoyIteso.Pages.ChatStuff
                 /////sino el mensaje pertenece a la segunda persona./////
                 else
                 {
+                    item = mensaje.perfil_id;
+
+                    
                     custommessa = new CustomMessage(mensaje.texto, DateTime.Now, ConversationViewMessageType.Incoming);
                     messages.Add(custommessa);
                 }
 
             }
+            new Progress().showProgressIndicator(this, "espera, el internet a veces puede frustrante...");
+            var another = await ApiConnector.Instance.GetUserById(item.ToString());
+            new Progress().hideProgressIndicator(this);
+            //SecondPartyAvatar.Source = another.Avatar;
+            SecondPartyAvatar.Source = ApiConnector.Instance.GetUserImageById(item);
+            //UserName.Text = ApiConnector.Instance.ActiveUser.Name;//siempre sea you.
 
-
+            SecondPartyName.Text = another.Name.Length < 15 ? another.Name : another.Name.Substring(0, 15)+".";
         }
 
 
@@ -131,16 +147,48 @@ namespace VoyIteso.Pages.ChatStuff
             this.timer.Start();
         }
 
-        private void OnTimerTick(object sender, EventArgs e)
+        Mensajes todosLosMensajes = null;
+        private int counter = 0;
+        private async void OnTimerTick(object sender, EventArgs e)
         {
-            this.typingTextBlock.Text = "";
-            this.dummyMessagesEnumerator.MoveNext();
-            messages.Add(this.CreateIncomingMessage(this.dummyMessagesEnumerator.Current));
-            this.timer.Stop();
-            VibrateController.Default.Start(TimeSpan.FromSeconds(0.2));
+            //this.typingTextBlock.Text = "";
+            Debug.WriteLine("ticking..."+ ++counter);
+
+            Mensajes listaDeMensajes = null;
+            var key = ChatLayout.key;
+            new Progress().showProgressIndicator(this, "trabajando");
+            listaDeMensajes = await ApiConnector.Instance.LiftMessagesGet(Convert.ToInt32(key));//aqui se obtiene la lista de mensajes del aventon seleccionado.
+            new Progress().hideProgressIndicator(this);
+
+            if (todosLosMensajes.mensajes.Count < listaDeMensajes.mensajes.Count)
+            {
+                for (int i = todosLosMensajes.mensajes.Count; i < listaDeMensajes.mensajes.Count; i++)
+                {
+                    var mensaje = listaDeMensajes.mensajes.ElementAt(i);
+                    var custommessa = new CustomMessage("", DateTime.Now, ConversationViewMessageType.Incoming);
+                    /////si el mensaje pertenece al usuario/////
+                    if (mensaje.perfil_id.ToString().Equals(ApiConnector.Instance.ActiveUser.profileID))//si el mensaje pertenece al usuario. 
+                    {
+                        //custommessa = new CustomMessage(mensaje.texto, DateTime.Now, ConversationViewMessageType.Outgoing);
+                        //messages.Add(custommessa);
+                    }
+                    /////sino el mensaje pertenece a la segunda persona./////
+                    else
+                    {
+                        custommessa = new CustomMessage(mensaje.texto, DateTime.Now, ConversationViewMessageType.Incoming);
+                        messages.Add(custommessa); 
+                    }
+                }
+                todosLosMensajes = listaDeMensajes;
+            }
+
+            //this.dummyMessagesEnumerator.MoveNext();
+            //messages.Add(this.CreateIncomingMessage(this.dummyMessagesEnumerator.Current));
+            //this.timer.Stop();
+            //VibrateController.Default.Start(TimeSpan.FromSeconds(0.2));
         }
 
-        private void OnSendingMessage(object sender, ConversationViewMessageEventArgs e)
+        private async void OnSendingMessage(object sender, ConversationViewMessageEventArgs e)
         {
             if (string.IsNullOrEmpty((e.Message as CustomMessage).Text))
             {
@@ -149,13 +197,18 @@ namespace VoyIteso.Pages.ChatStuff
 
             messages.Add(e.Message);
             //aqui va a mandar el mensaje puto jairo.
+            var notificacion = Notifications.NotificationItem;
+            new Progress().showProgressIndicator(this,"mandando mensaje");
+            var a = await ApiConnector.Instance.LiftMessagesSend(notificacion.aventon_id, (e.Message as CustomMessage).Text);
+            new Progress().hideProgressIndicator(this);
+            Debug.WriteLine("se mando mensaje con respuesta "+ a.estatus);
 
             if (this.timer.IsEnabled || this.startTimer.IsEnabled)
             {
                 return;
             }
 
-            this.startTimer.Start();
+            //this.startTimer.Start();
         }
     }
 

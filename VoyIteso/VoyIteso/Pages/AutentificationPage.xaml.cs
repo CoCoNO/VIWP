@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Windows;
@@ -204,7 +205,7 @@ namespace VoyIteso.Pages
 
 
 
-            progress.showProgressIndicator(this, "Autentificando");
+            progress.showProgressIndicator(this, "Autentificando...");
             try
             {
                 await ApiConnector.Instance.LogIn(txbUser.Text, txbPass.Password);
@@ -214,7 +215,11 @@ namespace VoyIteso.Pages
             catch (TimeoutException)
             {
                 progress.hideProgressIndicator(this);
-                MessageBox.Show("No hay conexión a internet");
+                Thread thread = new Thread(new ThreadStart(WorkThreadFunction));
+                thread.Start();
+                MessageBox.Show("hay problemas con el internet");
+
+                //MessageBox.Show("No hay conexión a internet");
             }
             catch (VoyIteso.Class.ApiConnector.BadLoginExeption)
             {
@@ -223,6 +228,16 @@ namespace VoyIteso.Pages
             }
             
 
+        }
+
+        private void WorkThreadFunction()
+        {
+            Debug.WriteLine("aqui estoy pasandola. bien.");
+            
+                // do any background work
+                //MessageBox.Show("No hay conexión a internet");
+                
+            
         }
         #endregion
 

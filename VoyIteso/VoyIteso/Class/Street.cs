@@ -278,7 +278,39 @@ namespace VoyIteso.Class
         public End end { get; set; }
         public List<List<double>> waypoints { get; set; }
     }
+    public class Rutai
+    {
+        public string texto_destino { get; set; }
+        public object fecha_creacion { get; set; }
+        public int perfil_id { get; set; }
+        public string persona_carrera { get; set; }
+        public string persona_nombre { get; set; }
+        public object ultima_conexion { get; set; }
+        public object hora_llegada { get; set; }
+        public string persona_edad { get; set; }
+        public string puntos { get; set; }
+        public string fecha_inicio_formato { get; set; }
+        public double latitud_origen { get; set; }
+        public object fecha_fin { get; set; }
+        public double longitud_origen { get; set; }
+        public int numero_personas { get; set; }
+        public string polilinea_codificada { get; set; }
+        public string puntos_intermedios { get; set; }
+        public double latitud_destino { get; set; }
+        public string hora_llegada_formato { get; set; }
+        public double longitud_destino { get; set; }
+        public string texto_origen { get; set; }
+        public int? tipo_mapa { get; set; }
+        public object fecha_inicio { get; set; }
+        public int ruta_id { get; set; }
+    }
 
+    public class Rutes
+    {
+        public List<Rutai> rutas { get; set; }
+        public int estatus { get; set; }
+    }
+    /*******************/
     public class Rutas
     {
         public List<Ruta> rutas { get; set; }

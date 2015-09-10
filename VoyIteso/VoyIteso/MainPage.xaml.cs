@@ -45,24 +45,27 @@ namespace VoyIteso
 
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+            
             if (ApiConnector.Instance.CheckIfLoggedIn())
             {
                 try
                 {
+                    //new Progress().showProgressIndicator(this, "Espera unos momentos, por favor...");
                     //ApiConnector.instance.createUserFromToken();
-                    ApiConnector.Instance.GetActiveUserFromSettings();
+                    await ApiConnector.Instance.GetActiveUserFromSettings();
+                    
                 }
                 catch (Exception)
                 {
 
                 }
             }
+            //new Progress().hideProgressIndicator(this);
         }
 
- 
         public IsolatedStorageSettings settings;
         async void SplashTimer_Tick(object sender, EventArgs e)
         {
@@ -89,6 +92,7 @@ namespace VoyIteso
                 }
                 
             }
+            //new Progress().hideProgressIndicator(this);
              
             
         }

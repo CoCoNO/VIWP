@@ -67,221 +67,236 @@
             <CompositeTransform x:Name="CanvasRootTransform"/>
         </Canvas.RenderTransform>
 
-        <Grid Name="RootGrid">
+        
+        <StackPanel>
 
-            <Grid.RenderTransform>
-                <CompositeTransform/>
-            </Grid.RenderTransform>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
+            <!--<Grid Background="White" Grid.RowSpan="2" Height="71" Width="auto">
+                <TextBlock></TextBlock>
+            </Grid>-->
 
-            <Grid x:Name="LeftPanelGrid" Grid.Column="0" Background="#333333">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="24"/>
-                </Grid.RowDefinitions>
+            <Grid Name="RootGrid">
 
-                <ScrollViewer Grid.Column="1" Grid.Row="1">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <!--Origin text & tap-->
-                            <RowDefinition Height="Auto"/>
-                            <!--Destiny text & tap-->
-                            <RowDefinition Height="10"/>
-                            <RowDefinition Height="Auto"/>
-                            <!--Date-->
-                            <RowDefinition Height="10"/>
-                            <RowDefinition Height="Auto"/>
-                            <!--Time-->
-                            <RowDefinition Height="10"/>
-                            <RowDefinition Height="Auto"/>
-                            <!--Smoke-->
-                            <RowDefinition Height="10"/>
-                            <RowDefinition Height="Auto"/>
-                            <!--Gender-->
-                            <RowDefinition Height="10"/>
-                            <RowDefinition Height="Auto"/>
-                            <!--Space-->
-                            <RowDefinition Height="Auto"/>
-                            <!--BackgroundImage-->
-                        </Grid.RowDefinitions>
+                <Grid.RenderTransform>
+                    <CompositeTransform/>
+                </Grid.RenderTransform>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
 
-                        <Grid Name="TopMarginGrid" Grid.Row="0">
+                <Grid x:Name="LeftPanelGrid" Grid.Column="0" Background="#333333">
 
-                        </Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="24"/>
+                    </Grid.RowDefinitions>
 
-                        <Grid Name="OriginSetGrid" Grid.Row="1">
+
+                    <ScrollViewer Grid.Column="1" Grid.Row="1">
+                        <Grid>
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                                <!--Origin text & tap-->
+                                <RowDefinition Height="Auto"/>
+                                <!--Destiny text & tap-->
                                 <RowDefinition Height="10"/>
-                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                                <!--Date-->
+                                <RowDefinition Height="10"/>
+                                <RowDefinition Height="Auto"/>
+                                <!--Time-->
+                                <RowDefinition Height="10"/>
+                                <RowDefinition Height="Auto"/>
+                                <!--Smoke-->
+                                <RowDefinition Height="10"/>
+                                <RowDefinition Height="Auto"/>
+                                <!--Gender-->
+                                <RowDefinition Height="10"/>
+                                <RowDefinition Height="Auto"/>
+                                <!--Space-->
+                                <RowDefinition Height="Auto"/>
+                                <!--BackgroundImage-->
                             </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="12"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="12"/>
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Name="lblOrigin" Grid.Row="0" Grid.Column="1" Text="Origen" FontSize="25" FontFamily="{StaticResource PhoneFontFamilySemiLight}"></TextBlock>
-                            <Grid Grid.Row="2" Grid.Column="1">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="12"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
 
-                                <Grid Grid.Column="0">
-                                    <TextBlock Name="txtOriginRojo" Height="Auto" FontSize="20" Tap="txtOrigin_Tap" Foreground="Red" TextWrapping="Wrap" >
+                            <Grid Name="TopMarginGrid" Grid.Row="0">
+
+                            </Grid>
+
+                            <Grid Name="OriginSetGrid" Grid.Row="1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="10"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="12"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="12"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Name="lblOrigin" Grid.Row="0" Grid.Column="1" Text="Origen" FontSize="25" FontFamily="{StaticResource PhoneFontFamilySemiLight}"></TextBlock>
+                                <Grid Grid.Row="2" Grid.Column="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="12"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Grid Grid.Column="0">
+                                        <TextBlock Name="txtOriginRojo" Height="Auto" FontSize="20" Tap="txtOrigin_Tap" Foreground="Red" TextWrapping="Wrap" >
                                     	<Run Text="escribe una direcci"/>
                                     	<Run Text="ón válida"/></TextBlock>
-                                </Grid>
-                                <!--
+                                    </Grid>
+                                    <!--
                                        <Image Grid.Column="2" Source="/Images/Origen.png" Tap="OriginImage_Tap"/>
 
                                 -->
+                                </Grid>
                             </Grid>
-                        </Grid>
 
-                        <Grid Name="DestinySetGrid" Grid.Row="3">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="10"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="12"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="12"/>
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Name="lblDestiny" Grid.Row="0" Grid.Column="1" Text="Destino" FontSize="25"></TextBlock>
-                            <TextBlock x:Name="txtDestinyRojo" Grid.Row="2" Grid.Column="1"  Height="Auto" Tap="txtDestiny_Tap" Foreground="Red" TextWrapping="Wrap">
+                            <Grid Name="DestinySetGrid" Grid.Row="3">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="10"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="12"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="12"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Name="lblDestiny" Grid.Row="0" Grid.Column="1" Text="Destino" FontSize="25"></TextBlock>
+                                <TextBlock x:Name="txtDestinyRojo" Grid.Row="2" Grid.Column="1"  Height="Auto" Tap="txtDestiny_Tap" Foreground="Red" TextWrapping="Wrap">
                             	<Run Text="escribe una direcci"/>
                             	<Run Text="ón válida"/>
                             	<LineBreak/>
                             	<Run Text=""/>
-                            </TextBlock>
-                        </Grid>
-                        <Grid Grid.Row="5">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="12"/>
-                            </Grid.ColumnDefinitions>
-                            <toolkit:DatePicker Name="datePicker" Header="Fecha" Margin="0"/>
-                        </Grid>
-                        <Grid Grid.Row="7">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="12"/>
-                            </Grid.ColumnDefinitions>
-                            <toolkit:TimePicker Name="timePicker"  Header="Hora de encuentro" Margin="0"/>
-                        </Grid>
+                                </TextBlock>
+                            </Grid>
+                            <Grid Grid.Row="5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="12"/>
+                                </Grid.ColumnDefinitions>
+                                <toolkit:DatePicker Name="datePicker" Header="Fecha" Margin="0"/>
+                            </Grid>
+                            <Grid Grid.Row="7">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="12"/>
+                                </Grid.ColumnDefinitions>
+                                <toolkit:TimePicker Name="timePicker"  Header="Hora de encuentro" Margin="0"/>
+                            </Grid>
 
-                        <Grid Name="SmokerPickerGrid" Grid.Row="9">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="12"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="24"/>
-                            </Grid.ColumnDefinitions>
-                            <toolkit:ListPicker Name="pikerSmoke" Grid.Column="1" Header="Fumador/No Fumador" Margin="0" SelectionChanged="pikerSmoke_SelectionChanged">
-                                <system:String>Fumador</system:String>
-                                <system:String>No Fumador</system:String>
-                                <system:String>Sin Filtro</system:String>
-                            </toolkit:ListPicker>
+                            <Grid Name="SmokerPickerGrid" Grid.Row="9">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="12"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="24"/>
+                                </Grid.ColumnDefinitions>
+                                <toolkit:ListPicker Name="pikerSmoke" Grid.Column="1" Header="Fumador/No Fumador" Margin="0" SelectionChanged="pikerSmoke_SelectionChanged">
+                                    <system:String>Fumador</system:String>
+                                    <system:String>No Fumador</system:String>
+                                    <system:String>Sin Filtro</system:String>
+                                </toolkit:ListPicker>
+                            </Grid>
+                            <Grid Name="GenderPickerGrid" Grid.Row="11">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="12"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="24"/>
+                                </Grid.ColumnDefinitions>
+                                <toolkit:ListPicker Name="pikerGender" Grid.Column="1" Header="Género" Margin="0" SelectionChanged="pikerGender_SelectionChanged">
+                                    <system:String>Mujer</system:String>
+                                    <system:String>Hombre</system:String>
+                                    <system:String>Sin Filtro</system:String>
+                                </toolkit:ListPicker>
+                            </Grid>
+
+                            <Grid Name="SearchImageGrid" Grid.Row="12">
+                                <Grid.Background>
+                                    <ImageBrush ImageSource="/Images/MapSearchBackground.png"/>
+                                </Grid.Background>
+                            </Grid>
+
                         </Grid>
-                        <Grid Name="GenderPickerGrid" Grid.Row="11">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="12"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="24"/>
-                            </Grid.ColumnDefinitions>
-                            <toolkit:ListPicker Name="pikerGender" Grid.Column="1" Header="Género" Margin="0" SelectionChanged="pikerGender_SelectionChanged">
-                                <system:String>Mujer</system:String>
-                                <system:String>Hombre</system:String>
-                                <system:String>Sin Filtro</system:String>
-                            </toolkit:ListPicker>
-                        </Grid>
+                    </ScrollViewer>
 
-                        <Grid Name="SearchImageGrid" Grid.Row="12">
-                            <Grid.Background>
-                                <ImageBrush ImageSource="/Images/MapSearchBackground.png"/>
-                            </Grid.Background>
-                        </Grid>
+                </Grid>
+                <!--LeftPanelGrid END-->
 
-                    </Grid>
-                </ScrollViewer>
-
-            </Grid>
-            <!--LeftPanelGrid END-->
-
-            <Grid x:Name="CenterPanelGrid"  Grid.Column="1">
-                <Grid x:Name="MapGrid" Canvas.ZIndex="0">
-                    <maps:Map x:Name="myMap"
+                <Grid x:Name="CenterPanelGrid"  Grid.Column="1">
+                    <Grid x:Name="MapGrid" Canvas.ZIndex="0">
+                        <maps:Map x:Name="myMap"
                               CenterChanged="MyMapControl_OnCenterChanged"
                               Hold="MyMapControl_OnHold"
                               >
-                    </maps:Map>
+                        </maps:Map>
+                    </Grid>
+
+                    <Canvas x:Name="InvisibleCanvas" Canvas.ZIndex="1" Background="Transparent" Visibility="Visible" IsHitTestVisible="False" >
+
+                    </Canvas>
+
+                    <Grid x:Name="SearchTermGrid" Background="Black" VerticalAlignment="Top" Canvas.ZIndex="2" Visibility="Collapsed">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="24"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="12"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="12"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid Grid.Row="1" Grid.Column="1" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Name="lblSearchTerm" Grid.Column="1" Text="Buscar Direccion" FontSize="23"/>
+                        </Grid>
+                        <toolkit:AutoCompleteBox Name="searchTermBox" Grid.Row="2" Grid.Column="1" MinimumPrefixLength="3" TextChanged="searchTermBox_TextChanged" VerticalAlignment="Top" FilterMode="None" KeyUp="searchTermBox_KeyUp"/>
+
+                    </Grid>
                 </Grid>
 
-                <Canvas x:Name="InvisibleCanvas" Canvas.ZIndex="1" Background="Transparent" Visibility="Visible" IsHitTestVisible="False" >
-
-                </Canvas>
-
-                <Grid x:Name="SearchTermGrid" Background="Black" VerticalAlignment="Top" Canvas.ZIndex="2" Visibility="Collapsed">
+                <Grid x:Name="RightPanelGrid" Grid.Column="2" Background="#333333">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="24"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="24"/>
                     </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="12"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="12"/>
-                    </Grid.ColumnDefinitions>
-
-                    <Grid Grid.Row="1" Grid.Column="1" >
+                    <Grid Grid.Row="1">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="12"/>
                             <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="12"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Name="lblSearchTerm" Grid.Column="1" Text="Buscar Direccion" FontSize="23"/>
+                        <TextBlock Grid.Column="1" Text="Resultados" FontSize="25"/>
                     </Grid>
-                    <toolkit:AutoCompleteBox Name="searchTermBox" Grid.Row="2" Grid.Column="1" MinimumPrefixLength="3" TextChanged="searchTermBox_TextChanged" VerticalAlignment="Top" FilterMode="None" KeyUp="searchTermBox_KeyUp"/>
+                    <Grid Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="12"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="12"/>
+                        </Grid.ColumnDefinitions>
+                        <ListBox x:Name="ResultsListBox" Grid.Column="1" ItemsSource="{Binding}" Background="Coral" SelectionChanged="ResultsListBox_SelectionChanged">
+
+                        </ListBox>
+                    </Grid>
 
                 </Grid>
-            </Grid>
 
-            <Grid x:Name="RightPanelGrid" Grid.Column="2" Background="#333333">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="24"/>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="24"/>
-                </Grid.RowDefinitions>
-                <Grid Grid.Row="1">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="12"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="12"/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="1" Text="Resultados" FontSize="25"/>
-                </Grid>
-                <Grid Grid.Row="2">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="12"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="12"/>
-                    </Grid.ColumnDefinitions>
-                    <ListBox x:Name="ResultsListBox" Grid.Column="1" ItemsSource="{Binding}" Background="Coral" SelectionChanged="ResultsListBox_SelectionChanged">
-                        
-                    </ListBox>
-                </Grid>
 
             </Grid>
-        </Grid>
+
+        </StackPanel>
+        
+        
         <!--RootGrid END-->
     </Canvas>
 

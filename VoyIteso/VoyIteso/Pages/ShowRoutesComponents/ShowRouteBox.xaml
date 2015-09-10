@@ -11,7 +11,7 @@
     
     <Grid x:Name="LayoutRoot" Width="440" Height="200" Background="{StaticResource PhoneChromeBrush}">
 
-        <Grid Background="#83C13F">
+        <Grid x:Name="Grid" Background="#83C13F">
             <TextBlock Name="HeaderLabel" FontSize="23" Foreground="White" Text="Nombre del sujeto" Margin="10,10,10,153">
             </TextBlock>
             <TextBlock Name="BodyLabel" FontSize="18" Foreground="White" Text="Predicado del sujeto" Margin="10,47,10,10">

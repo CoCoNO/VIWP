@@ -15,32 +15,39 @@
     d:DesignHeight="480" d:DesignWidth="480">
 
     <Grid x:Name="LayoutRoot">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <StackPanel HorizontalAlignment="Left"
-                    Orientation="Horizontal">
+                    Orientation="Horizontal" Grid.ColumnSpan="2" Width="315">
             <Image Name="SecondPartyAvatar"
                    Width="60"
                    Height="60"
                    Margin="12"
                    Source="/Images/dummy.png"/>
-            <TextBlock Text="DUMMY"
-                       Margin="0, 5, 12, 12"
+            <TextBlock x:Name="SecondPartyName" Text="CARGANDO..."
+                       Margin="0,5,12,0"
                        VerticalAlignment="Top"
                        FontSize="{StaticResource PhoneFontSizeNormal}"
-                       FontWeight="Black"/>
+                       FontWeight="Black" Width="235"/>
         </StackPanel>
 
         <StackPanel HorizontalAlignment="Right"
-                    Orientation="Horizontal">
-            <TextBlock Text="YOU"
+                    Orientation="Horizontal" Grid.Column="1" Width="139">
+            <TextBlock x:Name="UserName"
                        Margin="12, 5, 0, 12"
                        FontSize="{StaticResource PhoneFontSizeNormal}"
                        FontWeight="Black"
-                       VerticalAlignment="Top"/>
+                       VerticalAlignment="Top">
+            	<Run Text="T"/>
+            	<Run Text="Ú"/>
+            </TextBlock>
             <Image Name="UserAvatar"
                    Width="60"
                    Height="60"
@@ -49,10 +56,10 @@
         </StackPanel>
         <TextBlock x:Name="typingTextBlock" 
                    Margin="10,306,14,70" Foreground="#A200FF"
-                   IsHitTestVisible="False" Grid.Row="1"/>
+                   IsHitTestVisible="False" Grid.Row="1" Grid.ColumnSpan="2"/>
         <telerikData:RadConversationView Grid.Row="1"
                                          x:Name="conversationView"
-                                         SendingMessage="OnSendingMessage">
+                                         SendingMessage="OnSendingMessage" Grid.ColumnSpan="2">
             <telerikData:RadConversationView.IncomingMessageTemplate>
                 <DataTemplate>
                     <Grid Margin="12">
@@ -138,7 +145,7 @@
             <telerikData:RadConversationView.TextBoxTemplate>
                 <DataTemplate>
                     <Grid Margin="0, 24, 0, 0">
-                        
+
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="3*"/>
@@ -177,13 +184,13 @@
                                 </telerikPrimitives:RadTextBox.ActionButtonStyle>
                             </telerikPrimitives:RadTextBox>
                         </primitives:RadPointerContentControl>
-                        
+
                     </Grid>
-                    
+
                 </DataTemplate>
             </telerikData:RadConversationView.TextBoxTemplate>
         </telerikData:RadConversationView>
-        
+
     </Grid>
 
 </UserControl>

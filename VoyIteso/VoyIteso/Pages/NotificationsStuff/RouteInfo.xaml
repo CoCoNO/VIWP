@@ -27,13 +27,13 @@
         </StackPanel>
 
         <!--ContentPanel - place additional content here-->
-        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
+        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,10">
 
-            <Grid Background="#246" Margin="0,0,0,374">
+            <Grid x:Name="GridDeInformacion" Background="#246" Margin="0,0,0,374">
 
                 <TextBlock Name="UserDetails" Text="cargando..." Margin="201,72,0,0"/>
-                <Image Source="/Images/SMOKE.png" HorizontalAlignment="Left" Height="145" Margin="10,10,0,0" VerticalAlignment="Top" Width="150"/>
-                <Button Content="chat" Margin="347,0,0,161" Click="Button_Click"></Button>
+                <Image Name="DisplayImage" Source="/Images/SMOKE.png" HorizontalAlignment="Left" Height="145" Margin="10,10,0,0" VerticalAlignment="Top" Width="150"/>
+                <Button x:Name="ChatButton" Content="chat" Margin="347,0,0,151" Click="Button_Click"></Button>
             </Grid>
             <Grid Background="#9246" Margin="0,251,0,123">
                 <TextBlock Name="LiftDetails" Text="cargando..." Margin="10"/>
