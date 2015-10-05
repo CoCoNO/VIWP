@@ -29,6 +29,7 @@ namespace VoyIteso.Class
         public string texto { get; set; }
         public string tiempo { get; set; }
         public long fecha { get; set; }
+        public string fecha_publicacion { get; set; }
     }
 
     public class Mensajes

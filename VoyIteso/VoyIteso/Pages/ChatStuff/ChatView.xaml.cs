@@ -16,6 +16,7 @@ using Microsoft.Phone.Shell;
 using RestSharp.Extensions;
 using Telerik.Windows.Controls;
 using VoyIteso.Class;
+using System.Globalization;
 
 namespace VoyIteso.Pages.ChatStuff
 {
@@ -76,7 +77,19 @@ namespace VoyIteso.Pages.ChatStuff
             //messages.Add(this.CreateIncomingMessage(this.dummyMessagesEnumerator.Current)); 
             
         }
+        DateTime myParseyDateTime(string input)
+        {
+            var st = input.Substring(0, 19);
+            try
+            {
+                return DateTime.ParseExact(st, "s", CultureInfo.InvariantCulture);
+            }
+            catch (Exception)
+            {
+                throw new Exception(string.Format("Date {0} cannot be pased", input));
 
+            }
+        }
         public async void foo()
         {
             //this.dummyMessagesEnumerator = new InfiniteEnumerator(dummyMessages);
@@ -110,7 +123,7 @@ namespace VoyIteso.Pages.ChatStuff
                 /////si el mensaje pertenece al usuario/////
                 if (mensaje.perfil_id.ToString().Equals(ApiConnector.Instance.ActiveUser.profileID))//si el mensaje pertenece al usuario. 
                 {
-                    custommessa = new CustomMessage(mensaje.texto, DateTime.Now, ConversationViewMessageType.Outgoing);
+                    custommessa = new CustomMessage(mensaje.texto, myParseyDateTime(mensaje.fecha_publicacion), ConversationViewMessageType.Outgoing);
                     messages.Add(custommessa);
                 }
                 /////sino el mensaje pertenece a la segunda persona./////
@@ -118,8 +131,8 @@ namespace VoyIteso.Pages.ChatStuff
                 {
                     item = mensaje.perfil_id;
 
-                    
-                    custommessa = new CustomMessage(mensaje.texto, DateTime.Now, ConversationViewMessageType.Incoming);
+
+                    custommessa = new CustomMessage(mensaje.texto, myParseyDateTime(mensaje.fecha_publicacion), ConversationViewMessageType.Incoming);
                     messages.Add(custommessa);
                 }
 

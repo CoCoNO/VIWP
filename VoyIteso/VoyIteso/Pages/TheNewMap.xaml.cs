@@ -921,9 +921,9 @@ namespace VoyIteso.Pages
             string destino = txtDestinyRojo.Text;
             string fecha = dateString;// la fecha de inicia obtenida del time picker
             DateTime myDateTime;
-            myDateTime = DateTime.ParseExact(dateString, "dd-MM-yyyy", 
-                                             null);//yyyy-MM-dd HH:mm tt
+            myDateTime = DateTime.ParseExact(dateString+" "+timeString, "g", null);//yyyy-MM-dd HH:mm tt
             string hora = timeString;
+
             double lat_destino = BPoint.GeoCoordinate.Latitude;
             double lon_destino = BPoint.GeoCoordinate.Longitude;
             double lat_origen = APoint.GeoCoordinate.Latitude;
@@ -937,7 +937,7 @@ namespace VoyIteso.Pages
             {
                 IEnumerable<GeoCoordinate> myEnumerable;
                 //convierto mis waypoins en un enumerable para pasarlo al metodo de crear ruta.
-                if (wayPointList.Count > 0)
+                /*if (wayPointList.Count > 0)
                 {
                     List<GeoCoordinate> myList = wayPointList.Select(mapOverlay => mapOverlay.GeoCoordinate).ToList();
                     myEnumerable = myList;
@@ -950,12 +950,23 @@ namespace VoyIteso.Pages
                     wayPointList.Add(newpoint);
                     List<GeoCoordinate> myList = wayPointList.Select(mapOverlay => mapOverlay.GeoCoordinate).ToList();
                     myEnumerable = myList;
+                }*/
+
+                List<GeoCoordinate> myList = new List<GeoCoordinate>(), waypoints = wayPointList.Select(mapOverlay => mapOverlay.GeoCoordinate).ToList();
+
+                myList.Add(new GeoCoordinate(lat_origen, lon_origen));
+
+                foreach (var item in waypoints)
+                {
+                    myList.Add(item);
                 }
-                
-                
+
+                myList.Add(new GeoCoordinate(lat_destino, lon_destino));
+
+
                 //List<string> listAgain = myEnumerable.ToList();//para convertir atras.
                 //Rutai rutai = new Rutai();
-                var a = await ApiConnector.Instance.RouteCreate(origen, destino, myDateTime, myDateTime.AddHours(1), "1", 2, myEnumerable);
+                var a = await ApiConnector.Instance.RouteCreate(origen, destino, myDateTime, myDateTime.AddHours(1), "1", 2, myList);
                 progress.hideProgressIndicator(this);
                 if (a.estatus==1)
                 {

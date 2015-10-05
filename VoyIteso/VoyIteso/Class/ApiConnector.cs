@@ -358,8 +358,21 @@ namespace VoyIteso.Class
             r.AddParameter("polilinea_codificada", EncodeLocation(puntos));
             r.AddParameter("tipo_mapa", 4);
 
+#if DEBUG
+            Debug.WriteLine("Sending Post Request to (" + HttpRequest.Url + "/ruta/crear" + ")");
+            Debug.WriteLine("Params");
+            foreach (var item in r.Parameters)
+            {
+                Debug.WriteLine("   [" + item.Name + "](" + item.Value + ")");
+            }
+#endif
             var rs = await c.ExecuteTaskAsync<ResponceObject>(r);
 
+            #if DEBUG
+            Debug.WriteLine("Responce");
+            Debug.WriteLine(rs.Content);
+
+#endif
             return rs.Data;
 
             //return null;
