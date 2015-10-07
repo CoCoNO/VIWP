@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Device.Location;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -83,7 +84,6 @@ namespace VoyIteso.Pages
             {
                 //FijarPosicionActual();
                 FijarIteso();
-                Salute();
             }
             ////////////////////
 
@@ -160,14 +160,14 @@ namespace VoyIteso.Pages
 
         private async void FijarIteso()
         {
-            var migeoCoordenada = new GeoCoordinate(20.608390, -103.414512);
+            var migeoCoordenada = new GeoCoordinate(20.608390, -103.414512);//iteso
             dibujaru(migeoCoordenada);
             myMap.Center = migeoCoordenada;
             myMap.ZoomLevel = 13;
             //ApplicationBar.IsVisible = true;
             _aconfirmed = true;
             //cargarlista();//cargar la lista de pushpins sugeridos.
-            MessageBox.Show("por defecto, el origen está fijado en el ITESO, pero puedes modificarlo.");
+            //MessageBox.Show("por defecto, el origen está fijado en el ITESO, pero puedes modificarlo.");
             ReverseQuery();
         }
 
@@ -921,7 +921,9 @@ namespace VoyIteso.Pages
             string destino = txtDestinyRojo.Text;
             string fecha = dateString;// la fecha de inicia obtenida del time picker
             DateTime myDateTime;
-            myDateTime = DateTime.ParseExact(dateString+" "+timeString, "g", null);//yyyy-MM-dd HH:mm tt
+            //12.0.0
+            //
+            myDateTime = DateTime.ParseExact(dateString + " " + timeString, "dd-MM-yyyy HH:mm", CultureInfo.InvariantCulture);//yyyy-MM-dd HH:mm tt   M/d/yyyy hh:mm
             string hora = timeString;
 
             double lat_destino = BPoint.GeoCoordinate.Latitude;

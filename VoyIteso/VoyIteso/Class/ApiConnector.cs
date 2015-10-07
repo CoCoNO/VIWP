@@ -351,7 +351,7 @@ namespace VoyIteso.Class
                 {
                     puntosIntermedios += ",";
                 }
-                puntosIntermedios += "{\"lat\":" + item.Latitude + ",\"lng\"" + item.Longitude + "}";
+                puntosIntermedios += "{\"lat\":" + item.Latitude + ",\"lng\":" + item.Longitude + "}";
             }
             puntosIntermedios += "]";
             r.AddParameter("puntos_intermedios", puntosIntermedios);
