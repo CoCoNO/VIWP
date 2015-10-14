@@ -175,16 +175,25 @@ namespace VoyIteso.Pages
             if (pressed==0)
             {
                 new Progress().showProgressIndicator(this, "espera...");
-                var a = ApiConnector.Instance.LiftRequest(Convert.ToInt32(myCajaDeResultados.routeID), localUser.Name + " quiere que le des ride", fechaParaLaCualSeSolicitaElAventon);// no requiere hora el datetime.
-                //Debug.WriteLine(fechaParaLaCualSeSolicitaElAventon);
-                new Progress().hideProgressIndicator(this);
-                GridDeBotones.Children.Remove(this.botonSolicitar);
 
-                GridDeBotones.Children.Remove(BotonAceptar);
-                GridDeBotones.Children.Remove(BotonRechazar);
-                var b = new TextBlock() { Text = "se ha solicitado el aventón", Foreground = new SolidColorBrush(Colors.Black), Width = 380 };
-                GridDeBotones.Children.Add(b);
-                
+                try
+                {
+                    var a = ApiConnector.Instance.LiftRequest(Convert.ToInt32(myCajaDeResultados.routeID), localUser.Name + " quiere que le des ride", fechaParaLaCualSeSolicitaElAventon);// no requiere hora el datetime.
+                    //Debug.WriteLine(fechaParaLaCualSeSolicitaElAventon);
+                    new Progress().hideProgressIndicator(this);
+                    GridDeBotones.Children.Remove(this.botonSolicitar);
+
+                    GridDeBotones.Children.Remove(BotonAceptar);
+                    GridDeBotones.Children.Remove(BotonRechazar);
+                    var b = new TextBlock() { Text = "se ha solicitado el aventón", Foreground = new SolidColorBrush(Colors.Black), Width = 380 };
+                    GridDeBotones.Children.Add(b);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error: "+ex.Message, "No se mandó tu solicitud", MessageBoxButton.OK);
+                    throw;
+                }
+
                 pressed++;
             }
             buildAppBar(appBarStates.Regresarmenu);

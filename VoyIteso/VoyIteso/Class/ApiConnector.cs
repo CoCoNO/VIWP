@@ -389,7 +389,7 @@ namespace VoyIteso.Class
 
             r.AddParameter("mensaje_solicitud", requestMessage);
 
-            r.AddParameter("fecha_solicitud", string.Format("{0}/{1}/{2}",requestDate.Day,requestDate.Month,requestDate.Year));
+            r.AddParameter("fecha_solicitud", string.Format("{0}{1}-{2}-{3}", requestDate.Day<10?"0":"", requestDate.Day, requestDate.Month, requestDate.Year));
 
             var rs = await c.ExecuteTaskAsync<ResponceObject>(r);
 

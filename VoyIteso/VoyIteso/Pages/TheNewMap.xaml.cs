@@ -1027,7 +1027,7 @@ namespace VoyIteso.Pages
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Algo salio mal. vuelve a intentar");
+                    MessageBox.Show("Revisa tus datos e intenta de nuevo. tip: fecha mal", "Información inválida",MessageBoxButton.OK);
                     Debug.WriteLine("algo salio mal>>>" + ex.Message);
                     //throw;
                 }

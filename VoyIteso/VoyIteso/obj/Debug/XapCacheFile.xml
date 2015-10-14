@@ -1,5 +1,5 @@
-﻿<xapCache source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Bin\Debug\VoyIteso_Debug_AnyCPU.xap" wasSigned="False" wasTritonized="False" certificateThumbprint="" TimeStampUrl="" signKeyFile="" signKeyPassword="" lastWriteTime="10/09/2015 05:00:53 p. m.">
-  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\obj\Debug\VoyIteso.dll" archivePath="VoyIteso.dll" lastWriteTime="10/09/2015 05:00:48 p. m." />
+﻿<xapCache source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Bin\Debug\VoyIteso_Debug_AnyCPU.xap" wasSigned="False" wasTritonized="False" certificateThumbprint="" TimeStampUrl="" signKeyFile="" signKeyPassword="" lastWriteTime="08/10/2015 02:03:36 p. m.">
+  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\obj\Debug\VoyIteso.dll" archivePath="VoyIteso.dll" lastWriteTime="08/10/2015 02:03:33 p. m." />
   <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Assets\AC.png" archivePath="Assets\AC.png" lastWriteTime="21/05/2015 08:03:22 p. m." />
   <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Assets\add.png" archivePath="Assets\add.png" lastWriteTime="21/05/2015 08:03:22 p. m." />
   <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Assets\check.png" archivePath="Assets\check.png" lastWriteTime="21/05/2015 08:03:22 p. m." />
@@ -13,48 +13,48 @@
   <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Assets\Tiles\IconicTileSmall.png" archivePath="Assets\Tiles\IconicTileSmall.png" lastWriteTime="04/03/2015 01:46:27 p. m." />
   <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\AC.png" archivePath="Images\AC.png" lastWriteTime="21/05/2015 08:03:26 p. m." />
   <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\Camara.png" archivePath="Images\Camara.png" lastWriteTime="21/05/2015 08:03:26 p. m." />
-  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\Carro.png" archivePath="Images\Carro.png" lastWriteTime="17/08/2015 10:32:25 a. m." />
+  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\Carro.png" archivePath="Images\Carro.png" lastWriteTime="11/09/2015 05:53:25 p. m." />
   <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\check.png" archivePath="Images\check.png" lastWriteTime="21/05/2015 08:03:27 p. m." />
-  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\chingadera.PNG" archivePath="Images\chingadera.PNG" lastWriteTime="16/08/2015 09:45:39 p. m." />
+  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\chingadera.PNG" archivePath="Images\chingadera.PNG" lastWriteTime="11/09/2015 05:53:25 p. m." />
   <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\dummy.png" archivePath="Images\dummy.png" lastWriteTime="13/08/2015 01:12:13 p. m." />
   <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\Feedback_perfil.png" archivePath="Images\Feedback_perfil.png" lastWriteTime="21/05/2015 08:03:27 p. m." />
-  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\icons\add.png" archivePath="Images\icons\add.png" lastWriteTime="07/09/2015 11:02:07 a. m." />
-  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\icons\back.png" archivePath="Images\icons\back.png" lastWriteTime="07/09/2015 11:02:07 a. m." />
-  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\icons\basecircle.png" archivePath="Images\icons\basecircle.png" lastWriteTime="07/09/2015 11:02:07 a. m." />
-  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\icons\cancel.png" archivePath="Images\icons\cancel.png" lastWriteTime="07/09/2015 11:02:07 a. m." />
-  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\icons\check.png" archivePath="Images\icons\check.png" lastWriteTime="07/09/2015 11:02:07 a. m." />
-  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\icons\close.png" archivePath="Images\icons\close.png" lastWriteTime="07/09/2015 11:02:07 a. m." />
-  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\icons\delete.png" archivePath="Images\icons\delete.png" lastWriteTime="07/09/2015 11:02:07 a. m." />
-  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\icons\download.png" archivePath="Images\icons\download.png" lastWriteTime="07/09/2015 11:02:07 a. m." />
-  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\icons\edit.png" archivePath="Images\icons\edit.png" lastWriteTime="07/09/2015 11:02:07 a. m." />
-  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\icons\favs.addto.png" archivePath="Images\icons\favs.addto.png" lastWriteTime="07/09/2015 11:02:07 a. m." />
-  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\icons\favs.png" archivePath="Images\icons\favs.png" lastWriteTime="07/09/2015 11:02:07 a. m." />
-  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\icons\feature.alarm.png" archivePath="Images\icons\feature.alarm.png" lastWriteTime="07/09/2015 11:02:07 a. m." />
-  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\icons\feature.calendar.png" archivePath="Images\icons\feature.calendar.png" lastWriteTime="07/09/2015 11:02:07 a. m." />
-  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\icons\feature.camera.png" archivePath="Images\icons\feature.camera.png" lastWriteTime="07/09/2015 11:02:07 a. m." />
-  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\icons\feature.email.png" archivePath="Images\icons\feature.email.png" lastWriteTime="07/09/2015 11:02:07 a. m." />
-  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\icons\feature.phone.png" archivePath="Images\icons\feature.phone.png" lastWriteTime="07/09/2015 11:02:07 a. m." />
-  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\icons\feature.search.png" archivePath="Images\icons\feature.search.png" lastWriteTime="07/09/2015 11:02:07 a. m." />
-  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\icons\feature.settings.png" archivePath="Images\icons\feature.settings.png" lastWriteTime="07/09/2015 11:02:07 a. m." />
-  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\icons\feature.video.png" archivePath="Images\icons\feature.video.png" lastWriteTime="07/09/2015 11:02:07 a. m." />
-  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\icons\folder.png" archivePath="Images\icons\folder.png" lastWriteTime="07/09/2015 11:02:07 a. m." />
-  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\icons\like.png" archivePath="Images\icons\like.png" lastWriteTime="07/09/2015 11:02:07 a. m." />
-  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\icons\microphone.png" archivePath="Images\icons\microphone.png" lastWriteTime="07/09/2015 11:02:07 a. m." />
-  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\icons\minus.png" archivePath="Images\icons\minus.png" lastWriteTime="07/09/2015 11:02:07 a. m." />
-  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\icons\new.png" archivePath="Images\icons\new.png" lastWriteTime="07/09/2015 11:02:07 a. m." />
-  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\icons\next.png" archivePath="Images\icons\next.png" lastWriteTime="07/09/2015 11:02:07 a. m." />
-  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\icons\overflowdots.png" archivePath="Images\icons\overflowdots.png" lastWriteTime="07/09/2015 11:02:07 a. m." />
-  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\icons\questionmark.png" archivePath="Images\icons\questionmark.png" lastWriteTime="07/09/2015 11:02:07 a. m." />
-  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\icons\refresh.png" archivePath="Images\icons\refresh.png" lastWriteTime="07/09/2015 11:02:07 a. m." />
-  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\icons\save.png" archivePath="Images\icons\save.png" lastWriteTime="07/09/2015 11:02:07 a. m." />
-  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\icons\share.png" archivePath="Images\icons\share.png" lastWriteTime="07/09/2015 11:02:07 a. m." />
-  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\icons\stop.png" archivePath="Images\icons\stop.png" lastWriteTime="07/09/2015 11:02:07 a. m." />
-  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\icons\sync.png" archivePath="Images\icons\sync.png" lastWriteTime="07/09/2015 11:02:07 a. m." />
-  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\icons\transport.ff.png" archivePath="Images\icons\transport.ff.png" lastWriteTime="07/09/2015 11:02:07 a. m." />
-  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\icons\transport.pause.png" archivePath="Images\icons\transport.pause.png" lastWriteTime="07/09/2015 11:02:07 a. m." />
-  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\icons\transport.play.png" archivePath="Images\icons\transport.play.png" lastWriteTime="07/09/2015 11:02:07 a. m." />
-  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\icons\transport.rew.png" archivePath="Images\icons\transport.rew.png" lastWriteTime="07/09/2015 11:02:07 a. m." />
-  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\icons\upload.png" archivePath="Images\icons\upload.png" lastWriteTime="07/09/2015 11:02:07 a. m." />
+  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\icons\add.png" archivePath="Images\icons\add.png" lastWriteTime="11/09/2015 05:53:26 p. m." />
+  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\icons\back.png" archivePath="Images\icons\back.png" lastWriteTime="11/09/2015 05:53:26 p. m." />
+  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\icons\basecircle.png" archivePath="Images\icons\basecircle.png" lastWriteTime="11/09/2015 05:53:26 p. m." />
+  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\icons\cancel.png" archivePath="Images\icons\cancel.png" lastWriteTime="11/09/2015 05:53:26 p. m." />
+  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\icons\check.png" archivePath="Images\icons\check.png" lastWriteTime="11/09/2015 05:53:26 p. m." />
+  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\icons\close.png" archivePath="Images\icons\close.png" lastWriteTime="11/09/2015 05:53:26 p. m." />
+  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\icons\delete.png" archivePath="Images\icons\delete.png" lastWriteTime="11/09/2015 05:53:26 p. m." />
+  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\icons\download.png" archivePath="Images\icons\download.png" lastWriteTime="11/09/2015 05:53:26 p. m." />
+  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\icons\edit.png" archivePath="Images\icons\edit.png" lastWriteTime="11/09/2015 05:53:26 p. m." />
+  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\icons\favs.addto.png" archivePath="Images\icons\favs.addto.png" lastWriteTime="11/09/2015 05:53:26 p. m." />
+  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\icons\favs.png" archivePath="Images\icons\favs.png" lastWriteTime="11/09/2015 05:53:26 p. m." />
+  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\icons\feature.alarm.png" archivePath="Images\icons\feature.alarm.png" lastWriteTime="11/09/2015 05:53:26 p. m." />
+  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\icons\feature.calendar.png" archivePath="Images\icons\feature.calendar.png" lastWriteTime="11/09/2015 05:53:26 p. m." />
+  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\icons\feature.camera.png" archivePath="Images\icons\feature.camera.png" lastWriteTime="11/09/2015 05:53:26 p. m." />
+  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\icons\feature.email.png" archivePath="Images\icons\feature.email.png" lastWriteTime="11/09/2015 05:53:26 p. m." />
+  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\icons\feature.phone.png" archivePath="Images\icons\feature.phone.png" lastWriteTime="11/09/2015 05:53:26 p. m." />
+  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\icons\feature.search.png" archivePath="Images\icons\feature.search.png" lastWriteTime="11/09/2015 05:53:26 p. m." />
+  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\icons\feature.settings.png" archivePath="Images\icons\feature.settings.png" lastWriteTime="11/09/2015 05:53:26 p. m." />
+  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\icons\feature.video.png" archivePath="Images\icons\feature.video.png" lastWriteTime="11/09/2015 05:53:26 p. m." />
+  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\icons\folder.png" archivePath="Images\icons\folder.png" lastWriteTime="11/09/2015 05:53:26 p. m." />
+  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\icons\like.png" archivePath="Images\icons\like.png" lastWriteTime="11/09/2015 05:53:26 p. m." />
+  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\icons\microphone.png" archivePath="Images\icons\microphone.png" lastWriteTime="11/09/2015 05:53:26 p. m." />
+  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\icons\minus.png" archivePath="Images\icons\minus.png" lastWriteTime="11/09/2015 05:53:26 p. m." />
+  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\icons\new.png" archivePath="Images\icons\new.png" lastWriteTime="11/09/2015 05:53:26 p. m." />
+  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\icons\next.png" archivePath="Images\icons\next.png" lastWriteTime="11/09/2015 05:53:26 p. m." />
+  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\icons\overflowdots.png" archivePath="Images\icons\overflowdots.png" lastWriteTime="11/09/2015 05:53:26 p. m." />
+  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\icons\questionmark.png" archivePath="Images\icons\questionmark.png" lastWriteTime="11/09/2015 05:53:26 p. m." />
+  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\icons\refresh.png" archivePath="Images\icons\refresh.png" lastWriteTime="11/09/2015 05:53:26 p. m." />
+  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\icons\save.png" archivePath="Images\icons\save.png" lastWriteTime="11/09/2015 05:53:26 p. m." />
+  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\icons\share.png" archivePath="Images\icons\share.png" lastWriteTime="11/09/2015 05:53:26 p. m." />
+  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\icons\stop.png" archivePath="Images\icons\stop.png" lastWriteTime="11/09/2015 05:53:26 p. m." />
+  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\icons\sync.png" archivePath="Images\icons\sync.png" lastWriteTime="11/09/2015 05:53:26 p. m." />
+  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\icons\transport.ff.png" archivePath="Images\icons\transport.ff.png" lastWriteTime="11/09/2015 05:53:26 p. m." />
+  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\icons\transport.pause.png" archivePath="Images\icons\transport.pause.png" lastWriteTime="11/09/2015 05:53:26 p. m." />
+  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\icons\transport.play.png" archivePath="Images\icons\transport.play.png" lastWriteTime="11/09/2015 05:53:26 p. m." />
+  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\icons\transport.rew.png" archivePath="Images\icons\transport.rew.png" lastWriteTime="11/09/2015 05:53:26 p. m." />
+  <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\icons\upload.png" archivePath="Images\icons\upload.png" lastWriteTime="11/09/2015 05:53:26 p. m." />
   <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\ITESO-logo.png" archivePath="Images\ITESO-logo.png" lastWriteTime="21/05/2015 08:03:27 p. m." />
   <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\MapSearchBackground.png" archivePath="Images\MapSearchBackground.png" lastWriteTime="21/05/2015 08:03:28 p. m." />
   <file source="C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Images\MUSIC.png" archivePath="Images\MUSIC.png" lastWriteTime="21/05/2015 08:03:28 p. m." />
