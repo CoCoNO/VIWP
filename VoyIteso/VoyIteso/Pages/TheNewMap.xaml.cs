@@ -65,7 +65,13 @@ namespace VoyIteso.Pages
         public TheNewMap()
         {
             InitializeComponent();
-            
+
+            if (Driver)
+            {
+                GenderPickerGrid.Children.Remove(pikerGender);
+                SmokerPickerGrid.Children.Remove(pikerSmoke);
+            }
+
             _aconfirmed = false;
             ResetValues();
             //Touch.FrameReported += Touch_FrameReported;  

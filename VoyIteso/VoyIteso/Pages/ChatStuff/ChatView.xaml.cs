@@ -112,9 +112,18 @@ namespace VoyIteso.Pages.ChatStuff
 
             new Progress().showProgressIndicator(this, "cargando mensajes");
             listaDeMensajes = await ApiConnector.Instance.LiftMessagesGet(Convert.ToInt32(key));//aqui se obtiene la lista de mensajes del aventon seleccionado.
-            
 
             todosLosMensajes = listaDeMensajes;
+
+            if (todosLosMensajes.mensajes.Count<1)
+            {
+                //SecondPartyAvatar.Source = another.Avatar;
+                SecondPartyAvatar.Source = null;
+                //UserName.Text = ApiConnector.Instance.ActiveUser.Name;//siempre sea you.
+                SecondPartyName.Text = "";
+                return;
+            }
+
             var item = new int();
 
             foreach (var mensaje in listaDeMensajes.mensajes)
@@ -137,14 +146,25 @@ namespace VoyIteso.Pages.ChatStuff
                 }
 
             }
-            new Progress().showProgressIndicator(this, "espera, el internet a veces puede frustrante...");
-            var another = await ApiConnector.Instance.GetUserById(item.ToString());
-            new Progress().hideProgressIndicator(this);
-            //SecondPartyAvatar.Source = another.Avatar;
-            SecondPartyAvatar.Source = ApiConnector.Instance.GetUserImageById(item);
-            //UserName.Text = ApiConnector.Instance.ActiveUser.Name;//siempre sea you.
+            try
+            {
+                new Progress().showProgressIndicator(this, "espera, el internet a veces puede frustrante...");
+                var another = await ApiConnector.Instance.GetUserById(item.ToString());
+                new Progress().hideProgressIndicator(this);
+                //SecondPartyAvatar.Source = another.Avatar;
+                SecondPartyAvatar.Source = ApiConnector.Instance.GetUserImageById(item);
+                //UserName.Text = ApiConnector.Instance.ActiveUser.Name;//siempre sea you.
+                SecondPartyName.Text = another.Name.Length < 15 ? another.Name : another.Name.Substring(0, 15) + ".";
+            }
+            catch (Exception)
+            {
+                //SecondPartyAvatar.Source = another.Avatar;
+                SecondPartyAvatar.Source = null;
+                //UserName.Text = ApiConnector.Instance.ActiveUser.Name;//siempre sea you.
+                SecondPartyName.Text = "";
+            }
 
-            SecondPartyName.Text = another.Name.Length < 15 ? another.Name : another.Name.Substring(0, 15)+".";
+            
         }
 
 

@@ -114,8 +114,8 @@ namespace VoyIteso.Pages
                 UserDetails.Text = user.Name + "\n" + user.profile.edad + " años\n" + user.profile.carrera;
                 new Progress().hideProgressIndicator(this);
             }
-            ApiConnector.Instance.GetUserImageById(Convert.ToInt32(user.profileID));//Convert.ToInt32(myCajaDeResultados.perfil_id)
-            DisplayImage.Source = user.Avatar;
+            var image = ApiConnector.Instance.GetUserImageById(Convert.ToInt32(user.profileID));//Convert.ToInt32(myCajaDeResultados.perfil_id)
+            DisplayImage.Source = image;
             this.localUser = user;
 
         }
