@@ -211,6 +211,7 @@ namespace VoyIteso.Pages
         {
             _routeConfirmed = false;
             _confirmed = false;
+            _paramsConfirmed=false;
             //_aconfirmed = false;
             _flag = false;
             BPoint = null;
@@ -491,8 +492,22 @@ namespace VoyIteso.Pages
                 var mapIcon = (MapIcon) BPoint.Content;//destino
                 //var mapIcon2 = (MapIcon) APoint.Content;//origen
                 MessageBox.Show("destino fijado");
-                txtOriginRojo.Text = aStreetName;
-                txtDestinyRojo.Text = mapIcon.StreetName;
+                if (aStreetName==null)
+                {
+                    txtOriginRojo.Text = "escribe una dirección";
+                    txtDestinyRojo.Text = "escribe una dirección";
+                }
+                else
+                {
+                    txtOriginRojo.Text = aStreetName;
+                    if (mapIcon.StreetName==null)
+                    {
+                        txtDestinyRojo.Text = "no encontramos la dirección, escríbela";
+                    }else
+                    txtDestinyRojo.Text = mapIcon.StreetName;
+                }
+                
+                
                 SearchNowButton_OnClick(null, null);
                 ApplicationBar.Mode = ApplicationBarMode.Minimized;
                 if (Driver) return;
@@ -547,6 +562,7 @@ namespace VoyIteso.Pages
             MyMapControl_OnCenterChanged(null, null);
             myMap.Layers.Remove(_layer);
             MessageBox.Show("Coloca un nuevo destino para continuar", "destino borrado", MessageBoxButton.OK);
+            ResetValues();
             if (a == appBarStates.Left)
             {
                 HideLeftPanelAnimation.Begin();   

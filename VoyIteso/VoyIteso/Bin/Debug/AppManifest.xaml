@@ -7,6 +7,7 @@
     <AssemblyPart x:Name="System.Net.Http" Source="System.Net.Http.dll" />
     <AssemblyPart x:Name="System.Net.Http.Extensions" Source="System.Net.Http.Extensions.dll" />
     <AssemblyPart x:Name="System.Net.Http.Primitives" Source="System.Net.Http.Primitives.dll" />
+    <AssemblyPart x:Name="Telerik.Windows.BackgroundAgentTools" Source="Telerik.Windows.BackgroundAgentTools.dll" />
     <AssemblyPart x:Name="Telerik.Windows.Behaviors" Source="Telerik.Windows.Behaviors.dll" />
     <AssemblyPart x:Name="Telerik.Windows.Controls.Chart" Source="Telerik.Windows.Controls.Chart.dll" />
     <AssemblyPart x:Name="Telerik.Windows.Controls.Data" Source="Telerik.Windows.Controls.Data.dll" />
