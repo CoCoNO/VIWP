@@ -23,9 +23,10 @@
 
 
     <Grid Background="#004270">
-        <ListBox Name="ListBox" SelectionChanged="Selector_OnSelectionChanged">
+
+        <ListBox Name="ListBox" SelectionChanged="Selector_OnSelectionChanged" Margin="0,10,0,0">
             <ListBoxItem>
-                <Grid Name="Root" Background="#004270">
+                <Grid Name="Root" Background="#004270" Height="732" Width="486">
                     <Grid.RowDefinitions>
                         <!--<RowDefinition Height="24"/>-->
                         <RowDefinition Height="24"/>
@@ -44,7 +45,8 @@
                         <ColumnDefinition Width="24" />
                     </Grid.ColumnDefinitions>
 
-                    <TextBlock Name="txtUserName" Grid.Row="1" Text="¡Hola Getsemani!" Grid.Column="1" FontFamily="{StaticResource PhoneFontFamilyNormal}" FontSize="40" TextWrapping="Wrap" />
+                    <TextBlock Name="txtUserName" Grid.Row="1" Text="¡Hola Getsemani!" Grid.Column="1" FontFamily="{StaticResource PhoneFontFamilyNormal}" FontSize="25" TextWrapping="Wrap" Margin="0,0,166,0" />
+                    <Image Name="userTypeToogle" Tap="UserTypeToogle_OnTap" Source="../Images/carrito.png" Margin="377,39,0,0" Grid.RowSpan="2" Grid.Column="1" />
 
                     <telerickPrimitives:RadCycleHubTile  x:Name="notificationsTile" Tap="NotificationsTile_OnTap" Grid.Row="3" Grid.Column="1" Width="Auto" Height="170" UpdateInterval="0:0:4" ItemsSource="{Binding}" Background="#1E81C0" Margin="0">
                         <telerickPrimitives:RadCycleHubTile.ItemTemplate>
@@ -143,11 +145,11 @@
                 </Grid>
 
             </ListBoxItem>
-            
+
         </ListBox>
     </Grid>
-    
-    
-    
-    
+
+
+
+
 </phone:PhoneApplicationPage>

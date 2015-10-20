@@ -41,8 +41,16 @@ namespace VoyIteso.Pages
             //termina el contenido del calendario. 
 
             //contenido notificaciones.
-            
 
+            if (TheNewMap.Driver)
+            {
+                this.userTypeToogle.Source = new BitmapImage(new Uri("/Images/Carro.png", UriKind.Relative));
+                //_pushPinUsuario.Source = new BitmapImage(new Uri("/Images/u.png", UriKind.Relative));
+            }
+            else
+            {
+                this.userTypeToogle.Source = new BitmapImage(new Uri("/Images/carrito.png",UriKind.Relative));
+            }
 
         }
 
@@ -229,7 +237,13 @@ namespace VoyIteso.Pages
 
         private void searchOfferMapTile_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            NavigationService.Navigate(new Uri("/Pages/SelectType.xaml", UriKind.Relative));
+            //NavigationService.Navigate(new Uri("/Pages/SelectType.xaml", UriKind.Relative));
+            if (TheNewMap.Driver)
+            {
+                NavigationService.Navigate(new Uri("/Pages/ShowRoutes.xaml", UriKind.Relative));
+            }else
+            NavigationService.Navigate(new Uri("/Pages/TheNewMap.xaml", UriKind.Relative));
+
         }
 
         private void calendarTile_Tap(object sender, System.Windows.Input.GestureEventArgs e)
@@ -246,6 +260,13 @@ namespace VoyIteso.Pages
         private void Selector_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ListBox.SelectedIndex = -1;
+        }
+
+        private void UserTypeToogle_OnTap(object sender, GestureEventArgs e)
+        {
+            TheNewMap.Driver = !TheNewMap.Driver;
+
+            this.userTypeToogle.Source = TheNewMap.Driver ? new BitmapImage(new Uri("/Images/Carro.png", UriKind.Relative)) : new BitmapImage(new Uri("/Images/carrito.png", UriKind.Relative));
         }
     }
 }

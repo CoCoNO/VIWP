@@ -596,3 +596,6 @@ C:\Users\SergioAdán\Documents\Github\VIWP\VoyIteso\VoyIteso\Bin\Debug\ru\System
 C:\Users\SergioAdán\Documents\Github\VIWP\VoyIteso\VoyIteso\Bin\Debug\zh-Hans\System.Windows.Interactivity.resources.dll
 C:\Users\SergioAdán\Documents\Github\VIWP\VoyIteso\VoyIteso\Bin\Debug\zh-Hant\System.Windows.Interactivity.resources.dll
 C:\Users\SergioAdán\Documents\Github\VIWP\VoyIteso\VoyIteso\obj\Debug\XapCacheFile.xml
+C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Bin\Debug\Telerik.Windows.BackgroundAgentTools.dll
+C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Bin\Debug\Telerik.Windows.BackgroundAgentTools.pdb
+C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Bin\Debug\Telerik.Windows.BackgroundAgentTools.xml

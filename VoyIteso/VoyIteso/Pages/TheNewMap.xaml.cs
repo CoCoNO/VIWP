@@ -65,6 +65,11 @@ namespace VoyIteso.Pages
         //{
         //}
 
+        public void foo()
+        {
+        }
+
+
         public TheNewMap()
         {
             InitializeComponent();
@@ -741,7 +746,9 @@ namespace VoyIteso.Pages
                 e.Cancel = true;
             }
             else
-                base.OnBackKeyPress(e);
+                NavigationService.Navigate(new Uri("/Pages/HomePage.xaml", UriKind.Relative));
+                NavigationService.RemoveBackEntry();
+            //base.OnBackKeyPress(e);
 
         }
 

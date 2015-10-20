@@ -26,13 +26,15 @@ namespace VoyIteso.Pages
         private void PedirRide_OnTap(object sender, GestureEventArgs e)
         {
             TheNewMap.Driver = false;
-            Navigate("/Pages/TheNewMap.xaml"); 
+            Navigate("/Pages/HomePage.xaml");
+            //Navigate("/Pages/TheNewMap.xaml"); 
         }
 
         private void DarRide_OnTap(object sender, GestureEventArgs e)
         { 
             TheNewMap.Driver = true;
-            Navigate("/Pages/ShowRoutes.xaml");
+            Navigate("/Pages/HomePage.xaml");
+            //Navigate("/Pages/ShowRoutes.xaml");
         }
     }
 }

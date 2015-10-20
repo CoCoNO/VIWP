@@ -210,7 +210,8 @@ namespace VoyIteso.Pages
             {
                 await ApiConnector.Instance.LogIn(txbUser.Text, txbPass.Password);
                 progress.hideProgressIndicator(this);
-                NavigationService.Navigate(new Uri("/Pages/HomePage.xaml", UriKind.Relative));
+                NavigationService.Navigate(new Uri("/Pages/SelectType.xaml",UriKind.Relative));
+                //NavigationService.Navigate(new Uri("/Pages/HomePage.xaml", UriKind.Relative));
             }
             catch (TimeoutException)
             {
@@ -232,7 +233,7 @@ namespace VoyIteso.Pages
 
         private void WorkThreadFunction()
         {
-            Debug.WriteLine("aqui estoy pasandola. bien.");
+            
             
                 // do any background work
                 //MessageBox.Show("No hay conexión a internet");
