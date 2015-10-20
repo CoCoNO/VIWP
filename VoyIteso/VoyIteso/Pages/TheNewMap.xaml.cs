@@ -61,6 +61,9 @@ namespace VoyIteso.Pages
 
         #endregion
 
+        //public TheNewMap()
+        //{
+        //}
 
         public TheNewMap()
         {
@@ -591,8 +594,8 @@ namespace VoyIteso.Pages
         private void MyMapControl_OnCenterChanged(object sender, MapCenterChangedEventArgs e)
         {
             if (Driver)
-            {
-                states = _pointCount > 0 ? appBarStates.Shit2 : appBarStates.Init;
+            {//wayPointList.Count>0
+                states = (_pointCount > 0) ? ((wayPointList.Count>0) ? appBarStates.Waypoint : appBarStates.Shit2) : appBarStates.Init; 
 
                 BuildLocalizedApplicationBar();
                 ApplicationBar.Mode = ApplicationBarMode.Minimized;
@@ -1204,6 +1207,10 @@ namespace VoyIteso.Pages
                 fijarme.Click += fijarme_OnClick;
                 ApplicationBar.MenuItems.Add(fijarme);
 
+                ApplicationBarMenuItem b = new ApplicationBarMenuItem { Text = "¿cómo usar?" };
+                b.Click += howToUse_Click;
+                ApplicationBar.MenuItems.Add(b);
+
                 if (_pointCount <= 0) return;
                 ApplicationBarMenuItem changeDestination = new ApplicationBarMenuItem();
                 changeDestination.Text = "cambiar el destino";
@@ -1213,15 +1220,29 @@ namespace VoyIteso.Pages
 
             else if (states == appBarStates.Shit2)
             {
-                ApplicationBarIconButton a = new ApplicationBarIconButton(new Uri("/Images/u.png", UriKind.Relative));
-                a.Text = "cómo usar";
-                a.Click += howToUse_Click;
-                ApplicationBar.Buttons.Add(a);
+                //ApplicationBarIconButton a = new ApplicationBarIconButton(new Uri("/Images/u.png", UriKind.Relative));
+                //a.Text = "cómo usar";
+                //a.Click += howToUse_Click;
+                //ApplicationBar.Buttons.Add(a);
+
+                ApplicationBarIconButton appBarSearchButton = new ApplicationBarIconButton(new Uri("Assets/feature.search.png", UriKind.Relative));
+                appBarSearchButton.Text = "Buscar Ruta";
+                appBarSearchButton.Click += appBarSearchButton_Click;
+                ApplicationBar.Buttons.Add(appBarSearchButton);
+
+                ApplicationBarIconButton appBarResultButton = new ApplicationBarIconButton(new Uri("Assets/next.png", UriKind.Relative));
+                appBarResultButton.Text = "Resultados";
+                appBarResultButton.Click += appBarResultButton_Click;
+                ApplicationBar.Buttons.Add(appBarResultButton);
 
                 ApplicationBarMenuItem fijarme = new ApplicationBarMenuItem();
                 fijarme.Text = "fijar mi posición";
                 fijarme.Click += fijarme_OnClick;
                 ApplicationBar.MenuItems.Add(fijarme);
+
+                ApplicationBarMenuItem a = new ApplicationBarMenuItem {Text = "¿cómo usar?"};
+                a.Click += howToUse_Click;
+                ApplicationBar.MenuItems.Add(a);
 
                 if (_pointCount <= 0) return;
                 ApplicationBarMenuItem changeDestination = new ApplicationBarMenuItem();
@@ -1233,10 +1254,24 @@ namespace VoyIteso.Pages
 
             else if (states == appBarStates.Init)
             {
+                ApplicationBarIconButton appBarSearchButton = new ApplicationBarIconButton(new Uri("Assets/feature.search.png", UriKind.Relative));
+                appBarSearchButton.Text = "Buscar Ruta";
+                appBarSearchButton.Click += appBarSearchButton_Click;
+                ApplicationBar.Buttons.Add(appBarSearchButton);
+
+                ApplicationBarIconButton appBarResultButton = new ApplicationBarIconButton(new Uri("Assets/next.png", UriKind.Relative));
+                appBarResultButton.Text = "Resultados";
+                appBarResultButton.Click += appBarResultButton_Click;
+                ApplicationBar.Buttons.Add(appBarResultButton);
+
                 ApplicationBarIconButton a = new ApplicationBarIconButton(new Uri("/Images/u.png", UriKind.Relative));
                 a.Text = "cómo usar";
                 a.Click += howToUse_Click;
                 ApplicationBar.Buttons.Add(a);
+
+                ApplicationBarMenuItem b = new ApplicationBarMenuItem { Text = "¿cómo usar?" };
+                b.Click += howToUse_Click;
+                ApplicationBar.MenuItems.Add(b);
 
                 ApplicationBarMenuItem fijarme = new ApplicationBarMenuItem();
                 fijarme.Text = "fijar mi posición";
@@ -1246,10 +1281,24 @@ namespace VoyIteso.Pages
 
             else if (states == appBarStates.Waypoint)
             {
+
                 ApplicationBarIconButton a = new ApplicationBarIconButton(new Uri("/Images/check.png", UriKind.Relative));
                 a.Text = "confirmar puntos";
                 a.Click += Play;
                 ApplicationBar.Buttons.Add(a);
+
+                ApplicationBarIconButton appBarSearchButton = new ApplicationBarIconButton(new Uri("Assets/feature.search.png", UriKind.Relative));
+                appBarSearchButton.Text = "Buscar Ruta";
+                appBarSearchButton.Click += appBarSearchButton_Click;
+                appBarSearchButton.IsEnabled = false;
+                ApplicationBar.Buttons.Add(appBarSearchButton);
+
+                ApplicationBarIconButton appBarResultButton = new ApplicationBarIconButton(new Uri("Assets/next.png", UriKind.Relative));
+                appBarResultButton.Text = "Resultados";
+                appBarResultButton.Click += appBarResultButton_Click;
+                appBarResultButton.IsEnabled = false;
+                ApplicationBar.Buttons.Add(appBarResultButton);
+
 
                 ApplicationBarMenuItem b = new ApplicationBarMenuItem();
                 b.Text = "volver a empezar";//
@@ -1259,10 +1308,25 @@ namespace VoyIteso.Pages
 
             else if (states == appBarStates.Shit)
             {
+
+
                 ApplicationBarIconButton a = new ApplicationBarIconButton(new Uri("/Images/check.png", UriKind.Relative));
                 a.Text = "confirmar";
                 a.Click += Play;
                 ApplicationBar.Buttons.Add(a);
+
+                ApplicationBarIconButton appBarSearchButton = new ApplicationBarIconButton(new Uri("Assets/feature.search.png", UriKind.Relative));
+                appBarSearchButton.Text = "Buscar Ruta";
+                appBarSearchButton.Click += appBarSearchButton_Click;
+                appBarSearchButton.IsEnabled = false;
+                ApplicationBar.Buttons.Add(appBarSearchButton);
+
+                ApplicationBarIconButton appBarResultButton = new ApplicationBarIconButton(new Uri("Assets/next.png", UriKind.Relative));
+                appBarResultButton.Text = "Resultados";
+                appBarResultButton.Click += appBarResultButton_Click;
+                appBarResultButton.IsEnabled = false;
+                ApplicationBar.Buttons.Add(appBarResultButton);
+
 
                 //ApplicationBarMenuItem changeDestination = new ApplicationBarMenuItem();
                 //changeDestination.Text = "cambiar el destino";
@@ -1334,6 +1398,7 @@ namespace VoyIteso.Pages
                 ApplicationBarIconButton appBarReturnResultsButton = new ApplicationBarIconButton(new Uri("Assets/next.png", UriKind.Relative));
                 appBarReturnResultsButton.Text = "Mostrar resultados";
                 appBarReturnResultsButton.Click += appBarReturnResultsButton_Click;
+                appBarReturnResultsButton.IsEnabled = false;
                 ApplicationBar.Buttons.Add(appBarReturnResultsButton);
             }
 
