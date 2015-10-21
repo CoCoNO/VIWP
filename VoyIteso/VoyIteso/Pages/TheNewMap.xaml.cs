@@ -1036,7 +1036,7 @@ namespace VoyIteso.Pages
 
                             var resultados = new cajaDeResultados();
                             resultados.NombreDelConductor.Text = ruta.persona_nombre;
-                            resultados.DescripcionDeRuta.Text = ruta.texto_origen + "\n" + ruta.texto_destino + "\na las " + ruta.hora_llegada + " en " + ruta.fecha_inicio;
+                            resultados.DescripcionDeRuta.Text = ruta.texto_origen + "\n" + ruta.texto_destino + "\na las " + ruta.hora_llegada_formato + " el " + ruta.fecha_inicio_formato.Substring(0, 2) + "-" + ruta.fecha_inicio_formato.Substring(2,2) + "-" + ruta.fecha_inicio_formato.Substring(4);
                             resultados.routeID = ruta.ruta_id;
 
                             resultados.routeID = ruta.ruta_id;

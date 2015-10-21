@@ -90,6 +90,8 @@ namespace VoyIteso.Pages
             newBox.header.Text = item.nombre;
             newBox.body.Text = "";
             newBox.body.Text += item.descripcion;
+            newBox.body_time.Text = "";
+            newBox.body_time.Text += item.fecha;
             _allMyNotifications.Add(newBox);
             lista.Items.Add(newBox);
 
