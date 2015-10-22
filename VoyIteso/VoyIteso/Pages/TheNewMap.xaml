@@ -85,7 +85,7 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <Grid x:Name="LeftPanelGrid" Grid.Column="0" Background="#333333">
+                <Grid x:Name="LeftPanelGrid" Grid.Column="0" Background="#004270">
 
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -94,7 +94,7 @@
                     </Grid.RowDefinitions>
 
 
-                    <ScrollViewer Grid.Column="1" Grid.Row="1">
+                    <ScrollViewer Grid.Column="1" Grid.Row="1" Background="#004270">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
@@ -258,7 +258,7 @@
                     </Grid>
                 </Grid>
 
-                <Grid x:Name="RightPanelGrid" Grid.Column="2" Background="#333333">
+                <Grid x:Name="RightPanelGrid" Grid.Column="2" Background="#004270">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="24"/>
                         <RowDefinition Height="Auto" />
@@ -273,13 +273,15 @@
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="1" Text="Resultados" FontSize="25"/>
                     </Grid>
-                    <Grid Grid.Row="2">
+                    <Grid Grid.Row="2" Background="#004270">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="12"/>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="12"/>
                         </Grid.ColumnDefinitions>
-                        <ListBox x:Name="ResultsListBox" Grid.Column="1" ItemsSource="{Binding}" Background="Coral" SelectionChanged="ResultsListBox_SelectionChanged">
+
+                        <ListBox x:Name="ResultsListBox" Grid.Column="1" ItemsSource="{Binding}" Background="#004270" SelectionChanged="ResultsListBox_SelectionChanged">
+
 
                         </ListBox>
                     </Grid>

@@ -44,12 +44,12 @@ namespace VoyIteso.Pages
 
             if (TheNewMap.Driver)
             {
-                this.userTypeToogle.Source = new BitmapImage(new Uri("/Images/Carro.png", UriKind.Relative));
+                this.userTypeToogle.Source = new BitmapImage(new Uri("/Images/dar_aventon.png", UriKind.Relative));
                 //_pushPinUsuario.Source = new BitmapImage(new Uri("/Images/u.png", UriKind.Relative));
             }
             else
             {
-                this.userTypeToogle.Source = new BitmapImage(new Uri("/Images/carrito.png",UriKind.Relative));
+                this.userTypeToogle.Source = new BitmapImage(new Uri("/Images/pedir_aventon.png",UriKind.Relative));
             }
 
         }
@@ -266,7 +266,7 @@ namespace VoyIteso.Pages
         {
             TheNewMap.Driver = !TheNewMap.Driver;
 
-            this.userTypeToogle.Source = TheNewMap.Driver ? new BitmapImage(new Uri("/Images/Carro.png", UriKind.Relative)) : new BitmapImage(new Uri("/Images/carrito.png", UriKind.Relative));
+            this.userTypeToogle.Source = TheNewMap.Driver ? new BitmapImage(new Uri("/Images/dar_aventon.png", UriKind.Relative)) : new BitmapImage(new Uri("/Images/pedir_aventon.png", UriKind.Relative));
         }
     }
 }

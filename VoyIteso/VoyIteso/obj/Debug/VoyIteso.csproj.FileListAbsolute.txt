@@ -599,3 +599,4 @@ C:\Users\SergioAdán\Documents\Github\VIWP\VoyIteso\VoyIteso\obj\Debug\XapCacheF
 C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Bin\Debug\Telerik.Windows.BackgroundAgentTools.dll
 C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Bin\Debug\Telerik.Windows.BackgroundAgentTools.pdb
 C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Bin\Debug\Telerik.Windows.BackgroundAgentTools.xml
+C:\Users\SergioAdán\Documents\Github\VIWP\VoyIteso\VoyIteso\obj\Debug\Pages\ShowRoutesComponents\TypeIcon.g.cs

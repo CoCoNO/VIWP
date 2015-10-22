@@ -116,10 +116,18 @@ namespace VoyIteso.Pages
                 {
                     var a = new Grid() { Height = 20 };
                     ListOfBoxes.Items.Add(a);
-                    var b = new ShowRouteBox();
-                    b.HeaderLabel.Text = rutai.persona_nombre;
-                    b.BodyLabel.Text = rutai.hora_llegada_formato + " " + rutai.fecha_inicio_formato + "\nDe: " +
-                                       rutai.texto_origen + "\nA: " + rutai.texto_destino;
+                    var b = new ShowRouteBox
+                    {
+                        HeaderLabel = {Text = rutai.persona_nombre},
+                        BodyLabel =
+                        {
+                            Text =
+                                rutai.fecha_inicio_formato.Substring(0, 2) + "-" +
+                                rutai.fecha_inicio_formato.Substring(2, 2) + "-" +
+                                rutai.fecha_inicio_formato.Substring(4) + " a las " + rutai.hora_llegada_formato + "\nDe: " +
+                                rutai.texto_origen + "\nA: " + rutai.texto_destino
+                        }
+                    };
                     ListOfBoxes.Items.Add(b);
                     b.Tap += b_Tap;
                 }

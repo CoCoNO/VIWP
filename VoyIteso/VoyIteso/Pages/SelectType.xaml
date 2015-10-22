@@ -36,8 +36,8 @@
 
         <Grid Margin="10,0,10,10" Grid.RowSpan="3" Grid.Column="1" Grid.Row="4">
             <ListBox>
-                <ListBoxItem x:Name="pedirRide" Tap="PedirRide_OnTap" FontSize="40" FontFamily="{StaticResource PhoneFontFamilyNormal}" Foreground="#6ECFF3" Content="pedir aventón"></ListBoxItem>
-                <ListBoxItem x:Name="darRide" Tap="DarRide_OnTap" FontSize="40" FontFamily="{StaticResource PhoneFontFamilyNormal}" Foreground="#6ECFF3" Content="dar aventón"></ListBoxItem>
+                <ListBoxItem x:Name="pedirRide" Tap="PedirRide_OnTap" Foreground="#6ECFF3" Content="pedir aventón"></ListBoxItem>
+                <ListBoxItem x:Name="darRide" Tap="DarRide_OnTap"  Foreground="#6ECFF3" Content="dar aventón"></ListBoxItem>
             </ListBox>
         </Grid>
               
