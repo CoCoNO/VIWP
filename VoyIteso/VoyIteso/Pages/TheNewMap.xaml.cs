@@ -1200,11 +1200,11 @@ namespace VoyIteso.Pages
             if (states == appBarStates.Map)
             {
                 ApplicationBarIconButton appBarSearchButton = new ApplicationBarIconButton(new Uri("Assets/feature.search.png", UriKind.Relative));
-                appBarSearchButton.Text = "Buscar Ruta";
+                appBarSearchButton.Text = "Buscar";
                 appBarSearchButton.Click += appBarSearchButton_Click;
                 ApplicationBar.Buttons.Add(appBarSearchButton);
 
-                ApplicationBarIconButton appBarResultButton = new ApplicationBarIconButton(new Uri("Assets/next.png", UriKind.Relative));
+                ApplicationBarIconButton appBarResultButton = new ApplicationBarIconButton(new Uri("Images/icons/List-50.png", UriKind.Relative));
                 appBarResultButton.Text = "Resultados";
                 appBarResultButton.Click += appBarResultButton_Click;
                 ApplicationBar.Buttons.Add(appBarResultButton);
@@ -1262,16 +1262,16 @@ namespace VoyIteso.Pages
             else if (states == appBarStates.Init)
             {
                 ApplicationBarIconButton appBarSearchButton = new ApplicationBarIconButton(new Uri("Assets/feature.search.png", UriKind.Relative));
-                appBarSearchButton.Text = "Buscar Ruta";
+                appBarSearchButton.Text = "Buscar";
                 appBarSearchButton.Click += appBarSearchButton_Click;
                 ApplicationBar.Buttons.Add(appBarSearchButton);
 
-                ApplicationBarIconButton appBarResultButton = new ApplicationBarIconButton(new Uri("Assets/next.png", UriKind.Relative));
+                ApplicationBarIconButton appBarResultButton = new ApplicationBarIconButton(new Uri("Images/icons/List-50.png", UriKind.Relative));
                 appBarResultButton.Text = "Resultados";
                 appBarResultButton.Click += appBarResultButton_Click;
                 ApplicationBar.Buttons.Add(appBarResultButton);
 
-                ApplicationBarIconButton a = new ApplicationBarIconButton(new Uri("/Images/u.png", UriKind.Relative));
+                ApplicationBarIconButton a = new ApplicationBarIconButton(new Uri("/Images/icons/questionmark.png", UriKind.Relative));
                 a.Text = "cómo usar";
                 a.Click += howToUse_Click;
                 ApplicationBar.Buttons.Add(a);
@@ -1357,12 +1357,12 @@ namespace VoyIteso.Pages
                 appBarSearchRouteButton.Click += appBarSearchRouteButton_Click;
                 ApplicationBar.Buttons.Add(appBarSearchRouteButton);
 
-                ApplicationBarIconButton appBarShowMapButton = new ApplicationBarIconButton(new Uri("Assets/next.png", UriKind.Relative));
-                appBarShowMapButton.Text = "mapa";
+                ApplicationBarIconButton appBarShowMapButton = new ApplicationBarIconButton(new Uri("Images/icons/map.png", UriKind.Relative));
+                appBarShowMapButton.Text = "Mapa";
                 appBarShowMapButton.Click += appBarShowMapButton_Click;
                 ApplicationBar.Buttons.Add(appBarShowMapButton);
 
-                ApplicationBarIconButton appBarShowResultsButton = new ApplicationBarIconButton(new Uri("Assets/next.png", UriKind.Relative));
+                ApplicationBarIconButton appBarShowResultsButton = new ApplicationBarIconButton(new Uri("Images/icons/List-50.png", UriKind.Relative));
                 appBarShowResultsButton.Text = "resultados";
                 appBarShowResultsButton.Click += appBarShowResults_Click;
                 ApplicationBar.Buttons.Add(appBarShowResultsButton);
@@ -1376,13 +1376,13 @@ namespace VoyIteso.Pages
 
             else if (states == appBarStates.Right)
             {
-                ApplicationBarIconButton appBarShowMapFromRightButton = new ApplicationBarIconButton(new Uri("Assets/next.png", UriKind.Relative));
-                appBarShowMapFromRightButton.Text = "Mostrar Mapa";
+                ApplicationBarIconButton appBarShowMapFromRightButton = new ApplicationBarIconButton(new Uri("Images/icons/map.png", UriKind.Relative));
+                appBarShowMapFromRightButton.Text = "Mapa";
                 appBarShowMapFromRightButton.Click += appBarShowMapFromRight_Click;
                 ApplicationBar.Buttons.Add(appBarShowMapFromRightButton);
 
                 ApplicationBarIconButton appBarShowSearchButton = new ApplicationBarIconButton(new Uri("Assets/feature.search.png", UriKind.Relative));
-                appBarShowSearchButton.Text = "Realizar Busqueda";
+                appBarShowSearchButton.Text = "Buscar";
                 appBarShowSearchButton.Click += appBarShowSearch_Click;
                 ApplicationBar.Buttons.Add(appBarShowSearchButton);
             }

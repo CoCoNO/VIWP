@@ -75,13 +75,39 @@ namespace VoyIteso.Pages
 
                 UpdateUserData();
 
-                ((ApplicationBarIconButton)ApplicationBar.Buttons[0]).Text = "modificar";
+                //((ApplicationBarIconButton)ApplicationBar.Buttons[0]).Text = "modificar";
+
+                ApplicationBar = new ApplicationBar();
+                ApplicationBar.Mode = ApplicationBarMode.Default;
+                ApplicationBar.Opacity = 1.0;
+                ApplicationBar.IsMenuEnabled = true;
+                ApplicationBar.IsVisible = true;
+
+                ApplicationBarIconButton a = new ApplicationBarIconButton(new Uri("Images/icons/edit.png", UriKind.Relative));
+                a.Text = "Modificar";
+                a.Click += ApplicationBarIconButton_OnClick;
+                ApplicationBar.Buttons.Add(a);
+
             }
             else
             {
                 SystemTray.BackgroundColor = Color.FromArgb(255, 0, 255, 0);
                 descriptiontxt.IsEnabled = true;
-                ((ApplicationBarIconButton)ApplicationBar.Buttons[0]).Text = "Guardar";
+               // ((ApplicationBarIconButton)ApplicationBar.Buttons[0]).Text = "Guardar";
+
+
+                ApplicationBar = new ApplicationBar();
+                ApplicationBar.Mode = ApplicationBarMode.Default;
+                ApplicationBar.Opacity = 1.0;
+                ApplicationBar.IsMenuEnabled = true;
+                ApplicationBar.IsVisible = true;
+
+                ApplicationBarIconButton guardar = new ApplicationBarIconButton(new Uri("Images/icons/save.png", UriKind.Relative));
+                guardar.Text = "Guardar";
+                guardar.Click += ApplicationBarIconButton_OnClick;
+                ApplicationBar.Buttons.Add(guardar);
+
+
             }
         }
 

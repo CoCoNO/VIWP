@@ -166,7 +166,7 @@
     <!--Sample code showing usage of ApplicationBar-->
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar  IsVisible="true" IsMenuEnabled="false" Mode="Minimized">
-            <shell:ApplicationBarIconButton x:Name="AppBarEditButton" Click="ApplicationBarIconButton_OnClick" IconUri="/Images/appbar_button1.png" Text="modificar"/>
+            <shell:ApplicationBarIconButton x:Name="AppBarEditButton" Click="ApplicationBarIconButton_OnClick" IconUri="/Images/icons/edit.png" Text="modificar"/>
 
             <!--
                 <shell:ApplicationBar.MenuItems>

@@ -145,7 +145,7 @@
 
                                     <Grid Grid.Column="0">
                                         
-                                        <TextBox Name="txtOriginRojo"  Text="Escribe una dirección válida" Height="Auto" FontSize="20" Tap="txtOrigin_Tap" Foreground="Red" TextWrapping="Wrap" Margin="0,0,-342,0" >
+                                        <TextBox Name="txtOriginRojo"  Text="Escribe una dirección válida" Height="Auto" FontSize="20" Tap="txtOrigin_Tap" Foreground="#199434" TextWrapping="Wrap" Margin="0,0,-342,0" >
                                     	</TextBox>
                                     </Grid>
                                     <!--
@@ -167,7 +167,7 @@
                                     <ColumnDefinition Width="12"/>
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Name="lblDestiny" Grid.Row="0" Grid.Column="1" Text="Destino" FontSize="25"></TextBlock>
-                                <TextBox FontSize="20" Text="Escribe una dirección válida" x:Name="txtDestinyRojo" Grid.Row="2" Grid.Column="1"  Height="Auto" Tap="txtDestiny_Tap" Foreground="Red" TextWrapping="Wrap" Grid.ColumnSpan="2" Margin="0,0,10,0"/>
+                                <TextBox FontSize="20" Text="Escribe una dirección válida" x:Name="txtDestinyRojo" Grid.Row="2" Grid.Column="1"  Height="Auto" Tap="txtDestiny_Tap" Foreground="#199434" TextWrapping="Wrap" Grid.ColumnSpan="2" Margin="0,0,10,0"/>
                             </Grid>
                             <Grid Grid.Row="5">
                                 <Grid.ColumnDefinitions>

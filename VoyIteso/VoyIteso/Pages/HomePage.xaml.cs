@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
@@ -28,6 +29,8 @@ namespace VoyIteso.Pages
 
         public  HomePage()
         {
+            //NavigationService.RemoveBackEntry();
+
             InitializeComponent();
 
             GetNotifs(); 
@@ -52,6 +55,13 @@ namespace VoyIteso.Pages
                 this.userTypeToogle.Source = new BitmapImage(new Uri("/Images/pedir_aventon.png",UriKind.Relative));
             }
 
+        }
+
+
+        protected override void OnBackKeyPress(CancelEventArgs e)
+        {
+           System.Windows.Application.Current.Terminate();
+            
         }
 
         private async void GetNotifs()

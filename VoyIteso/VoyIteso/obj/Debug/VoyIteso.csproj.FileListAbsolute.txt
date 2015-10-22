@@ -600,3 +600,4 @@ C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Bin\Debug\Telerik.Windo
 C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Bin\Debug\Telerik.Windows.BackgroundAgentTools.pdb
 C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\Bin\Debug\Telerik.Windows.BackgroundAgentTools.xml
 C:\Users\SergioAdán\Documents\Github\VIWP\VoyIteso\VoyIteso\obj\Debug\Pages\ShowRoutesComponents\TypeIcon.g.cs
+C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\obj\Debug\Pages\ShowRoutesComponents\TypeIcon.g.cs
