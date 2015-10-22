@@ -62,7 +62,7 @@ namespace VoyIteso.Pages
                 //ApplicationBar.Buttons.Add(a);
 
                 ApplicationBarIconButton b = new ApplicationBarIconButton(new Uri("Assets/add.png", UriKind.Relative));
-                b.Text = "agregar ruta";
+                b.Text = "nueva ruta";
                 b.Click += b_Click;
                 ApplicationBar.Buttons.Add(b);
             }
@@ -80,13 +80,23 @@ namespace VoyIteso.Pages
                 ApplicationBar.Buttons.Add(a);
 
                 ApplicationBarIconButton b = new ApplicationBarIconButton(new Uri("Assets/add.png", UriKind.Relative));
-                b.Text = "agregar nueva";
+                b.Text = "nueva ruta";
                 b.Click += b_Click;
                 ApplicationBar.Buttons.Add(b);
+
+                ApplicationBarIconButton c = new ApplicationBarIconButton(new Uri("Images/icons/refresh.png", UriKind.Relative));
+                c.Text = "repetir";
+                c.Click += c_Click;
+                ApplicationBar.Buttons.Add(c);
             }
 
             
             
+        }
+
+        private void c_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("implementar esto.");
         }
 
         /// <summary>

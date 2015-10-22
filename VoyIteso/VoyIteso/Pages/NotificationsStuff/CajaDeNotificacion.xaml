@@ -15,7 +15,7 @@
             <Grid Margin="10,0,324,0">
                 <Image Name="avatarDelSegundo" Source="../../Images/dummy.png"></Image>
             </Grid>
-            <StackPanel Margin="121,0,0,0">
+            <StackPanel Margin="132,0,0,0">
                 <TextBlock Foreground="#333334" x:Name="header" Text="nombre del cabron" FontSize="18"/>
                 <TextBlock Foreground="#333334" x:Name="body" Text="detalles de la notificacion" FontSize="22" Height="44"/>
                 <TextBlock Foreground="#333334" x:Name="body_time" Text="hora" Height="28" FontSize="14" />

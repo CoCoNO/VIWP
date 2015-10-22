@@ -55,7 +55,7 @@
                    Source="/Images/you.png"/>
         </StackPanel>
         <TextBlock x:Name="typingTextBlock" 
-                   Margin="10,306,14,70" Foreground="#A200FF"
+                   Margin="10,306,14,70" Foreground="#1E81C0"
                    IsHitTestVisible="False" Grid.Row="1" Grid.ColumnSpan="2"/>
         <telerikData:RadConversationView Grid.Row="1"
                                          x:Name="conversationView"
@@ -74,7 +74,7 @@
                                        HorizontalAlignment="Right"
                                        Foreground="{StaticResource PhoneSubtleBrush}"/>
 
-                            <primitives:RadPointerContentControl Background="#A200FF"
+                            <primitives:RadPointerContentControl Background="#1E81C0"
                                                                  TargetPoint="-120,-300"
                                                                  Foreground="White">
                                 <primitives:RadPointerContentControl.PointerTemplate>
@@ -83,7 +83,7 @@
                                                  Height="24"
                                                  Points="0,0 12,0 12,12 0,24"
                                                  StrokeThickness="0"
-                                                 Fill="#A200FF"
+                                                 Fill="#1E81C0"
                                                  RenderTransformOrigin="0.5, 0.5">
                                             <Polygon.RenderTransform>
                                                 <ScaleTransform ScaleX="-1"/>
@@ -97,6 +97,9 @@
                                            Margin="8, 2, 8, 6"/>
 
                             </primitives:RadPointerContentControl>
+                            
+                            
+                            
                         </StackPanel>
                     </Grid>
                 </DataTemplate>
@@ -115,7 +118,7 @@
                                        HorizontalAlignment="Left"
                                        Foreground="{StaticResource PhoneSubtleBrush}"/>
 
-                            <primitives:RadPointerContentControl Background="#849A01"
+                            <primitives:RadPointerContentControl Background="#1E81C0"
                                                                  TargetPoint="130, -300"
                                                                  Foreground="White">
                                 <primitives:RadPointerContentControl.PointerTemplate>
@@ -124,7 +127,7 @@
                                                  Height="24"
                                                  Points="0,0 12,0 12,12 0,24"
                                                  StrokeThickness="0"
-                                                 Fill="#849A01"
+                                                 Fill="#1E81C0"
                                                  RenderTransformOrigin="0.5, 0.5">
                                         </Polygon>
                                     </DataTemplate>

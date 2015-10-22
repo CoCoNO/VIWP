@@ -13,8 +13,8 @@
     mc:Ignorable="d"
     shell:SystemTray.IsVisible="True">
 
-    <!--LayoutRoot is the root grid where all page content is placed-->
-    <Grid x:Name="LayoutRoot" Background="White">
+    <!--LayoutRoot is the root grid where all page content is placed #104571 -->
+    <Grid x:Name="LayoutRoot" Background="#104571">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -22,21 +22,21 @@
 
         <!--TitlePanel contains the name of the application and page title-->
         <StackPanel Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock Text="VOY ITESO" Style="{StaticResource PhoneTextNormalStyle}" Foreground="#247"/>
-            <TextBlock Text="aventón" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}" Foreground="#247"/>
+            <TextBlock Text="VOY ITESO" Style="{StaticResource PhoneTextNormalStyle}" Foreground="White"/>
+            <TextBlock Text="aventón" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}" Foreground="White"/>
         </StackPanel>
 
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,10">
 
-            <Grid x:Name="GridDeInformacion" Background="#246" Margin="0,0,0,374">
+            <Grid x:Name="GridDeInformacion" Background="#1E81C0" Margin="0,0,0,374">
 
                 <TextBlock Name="UserDetails" Text="cargando..." Margin="201,72,0,0"/>
                 <Image Name="DisplayImage" Source="/Images/SMOKE.png" HorizontalAlignment="Left" Height="145" Margin="10,10,0,0" VerticalAlignment="Top" Width="150"/>
                 <Button x:Name="ChatButton" Content="chat" Margin="347,0,0,151" Click="Button_Click"></Button>
             </Grid>
-            <Grid Background="#9246" Margin="0,251,0,123">
-                <TextBlock Name="LiftDetails" Text="cargando..." Margin="10"/>
+            <Grid Background="#1E81C0" Margin="0,251,0,123">
+                <TextBlock Name="LiftDetails" Text="cargando..." Margin="10,10,10,103"/>
             </Grid>
         </Grid>
         <Grid Name="GridDeBotones" Margin="0,497,0,10" Grid.Row="1">
@@ -44,8 +44,8 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Button Name="BotonAceptar" Click="BotonAceptar_OnClick" Content="aceptar aventón" Foreground="Black" BorderBrush="Black" Grid.Column="0" Margin="0,10"/>
-            <Button Name="BotonRechazar" Content="rechazar aventón" Foreground="Black" BorderBrush="Black" Grid.Column="1" Margin="0,10"/>
+            <Button Name="BotonAceptar" Click="BotonAceptar_OnClick" Content="aceptar aventón" Foreground="White" BorderBrush="White" Grid.Column="0" Margin="0,10"/>
+            <Button Name="BotonRechazar" Content="rechazar aventón" Foreground="White" BorderBrush="White" Grid.Column="1" Margin="0,10"/>
         </Grid>
     </Grid>
 
