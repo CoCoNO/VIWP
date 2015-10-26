@@ -65,8 +65,9 @@ namespace VoyIteso.Pages
         //{
         //}
 
-        public void foo()
+        public static void foo(List<GeoCoordinate> myCoordinates)
         {
+            //myMap.SetView(myCoordinates[0], 13.5, MapAnimationKind.Parabolic);
         }
 
 
@@ -88,18 +89,15 @@ namespace VoyIteso.Pages
             Loaded += SearchView_Loaded;
             Microsoft.Phone.Maps.MapsSettings.ApplicationContext.ApplicationId = "acc0d8e8-cffc-4bcb-9d28-06444a2fc7d8";
             Microsoft.Phone.Maps.MapsSettings.ApplicationContext.AuthenticationToken = "0FvJj6wXx2HVKh7g-6hRGw";
-
-            //lo q estaba en el metodo view_loaded
+            
             states = appBarStates.Init;
             BuildLocalizedApplicationBar();
 
-            //this is somehow stupid
             if (!positionAquired)
             {
                 //FijarPosicionActual();
                 FijarIteso();
             }
-            ////////////////////
 
 #region cannibaled constructor
 
@@ -117,7 +115,7 @@ namespace VoyIteso.Pages
 
             progress = new Progress();
 
-            //maping = new Maping(myMap, InvisibleCanvas); 
+            maping = new Maping(myMap, InvisibleCanvas); 
             //apiConnector = ApiConnector.instance; 
             //BuildLocalizedApplicationBar();
 
@@ -145,7 +143,7 @@ namespace VoyIteso.Pages
         }
         
         private async void SearchView_Loaded(object sender, RoutedEventArgs e)//loaded method
-        {
+        {//onnavigatedto
             ////this is somehow stupid
             //if (!positionAquired)
             //{
@@ -154,14 +152,21 @@ namespace VoyIteso.Pages
             //    Salute();
             //}
 
+            if (maping.newInstance)
+            {
+                dateString = string.Format("{0:dd-MM-yyyy}", DateTime.Now);
+                timeString = string.Format("{0:HH:mm}", DateTime.Now);
+                maping.newInstance = false;
+                //LocationTimer.Start();
+            }  
             
             //este se utiliza para que cuando se regrese el usuario no le salga la ventana de seleccionar entre aventon o dar ride, el usuario va a regresar directamente al menu principal.
             NavigationService.RemoveBackEntry();  
             ConfirmedChanged += MyConfirmedChanged;
 
-            Microsoft.Phone.Shell.SystemTray.ForegroundColor = System.Windows.Media.Color.FromArgb(255, 0, 66, 112);
+            Microsoft.Phone.Shell.SystemTray.ForegroundColor = System.Windows.Media.Color.FromArgb(255, 208, 236, 255);
             //Microsoft.Phone.Shell.SystemTray.ForegroundColor = Colors.LightGray;
-            Microsoft.Phone.Shell.SystemTray.BackgroundColor = Colors.White;
+            Microsoft.Phone.Shell.SystemTray.BackgroundColor = Color.FromArgb(255, 23, 23, 23);
             RouteResult.ResultHeight = (int)(Application.Current.Host.Content.ActualHeight / 4);
             RouteResult.ResultWidth = (int)((Application.Current.Host.Content.ActualWidth / 4) * 3);
 
@@ -170,6 +175,8 @@ namespace VoyIteso.Pages
             //myMap.Focus();
             //progress.hideProgressIndicator(this);
             //ResultsListBox.Items.Add(new cajaDeResultados());
+            //maping.locationA = APoint;
+
         }
 
         private async void FijarIteso()
@@ -201,12 +208,13 @@ namespace VoyIteso.Pages
             //imgusuarioenelmapa.GeoCoordinate = ubicacion;
             //imgusuarioenelmapa.Content = _pushPinUsuario;
             APoint = imgusuarioenelmapa;
-
+            //maping.locationA = APoint;
 
             var capausuario = new MapLayer { imgusuarioenelmapa };
             myMap.Layers.Remove(_aPoint);
             _aPoint = capausuario;
             myMap.Layers.Add(capausuario);
+            //callback
             //var capausuario = new MapLayer();
             //capausuario.Add(imgusuarioenelmapa);
             //MyMapControl.Layers.Add(capausuario);
@@ -828,10 +836,16 @@ namespace VoyIteso.Pages
             {
                 if (searchTermBox.Text.Length > 0)
                 {
-                    //maping.myCoordinates.Clear();
-                    //progress.showProgressIndicator(this, "Buscando");
-                    //maping.searchForTerm(searchTermBox.Text, this);
-                    //myMap.ZoomLevelChanged += myMap_ZoomLevelChanged;
+                    if (APoint!=null)
+                    {
+                        maping.locationA = APoint;
+                        maping.myCoordinate = APoint.GeoCoordinate;
+                        maping.mapLayer = myMap.Layers[0];
+                    }
+                    maping.myCoordinates.Clear();
+                    progress.showProgressIndicator(this, "Buscando");
+                    maping.searchForTerm(searchTermBox.Text, this);
+                    myMap.ZoomLevelChanged += myMap_ZoomLevelChanged;
                     if (isOrigin)
                     {
                        txtOriginRojo.Text = searchTermBox.Text; 
@@ -844,6 +858,14 @@ namespace VoyIteso.Pages
                     ShowLeftPanelAnimation.Begin();
                 }
             }
+        }
+
+        void myMap_ZoomLevelChanged(object sender, MapZoomLevelChangedEventArgs e)
+        {
+            if (maping.mapLayer.Count <= 1 || ApplicationBar.IsVisible) return;
+            BuildLocalizedApplicationBar();
+            myMap.Focus();
+            progress.hideProgressIndicator(this);
         }
          
         private void mapLayer_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
@@ -1646,6 +1668,24 @@ namespace VoyIteso.Pages
         
 
 #endregion
+
+        //private BingConnectorcs bingConnector = new BingConnectorcs();
+        private void TxtOriginRojo_OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (searchTermBox.Text.Length > 2)
+            {
+                try
+                {
+                    bingConnector.address = searchTermBox.Text;
+                    bingConnector.SendGetRequest();
+                    bingConnector.responseChanged += bingConnector_responseChanged;
+                }
+                catch (Exception ex) { }
+            }
+        }
+
+
+        
 
 
     }

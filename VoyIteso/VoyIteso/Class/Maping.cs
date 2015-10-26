@@ -11,6 +11,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using VoyIteso.Pages;
 
 namespace VoyIteso.Class
 {
@@ -74,6 +75,7 @@ namespace VoyIteso.Class
                         myCoordinates.Add(e.Result[0].GeoCoordinate);
                         this.pointGeoCoordinate = e.Result[0].GeoCoordinate;
                         this.myMap.SetView(myCoordinates[0], 13.5, MapAnimationKind.Parabolic);
+                        //TheNewMap.fo//aqui me quede
                     }
                     else
                     {

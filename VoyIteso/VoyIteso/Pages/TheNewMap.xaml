@@ -145,7 +145,7 @@
 
                                     <Grid Grid.Column="0">
                                         
-                                        <TextBox Name="txtOriginRojo"  Text="Escribe una dirección válida" Height="Auto" FontSize="20" Tap="txtOrigin_Tap" Foreground="#199434" TextWrapping="Wrap" Margin="0,0,-342,0" >
+                                        <TextBox Name="txtOriginRojo"  Text="Escribe una dirección válida" Height="Auto" FontSize="20" Tap="txtOrigin_Tap" TextChanged="TxtOriginRojo_OnTextChanged" Foreground="#199434" TextWrapping="Wrap" Margin="0,0,-342,0" >
                                     	</TextBox>
                                     </Grid>
                                     <!--
