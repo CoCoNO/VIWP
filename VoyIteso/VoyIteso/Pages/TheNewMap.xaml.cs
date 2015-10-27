@@ -70,6 +70,9 @@ namespace VoyIteso.Pages
             //myMap.SetView(myCoordinates[0], 13.5, MapAnimationKind.Parabolic);
         }
 
+        public TheNewMap(string s)
+        {
+        }
 
         public TheNewMap()
         {
@@ -214,7 +217,6 @@ namespace VoyIteso.Pages
             myMap.Layers.Remove(_aPoint);
             _aPoint = capausuario;
             myMap.Layers.Add(capausuario);
-            //callback
             //var capausuario = new MapLayer();
             //capausuario.Add(imgusuarioenelmapa);
             //MyMapControl.Layers.Add(capausuario);
@@ -354,7 +356,7 @@ namespace VoyIteso.Pages
         /// Adds the destination point to the map. and does take the value of the local mapOverlay and takes it to the main context, it also gets the temp layer and takes it to the main context, changes the appbarmode to default.
         /// the mapOverlay object contains the ubicacion and the map icon
         /// </summary>
-        private void AddBPoint(object sender, GestureEventArgs e)
+        public void AddBPoint(object sender, GestureEventArgs e)
         {
             //_bPointAdded = true;
             //Find geocoordinate on tapped location.
@@ -399,6 +401,53 @@ namespace VoyIteso.Pages
             //change the mode of the applicationBar so the user notices there's an action to be performed (confirm the pushpin location)
             ApplicationBar.Mode = ApplicationBarMode.Default;
         }
+
+        public void AddBPoint(GeoCoordinate geoCoordinate)
+        {
+            //_bPointAdded = true;
+            //Find geocoordinate on tapped location.
+            //var asd = this.myMap.ConvertViewportPointToGeoCoordinate(e.GetPosition(this.myMap));
+            var newLayer = new MapLayer();
+            var mapIcon = new MapIcon();//my Own map icon. (custon map icon).
+            var bpoint = new MapOverlay();
+            var ubicacion = geoCoordinate;
+            bpoint.GeoCoordinate = ubicacion;
+            bpoint.Content = mapIcon;
+            newLayer.Add(bpoint);
+            //add pushpin layer to map layers.
+            myMap.Layers.Add(newLayer);
+            _pointCount++;
+
+            //get properties of the address from the tapped location. 
+            var query = new ReverseGeocodeQuery { GeoCoordinate = new GeoCoordinate(geoCoordinate.Latitude,geoCoordinate.Longitude) };
+            query.QueryCompleted += (s, ev) =>
+            {
+                if (ev.Error == null && ev.Result.Count > 0)
+                {
+                    var locations = ev.Result as List<MapLocation>;
+                    // do what you want with the locations...
+                    foreach (var newLocation in locations)
+                    {
+                        mapIcon.StreetName = newLocation.Information.Address.Street.ToString();
+                        //feed.Text += newLocation.Information.Address.Street.ToString();
+                        mapIcon.pushPinHeader.Text =
+
+                            //newLocation.Information.Address.Street.ToString();
+                            //newLocation.Information.Description.ToString();
+                            //newLocation.Information.Address.BuildingName.ToString();
+                            newLocation.Information.Address.Street.ToString() + " " + newLocation.Information.Address.HouseNumber + "\n" +
+                            newLocation.Information.Address.District.ToString();
+                    }
+
+                }
+            };
+            query.QueryAsync();
+            BPoint = bpoint;//take the value of the temp map overlay and take it to the main context.
+            _layer = newLayer;//takes the value of newLayer so we can find the newLayer in the list and delete it if necesary.
+            //change the mode of the applicationBar so the user notices there's an action to be performed (confirm the pushpin location)
+            ApplicationBar.Mode = ApplicationBarMode.Default;
+        }
+
 
         private async void FijarPosicionActual()
         {
@@ -844,7 +893,7 @@ namespace VoyIteso.Pages
                     }
                     maping.myCoordinates.Clear();
                     progress.showProgressIndicator(this, "Buscando");
-                    maping.searchForTerm(searchTermBox.Text, this);
+                    maping.searchForTerm(searchTermBox.Text, this, this);
                     myMap.ZoomLevelChanged += myMap_ZoomLevelChanged;
                     if (isOrigin)
                     {
@@ -855,7 +904,10 @@ namespace VoyIteso.Pages
                         txtDestinyRojo.Text = searchTermBox.Text;
                     }
                     searchTermBox.Text = "";
-                    ShowLeftPanelAnimation.Begin();
+                    //progress.hideProgressIndicator(this);
+                    //ShowLeftPanelAnimation.Begin();
+                    //SearchTermGrid.Visibility = System.Windows.Visibility.Collapsed;
+                    isSearchTerm = false;//callback
                 }
             }
         }
@@ -1684,9 +1736,6 @@ namespace VoyIteso.Pages
             }
         }
 
-
-        
-
-
+         
     }
 }
