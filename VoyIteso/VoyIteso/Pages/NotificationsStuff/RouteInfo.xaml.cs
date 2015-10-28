@@ -26,7 +26,7 @@ namespace VoyIteso.Pages
         {
             InitializeComponent();
             myCajaDeResultados = TheNewMap.caja;
-            
+
             try
             {
                 myBool = myCajaDeResultados.myBool;
@@ -40,12 +40,12 @@ namespace VoyIteso.Pages
             {
                 myBool = false;
             }
-            
+
             if (!myBool)//nomap
             {
                 Notificacion = Notifications.NotificationItem;
             }
-            
+
             loadData();
 
             //texto de origen,
@@ -86,32 +86,35 @@ namespace VoyIteso.Pages
         private User localUser;
         private async void loadData()
         //esta seccion requiere de los siguientes parametros: 
-            //string perfil_id (el id de la segunda persona)
-            //string aventon_id
-            //string texto_origen
-            //string texto_destino
+        //string perfil_id (el id de la segunda persona)
+        //string aventon_id
+        //string texto_origen
+        //string texto_destino
         {
-            new Progress().showProgressIndicator(this,"espera");
+            new Progress().showProgressIndicator(this, "espera");
             User user;
             if (!myBool)
             {
                 try
                 {
                     user = await ApiConnector.Instance.GetUserById(Notificacion.perfil_id.ToString());
-                    UserDetails.Text = user.Name + "\n" + user.profile.edad + " años\n" + user.profile.carrera;
+                    //UserDetails.Text = user.Name + "\n" + user.profile.edad + " años\n" + user.profile.carrera;
+                    UserDetails.Text = user.Name + "\n" + user.profile.carrera;
                     new Progress().hideProgressIndicator(this);
                 }
                 catch (Exception)
                 {
-                    
+
                     return;
                 }
-                
+
             }
             else
             {
                 user = await ApiConnector.Instance.GetUserById(myCajaDeResultados.perfil_id);
-                UserDetails.Text = user.Name + "\n" + user.profile.edad + " años\n" + user.profile.carrera;
+                //la edad que sea opcional mostrarla.. en todA lo que conozco asi es. 
+                UserDetails.Text = user.Name + "\n" + user.profile.carrera;
+                //UserDetails.Text = user.Name + "\n" + user.profile.edad + " años\n" + user.profile.carrera;
                 new Progress().hideProgressIndicator(this);
             }
             var image = ApiConnector.Instance.GetUserImageById(Convert.ToInt32(user.profileID));//Convert.ToInt32(myCajaDeResultados.perfil_id)
@@ -133,7 +136,7 @@ namespace VoyIteso.Pages
             }
 
             ocultarMierda();
-            
+
         }
 
         Button botonSolicitar;
@@ -146,8 +149,8 @@ namespace VoyIteso.Pages
                 GridDeBotones.Children.Remove(BotonRechazar);
                 botonSolicitar = new Button();
                 botonSolicitar.Content = "Solicitar aventon";
-                botonSolicitar.Foreground = new SolidColorBrush(Color.FromArgb(255,0,24,90));
-                botonSolicitar.BorderBrush = new SolidColorBrush(Color.FromArgb(255, 0, 24, 90));
+                botonSolicitar.Foreground = new SolidColorBrush(Colors.White);
+                botonSolicitar.BorderBrush = new SolidColorBrush(Colors.White);
                 botonSolicitar.Click += botonSolicitar_OnClick;
                 GridDeBotones.Children.Add(botonSolicitar);
                 GridDeInformacion.Children.Remove(ChatButton);
@@ -155,24 +158,64 @@ namespace VoyIteso.Pages
             }
             else//sino viene de las noticicaciones.
             {
-                    if (Notificacion.tipo.Substring(0, 1).Equals("A"))//Notificacion.estatus_aventon//Solicitud, Cancelacion, Aceptada
+                if (_flag)
+                {
+                    GridDeBotones.Children.Remove(BotonAceptar);
+                    GridDeBotones.Children.Remove(BotonRechazar);
+
+                    buildAppBar(appBarStates.Regresarmenu);
+                    return;
+                }
+
+
+                if (Notificacion.tipo == null)
+                {
+                    GridDeBotones.Children.Remove(BotonAceptar);
+                    GridDeBotones.Children.Remove(BotonRechazar);
+                    var a = new TextBlock() { Text = "Aventón terminado.", Foreground = new SolidColorBrush(Colors.White), Width = 380 };
+                    GridDeBotones.Children.Add(a);
+                    buildAppBar(appBarStates.Regresarmenu);
+                }
+                else if (Notificacion.tipo.Substring(0, 1).Equals("A"))//Notificacion.estatus_aventon//Solicitud, Cancelacion, Aceptada
+                {
+                    GridDeBotones.Children.Remove(BotonAceptar);
+                    GridDeBotones.Children.Remove(BotonRechazar);
+                    var a = new TextBlock() { Text = "Aventón aceptado.", Foreground = new SolidColorBrush(Colors.White), Width = 380 };
+                    GridDeBotones.Children.Add(a);
+                }
+                else if (Notificacion.tipo.Substring(0, 1).Equals("R"))//Notificacion.estatus_aventon//Solicitud, Recha, Aceptada
+                {
+                    GridDeBotones.Children.Remove(BotonAceptar);
+                    GridDeBotones.Children.Remove(BotonRechazar);
+                    var a = new TextBlock() { Text = "Aventón rechazado :(.", Foreground = new SolidColorBrush(Colors.White), Width = 380 };
+                    GridDeBotones.Children.Add(a);
+                }
+                else if (Notificacion.tipo.Substring(0, 1).Equals("S"))//Notificacion.estatus_aventon//Solicitud, Cancelacion, Aceptada
+                {
+
+                    if (Notificacion.rol.Equals("Pasajero"))
                     {
                         GridDeBotones.Children.Remove(BotonAceptar);
                         GridDeBotones.Children.Remove(BotonRechazar);
-                        var a = new TextBlock() { Text = "   El aventón ya ha sido aceptado", Foreground = new SolidColorBrush(Colors.Black), Width = 380};
+                        var a = new TextBlock() { Text = "Solicitud en espera.", Foreground = new SolidColorBrush(Colors.White), Width = 380 };
                         GridDeBotones.Children.Add(a);
-                    } 
-            } 
+                    }
 
-            
+                }
+
+
+
+            }
+
+
         }
 
 
         private DateTime fechaParaLaCualSeSolicitaElAventon;
-        private int pressed=0;
+        private int pressed = 0;
         private void botonSolicitar_OnClick(object sender, RoutedEventArgs e)
         {
-            if (pressed==0)
+            if (pressed == 0)
             {
                 new Progress().showProgressIndicator(this, "espera...");
 
@@ -190,16 +233,21 @@ namespace VoyIteso.Pages
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Error: "+ex.Message, "No se mandó tu solicitud", MessageBoxButton.OK);
+                    MessageBox.Show("Error: " + ex.Message, "No se mandó tu solicitud", MessageBoxButton.OK);
                     throw;
                 }
 
                 pressed++;
             }
             buildAppBar(appBarStates.Regresarmenu);
-            
+
         }
 
+        /// <summary>
+        /// el botoncito que lleva al chat.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Button_Click(object sender, RoutedEventArgs e)//chat button clicked. 
         {
             //if (myBool)
@@ -209,25 +257,52 @@ namespace VoyIteso.Pages
             //}
             //else
             //{
-               var index = Notificacion.aventon_id.ToString();
-                NavigationService.Navigate(new Uri("/Pages/ChatLayout.xaml?key="+index, UriKind.Relative)); 
+            var index = Notificacion.aventon_id.ToString();
+            NavigationService.Navigate(new Uri("/Pages/ChatLayout.xaml?key=" + index, UriKind.Relative));
             //}
-            
+
         }
 
+        private bool _flag = false;
         private async void BotonAceptar_OnClick(object sender, RoutedEventArgs e)
         {
-            var a = await ApiConnector.Instance.LiftAccept(Notificacion.aventon_id, "El aventón ha sido aceptado");// response status, si es uno fue exitosa, 0 lo contrario.
-            //poner en progress que se ha aceptado. o que fallo la peticion.
-            if (a.estatus==1)
+
+
+
+
+            if (pressed == 0)
             {
-                MessageBox.Show("Solicitud aceptada");
-                ocultarMierda();
+                new Progress().showProgressIndicator(this, "espera...");
+
+
+                var a = await ApiConnector.Instance.LiftAccept(Notificacion.aventon_id, "El aventón ha sido aceptado");// response status, si es uno fue exitosa, 0 lo contrario.
+                //poner en progress que se ha aceptado. o que fallo la peticion.
+                if (a.estatus == 1)
+                {
+                    MessageBox.Show("Solicitud aceptada");
+                    _flag = true;
+                    ocultarMierda();
+
+                    GridDeBotones.Children.Remove(BotonAceptar);
+                    GridDeBotones.Children.Remove(BotonRechazar);
+                    var b = new TextBlock() { Text = "se ha aceptado el aventón", Foreground = new SolidColorBrush(Colors.Black), Width = 380 };
+                    GridDeBotones.Children.Add(b);
+
+                }
+                else
+                {
+                    MessageBox.Show("No se pudo realizar operación");
+                }
+
+
+
+                pressed++;
             }
-            else
-            {
-                MessageBox.Show("No se pudo procesar, intenta más tarde");
-            }
+            buildAppBar(appBarStates.Regresarmenu);
+
+
+
+
         }
 
         public enum appBarStates { Regresarmenu };
@@ -266,7 +341,23 @@ namespace VoyIteso.Pages
 
         private void regresar_Click(object sender, EventArgs e)
         {
-            NavigationService.Navigate(new Uri("/Pages/HomePage.xaml",UriKind.Relative));
+            NavigationService.Navigate(new Uri("/Pages/HomePage.xaml", UriKind.Relative));
+        }
+
+        private async void BotonRechazar_Click(object sender, RoutedEventArgs e)
+        {
+            //var a = await ApiConnector.Instance.LiftAccept(Notificacion.aventon_id, "El aventón ha sido aceptado");// response status, si es uno fue exitosa, 0 lo contrario.
+            var a = await ApiConnector.Instance.LiftReject(Notificacion.aventon_id, "El aventón ha sido rechazado");
+            //poner en progress que se ha aceptado. o que fallo la peticion.
+            if (a.estatus == 1)
+            {
+                MessageBox.Show("Solicitud rechazada");
+                ocultarMierda();
+            }
+            else
+            {
+                MessageBox.Show("No se pudo realizar operación");
+            }
         }
 
 

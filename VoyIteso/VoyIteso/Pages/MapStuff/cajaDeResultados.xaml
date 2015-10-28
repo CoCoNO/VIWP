@@ -18,8 +18,8 @@
             </Grid>
             -->
             <StackPanel Margin="10,10,10,0" Height="140" VerticalAlignment="Top">
-                <TextBlock x:Name="NombreDelConductor" Text="cargando..." FontSize="15"/>
-                <TextBlock x:Name="DescripcionDeRuta" Text="" Height="114"/>
+                <TextBlock x:Name="NombreDelConductor" Text="cargando..." FontSize="22"/>
+                <TextBlock x:Name="DescripcionDeRuta" Text="hola" FontSize="16" Height="107"/>
             </StackPanel>
         </Grid>
     </Grid>

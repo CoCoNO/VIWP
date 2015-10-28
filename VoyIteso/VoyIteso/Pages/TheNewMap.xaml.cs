@@ -61,21 +61,9 @@ namespace VoyIteso.Pages
 
         #endregion
 
-        //public TheNewMap()
-        //{
-        //}
-
-        public static void foo(List<GeoCoordinate> myCoordinates)
-        {
-            //myMap.SetView(myCoordinates[0], 13.5, MapAnimationKind.Parabolic);
-        }
-
-        public TheNewMap(string s)
-        {
-        }
-
         public TheNewMap()
         {
+            _searchin = false;
             InitializeComponent();
 
             if (Driver)
@@ -182,9 +170,23 @@ namespace VoyIteso.Pages
 
         }
 
+        //private MapLayer ALayer;
         private async void FijarIteso()
         {
             var migeoCoordenada = new GeoCoordinate(20.608390, -103.414512);//iteso
+            dibujaru(migeoCoordenada);
+            myMap.Center = migeoCoordenada;
+            myMap.ZoomLevel = 13;
+            //ApplicationBar.IsVisible = true;
+            _aconfirmed = true;
+            //cargarlista();//cargar la lista de pushpins sugeridos.
+            //MessageBox.Show("por defecto, el origen está fijado en el ITESO, pero puedes modificarlo.");
+            ReverseQuery();
+        }
+
+        private async void FijarOtroLado( GeoCoordinate coordinate)
+        {
+            var migeoCoordenada = coordinate;//el otro lado.
             dibujaru(migeoCoordenada);
             myMap.Center = migeoCoordenada;
             myMap.ZoomLevel = 13;
@@ -252,6 +254,8 @@ namespace VoyIteso.Pages
             if (Driver)
             {
                 MessageBox.Show("para facilitar el cálculo de la ruta agrega algunos puntos intermedios y luego presiona en confirmar. Puedes omitir este paso presionando confirmar.", "agrega puntos intermedios", MessageBoxButton.OKCancel);
+                states = appBarStates.Waypoint;
+                BuildLocalizedApplicationBar();
             }
 
             _flag = true;
@@ -653,23 +657,30 @@ namespace VoyIteso.Pages
             }
         }
 
+        private bool _searchin;
         private void MyMapControl_OnCenterChanged(object sender, MapCenterChangedEventArgs e)
         {
-            if (Driver)
-            {//wayPointList.Count>0
-                states = (_pointCount > 0) ? ((wayPointList.Count>0) ? appBarStates.Waypoint : appBarStates.Shit2) : appBarStates.Init; 
+            //if (Driver)
+            //{//wayPointList.Count>0
+            //    //cuando comienza a poner puntos intermedios va a forzar al usuario a enfocarse a solo hacer eso. 
+            //    states = (_pointCount > 0) ? ((wayPointList.Count>0) ? appBarStates.Waypoint : appBarStates.Shit2) : appBarStates.Init; 
 
-                BuildLocalizedApplicationBar();
-                ApplicationBar.Mode = ApplicationBarMode.Minimized;
+            //    BuildLocalizedApplicationBar();
+            //    ApplicationBar.Mode = ApplicationBarMode.Minimized;
 
-            }
-            
-            if (_pointCount > 0 && !_confirmed)
+            //}
+
+            if (!_searchin)
             {
-                myMap.Layers.Remove(_layer);
-                _pointCount--;
+                if (_pointCount > 0 && !_confirmed)
+                {
+                    myMap.Layers.Remove(_layer);
+                    _pointCount--;
+                }
             }
 
+            
+            
         }
 
         /// <summary>
@@ -878,22 +889,34 @@ namespace VoyIteso.Pages
             }
         }
         #endregion
-         
+
+
+        public GeocodeQuery myGeocodeQuery;
         private void searchTermBox_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
                 if (searchTermBox.Text.Length > 0)
                 {
-                    if (APoint!=null)
-                    {
-                        maping.locationA = APoint;
-                        maping.myCoordinate = APoint.GeoCoordinate;
-                        maping.mapLayer = myMap.Layers[0];
-                    }
-                    maping.myCoordinates.Clear();
+                    //if (APoint!=null)
+                    //{
+                    //    //maping.locationA = APoint;
+                    //    //maping.myCoordinate = APoint.GeoCoordinate;
+                    //    //maping.mapLayer = myMap.Layers[0];
+                    //}
+                    //maping.myCoordinates.Clear();
                     progress.showProgressIndicator(this, "Buscando");
-                    maping.searchForTerm(searchTermBox.Text, this, this);
+                    //maping.searchForTerm(searchTermBox.Text, this, this);
+
+
+                    myGeocodeQuery = new GeocodeQuery();
+                    myGeocodeQuery.SearchTerm = searchTermBox.Text;
+                    myGeocodeQuery.GeoCoordinate = APoint.GeoCoordinate ?? new GeoCoordinate(0, 0);
+                    myGeocodeQuery.QueryCompleted += myGeocodeQuery_QueryCompleted;
+                    myGeocodeQuery.QueryAsync();
+
+
+
                     myMap.ZoomLevelChanged += myMap_ZoomLevelChanged;
                     if (isOrigin)
                     {
@@ -907,9 +930,92 @@ namespace VoyIteso.Pages
                     //progress.hideProgressIndicator(this);
                     //ShowLeftPanelAnimation.Begin();
                     //SearchTermGrid.Visibility = System.Windows.Visibility.Collapsed;
-                    isSearchTerm = false;//callback
+                    isSearchTerm = false;
                 }
             }
+        }
+
+        List<GeoCoordinate> myCoordinates = new List<GeoCoordinate>();
+        GeoCoordinate pointGeoCoordinate = new GeoCoordinate();
+        void myGeocodeQuery_QueryCompleted(object sender, QueryCompletedEventArgs<IList<MapLocation>> e)
+        {
+            try
+            {
+                
+                if (e.Error == null)
+                {
+                    if (e.Result.Count > 0)
+                    {
+                        myCoordinates.Clear();
+                        myCoordinates.Add(e.Result[0].GeoCoordinate);
+                        pointGeoCoordinate = e.Result[0].GeoCoordinate;
+                        this.myMap.SetView(myCoordinates[0], 14.0, MapAnimationKind.Parabolic);
+                        //TheNewMap.fo//aqui me quede
+                        new Progress().hideProgressIndicator(this);
+                        SearchTermGrid.Visibility = System.Windows.Visibility.Collapsed;
+                        this.Focus();
+                        
+                    }
+                    else
+                    {
+                        MessageBox.Show("No se encontro ningun resultado", "Error", MessageBoxButton.OK);
+                        new Progress().hideProgressIndicator(this);
+                    }
+
+                    myGeocodeQuery.Dispose();
+                }
+
+                if (!isOrigin)
+                {
+                    DrawMapMarkers();
+
+                    states = appBarStates.Shit;
+                    BuildLocalizedApplicationBar();
+                }
+                else
+                {
+                    FijarOtroLado(myCoordinates[0]);
+                    this.myMap.SetView(myCoordinates[0], 14.0, MapAnimationKind.Parabolic);
+
+                    states = appBarStates.Map;
+                    BuildLocalizedApplicationBar();
+                }
+   
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ocurrio un error, vuelve a intentarlo", "Error", MessageBoxButton.OK);
+            }
+        }
+
+        DispatcherTimer timer = new DispatcherTimer();
+        public void DrawMapMarkers()
+        {
+            //MapOverlay userLocationOverlay;
+            //userLocationOverlay = this.mapLayer.ElementAt(0);
+            //userLocationOverlay = this._aPoint.ElementAt(0);
+            //this._aPoint.Clear();
+            //this._aPoint.Add(userLocationOverlay);
+            for (int i = 0; i < myCoordinates.Count; i++)
+            {
+                //DrawMapMarker(myCoordinates[i], Colors.Blue);
+                _searchin = true;
+                AddBPoint(myCoordinates[i]);
+
+            }
+
+            timer.Tick += timer_Tick;
+            timer.Interval = new TimeSpan(00, 0, 3);
+            //bool enabled = timer.IsEnabled;
+            timer.Start();
+            
+        }
+
+        void timer_Tick(object sender, object e)
+        {
+            //function to execute
+            timer.Stop();
+            _searchin = false;
         }
 
         void myMap_ZoomLevelChanged(object sender, MapZoomLevelChangedEventArgs e)
@@ -1019,128 +1125,142 @@ namespace VoyIteso.Pages
         #region appBar Buttons
         async void appBarSearchRouteButton_Click(object sender, EventArgs e)
         {
-            progress.showProgressIndicator(this, "Espera un momento, por favor");
-            //SendSearchRequest(); 
-            //send request
-            //aqui puto jairo
-            string origen = txtOriginRojo.Text;
-            string destino = txtDestinyRojo.Text;
-            string fecha = dateString;// la fecha de inicia obtenida del time picker
-            DateTime myDateTime;
-            //12.0.0
-            //
-            myDateTime = DateTime.ParseExact(dateString + " " + timeString, "dd-MM-yyyy HH:mm", CultureInfo.InvariantCulture);//yyyy-MM-dd HH:mm tt   M/d/yyyy hh:mm
-            string hora = timeString;
 
-            double lat_destino = BPoint.GeoCoordinate.Latitude;
-            double lon_destino = BPoint.GeoCoordinate.Longitude;
-            double lat_origen = APoint.GeoCoordinate.Latitude;
-            double lon_origen = APoint.GeoCoordinate.Longitude;
-
-
-
-
-            ///DAR AVENTON
-            if (TheNewMap.Driver)// si estas creando ruta
+            try
             {
-                IEnumerable<GeoCoordinate> myEnumerable;
-                //convierto mis waypoins en un enumerable para pasarlo al metodo de crear ruta.
-                /*if (wayPointList.Count > 0)
+
+
+
+                progress.showProgressIndicator(this, "Espera un momento, por favor");
+                //SendSearchRequest(); 
+                //send request
+                //aqui puto jairo
+                string origen = txtOriginRojo.Text;
+                string destino = txtDestinyRojo.Text;
+                string fecha = dateString;// la fecha de inicia obtenida del time picker
+                DateTime myDateTime;
+                //12.0.0
+                //
+                myDateTime = DateTime.ParseExact(dateString + " " + timeString, "dd-MM-yyyy HH:mm", CultureInfo.InvariantCulture);//yyyy-MM-dd HH:mm tt   M/d/yyyy hh:mm
+                string hora = timeString;
+
+                double lat_destino = BPoint.GeoCoordinate.Latitude;
+                double lon_destino = BPoint.GeoCoordinate.Longitude;
+                double lat_origen = APoint.GeoCoordinate.Latitude;
+                double lon_origen = APoint.GeoCoordinate.Longitude;
+
+
+
+
+                ///DAR AVENTON
+                if (TheNewMap.Driver)// si estas creando ruta
                 {
-                    List<GeoCoordinate> myList = wayPointList.Select(mapOverlay => mapOverlay.GeoCoordinate).ToList();
-                    myEnumerable = myList;
-                }
-                else
-                {
-                    var newpoint = new MapOverlay(); 
-                    var ubicacion = new GeoCoordinate(20.608390, -103.414512);// voy a agregar iteso si no pone waypoints.
-                    newpoint.GeoCoordinate = ubicacion;
-                    wayPointList.Add(newpoint);
-                    List<GeoCoordinate> myList = wayPointList.Select(mapOverlay => mapOverlay.GeoCoordinate).ToList();
-                    myEnumerable = myList;
-                }*/
-
-                List<GeoCoordinate> myList = new List<GeoCoordinate>(), waypoints = wayPointList.Select(mapOverlay => mapOverlay.GeoCoordinate).ToList();
-
-                myList.Add(new GeoCoordinate(lat_origen, lon_origen));
-
-                foreach (var item in waypoints)
-                {
-                    myList.Add(item);
-                }
-
-                myList.Add(new GeoCoordinate(lat_destino, lon_destino));
-
-
-                //List<string> listAgain = myEnumerable.ToList();//para convertir atras.
-                //Rutai rutai = new Rutai();
-                var a = await ApiConnector.Instance.RouteCreate(origen, destino, myDateTime, myDateTime.AddHours(1), "1", 2, myList);
-                progress.hideProgressIndicator(this);
-                if (a.estatus==1)
-                {
-                    MessageBox.Show("ruta agregada exitosamente");
-                    NavigationService.Navigate(new Uri("/Pages/ShowRoutes.xaml",UriKind.Relative));
-                }
-                else
-                {
-                    MessageBox.Show(a.error,"Hubo un error en el sistema",MessageBoxButton.OK);
-                }
-            }
-
-
-
-            ///BUSCAR AVENTON
-            else
-            {
-                //buscar ruta
-                var rutas = await ApiConnector.Instance.RouteSearch(origen, destino, fecha, lat_destino, lon_destino, lat_origen, lon_origen, hora);
-                progress.hideProgressIndicator(this);
-
-                try
-                {
-                    if (rutas.rutas.Count > 0)
+                    IEnumerable<GeoCoordinate> myEnumerable;
+                    //convierto mis waypoins en un enumerable para pasarlo al metodo de crear ruta.
+                    /*if (wayPointList.Count > 0)
                     {
-                        foreach (var ruta in rutas.rutas)
-                        {
-                            //pinche trampa sucia! pero funciona y se ve muy bien. repetir en caja de resultados en mapa XD. 
-                            var grid = new Grid();
-                            grid.Width = 440;
-                            grid.Height = 20;
-                            ResultsListBox.Items.Add(grid);
-
-                            var resultados = new cajaDeResultados();
-                            resultados.NombreDelConductor.Text = ruta.persona_nombre;
-                            resultados.DescripcionDeRuta.Text = ruta.texto_origen + "\n" + ruta.texto_destino + "\na las " + ruta.hora_llegada_formato + " el " + ruta.fecha_inicio_formato.Substring(0, 2) + "-" + ruta.fecha_inicio_formato.Substring(2,2) + "-" + ruta.fecha_inicio_formato.Substring(4);
-                            resultados.routeID = ruta.ruta_id;
-
-                            resultados.routeID = ruta.ruta_id;
-                            resultados.perfil_id = ruta.perfil_id.ToString();
-                            //resultados.aventon_id = ruta.;
-                            resultados.texto_origen = ruta.texto_origen;
-                            resultados.texto_destino = ruta.texto_destino;
-
-                            //resultados.Text += ruta.persona_nombre + ruta.texto_origen + ruta.texto_destino + ruta.hora_llegada;
-                            ResultsListBox.Items.Add(resultados);
-
-                        }
-                        ShowRightPanelAnimation.Begin();
-
+                        List<GeoCoordinate> myList = wayPointList.Select(mapOverlay => mapOverlay.GeoCoordinate).ToList();
+                        myEnumerable = myList;
                     }
                     else
                     {
-                        MessageBox.Show("No hay rutas disponibles, intenta otro horario");
+                        var newpoint = new MapOverlay(); 
+                        var ubicacion = new GeoCoordinate(20.608390, -103.414512);// voy a agregar iteso si no pone waypoints.
+                        newpoint.GeoCoordinate = ubicacion;
+                        wayPointList.Add(newpoint);
+                        List<GeoCoordinate> myList = wayPointList.Select(mapOverlay => mapOverlay.GeoCoordinate).ToList();
+                        myEnumerable = myList;
+                    }*/
+
+                    List<GeoCoordinate> myList = new List<GeoCoordinate>(), waypoints = wayPointList.Select(mapOverlay => mapOverlay.GeoCoordinate).ToList();
+
+                    myList.Add(new GeoCoordinate(lat_origen, lon_origen));
+
+                    foreach (var item in waypoints)
+                    {
+                        myList.Add(item);
+                    }
+
+                    myList.Add(new GeoCoordinate(lat_destino, lon_destino));
+
+
+                    //List<string> listAgain = myEnumerable.ToList();//para convertir atras.
+                    //Rutai rutai = new Rutai();
+                    var a = await ApiConnector.Instance.RouteCreate(origen, destino, myDateTime, myDateTime.AddHours(1), "1", 2, myList);
+                    progress.hideProgressIndicator(this);
+                    if (a.estatus == 1)
+                    {
+                        MessageBox.Show("ruta agregada exitosamente");
+                        NavigationService.Navigate(new Uri("/Pages/ShowRoutes.xaml", UriKind.Relative));
+                    }
+                    else
+                    {
+                        MessageBox.Show(a.error, "Hubo un error en el sistema", MessageBoxButton.OK);
                     }
                 }
-                catch (Exception ex)
+
+
+
+                ///BUSCAR AVENTON
+                else
                 {
-                    MessageBox.Show("Revisa tus datos e intenta de nuevo. tip: fecha mal", "Información inválida",MessageBoxButton.OK);
-                    Debug.WriteLine("algo salio mal>>>" + ex.Message);
-                    //throw;
+                    //buscar ruta
+                    var rutas = await ApiConnector.Instance.RouteSearch(origen, destino, fecha, lat_destino, lon_destino, lat_origen, lon_origen, hora);
+                    progress.hideProgressIndicator(this);
+
+                    try
+                    {
+                        if (rutas.rutas.Count > 0)
+                        {
+                            foreach (var ruta in rutas.rutas)
+                            {
+                                //pinche trampa sucia! pero funciona y se ve muy bien. repetir en caja de resultados en mapa XD. 
+                                var grid = new Grid();
+                                grid.Width = 440;
+                                grid.Height = 20;
+                                ResultsListBox.Items.Add(grid);
+
+                                var resultados = new cajaDeResultados();
+                                resultados.NombreDelConductor.Text = ruta.persona_nombre;
+                                resultados.DescripcionDeRuta.Text = ruta.texto_origen + "\n" + ruta.texto_destino + "\na las " + ruta.hora_llegada_formato + " el " + ruta.fecha_inicio_formato.Substring(0, 2) + "-" + ruta.fecha_inicio_formato.Substring(2, 2) + "-" + ruta.fecha_inicio_formato.Substring(4);
+                                resultados.routeID = ruta.ruta_id;
+
+                                resultados.routeID = ruta.ruta_id;
+                                resultados.perfil_id = ruta.perfil_id.ToString();
+                                //resultados.aventon_id = ruta.;
+                                resultados.texto_origen = ruta.texto_origen;
+                                resultados.texto_destino = ruta.texto_destino;
+
+                                //resultados.Text += ruta.persona_nombre + ruta.texto_origen + ruta.texto_destino + ruta.hora_llegada;
+                                ResultsListBox.Items.Add(resultados);
+
+                            }
+                            ShowRightPanelAnimation.Begin();
+
+                        }
+                        else
+                        {
+                            MessageBox.Show("No hay rutas disponibles, intenta otro horario");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Revisa tus datos e intenta de nuevo. tip: fecha mal", "Información inválida", MessageBoxButton.OK);
+                        Debug.WriteLine("algo salio mal>>>" + ex.Message);
+                        //throw;
+                    }
+
                 }
-                
-            }
             
 
+
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Revisa tus datos e intenta de nuevo.", "Información inválida", MessageBoxButton.OK);
+            }
+             new Progress().hideProgressIndicator(this);
             //ResultsListBox.Items.Add(resultados);
 
         }
@@ -1283,14 +1403,24 @@ namespace VoyIteso.Pages
                 appBarResultButton.Click += appBarResultButton_Click;
                 ApplicationBar.Buttons.Add(appBarResultButton);
 
+
+
+                ApplicationBarMenuItem b = new ApplicationBarMenuItem { Text = "¿cómo usar?" };
+                b.Click += howToUse_Click;
+                ApplicationBar.MenuItems.Add(b);
+
+
                 ApplicationBarMenuItem fijarme = new ApplicationBarMenuItem();
                 fijarme.Text = "fijar mi posición";
                 fijarme.Click += fijarme_OnClick;
                 ApplicationBar.MenuItems.Add(fijarme);
 
-                ApplicationBarMenuItem b = new ApplicationBarMenuItem { Text = "¿cómo usar?" };
-                b.Click += howToUse_Click;
-                ApplicationBar.MenuItems.Add(b);
+
+                ApplicationBarMenuItem fijariteso = new ApplicationBarMenuItem();
+                fijariteso.Text = "fijar iteso";
+                fijariteso.Click += fijariteso_OnClick;
+                ApplicationBar.MenuItems.Add(fijariteso);
+
 
                 if (_pointCount <= 0) return;
                 ApplicationBarMenuItem changeDestination = new ApplicationBarMenuItem();
@@ -1316,14 +1446,22 @@ namespace VoyIteso.Pages
                 appBarResultButton.Click += appBarResultButton_Click;
                 ApplicationBar.Buttons.Add(appBarResultButton);
 
+                ApplicationBarMenuItem a = new ApplicationBarMenuItem {Text = "¿cómo usar?"};
+                a.Click += howToUse_Click;
+                ApplicationBar.MenuItems.Add(a);
+
+
                 ApplicationBarMenuItem fijarme = new ApplicationBarMenuItem();
                 fijarme.Text = "fijar mi posición";
                 fijarme.Click += fijarme_OnClick;
                 ApplicationBar.MenuItems.Add(fijarme);
 
-                ApplicationBarMenuItem a = new ApplicationBarMenuItem {Text = "¿cómo usar?"};
-                a.Click += howToUse_Click;
-                ApplicationBar.MenuItems.Add(a);
+
+                ApplicationBarMenuItem fijariteso = new ApplicationBarMenuItem();
+                fijariteso.Text = "fijar iteso";
+                fijariteso.Click += fijariteso_OnClick;
+                ApplicationBar.MenuItems.Add(fijariteso);
+
 
                 if (_pointCount <= 0) return;
                 ApplicationBarMenuItem changeDestination = new ApplicationBarMenuItem();
@@ -1358,6 +1496,11 @@ namespace VoyIteso.Pages
                 fijarme.Text = "fijar mi posición";
                 fijarme.Click += fijarme_OnClick;
                 ApplicationBar.MenuItems.Add(fijarme);
+
+                ApplicationBarMenuItem fijariteso = new ApplicationBarMenuItem();
+                fijariteso.Text = "fijar iteso";
+                fijariteso.Click += fijariteso_OnClick;
+                ApplicationBar.MenuItems.Add(fijariteso);
             }
 
             else if (states == appBarStates.Waypoint)
@@ -1387,6 +1530,7 @@ namespace VoyIteso.Pages
                 ApplicationBar.MenuItems.Add(b);
             }
 
+                //el de la palomita
             else if (states == appBarStates.Shit)
             {
 
@@ -1441,6 +1585,21 @@ namespace VoyIteso.Pages
                 appBarShowResultsButton.Click += appBarShowResults_Click;
                 ApplicationBar.Buttons.Add(appBarShowResultsButton);
 
+
+
+
+                ApplicationBarMenuItem fijarme = new ApplicationBarMenuItem();
+                fijarme.Text = "fijar mi posición";
+                fijarme.Click += fijarme_OnClick;
+                ApplicationBar.MenuItems.Add(fijarme);
+
+
+                ApplicationBarMenuItem fijariteso = new ApplicationBarMenuItem();
+                fijariteso.Text = "fijar iteso";
+                fijariteso.Click += fijariteso_OnClick;
+                ApplicationBar.MenuItems.Add(fijariteso);
+
+
                 if (_pointCount <= 0) return;
                 ApplicationBarMenuItem changeDestination = new ApplicationBarMenuItem();
                 changeDestination.Text = "cambiar el destino";
@@ -1485,6 +1644,11 @@ namespace VoyIteso.Pages
 
         }
 
+        private void fijariteso_OnClick(object sender, EventArgs e)
+        {
+            FijarIteso();
+        }
+
         private void startOverWayPoints_OnClick(object sender, EventArgs e)
         {
             if (!Driver)
@@ -1508,6 +1672,7 @@ namespace VoyIteso.Pages
         private void fijarme_OnClick(object sender, EventArgs e)
         {
             FijarPosicionActual();
+            //FijarOtroLado();
         }
 
         private void howToUse_Click(object sender, EventArgs e)
