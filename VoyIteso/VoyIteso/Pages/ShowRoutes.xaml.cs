@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Device.Location;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -11,6 +13,7 @@ using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Maps.Services;
 using Microsoft.Phone.Shell;
+using Newtonsoft.Json;
 using VoyIteso.Class;
 using VoyIteso.Pages.ShowRoutesComponents;
 
@@ -51,7 +54,7 @@ namespace VoyIteso.Pages
             if (appBarSM == appBarStateMachine.ITEM_NOT_SELECTED)
             {
                 ApplicationBar = new ApplicationBar();
-                ApplicationBar.Mode = ApplicationBarMode.Default;
+                ApplicationBar.Mode = ApplicationBarMode.Minimized;
                 ApplicationBar.Opacity = 1.0;
                 ApplicationBar.IsMenuEnabled = true;
                 ApplicationBar.IsVisible = true;
@@ -69,12 +72,13 @@ namespace VoyIteso.Pages
             else
             {
                 ApplicationBar = new ApplicationBar();
-                ApplicationBar.Mode = ApplicationBarMode.Default;
+               ApplicationBar.Mode = ApplicationBarMode.Default;
+                
                 ApplicationBar.Opacity = 1.0;
                 ApplicationBar.IsMenuEnabled = true;
                 ApplicationBar.IsVisible = true;
 
-                ApplicationBarIconButton d = new ApplicationBarIconButton(new Uri("Images/icons/overflowdots.png", UriKind.Relative));
+                ApplicationBarIconButton d = new ApplicationBarIconButton(new Uri("Images/icons/Point Objects-50.png", UriKind.Relative));
                 d.Text = "ver";
                 d.Click += d_Click;
                 ApplicationBar.Buttons.Add(d);
@@ -99,19 +103,76 @@ namespace VoyIteso.Pages
             
         }
         /// <summary>
-        /// this is the view button that will show at a glance the route.
+        /// this is the view button that will show the route on a map.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void d_Click(object sender, EventArgs e)
         {
-            
+            //coordenadas a.
+            //coordenadas b.
+            //coordenadas puntos intermedios.
+            var a =  RutaSeleccionadaRutai.puntos_intermedios;
+
+            var w = a.Split(Convert.ToChar(","));
+            var v = new List<string>();
+
+            //
+            short i = 0, coun = 0;
+            foreach (var variable in w)
+            {
+                if (coun >= w.Count()-1)
+                {   
+                    i = 3;
+                }else if (i>2)
+                {
+                    i = 1;
+                }
+                switch (i)
+                {
+                    case 0:
+                        v.Add(variable.Substring(8));
+                        break;
+                    case 1:
+                        v.Add(variable.Substring(6, variable.Length - 7));
+                        break;
+                    case 2:
+                        v.Add(variable.Substring(7));
+                        break;
+                    case 3:
+                        v.Add(variable.Substring(7, variable.Length - 9));
+                        break;
+                        
+                    default:
+                        break;
+                }
+                coun++;
+                i++;
+            }
+
+            //load points to waypoint list
+            var waypoints = new List<GeoCoordinate>();
+            for(i=0;i<=v.Count-2;i+=2)
+            {
+                var wayvar = new GeoCoordinate(Double.Parse(v[i]), Double.Parse(v[i+1]));
+                waypoints.Add(wayvar);
+            }
+
+            TheNewMap.ReadOnly = true;
+            NavigationService.Navigate(new Uri("/Pages/TheNewMap.xaml", UriKind.Relative));
+            TheNewMap.InitMapWithRoute(waypoints);
         }
 
+        /// <summary>
+        /// boton de repetir la ruta.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void c_Click(object sender, EventArgs e)
         {
             MessageBox.Show("implementar esto.");
         }
+
 
         /// <summary>
         /// estos dos campos son para las rutas y la ruta seleccionada.
@@ -239,8 +300,14 @@ namespace VoyIteso.Pages
             tempBox.Grid.Background = tempcol; //83C13F blue//el q tiene ahroita = 85C340
         }
 
+        /// <summary>
+        /// boton de nueva ruta.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void b_Click(object sender, EventArgs e)
         {
+            TheNewMap.ReadOnly = false;
             NavigationService.Navigate(new Uri("/Pages/TheNewMap.xaml", UriKind.Relative));
         }
 

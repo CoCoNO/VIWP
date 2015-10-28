@@ -57,46 +57,14 @@ namespace VoyIteso.Pages
         private List<MapLayer> waylayerList = new List<MapLayer>();
         //private List<MapLayer> waylayers = new List<MapLayer>();
         public static bool Driver;
-        private readonly bool _readOnly = false;
+        public static bool ReadOnly = false;
+
+        //nuevas cosas.
+        static List<GeoCoordinate> _readonlypoints = new List<GeoCoordinate>();
+        //nuevos campos.
 
         #endregion
-
-        public TheNewMap(bool mybool)
-        {
-            _readOnly = mybool;
-
-
-
-            _searchin = false;
-            InitializeComponent();
-
-            _aconfirmed = false;
-            ResetValues();
-            //Touch.FrameReported += Touch_FrameReported;  
-            _pushPinUsuario.Source = new BitmapImage(new Uri("/Images/u.png", UriKind.Relative));
-
-            Loaded += SearchView_Loaded;
-            Microsoft.Phone.Maps.MapsSettings.ApplicationContext.ApplicationId = "acc0d8e8-cffc-4bcb-9d28-06444a2fc7d8";
-            Microsoft.Phone.Maps.MapsSettings.ApplicationContext.AuthenticationToken = "0FvJj6wXx2HVKh7g-6hRGw";
-
-            states = appBarStates.Init;//cambiar al estado readonly
-            BuildLocalizedApplicationBar();
-
-            if (!positionAquired)
-            {
-                //FijarPosicionActual();
-                FijarIteso();
-            }
-            //fijar el origen obtenido del constructor
-
-            canChangeState = true;
-            isSearchTerm = false;
-            isOrigin = true;
-            isConfirmRoute = false;
-
-            setLayout();
-
-        }
+        
 
         public TheNewMap()
         {
@@ -125,7 +93,7 @@ namespace VoyIteso.Pages
             {
                 //FijarPosicionActual();
                 FijarIteso();
-            }
+            } 
 
 #region cannibaled constructor
 
@@ -163,7 +131,24 @@ namespace VoyIteso.Pages
 
         }
 
+
         #region methods
+
+        /// <summary>
+        /// inicializar mapa que muestra la ruta (solo vista). 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public static void InitMapWithRoute(List<GeoCoordinate> points)
+        {
+            _readonlypoints = points;
+            foreach (var geoCoordinate in points)
+            {
+                AddBPoint(geoCoordinate);
+            }
+            
+            
+        }
 
         private async void SearchView_Loaded(object sender, RoutedEventArgs e)
         {
@@ -282,6 +267,12 @@ namespace VoyIteso.Pages
                 }
                 _paramsConfirmed = value;
             }
+        }
+
+        private static List<GeoCoordinate> Readonlypoints
+        {
+            get { return _readonlypoints; }
+            set { _readonlypoints = value; }
         }
 
         public EventHandler ConfirmedChanged;
@@ -512,8 +503,6 @@ namespace VoyIteso.Pages
             //la flag es la que indica que ya existen tanto punto A (origen) como punto B (destino). cambiar estas babosadas
             if (_flag)
             {   
-                
-                
                 
                 
                 
@@ -1666,7 +1655,7 @@ namespace VoyIteso.Pages
 
         private void cerrar_click(object sender, EventArgs e)
         {
-            OnBackKeyPress();
+            OnBackKeyPress(null);
         }
 
         private void fijariteso_OnClick(object sender, EventArgs e)

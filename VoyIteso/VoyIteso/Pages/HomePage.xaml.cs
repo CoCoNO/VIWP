@@ -251,9 +251,13 @@ namespace VoyIteso.Pages
             if (TheNewMap.Driver)
             {
                 NavigationService.Navigate(new Uri("/Pages/ShowRoutes.xaml", UriKind.Relative));
-            }else
-            NavigationService.Navigate(new Uri("/Pages/TheNewMap.xaml", UriKind.Relative));
-
+            }
+            else
+            {
+                TheNewMap.ReadOnly = false;
+                NavigationService.Navigate(new Uri("/Pages/TheNewMap.xaml", UriKind.Relative));
+            }
+            
         }
 
         private void calendarTile_Tap(object sender, System.Windows.Input.GestureEventArgs e)
