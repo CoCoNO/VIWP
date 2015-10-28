@@ -74,6 +74,11 @@ namespace VoyIteso.Pages
                 ApplicationBar.IsMenuEnabled = true;
                 ApplicationBar.IsVisible = true;
 
+                ApplicationBarIconButton d = new ApplicationBarIconButton(new Uri("Images/icons/overflowdots.png", UriKind.Relative));
+                d.Text = "ver";
+                d.Click += d_Click;
+                ApplicationBar.Buttons.Add(d);
+
                 ApplicationBarIconButton a = new ApplicationBarIconButton(new Uri("Images/icons/delete.png", UriKind.Relative));
                 a.Text = "borrar";
                 a.Click += a_Click;
@@ -91,6 +96,15 @@ namespace VoyIteso.Pages
             }
 
             
+            
+        }
+        /// <summary>
+        /// this is the view button that will show at a glance the route.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void d_Click(object sender, EventArgs e)
+        {
             
         }
 
@@ -172,7 +186,7 @@ namespace VoyIteso.Pages
             }
             
             tempcol = a.Grid.Background;
-            a.Grid.Background = new SolidColorBrush(Colors.Blue);
+            a.Grid.Background = new SolidColorBrush(Color.FromArgb(255, 133, 195, 64));
             tempBox = a;
 
             //MessageBox.Show(item.puntos_intermedios);
@@ -222,7 +236,7 @@ namespace VoyIteso.Pages
             {
                 return;
             }
-            tempBox.Grid.Background = tempcol; //83C13F
+            tempBox.Grid.Background = tempcol; //83C13F blue//el q tiene ahroita = 85C340
         }
 
         private void b_Click(object sender, EventArgs e)

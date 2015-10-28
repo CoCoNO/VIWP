@@ -57,9 +57,46 @@ namespace VoyIteso.Pages
         private List<MapLayer> waylayerList = new List<MapLayer>();
         //private List<MapLayer> waylayers = new List<MapLayer>();
         public static bool Driver;
-
+        private readonly bool _readOnly = false;
 
         #endregion
+
+        public TheNewMap(bool mybool)
+        {
+            _readOnly = mybool;
+
+
+
+            _searchin = false;
+            InitializeComponent();
+
+            _aconfirmed = false;
+            ResetValues();
+            //Touch.FrameReported += Touch_FrameReported;  
+            _pushPinUsuario.Source = new BitmapImage(new Uri("/Images/u.png", UriKind.Relative));
+
+            Loaded += SearchView_Loaded;
+            Microsoft.Phone.Maps.MapsSettings.ApplicationContext.ApplicationId = "acc0d8e8-cffc-4bcb-9d28-06444a2fc7d8";
+            Microsoft.Phone.Maps.MapsSettings.ApplicationContext.AuthenticationToken = "0FvJj6wXx2HVKh7g-6hRGw";
+
+            states = appBarStates.Init;//cambiar al estado readonly
+            BuildLocalizedApplicationBar();
+
+            if (!positionAquired)
+            {
+                //FijarPosicionActual();
+                FijarIteso();
+            }
+            //fijar el origen obtenido del constructor
+
+            canChangeState = true;
+            isSearchTerm = false;
+            isOrigin = true;
+            isConfirmRoute = false;
+
+            setLayout();
+
+        }
 
         public TheNewMap()
         {
@@ -128,45 +165,16 @@ namespace VoyIteso.Pages
 
         #region methods
 
-        private void Salute()
+        private async void SearchView_Loaded(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("coloca el destino presionando y manteniendo", "¿a dónde vas?", MessageBoxButton.OK);
-        }
-        
-        private async void SearchView_Loaded(object sender, RoutedEventArgs e)//loaded method
-        {//onnavigatedto
-            ////this is somehow stupid
-            //if (!positionAquired)
-            //{
-            //    //FijarPosicionActual();
-            //    FijarIteso();
-            //    Salute();
-            //}
-
-            if (maping.newInstance)
-            {
-                dateString = string.Format("{0:dd-MM-yyyy}", DateTime.Now);
-                timeString = string.Format("{0:HH:mm}", DateTime.Now);
-                maping.newInstance = false;
-                //LocationTimer.Start();
-            }  
-            
             //este se utiliza para que cuando se regrese el usuario no le salga la ventana de seleccionar entre aventon o dar ride, el usuario va a regresar directamente al menu principal.
             NavigationService.RemoveBackEntry();  
             ConfirmedChanged += MyConfirmedChanged;
 
             Microsoft.Phone.Shell.SystemTray.ForegroundColor = System.Windows.Media.Color.FromArgb(255, 208, 236, 255);
-            //Microsoft.Phone.Shell.SystemTray.ForegroundColor = Colors.LightGray;
             Microsoft.Phone.Shell.SystemTray.BackgroundColor = Color.FromArgb(255, 23, 23, 23);
             RouteResult.ResultHeight = (int)(Application.Current.Host.Content.ActualHeight / 4);
             RouteResult.ResultWidth = (int)((Application.Current.Host.Content.ActualWidth / 4) * 3);
-
-            //states = appBarStates.Init;
-            //BuildLocalizedApplicationBar();
-            //myMap.Focus();
-            //progress.hideProgressIndicator(this);
-            //ResultsListBox.Items.Add(new cajaDeResultados());
-            //maping.locationA = APoint;
 
         }
 
@@ -762,7 +770,7 @@ namespace VoyIteso.Pages
         int intGender;
         RouteResult currentRoute;
 
-        enum appBarStates { Map, Left, Right, Search, Confirm, Shit, Waypoint, Init, Shit2 };
+        enum appBarStates { Map, Left, Right, Search, Confirm, Shit, Waypoint, Init, Shit2, Readonly };
         appBarStates states;
 
         //User user = new User();
@@ -812,6 +820,11 @@ namespace VoyIteso.Pages
                 ResultsListBox.SelectedIndex = -1;
                 ShowRightPanelAnimation.Begin();
                 e.Cancel = true;
+            }
+            else if (states == appBarStates.Readonly)
+            {
+                NavigationService.Navigate(new Uri("/Pages/ShowRoutes.xaml", UriKind.Relative));
+                NavigationService.RemoveBackEntry();
             }
             else
                 NavigationService.Navigate(new Uri("/Pages/HomePage.xaml", UriKind.Relative));
@@ -1446,7 +1459,7 @@ namespace VoyIteso.Pages
                 appBarResultButton.Click += appBarResultButton_Click;
                 ApplicationBar.Buttons.Add(appBarResultButton);
 
-                ApplicationBarMenuItem a = new ApplicationBarMenuItem {Text = "¿cómo usar?"};
+                ApplicationBarMenuItem a = new ApplicationBarMenuItem { Text = "¿cómo usar?" };
                 a.Click += howToUse_Click;
                 ApplicationBar.MenuItems.Add(a);
 
@@ -1469,6 +1482,13 @@ namespace VoyIteso.Pages
                 changeDestination.Click += ChangeDestinationButton_OnClick;
                 ApplicationBar.MenuItems.Add(changeDestination);
 
+            }
+            else if (states == appBarStates.Readonly)
+            {
+                ApplicationBarIconButton appBarSearchButton = new ApplicationBarIconButton(new Uri("Images/icons/close.png", UriKind.Relative));
+                appBarSearchButton.Text = "cerrar";
+                appBarSearchButton.Click += cerrar_click;
+                ApplicationBar.Buttons.Add(appBarSearchButton);
             }
 
             else if (states == appBarStates.Init)
@@ -1642,6 +1662,11 @@ namespace VoyIteso.Pages
                 ApplicationBar.Buttons.Add(appBarReturnResultsButton);
             }
 
+        }
+
+        private void cerrar_click(object sender, EventArgs e)
+        {
+            OnBackKeyPress();
         }
 
         private void fijariteso_OnClick(object sender, EventArgs e)
