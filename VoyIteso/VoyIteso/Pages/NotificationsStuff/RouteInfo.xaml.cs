@@ -285,7 +285,7 @@ namespace VoyIteso.Pages
 
                     GridDeBotones.Children.Remove(BotonAceptar);
                     GridDeBotones.Children.Remove(BotonRechazar);
-                    var b = new TextBlock() { Text = "se ha aceptado el aventón", Foreground = new SolidColorBrush(Colors.Black), Width = 380 };
+                    var b = new TextBlock() { Text = "se ha aceptado el aventón", Foreground = new SolidColorBrush(Colors.White), Width = 380 };
                     GridDeBotones.Children.Add(b);
 
                 }

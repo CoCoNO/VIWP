@@ -213,6 +213,8 @@ namespace VoyIteso.Pages.ChatStuff
                     }
                 }
                 todosLosMensajes = listaDeMensajes;
+
+                VibrateController.Default.Start(TimeSpan.FromSeconds(0.2));
             }
 
             //this.dummyMessagesEnumerator.MoveNext();
