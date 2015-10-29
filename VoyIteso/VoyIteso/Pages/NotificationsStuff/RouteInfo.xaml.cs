@@ -228,7 +228,7 @@ namespace VoyIteso.Pages
 
                     GridDeBotones.Children.Remove(BotonAceptar);
                     GridDeBotones.Children.Remove(BotonRechazar);
-                    var b = new TextBlock() { Text = "se ha solicitado el aventón", Foreground = new SolidColorBrush(Colors.Black), Width = 380 };
+                    var b = new TextBlock() { Text = "se ha solicitado el aventón", Foreground = new SolidColorBrush(Colors.White), Width = 380 };
                     GridDeBotones.Children.Add(b);
                 }
                 catch (Exception ex)
@@ -298,6 +298,7 @@ namespace VoyIteso.Pages
 
                 pressed++;
             }
+            //
             buildAppBar(appBarStates.Regresarmenu);
 
 
@@ -352,12 +353,16 @@ namespace VoyIteso.Pages
             if (a.estatus == 1)
             {
                 MessageBox.Show("Solicitud rechazada");
+                _flag = true;
                 ocultarMierda();
             }
             else
             {
                 MessageBox.Show("No se pudo realizar operación");
             }
+
+            buildAppBar(appBarStates.Regresarmenu);
+
         }
 
 

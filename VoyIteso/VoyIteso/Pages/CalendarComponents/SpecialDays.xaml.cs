@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Device.Location;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
@@ -130,8 +131,7 @@ namespace VoyIteso.Pages.CalendarComponents
 
         private void item_onClicked(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            //MessageBox.Show("hola mundo, ya me tapearon.");
-            Debug.WriteLine("ya me tapearon.");
+            
         }
 
 

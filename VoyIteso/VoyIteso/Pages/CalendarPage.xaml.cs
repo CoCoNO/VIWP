@@ -9,6 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
+using Microsoft.Phone.Wallet;
 using Telerik.Windows.Controls;
 using VoyIteso.Class;
 using GestureEventArgs = System.Windows.Input.GestureEventArgs;
@@ -124,6 +125,26 @@ namespace VoyIteso.Pages
             Debug.WriteLine("Not yet implemented."); 
         }
 
+        public static void doo()
+        {
+            var 
+            a = new ApplicationBar();
+            a.Mode = ApplicationBarMode.Default;
+            a.Opacity = 1.0;
+            a.IsMenuEnabled = true;
+            a.IsVisible = true;
+
+            ApplicationBarIconButton advancedDetailButton = new ApplicationBarIconButton(new Uri("Assets/check.png", UriKind.Relative));
+            advancedDetailButton.Text = "detalles";
+            advancedDetailButton.Click += advancedDetailButton_Click;
+            a.Buttons.Add(advancedDetailButton);
+
+
+            //callback
+
+
+        }
+
         private void BuildLocalizedApplicationBar()
         {
             ApplicationBar = new ApplicationBar();
@@ -139,7 +160,7 @@ namespace VoyIteso.Pages
 
         }
 
-        private async void advancedDetailButton_Click(object sender, EventArgs e)
+        private static async void advancedDetailButton_Click(object sender, EventArgs e)
         {// esta madre es la del appbar
             
             //var a = await ApiConnector.Instance.NotificationsGet();

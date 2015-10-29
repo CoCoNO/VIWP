@@ -60,9 +60,11 @@ namespace VoyIteso.Pages
             photoChooserTask.Completed += photoChooserTask_Completed;
             userImage.Tap += BtnChooseImage_Click;
             UserDataChanged();
+            _myBool = true;
             queryUserData();
         }
 
+        private bool _myBool = false;
         //methods
         private void editionChanged()
         {
@@ -203,6 +205,12 @@ namespace VoyIteso.Pages
         {
             try
             {
+                if (_myBool)
+                {
+                    _myBool = false;
+                    return;
+                }
+
                 if (ApiConnector.Instance.ActiveUser.Avatar!=null)
                 {
                     userImage.Source = ApiConnector.Instance.ActiveUser.Avatar;
@@ -267,7 +275,6 @@ namespace VoyIteso.Pages
         private async void queryUserData()
         {
             await ApiConnector.Instance.UpdateCurrentUserData();
-            //UserDataChanged();
             UserDataChanged();
         }
 
