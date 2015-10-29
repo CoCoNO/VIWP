@@ -25,6 +25,7 @@ using VoyIteso.Pages.MapStuff;
 using VoyIteso.Resources;
 using GestureEventArgs = System.Windows.Input.GestureEventArgs;
 using System.Windows.Navigation;
+using Telerik.Windows.Controls;
 
 
 namespace VoyIteso.Pages
@@ -60,11 +61,11 @@ namespace VoyIteso.Pages
         public static bool ReadOnly = false;
 
         //nuevas cosas.
-        static List<GeoCoordinate> _readonlypoints = new List<GeoCoordinate>();
+        public static List<GeoCoordinate> _readonlypoints = new List<GeoCoordinate>();
         //nuevos campos.
 
         #endregion
-        
+
 
         public TheNewMap()
         {
@@ -77,25 +78,38 @@ namespace VoyIteso.Pages
                 SmokerPickerGrid.Children.Remove(pikerSmoke);
             }
 
-            _aconfirmed = false;
-            ResetValues();
-            //Touch.FrameReported += Touch_FrameReported;  
             _pushPinUsuario.Source = new BitmapImage(new Uri("/Images/u.png", UriKind.Relative));
 
             Loaded += SearchView_Loaded;
             Microsoft.Phone.Maps.MapsSettings.ApplicationContext.ApplicationId = "acc0d8e8-cffc-4bcb-9d28-06444a2fc7d8";
             Microsoft.Phone.Maps.MapsSettings.ApplicationContext.AuthenticationToken = "0FvJj6wXx2HVKh7g-6hRGw";
-            
-            states = appBarStates.Init;
-            BuildLocalizedApplicationBar();
 
-            if (!positionAquired)
+
+            if (!ReadOnly)
             {
-                //FijarPosicionActual();
-                FijarIteso();
-            } 
+                _aconfirmed = false;
+                ResetValues();
+                //Touch.FrameReported += Touch_FrameReported;  
+                
+                states = appBarStates.Init;
+                BuildLocalizedApplicationBar();
 
-#region cannibaled constructor
+                if (!positionAquired)
+                {
+                    //FijarPosicionActual();
+                    FijarIteso();
+                }
+
+            }
+            else
+            {
+                loadReadOnlyMapPins();
+
+                states = appBarStates.Readonly;
+                BuildLocalizedApplicationBar();
+            }
+
+            #region cannibaled constructor
 
             canChangeState = true;
             isSearchTerm = false;
@@ -111,7 +125,7 @@ namespace VoyIteso.Pages
 
             progress = new Progress();
 
-            maping = new Maping(myMap, InvisibleCanvas); 
+            maping = new Maping(myMap, InvisibleCanvas);
             //apiConnector = ApiConnector.instance; 
             //BuildLocalizedApplicationBar();
 
@@ -127,33 +141,75 @@ namespace VoyIteso.Pages
             //apiConnector.exceptionChanged += apiConnector_exceptionChanged;
             //apiConnector.responseChanged += apiConnector_responseChanged;
 
-#endregion
+            #endregion
 
         }
+
 
 
         #region methods
-
-        /// <summary>
-        /// inicializar mapa que muestra la ruta (solo vista). 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public static void InitMapWithRoute(List<GeoCoordinate> points)
+        private void loadReadOnlyMapPins()
         {
-            _readonlypoints = points;
-            foreach (var geoCoordinate in points)
+            dubujarpuntocualquira(_readonlypoints[0],"Origen");
+            for (int i = 1; i <= _readonlypoints.Count-2; i++)
             {
-                AddBPoint(geoCoordinate);
+                //AddBPoint(_readonlypoints[i]);
+                //AddROPoint(_readonlypoints[i], i.ToString());
+                dubujarpuntocualquira(_readonlypoints[i], "Punto "+i.ToString());
             }
+            dubujarpuntocualquira(_readonlypoints[_readonlypoints.Count-1],"Destino");
+            //AddROPoint(_readonlypoints[_readonlypoints.Count - 1], "destino");
+            //AddBPoint(_readonlypoints[_readonlypoints.Count-1]);
+            myMap.Center = _readonlypoints[_readonlypoints.Count-1];
+            myMap.ZoomLevel = 12;
+        }
+
+        private void dubujarpuntocualquira(GeoCoordinate geoCoordinate, string p)
+        {
+            
+            var newLayer = new MapLayer();
+            var mapIcon = new MapIcon();//my Own map icon. (custon map icon).
+            mapIcon.pushPinHeader.Text = p;
+            var ubicacion = geoCoordinate;
+            var bpoint = new MapOverlay()
+            {
+                GeoCoordinate = ubicacion,
+                Content = mapIcon
+            };
+            newLayer.Add(bpoint);
+            //add pushpin layer to map layers.
+            myMap.Layers.Add(newLayer);
+
             
             
         }
+
+        public static List<MyObject> MyObjects = new List<MyObject>(); 
+        private void AddROPoint(GeoCoordinate geoCoordinate, string p)
+        {
+
+            var newLayer = new MapLayer();
+            var mapIcon = new MapIcon();//my Own map icon. (custon map icon).
+            var bpoint = new MapOverlay();
+            var ubicacion = geoCoordinate;
+            bpoint.GeoCoordinate = ubicacion;
+            bpoint.Content = mapIcon;
+
+            mapIcon.pushPinHeader.Text = p;
+
+            newLayer.Add(bpoint);
+
+            //add pushpin layer to map layers.
+            myMap.Layers.Add(newLayer);
+
+            
+        }
+
 
         private async void SearchView_Loaded(object sender, RoutedEventArgs e)
         {
             //este se utiliza para que cuando se regrese el usuario no le salga la ventana de seleccionar entre aventon o dar ride, el usuario va a regresar directamente al menu principal.
-            NavigationService.RemoveBackEntry();  
+            NavigationService.RemoveBackEntry();
             ConfirmedChanged += MyConfirmedChanged;
 
             Microsoft.Phone.Shell.SystemTray.ForegroundColor = System.Windows.Media.Color.FromArgb(255, 208, 236, 255);
@@ -177,7 +233,7 @@ namespace VoyIteso.Pages
             ReverseQuery();
         }
 
-        private async void FijarOtroLado( GeoCoordinate coordinate)
+        private async void FijarOtroLado(GeoCoordinate coordinate)
         {
             var migeoCoordenada = coordinate;//el otro lado.
             dibujaru(migeoCoordenada);
@@ -224,7 +280,7 @@ namespace VoyIteso.Pages
         {
             _routeConfirmed = false;
             _confirmed = false;
-            _paramsConfirmed=false;
+            _paramsConfirmed = false;
             //_aconfirmed = false;
             _flag = false;
             BPoint = null;
@@ -350,7 +406,7 @@ namespace VoyIteso.Pages
             query.QueryAsync();
             wayPointList.Add(newpoint);//add new point to waypoint list.
             waylayerList.Add(newLayer);//takes the value of newLayer so we can find the newLayer in the list and delete it if necesary.
-            
+
             states = appBarStates.Waypoint;
             BuildLocalizedApplicationBar();
         }
@@ -402,6 +458,8 @@ namespace VoyIteso.Pages
             BPoint = bpoint;//take the value of the temp map overlay and take it to the main context.
             _layer = newLayer;//takes the value of newLayer so we can find the newLayer in the list and delete it if necesary.
             //change the mode of the applicationBar so the user notices there's an action to be performed (confirm the pushpin location)
+            if (ReadOnly)
+            return;
             ApplicationBar.Mode = ApplicationBarMode.Default;
         }
 
@@ -422,7 +480,7 @@ namespace VoyIteso.Pages
             _pointCount++;
 
             //get properties of the address from the tapped location. 
-            var query = new ReverseGeocodeQuery { GeoCoordinate = new GeoCoordinate(geoCoordinate.Latitude,geoCoordinate.Longitude) };
+            var query = new ReverseGeocodeQuery { GeoCoordinate = new GeoCoordinate(geoCoordinate.Latitude, geoCoordinate.Longitude) };
             query.QueryCompleted += (s, ev) =>
             {
                 if (ev.Error == null && ev.Result.Count > 0)
@@ -448,6 +506,8 @@ namespace VoyIteso.Pages
             BPoint = bpoint;//take the value of the temp map overlay and take it to the main context.
             _layer = newLayer;//takes the value of newLayer so we can find the newLayer in the list and delete it if necesary.
             //change the mode of the applicationBar so the user notices there's an action to be performed (confirm the pushpin location)
+
+            if (ReadOnly) return;
             ApplicationBar.Mode = ApplicationBarMode.Default;
         }
 
@@ -489,7 +549,7 @@ namespace VoyIteso.Pages
             //NavigationService.Navigate(new Uri("/Pages/SecondaryMapPage.xaml", UriKind.Relative));
 
             //en lugar de navegar a la pag secundaria que habia hecho vamos a abrir el panel izquierdo del menu hamburguesa.
-            appBarSearchButton_Click(null,null);
+            appBarSearchButton_Click(null, null);
         }
 
         /// <summary>
@@ -502,10 +562,10 @@ namespace VoyIteso.Pages
             //SearchNowButton_OnClick(null, null);
             //la flag es la que indica que ya existen tanto punto A (origen) como punto B (destino). cambiar estas babosadas
             if (_flag)
-            {   
-                
-                
-                
+            {
+
+
+
                 if (Driver)
                 {
                     if (wayPointList.Count > 0)
@@ -523,7 +583,7 @@ namespace VoyIteso.Pages
                             foreach (var layer in waylayerList)
                             {
                                 myMap.Layers.Remove(layer);
-                                
+
                             }
                             waylayerList.Clear();
                         }
@@ -543,8 +603,8 @@ namespace VoyIteso.Pages
 
 
 
-                
-                else 
+
+                else
                 {
                     ShowLeftPanelAnimation.Begin();
                     //NavigateToSecundaryPage();
@@ -555,10 +615,10 @@ namespace VoyIteso.Pages
             else
             {
                 _confirmed = true;
-                var mapIcon = (MapIcon) BPoint.Content;//destino
+                var mapIcon = (MapIcon)BPoint.Content;//destino
                 //var mapIcon2 = (MapIcon) APoint.Content;//origen
                 MessageBox.Show("destino fijado");
-                if (aStreetName==null)
+                if (aStreetName == null)
                 {
                     txtOriginRojo.Text = "escribe una dirección";
                     txtDestinyRojo.Text = "escribe una dirección";
@@ -566,19 +626,20 @@ namespace VoyIteso.Pages
                 else
                 {
                     txtOriginRojo.Text = aStreetName;
-                    if (mapIcon.StreetName==null)
+                    if (mapIcon.StreetName == null)
                     {
                         txtDestinyRojo.Text = "no encontramos la dirección, escríbela";
-                    }else
-                    txtDestinyRojo.Text = mapIcon.StreetName;
+                    }
+                    else
+                        txtDestinyRojo.Text = mapIcon.StreetName;
                 }
-                
-                
+
+
                 SearchNowButton_OnClick(null, null);
                 ApplicationBar.Mode = ApplicationBarMode.Minimized;
                 if (Driver) return;
-                ShowLeftPanelAnimation.Begin(); 
-                
+                ShowLeftPanelAnimation.Begin();
+
             }
             ApplicationBar.Mode = ApplicationBarMode.Minimized;
         }
@@ -618,11 +679,11 @@ namespace VoyIteso.Pages
 
         private void ChangeDestinationButton_OnClick(object sender, EventArgs e)
         {
-            
+
             ResetValues();
             if (Driver)
             {
-                startOverWayPoints_OnClick(null,null);
+                startOverWayPoints_OnClick(null, null);
             }
             var a = states;
             MyMapControl_OnCenterChanged(null, null);
@@ -631,7 +692,7 @@ namespace VoyIteso.Pages
             ResetValues();
             if (a == appBarStates.Left)
             {
-                HideLeftPanelAnimation.Begin();   
+                HideLeftPanelAnimation.Begin();
             }
         }
 
@@ -667,17 +728,21 @@ namespace VoyIteso.Pages
 
             //}
 
+            if (ReadOnly)return;
+            
             if (!_searchin)
             {
                 if (_pointCount > 0 && !_confirmed)
                 {
                     myMap.Layers.Remove(_layer);
                     _pointCount--;
+                    states = appBarStates.Map;
+                    BuildLocalizedApplicationBar();
                 }
             }
 
-            
-            
+
+
         }
 
         /// <summary>
@@ -687,12 +752,12 @@ namespace VoyIteso.Pages
         /// <returns></returns>
         public Task ExpensiveTaskAsync()
         {
-            return Task.Run(() => ExpensiveTask()); 
+            return Task.Run(() => ExpensiveTask());
         }
 
         private void ExpensiveTask()
         {
-           // MessageBox.Show("expensive task completed...");
+            // MessageBox.Show("expensive task completed...");
             //for (int i = 0; i < 10000000; i++)
             //{
             //    i = i;
@@ -702,7 +767,7 @@ namespace VoyIteso.Pages
         async public void DoStuff()
         {
             //PrepareExpensiveTask();
-            progress.showProgressIndicator(this,"esperando");
+            progress.showProgressIndicator(this, "esperando");
             await ExpensiveTaskAsync();
             progress.hideProgressIndicator(this);
             //UseResultsOfExpensiveTask();
@@ -717,7 +782,7 @@ namespace VoyIteso.Pages
             //DoStuff();
             if (_flag && !_routeConfirmed)
             {
-                AddWayPoint(sender, e); 
+                AddWayPoint(sender, e);
             }
 
             //if the destination has not been added yet and it has no confirmation, then a new bpoint is going to be added to the map.
@@ -743,10 +808,10 @@ namespace VoyIteso.Pages
 
 
 
-#region Canibalizado
+        #region Canibalizado
 
 
-#region cannibaled class fields
+        #region cannibaled class fields
         bool canChangeState;
         bool isSearchTerm;
         bool isOrigin;
@@ -771,7 +836,7 @@ namespace VoyIteso.Pages
         private bool positionAquired;
         private string aStreetName;
         //ApiConnector apiConnector;
-#endregion
+        #endregion
 
         #region Time & Date Change event
         void timePicker_ValueChanged(object sender, DateTimeValueChangedEventArgs e)
@@ -817,14 +882,14 @@ namespace VoyIteso.Pages
             }
             else
                 NavigationService.Navigate(new Uri("/Pages/HomePage.xaml", UriKind.Relative));
-                NavigationService.RemoveBackEntry();
+            NavigationService.RemoveBackEntry();
             //base.OnBackKeyPress(e);
 
         }
 
 
         #endregion
-          
+
         #region myReverseGeocodeQuery_QueryCompleted_2
         private void myReverseGeocodeQuery_QueryCompleted_2(object sender, QueryCompletedEventArgs<IList<MapLocation>> e)
         {
@@ -922,7 +987,7 @@ namespace VoyIteso.Pages
                     myMap.ZoomLevelChanged += myMap_ZoomLevelChanged;
                     if (isOrigin)
                     {
-                       txtOriginRojo.Text = searchTermBox.Text; 
+                        txtOriginRojo.Text = searchTermBox.Text;
                     }
                     else
                     {
@@ -943,7 +1008,7 @@ namespace VoyIteso.Pages
         {
             try
             {
-                
+
                 if (e.Error == null)
                 {
                     if (e.Result.Count > 0)
@@ -956,7 +1021,7 @@ namespace VoyIteso.Pages
                         new Progress().hideProgressIndicator(this);
                         SearchTermGrid.Visibility = System.Windows.Visibility.Collapsed;
                         this.Focus();
-                        
+
                     }
                     else
                     {
@@ -982,7 +1047,7 @@ namespace VoyIteso.Pages
                     states = appBarStates.Map;
                     BuildLocalizedApplicationBar();
                 }
-   
+
             }
             catch (Exception ex)
             {
@@ -1010,7 +1075,7 @@ namespace VoyIteso.Pages
             timer.Interval = new TimeSpan(00, 0, 3);
             //bool enabled = timer.IsEnabled;
             timer.Start();
-            
+
         }
 
         void timer_Tick(object sender, object e)
@@ -1027,7 +1092,7 @@ namespace VoyIteso.Pages
             myMap.Focus();
             progress.hideProgressIndicator(this);
         }
-         
+
         private void mapLayer_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             if (maping.mapLayer.Count > 1)
@@ -1060,7 +1125,7 @@ namespace VoyIteso.Pages
             canChangeState = true;
             isSearchTerm = false;
             BuildLocalizedApplicationBar();
-            if (_pointCount>0)
+            if (_pointCount > 0)
             {
                 MessageBox.Show("para continuar presiona en confirmar", "Configura fecha y horario", MessageBoxButton.OK);
             }
@@ -1253,7 +1318,7 @@ namespace VoyIteso.Pages
                     }
 
                 }
-            
+
 
 
 
@@ -1262,12 +1327,12 @@ namespace VoyIteso.Pages
             {
                 MessageBox.Show("Revisa tus datos e intenta de nuevo.", "Información inválida", MessageBoxButton.OK);
             }
-             new Progress().hideProgressIndicator(this);
+            new Progress().hideProgressIndicator(this);
             //ResultsListBox.Items.Add(resultados);
 
         }
 
-        private List<Notificacione> a; 
+        private List<Notificacione> a;
 
         void appBarShowResults_Click(object sender, EventArgs e)
         {
@@ -1349,7 +1414,7 @@ namespace VoyIteso.Pages
         }
 
         //PLAY>>>>metodo viejo de jairo. deprecado.
-        async void  appBarConfirmButton_Click(object sender, EventArgs e)
+        async void appBarConfirmButton_Click(object sender, EventArgs e)
         {
             //send request 
             string origen = txtOriginRojo.Text;
@@ -1478,6 +1543,7 @@ namespace VoyIteso.Pages
                 appBarSearchButton.Text = "cerrar";
                 appBarSearchButton.Click += cerrar_click;
                 ApplicationBar.Buttons.Add(appBarSearchButton);
+                ApplicationBar.Mode = ApplicationBarMode.Minimized;
             }
 
             else if (states == appBarStates.Init)
@@ -1678,7 +1744,7 @@ namespace VoyIteso.Pages
                 }
                 waylayerList.Clear();
 
-                MessageBox.Show("Enfócate en colocar los puntos intermedios", "Puntos intermedios borrados", MessageBoxButton.OK);                    
+                MessageBox.Show("Enfócate en colocar los puntos intermedios", "Puntos intermedios borrados", MessageBoxButton.OK);
             }
 
         }
@@ -1798,8 +1864,8 @@ namespace VoyIteso.Pages
             RightKeyFrameShowFromLeftEnd.SetValue(EasingDoubleKeyFrame.ValueProperty, (double)((panelLeftWidth * -1) - phoneWidth));
             LeftKeyFrameShowFromRightBegin.SetValue(EasingDoubleKeyFrame.ValueProperty, (double)((panelLeftWidth * -1) - phoneWidth));
         }
-        #endregion 
-        
+        #endregion
+
         private void MapGrid_MouseMove(object sender, MouseEventArgs e)
         {
             if (!this.myMap.IsEnabled)
@@ -1823,7 +1889,7 @@ namespace VoyIteso.Pages
         //saendSearchRequest() deleted
 
         //apiConnector_exceptionChanged(object sender, EventArgs e) eliminado
-        
+
         private void pikerSmoke_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (e.AddedItems.Count > 0)
@@ -1855,15 +1921,15 @@ namespace VoyIteso.Pages
         public static cajaDeResultados caja;
         private async void ResultsListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {//solilcitar aventon, solicitud de aventon, listbox de resultados.
-            
+
             var index = ResultsListBox.SelectedIndex - 1;
-            
+
             if (index % 2 != 0 || index < 0)
             {
                 return;
             }
 
-            var item = (cajaDeResultados) ResultsListBox.SelectedItem;
+            var item = (cajaDeResultados)ResultsListBox.SelectedItem;
             item.myBool = true;
             //caja = item;
             //var item = _listOfNotifications.notificaciones[index / 2];
@@ -1873,7 +1939,7 @@ namespace VoyIteso.Pages
             //new RouteInfo().foo(item);
             caja = item;
             NavigationService.Navigate(new Uri("/Pages/NotificationsStuff/RouteInfo.xaml", UriKind.Relative));//?key=value&key2=value
-            
+
 
             //this.NavigationService.Navigate();
             //new Progress().showProgressIndicator(this, "esperate poquito brother, ya vamos");
@@ -1895,10 +1961,10 @@ namespace VoyIteso.Pages
         }
 
         //SendLiftRequest(int id) deleted
-        
-        
 
-#endregion
+
+
+        #endregion
 
         //private BingConnectorcs bingConnector = new BingConnectorcs();
         private void TxtOriginRojo_OnTextChanged(object sender, TextChangedEventArgs e)
@@ -1915,6 +1981,6 @@ namespace VoyIteso.Pages
             }
         }
 
-         
+
     }
 }

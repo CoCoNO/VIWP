@@ -140,7 +140,7 @@ namespace VoyIteso.Pages
                         v.Add(variable.Substring(7));
                         break;
                     case 3:
-                        v.Add(variable.Substring(7, variable.Length - 9));
+                        v.Add(variable.Substring(6, variable.Length - 9));
                         break;
                         
                     default:
@@ -159,8 +159,11 @@ namespace VoyIteso.Pages
             }
 
             TheNewMap.ReadOnly = true;
+            TheNewMap._readonlypoints = waypoints;
+            //TheNewMap.MyObjects = 
+
             NavigationService.Navigate(new Uri("/Pages/TheNewMap.xaml", UriKind.Relative));
-            TheNewMap.InitMapWithRoute(waypoints);
+            
         }
 
         /// <summary>
