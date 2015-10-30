@@ -55,6 +55,8 @@ namespace VoyIteso.Pages
                 this.userTypeToogle.Source = new BitmapImage(new Uri("/Images/pedir_aventon.png",UriKind.Relative));
             }
 
+            
+
         }
 
 
@@ -156,6 +158,15 @@ namespace VoyIteso.Pages
             new Progress().hideProgressIndicator(this);
             Microsoft.Phone.Shell.SystemTray.ForegroundColor = Color.FromArgb(255, 110, 207, 243);
 
+            //checar aventones por revisar.
+            var a = await ApiConnector.Instance.LiftCheckIfRateNeeded();
+            if (a.aventones.Count>0)
+            {
+                RatePage.idaventon = a.aventones[0].aventon_id;//para saber cual calificar.
+                RatePage.nombreConductor = a.aventones[0].nombre;//.
+                RatePage.idconductor = a.aventones[0].perfilconductor_id;//para sacar la foto.
+                NavigationService.Navigate(new Uri("/Pages/0RatePage.xaml", UriKind.Relative));
+            }
         }
         #endregion
         void UserDataChanged(object sender, EventArgs e)
@@ -190,6 +201,10 @@ namespace VoyIteso.Pages
             appBarSingOut.Click += appBarSingOut_Click;
             ApplicationBar.MenuItems.Add(appBarSingOut);
 
+            ApplicationBarMenuItem a = new ApplicationBarMenuItem("rate!");
+            a.Click += a_click;
+            ApplicationBar.MenuItems.Add(a);
+
             //ApplicationBarMenuItem a = new ApplicationBarMenuItem("ir al nuevo mapa");
             //a.Click += a_Click;
             //ApplicationBar.MenuItems.Add(a);
@@ -207,6 +222,16 @@ namespace VoyIteso.Pages
             //    // Create a new menu item with the localized string from AppResources.
             //    ApplicationBarMenuItem appBarMenuItem = new ApplicationBarMenuItem(AppResources.AppBarMenuItemText);
             //    ApplicationBar.MenuItems.Add(appBarMenuItem);
+        }
+
+        /// <summary>
+        /// TEMPORAL!
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void a_click(object sender, EventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/Pages/0RatePage.xaml",UriKind.Relative));
         }
 
         private void c_Click(object sender, EventArgs e)

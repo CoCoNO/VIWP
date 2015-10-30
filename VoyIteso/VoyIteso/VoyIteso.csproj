@@ -114,6 +114,12 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="MapIcon.xaml.cs" />
+    <Compile Include="Pages\0RateComponents\SegundoComp.xaml.cs">
+      <DependentUpon>SegundoComp.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\0RateComponents\RealizoOK.xaml.cs">
+      <DependentUpon>RealizoOK.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\AutentificationPage.xaml.cs">
       <DependentUpon>AutentificationPage.xaml</DependentUpon>
     </Compile>
@@ -122,6 +128,9 @@
     </Compile>
     <Compile Include="Pages\CalendarPage.xaml.cs">
       <DependentUpon>CalendarPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\0RatePage.xaml.cs">
+      <DependentUpon>0RatePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\ChatStuff\ChatView.xaml.cs">
       <DependentUpon>ChatView.xaml</DependentUpon>
@@ -149,6 +158,9 @@
     <Compile Include="Pages\NotificationsStuff\Helpers\StringToUpperConverter.cs" />
     <Compile Include="Pages\NotificationsStuff\ViewModels\DataItemViewModel.cs" />
     <Compile Include="Pages\NotificationsStuff\ViewModels\HierarchicalDataViewModel.cs" />
+    <Compile Include="Pages\ProfilePageExternal.xaml.cs">
+      <DependentUpon>ProfilePageExternal.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\ProfilePage.xaml.cs">
       <DependentUpon>ProfilePage.xaml</DependentUpon>
     </Compile>
@@ -208,6 +220,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Pages\0RateComponents\SegundoComp.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\0RateComponents\RealizoOK.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\AutentificationPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -219,6 +239,10 @@
     <Page Include="Pages\CalendarPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\0RatePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\ChatStuff\ChatView.xaml">
       <SubType>Designer</SubType>
@@ -247,6 +271,10 @@
     <Page Include="Pages\NotificationsStuff\CajaDeNotificacion.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\ProfilePageExternal.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\ProfilePage.xaml">
       <Generator>MSBuild:Compile</Generator>

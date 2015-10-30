@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
@@ -18,9 +19,10 @@ namespace VoyIteso.Pages.CalendarComponents
     {
 
 
-        public static List<DateTime> Days = new List<DateTime>(); 
-
-
+        public static List<DateTime> Days = new List<DateTime>();
+        private int aventonid;
+        private int idsegundapersona; 
+        Dictionary<ListBoxItem,int> idDrivers= new Dictionary<ListBoxItem, int>(),idLifts=new Dictionary<ListBoxItem, int>(); 
 
 
         /// <summary>
@@ -30,11 +32,13 @@ namespace VoyIteso.Pages.CalendarComponents
         {
             InitializeComponent();
             InitAppointments();
+
+            
         }
 
 
 
-
+        
 
 
         //<summary>
@@ -42,9 +46,12 @@ namespace VoyIteso.Pages.CalendarComponents
         //</summary>
         private async void InitAppointments()
         {
+
             MyAppointmentSource myAppointmentSource = new MyAppointmentSource();
             myAppointmentSource.clearAllAppointments();
-
+            MyCalendar.AppointmentSource = myAppointmentSource;
+            //myAppointmentSource.clearAllAppointments();
+            Days.Clear();
             //Appointment[] apps = await ApiConnector.Instance.LoadCurrentMonthLifts();//a lift is an appointment
             Appointment[] apps = HomePage.apps;
             //await ApiConnector.Instance.LoadCurrentMonthLifts();
@@ -53,8 +60,16 @@ namespace VoyIteso.Pages.CalendarComponents
             
             foreach (var appointment in apps)
             {
-                myAppointmentSource.addAppointment(appointment);
-                Days.Add(appointment.StartDate);
+               // Debug.WriteLine("testing(" + MyCalendar.DisplayDate + ") [" + appointment.StartDate + "]");
+                if (appointment.StartDate.Month == MyCalendar.DisplayDate.Month)
+                {
+                    //Debug.WriteLine("adding(" + MyCalendar.DisplayDate + ") [" + appointment.StartDate + "]");
+                    myAppointmentSource.addAppointment(appointment);
+                    Days.Add(appointment.StartDate);
+
+                }
+
+                
             }
             myAppointmentSource.onDataLoaded();
 
@@ -62,15 +77,6 @@ namespace VoyIteso.Pages.CalendarComponents
             MyCalendar.AppointmentSource = myAppointmentSource;
             
         }
-
-
-        public void foo()
-        {
-            //Appointment[] apps = HomePage.apps;//a lift is an appointment
-        }
-
-
-
 
 
 
@@ -97,7 +103,8 @@ namespace VoyIteso.Pages.CalendarComponents
                 
                 //AppointmentDetails.Text = "";
                 ListaDeApointments.Items.Clear();
-
+                idDrivers.Clear();
+                idLifts.Clear();
                 foreach (var item in list)
                 {
                     //build a new listboxitem.
@@ -112,13 +119,25 @@ namespace VoyIteso.Pages.CalendarComponents
                         listItem.Content += words[0];
                         listItem.Content += "\n" + words[1];
                         listItem.Content += "\n" + words[2];
+                        listItem.Content += "\n";
                         //AppointmentDetails.Text += words[0];
                         //AppointmentDetails.Text += "\n" + words[1];
                         //AppointmentDetails.Text += "\n" + words[2];
                         listItem.Tap += item_onClicked;
                     }
                     ListaDeApointments.Items.Add(listItem);
+                    
+                    //ApiConnector.Instance.
+                    aventonid = item.LiftID;
+                    idsegundapersona = Convert.ToInt32(item.OtroBabosoID);
+                    idDrivers.Add(listItem, idsegundapersona);
+                    idLifts.Add(listItem, item.LiftID);
+
+
+
                 }
+
+                
             }
 
             //appointmentDetails.Text = selectedDate.ToString() ;
@@ -131,13 +150,13 @@ namespace VoyIteso.Pages.CalendarComponents
 
         private void item_onClicked(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            
+            var item = (ListBoxItem) sender;
+            RouteInfo.aventonid = idLifts[item];
+            RouteInfo.idsegundo = idDrivers[item];
+            RouteInfo.fromCalendar = true;
+            //ReouteInfo.perfilid = idsegundapersona;
+            //navegar a la ventana de ver detalles de aventon.
         }
-
-
-
-
-
 
 
 
@@ -196,14 +215,22 @@ namespace VoyIteso.Pages.CalendarComponents
 
         private void MyCalendar_OnDisplayDateChanged(object sender, ValueChangedEventArgs<object> e)
         {
-            Debug.WriteLine("date changed");
-            //InitAppointments();
+            Debug.WriteLine("date changed" + MyCalendar.DisplayDate.Month);
+            InitAppointments();
         }
 
 
         private void MyCalendar_OnDisplayDateChanging(object sender, ValueChangingEventArgs<object> e)
         {
-            InitAppointments();
+            //InitAppointments();
         }
+
+        private void myCalendar_ManipulationCompleted(object sender, ManipulationCompletedEventArgs e)
+        {
+            //InitAppointments();
+        }
+
+
+
     }
 }

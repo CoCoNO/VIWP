@@ -35,7 +35,7 @@ namespace VoyIteso.Class
         {
 
         }
-#endregion
+        #endregion
 
 
 
@@ -47,9 +47,9 @@ namespace VoyIteso.Class
 
         IsolatedStorageSettings settings;
 
-        string _token,_pid;
+        string _token, _pid;
         User _activeUser;
-        private int _ranData=0;//RandData to get the newest request
+        private int _ranData = 0;//RandData to get the newest request
 
 
 
@@ -176,27 +176,27 @@ namespace VoyIteso.Class
                 if (rootJson.estatus == 1)
                 {
                     user.Token = _token;
-                    user.completeName = (string) settings["nombre_completo"];
+                    user.completeName = (string)settings["nombre_completo"];
                     ;
                     user.Name = rootJson.perfil.nombre;
                     user.profileID = rootJson.perfil.perfilId.ToString();
 
                     user.profile = rootJson.perfil;
 
-                    if (user.profile.platicar==null)
+                    if (user.profile.platicar == null)
                     {
                         user.profile.platicar =
                         0;
                     }
 
-                    if (user.profile.ultima_conexion==
+                    if (user.profile.ultima_conexion ==
                     null)
                     {
                         user.profile.ultima_conexion =
                         0;
                     }
 
-                    if (user.profile.aire==
+                    if (user.profile.aire ==
                     null)
                     {
                         user.profile.aire =
@@ -214,57 +214,57 @@ namespace VoyIteso.Class
                         user.profile.descripcion = "";
                     }
 
-                    if (user.profile.otrasCostumbres==
+                    if (user.profile.otrasCostumbres ==
                     null)
                     {
                         user.profile.otrasCostumbres =
                         "";
                     }
 
-                    if (user.profile.musica==
+                    if (user.profile.musica ==
                     null)
                     {
                         user.profile.musica =
                         0;
                     }
 
-                    if (user.profile.mascota==
+                    if (user.profile.mascota ==
                     null)
                     {
                         user.profile.mascota =
                         0;
                     }
 
-                    if (user.profile.aventones_recibidos_count==
+                    if (user.profile.aventones_recibidos_count ==
                     null)
                     {
                         user.profile.aventones_recibidos_count =
                         0;
                     }
 
-                    if (user.profile.aventones_dados_count==null)
+                    if (user.profile.aventones_dados_count == null)
                     {
                         user.profile.aventones_dados_count =
                         0;
                     }
-                    if (user.profile.fuma==null)
+                    if (user.profile.fuma == null)
                     {
                         user.profile.fuma =
                         0;
                     }
-                    if (user.profile.rating==null)
+                    if (user.profile.rating == null)
                     {
                         user.profile.rating =
                         0;
                     }
-                    if (user.profile.rutas_count==null)
+                    if (user.profile.rutas_count == null)
                     {
                         user.profile.rutas_count =
                         0;
                     }
 
 
- 
+
                     return user;
                 }
 
@@ -328,12 +328,12 @@ namespace VoyIteso.Class
             r.AddParameter("latitud_origen", puntos.ElementAt(0).Latitude);
             r.AddParameter("longitud_origen", puntos.ElementAt(0).Longitude);
 
-            r.AddParameter("latitud_destino", puntos.ElementAt(puntos.Count()-1).Latitude);
-            r.AddParameter("longitud_destino", puntos.ElementAt(puntos.Count()-1).Longitude);
+            r.AddParameter("latitud_destino", puntos.ElementAt(puntos.Count() - 1).Latitude);
+            r.AddParameter("longitud_destino", puntos.ElementAt(puntos.Count() - 1).Longitude);
 
 
-            r.AddParameter("fecha_inicio", string.Format("{0}-{1}-{2}",fecha_inicio.Day,fecha_inicio.Month,fecha_inicio.Year));
-            r.AddParameter("fecha_fin", string.Format("{0}-{1}-{2}",fecha_fin.Day,fecha_fin.Month,fecha_fin.Year));
+            r.AddParameter("fecha_inicio", string.Format("{0}-{1}-{2}", fecha_inicio.Day, fecha_inicio.Month, fecha_inicio.Year));
+            r.AddParameter("fecha_fin", string.Format("{0}-{1}-{2}", fecha_fin.Day, fecha_fin.Month, fecha_fin.Year));
             r.AddParameter("hora", fecha_inicio.Hour);
             r.AddParameter("minuto", fecha_inicio.Minute);
             r.AddParameter("dias", dias);
@@ -368,7 +368,7 @@ namespace VoyIteso.Class
 #endif
             var rs = await c.ExecuteTaskAsync<ResponceObject>(r);
 
-            #if DEBUG
+#if DEBUG
             Debug.WriteLine("Responce");
             Debug.WriteLine(rs.Content);
 
@@ -389,7 +389,7 @@ namespace VoyIteso.Class
 
             r.AddParameter("mensaje_solicitud", requestMessage);
 
-            r.AddParameter("fecha_solicitud", string.Format("{0}{1}-{2}-{3}", requestDate.Day<10?"0":"", requestDate.Day, requestDate.Month, requestDate.Year));
+            r.AddParameter("fecha_solicitud", string.Format("{0}{1}-{2}-{3}", requestDate.Day < 10 ? "0" : "", requestDate.Day, requestDate.Month, requestDate.Year));
 
             var rs = await c.ExecuteTaskAsync<ResponceObject>(r);
 
@@ -401,7 +401,7 @@ namespace VoyIteso.Class
             var r = new RestRequest(string.Format("/aventon/{0}/aceptar", routeID), Method.POST);
 
             r.AddParameter("security_token", _token);
-            if (Message!= null)
+            if (Message != null)
             {
                 r.AddParameter("mensaje", Message);
             }
@@ -417,7 +417,7 @@ namespace VoyIteso.Class
 
             r.AddParameter("security_token", _token);
 
-                r.AddParameter("mensaje", Message);
+            r.AddParameter("mensaje", Message);
 
 
             var rs = await c.ExecuteTaskAsync<ResponceObject>(r);
@@ -457,9 +457,9 @@ namespace VoyIteso.Class
 
             r.AddParameter("security_token", _token);
             r.AddParameter("randata", _ranData++);
-            var rs = await c.ExecuteTaskAsync<Ruta>(r);
+            var rs = await c.ExecuteTaskAsync<RouteRes>(r);
 
-            return rs.Data;
+            return rs.Data.ruta;
         }
         public async Task<Rutes> RouteGetAllByUserID(int UserID)
         {
@@ -472,7 +472,7 @@ namespace VoyIteso.Class
 
             return rs.Data;
         }
-        public async Task<ResponceObject> RouteEdit(int routeId,string texto_origen, string texto_destino, DateTime fecha_inicio, DateTime fecha_fin, string dias, int numero_personas, IEnumerable<GeoCoordinate> puntos)
+        public async Task<ResponceObject> RouteEdit(int routeId, string texto_origen, string texto_destino, DateTime fecha_inicio, DateTime fecha_fin, string dias, int numero_personas, IEnumerable<GeoCoordinate> puntos)
         {
             var c = new RestClient(HttpRequest.Url);
             var r = new RestRequest("/ruta/crear", Method.POST);
@@ -498,7 +498,7 @@ namespace VoyIteso.Class
             r.AddParameter("dias", dias);
             r.AddParameter("numero_personas", numero_personas);
 
-            
+
 
             var rs = await c.ExecuteTaskAsync<ResponceObject>(r);
 
@@ -512,11 +512,11 @@ namespace VoyIteso.Class
             if (settings.Contains("perfil_id"))
             {
                 _activeUser = await GetUserById((string)settings["perfil_id"]);
-                if (_activeUser== null)
+                if (_activeUser == null)
                 {
                     LogOut();
                     //throw new BadLoginExeption();
-                    
+
                 }
 
             }
@@ -529,10 +529,10 @@ namespace VoyIteso.Class
 
         //---------------------------Actions---------------------------
         #region Actions
-        
-        
 
-        public async  Task UpdateCurrentUserData()
+
+
+        public async Task UpdateCurrentUserData()
         {
             _activeUser = await GetUserById(_pid);
         }
@@ -540,7 +540,7 @@ namespace VoyIteso.Class
         {
             //Create Request
             HttpRequest loginRequest = new HttpRequest();
-            
+
             //Set Action
             loginRequest.setAction(@"/seguridad/login");
 
@@ -556,16 +556,16 @@ namespace VoyIteso.Class
             await loginRequest.sendPost();
 
             //Check if responce is ok
-            if (loginRequest.Status=="OK")
+            if (loginRequest.Status == "OK")
             {
                 //Parse json
                 RootObject rootJson = JsonConvert.DeserializeObject<RootObject>(loginRequest.Data);
-                
+
                 //Extract login info  and save it to settings
                 settings.Add("security_token", rootJson.security_token);
                 settings.Add("perfil_id", rootJson.perfil_id);
                 settings.Add("nombre_completo", rootJson.nombre_completo);
-                
+
                 //Create User 
                 //Todo use get  get user by id
                 //_activeUser = new User();
@@ -575,9 +575,9 @@ namespace VoyIteso.Class
 
                 _pid = rootJson.perfil_id;
                 _activeUser = await GetUserById(_pid);
-                
-                
-                
+
+
+
                 //_activeUser.profile = rootJson.perfil;
 
             }
@@ -591,7 +591,7 @@ namespace VoyIteso.Class
                 throw new TimeoutException(loginRequest.Status);
                 //If timeout then trow exception
             }
-            
+
         }
         public void LogOut()
         {
@@ -614,7 +614,7 @@ namespace VoyIteso.Class
         public async Task<Mensajes> LiftMessagesGet(int liftID)
         {
             var c = new RestClient(HttpRequest.Url);
-            var r = new RestRequest("/aventon/"+liftID+"/chat",Method.GET);
+            var r = new RestRequest("/aventon/" + liftID + "/chat", Method.GET);
 
             r.AddParameter("security_token", _token);
             r.AddParameter("randata", _ranData++);
@@ -622,7 +622,7 @@ namespace VoyIteso.Class
             var rs = await c.ExecuteTaskAsync<Mensajes>(r);
             return rs.Data;
         }
-        public async Task<ResponceObject> LiftMessagesSend(int routeID,string Message)
+        public async Task<ResponceObject> LiftMessagesSend(int routeID, string Message)
         {
             var c = new RestClient(HttpRequest.Url);
             var r = new RestRequest(string.Format("/aventon/{0}/nuevomensaje", routeID), Method.POST);
@@ -634,7 +634,40 @@ namespace VoyIteso.Class
 
             return rs.Data;
         }
-        public async Task<ResponceObject> LiftRate(int routeID, int succesful, int punctuality,int rating, string Message)
+        
+        /// <summary>
+        ///     regresa lista de aventones pendientes por revisar.
+                //
+
+
+        /// </summary>
+        /// <returns></returns>
+        public async Task<LiftsToRate> LiftCheckIfRateNeeded()
+        {
+            var c = new RestClient(HttpRequest.Url);
+            var r = new RestRequest(@"/perfil/aventones_sin_evaluar", Method.GET);
+
+            r.AddParameter("security_token", _token);
+            r.AddParameter("perfil_id", ActiveUser.profileID);
+            r.AddParameter("randata", _ranData++);
+
+
+            var rs = await c.ExecuteTaskAsync<LiftsToRate>(r);
+
+            return rs.Data;
+        }
+
+        /// <summary>
+        /// LiftRate regresa status de operacion. 
+         
+        /// </summary>
+        /// <param name="routeID"></param>
+        /// <param name="succesful"></param>
+        /// <param name="punctuality"></param>
+        /// <param name="rating"></param>
+        /// <param name="Message"></param>
+        /// <returns></returns>
+        public async Task<ResponceObject> LiftRate(int routeID, int succesful, int punctuality, int rating, string Message)
         {
             var c = new RestClient(HttpRequest.Url);
             var r = new RestRequest(string.Format("/aventon/{0}/calificar", routeID), Method.POST);
@@ -656,7 +689,9 @@ namespace VoyIteso.Class
 
             HttpRequest r = new HttpRequest();
 
-            r.setAction("/perfil/aventones_mes_actual");
+            //r.setAction("/perfil/aventones_mes_actual");
+
+            r.setAction("/perfil/aventones_rango_mes");
             r.setParameter("security_token", _token);
 
             await r.sendGet();
@@ -671,10 +706,10 @@ namespace VoyIteso.Class
                     foreach (var app in rootJson.aventones)
                     {
                         var p = new Appointment();
-                        p.Details = "Origen:\t" + app.texto_origen + "*Destino:\t" + app.texto_destino + "*Hora:\t\t" + app.hora_llegada + 
-                                     " *el dia " + app.fecha + " *con " + 
-                                     (app.conductor == string.Empty ? app.pasajero : app.conductor) + " como " + app.rol + ". Estatus " + app.estatus_aventon; 
-                         var st = app.fecha.Substring(4, 4); 
+                        p.Details = "Origen:\t" + app.texto_origen + "*Destino:\t" + app.texto_destino + "*Hora:\t\t" + app.hora_llegada +
+                                     " *el dia " + app.fecha + " *con " +
+                                     (app.conductor == string.Empty ? app.pasajero : app.conductor) + " como " + app.rol + ". Estatus " + app.estatus_aventon;
+                        var st = app.fecha.Substring(4, 4);
                         p.StartDate = new DateTime(
                             int.Parse(app.fecha.Substring(4, 4)),//yyyy
                             int.Parse(app.fecha.Substring(2, 2)),//mm
@@ -682,9 +717,13 @@ namespace VoyIteso.Class
                             int.Parse(app.hora_llegada.Substring(0, 2)),//hh
                             int.Parse(app.hora_llegada.Substring(3, 2)),//mm
                             int.Parse(app.hora_llegada.Substring(6, 2)));//ss
+
+                        p.LiftID = app.id;
                         p.Location = app.texto_origen;
                         p.EndDate = p.StartDate.AddHours(1);
                         p.Subject = "De " + app.texto_origen + " a " + app.texto_destino;
+                        p.OtroBabosoID = app.perfil_id.ToString();
+                        
                         appointments.Add(p);
                     }
 
@@ -696,11 +735,11 @@ namespace VoyIteso.Class
         }
 
         //get user form json
-        
+
 
         public async Task<int> SaveUserDataToCloud()//Returns 0 on ok -1 on error
         {
-            var r= new HttpRequest();
+            var r = new HttpRequest();
             r.setAction(@"/perfil/editar");
             r.setParameter("security_token", _token);
             r.setParameter("descripcion", _activeUser.profile.descripcion);
@@ -739,12 +778,14 @@ namespace VoyIteso.Class
 
             return null;
         }
+
+
         public async Task<Rutes> RouteSearch(string origen, string destino, string fecha, double latitud_destino, double longitud_destino, double latitud_origen, double longitud_origen, string hora)
         {
             var r = new HttpRequest();
             r.setAction(@"/ruta/busqueda");
             r.setParameter("security_token", _token);
-            r.setParameter("origen",origen );
+            r.setParameter("origen", origen);
             r.setParameter("destino", destino);
 
             r.setParameter("distancia", "0.045");
@@ -757,13 +798,13 @@ namespace VoyIteso.Class
             r.setParameter("genero", "-1");
             r.setParameter("calificacion", "-1");
 
-            r.setParameter("latitud_destino",latitud_destino.ToString() );
-            r.setParameter("longitud_destino",longitud_destino.ToString());
-            r.setParameter("latitud_origen",latitud_origen.ToString() );
-            r.setParameter("longitud_origen",longitud_origen.ToString() );
+            r.setParameter("latitud_destino", latitud_destino.ToString());
+            r.setParameter("longitud_destino", longitud_destino.ToString());
+            r.setParameter("latitud_origen", latitud_origen.ToString());
+            r.setParameter("longitud_origen", longitud_origen.ToString());
 
             r.setParameter("hora", hora);
-            
+
 
             await r.sendPost();
 
@@ -776,21 +817,21 @@ namespace VoyIteso.Class
 
         public void UpdateCurrentProfileImage()
         {
-            Uri uri = new Uri(HttpRequest.Url+@"/perfil/imagen/" + _pid + "?security_token=" + _token+"&randData="+_ranData++);
+            Uri uri = new Uri(HttpRequest.Url + @"/perfil/imagen/" + _pid + "?security_token=" + _token + "&randData=" + _ranData++);
 
             BitmapImage img = new BitmapImage(uri);
             img.CreateOptions = BitmapCreateOptions.None;
             img.ImageOpened += img_ImageOpened;
             _activeUser.Avatar = img;
         }
-        
+
         void img_ImageOpened(object sender, RoutedEventArgs e)
         {
             _activeUser.Avatar = (BitmapImage)(sender);
         }
-#endregion
+        #endregion
 
-        
+
     }
 }
 

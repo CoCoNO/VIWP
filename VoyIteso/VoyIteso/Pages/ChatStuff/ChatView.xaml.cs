@@ -209,12 +209,13 @@ namespace VoyIteso.Pages.ChatStuff
                     else
                     {
                         custommessa = new CustomMessage(mensaje.texto, DateTime.Now, ConversationViewMessageType.Incoming);
-                        messages.Add(custommessa); 
+                        messages.Add(custommessa);
+                        VibrateController.Default.Start(TimeSpan.FromSeconds(0.2));
                     }
                 }
                 todosLosMensajes = listaDeMensajes;
 
-                VibrateController.Default.Start(TimeSpan.FromSeconds(0.2));
+                
             }
 
             //this.dummyMessagesEnumerator.MoveNext();

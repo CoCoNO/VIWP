@@ -307,6 +307,10 @@ namespace VoyIteso.Pages
         {
             return this.Subject;
         }
+
+
+        public string OtroBabosoID { get; set; }
+
     }
 
 }

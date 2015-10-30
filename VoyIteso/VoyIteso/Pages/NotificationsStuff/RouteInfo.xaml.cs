@@ -14,19 +14,27 @@ using Microsoft.Xna.Framework;
 using VoyIteso.Class;
 using VoyIteso.Pages.MapStuff;
 using Color = System.Windows.Media.Color;
+using GestureEventArgs = System.Windows.Input.GestureEventArgs;
 
 namespace VoyIteso.Pages
 {
+
     public partial class RouteInfo : PhoneApplicationPage
     {
+
+
+        public static int aventonid = 0;
+        public static int idsegundo;
         private static Notificacione Notificacion;
         public static bool myBool = true;
+        public static bool fromCalendar = false;
 
         public RouteInfo()
         {
             InitializeComponent();
-            myCajaDeResultados = TheNewMap.caja;
 
+
+            myCajaDeResultados = TheNewMap.caja;
             try
             {
                 myBool = myCajaDeResultados.myBool;
@@ -43,7 +51,14 @@ namespace VoyIteso.Pages
 
             if (!myBool)//nomap
             {
-                Notificacion = Notifications.NotificationItem;
+                if (!fromCalendar)//
+                {
+                    Notificacion = Notifications.NotificationItem; 
+                }
+                else
+                {
+                    InitFromCalendar();//notificacion = n;
+                }
             }
 
             loadData();
@@ -55,6 +70,30 @@ namespace VoyIteso.Pages
             //fecha aventon.
             //id de la otra persona.
             //
+        }
+
+
+        private async void InitFromCalendar()
+        {
+
+
+
+            //var notif = await ApiConnector.Instance.NotificationsGet();
+
+
+            //foreach (var n in notif.notificaciones)
+            //{
+            //    if (n.aventon_id==aventonid)
+            //    {
+            //        //segundapersonaid = n.perfil_id;
+            //        Notificacion = n;
+            //        return;
+            //    }
+                
+            //}
+
+            //Notificacion = ApiConnector.Instance.
+            //localUser = ApiConnector.Instance.GetUserById()
         }
 
         public void foo(cajaDeResultados caja)
@@ -93,14 +132,31 @@ namespace VoyIteso.Pages
         {
             new Progress().showProgressIndicator(this, "espera");
             User user;
-            if (!myBool)
+            if (!myBool)//no map
             {
                 try
                 {
-                    user = await ApiConnector.Instance.GetUserById(Notificacion.perfil_id.ToString());
-                    //UserDetails.Text = user.Name + "\n" + user.profile.edad + " años\n" + user.profile.carrera;
-                    UserDetails.Text = user.Name + "\n" + user.profile.carrera;
-                    new Progress().hideProgressIndicator(this);
+
+                    if (fromCalendar)
+                    {
+                        user = await ApiConnector.Instance.GetUserById(idsegundo.ToString());
+                        UserDetails.Text = user.Name + "\n" + user.profile.carrera;
+                        
+                        var rut =await ApiConnector.Instance.RouteGet(aventonid);
+                        LiftDetails.Text = "Origen: " + rut.texto_origen + "\n\n" + "Destino: " + rut.texto_destino;
+
+
+                        new Progress().hideProgressIndicator(this);
+                    }
+                    else
+                    {
+                        user = await ApiConnector.Instance.GetUserById(Notificacion.perfil_id.ToString());
+                        //UserDetails.Text = user.Name + "\n" + user.profile.edad + " años\n" + user.profile.carrera;
+                        UserDetails.Text = user.Name + "\n" + user.profile.carrera;
+                        LiftDetails.Text = "Origen: " + Notificacion.origen + "\n\n" + "Destino: " + Notificacion.destino;
+                        new Progress().hideProgressIndicator(this);
+                    }
+                    
                 }
                 catch (Exception)
                 {
@@ -115,6 +171,9 @@ namespace VoyIteso.Pages
                 //la edad que sea opcional mostrarla.. en todA lo que conozco asi es. 
                 UserDetails.Text = user.Name + "\n" + user.profile.carrera;
                 //UserDetails.Text = user.Name + "\n" + user.profile.edad + " años\n" + user.profile.carrera;
+
+                LiftDetails.Text = "Origen: " + myCajaDeResultados.texto_origen + "\n\n" + "Destino: " + myCajaDeResultados.texto_destino;
+
                 new Progress().hideProgressIndicator(this);
             }
             var image = ApiConnector.Instance.GetUserImageById(Convert.ToInt32(user.profileID));//Convert.ToInt32(myCajaDeResultados.perfil_id)
@@ -126,17 +185,21 @@ namespace VoyIteso.Pages
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            if (!myBool)//nomapa
-            {
-                LiftDetails.Text = "Origen: " + Notificacion.origen + "\n\n" + "Destino: " + Notificacion.destino;
-            }
-            else
-            {
-                LiftDetails.Text = "Origen: " + myCajaDeResultados.texto_origen + "\n\n" + "Destino: " + myCajaDeResultados.texto_destino;
-            }
+            //if (!myBool)//nomapa
+            //{
+            //    if (!fromCalendar)//no cal. notifs
+            //    {
+            //        LiftDetails.Text = "Origen: " + Notificacion.origen + "\n\n" + "Destino: " + Notificacion.destino;
+            //    } 
+                
+            //}
+            //else
+            //{
+            //    LiftDetails.Text = "Origen: " + myCajaDeResultados.texto_origen + "\n\n" + "Destino: " + myCajaDeResultados.texto_destino;
+            //}
 
             ocultarMierda();
-
+            fromCalendar = false;
         }
 
         Button botonSolicitar;
@@ -168,40 +231,57 @@ namespace VoyIteso.Pages
                 }
 
 
-                if (Notificacion.tipo == null)
-                {
-                    GridDeBotones.Children.Remove(BotonAceptar);
-                    GridDeBotones.Children.Remove(BotonRechazar);
-                    var a = new TextBlock() { Text = "Aventón terminado.", Foreground = new SolidColorBrush(Colors.White), Width = 380 };
-                    GridDeBotones.Children.Add(a);
-                    buildAppBar(appBarStates.Regresarmenu);
-                }
-                else if (Notificacion.tipo.Substring(0, 1).Equals("A"))//Notificacion.estatus_aventon//Solicitud, Cancelacion, Aceptada
-                {
-                    GridDeBotones.Children.Remove(BotonAceptar);
-                    GridDeBotones.Children.Remove(BotonRechazar);
-                    var a = new TextBlock() { Text = "Aventón aceptado.", Foreground = new SolidColorBrush(Colors.White), Width = 380 };
-                    GridDeBotones.Children.Add(a);
-                }
-                else if (Notificacion.tipo.Substring(0, 1).Equals("R"))//Notificacion.estatus_aventon//Solicitud, Recha, Aceptada
-                {
-                    GridDeBotones.Children.Remove(BotonAceptar);
-                    GridDeBotones.Children.Remove(BotonRechazar);
-                    var a = new TextBlock() { Text = "Aventón rechazado :(.", Foreground = new SolidColorBrush(Colors.White), Width = 380 };
-                    GridDeBotones.Children.Add(a);
-                }
-                else if (Notificacion.tipo.Substring(0, 1).Equals("S"))//Notificacion.estatus_aventon//Solicitud, Cancelacion, Aceptada
+                try
                 {
 
-                    if (Notificacion.rol.Equals("Pasajero"))
+                    if (Notificacion.tipo == null)
                     {
                         GridDeBotones.Children.Remove(BotonAceptar);
                         GridDeBotones.Children.Remove(BotonRechazar);
-                        var a = new TextBlock() { Text = "Solicitud en espera.", Foreground = new SolidColorBrush(Colors.White), Width = 380 };
+                        var a = new TextBlock() { Text = "Aventón terminado.", Foreground = new SolidColorBrush(Colors.White), Width = 380 };
+                        GridDeBotones.Children.Add(a);
+                        buildAppBar(appBarStates.Regresarmenu);
+                    }
+                    else if (Notificacion.tipo.Substring(0, 1).Equals("A"))//Notificacion.estatus_aventon//Solicitud, Cancelacion, Aceptada
+                    {
+                        GridDeBotones.Children.Remove(BotonAceptar);
+                        GridDeBotones.Children.Remove(BotonRechazar);
+                        var a = new TextBlock() { Text = "Aventón aceptado.", Foreground = new SolidColorBrush(Colors.White), Width = 380 };
                         GridDeBotones.Children.Add(a);
                     }
+                    else if (Notificacion.tipo.Substring(0, 1).Equals("R"))//Notificacion.estatus_aventon//Solicitud, Recha, Aceptada
+                    {
+                        GridDeBotones.Children.Remove(BotonAceptar);
+                        GridDeBotones.Children.Remove(BotonRechazar);
+                        var a = new TextBlock() { Text = "Aventón rechazado :(.", Foreground = new SolidColorBrush(Colors.White), Width = 380 };
+                        GridDeBotones.Children.Add(a);
+                    }
+                    else if (Notificacion.tipo.Substring(0, 1).Equals("S"))//Notificacion.estatus_aventon//Solicitud, Cancelacion, Aceptada
+                    {
+
+                        if (Notificacion.rol.Equals("Pasajero"))
+                        {
+                            GridDeBotones.Children.Remove(BotonAceptar);
+                            GridDeBotones.Children.Remove(BotonRechazar);
+                            var a = new TextBlock() { Text = "Solicitud en espera.", Foreground = new SolidColorBrush(Colors.White), Width = 380 };
+                            GridDeBotones.Children.Add(a);
+                        }
+
+                    }
+
 
                 }
+                catch (Exception)
+                {
+
+                    GridDeBotones.Children.Remove(BotonAceptar);
+                    GridDeBotones.Children.Remove(BotonRechazar);
+                    //var a = new TextBlock() { Text = "Solicitud en espera.", Foreground = new SolidColorBrush(Colors.White), Width = 380 };
+                    //GridDeBotones.Children.Add(a);
+                    //throw;
+                }
+
+                
 
 
 
@@ -264,6 +344,7 @@ namespace VoyIteso.Pages
         }
 
         private bool _flag = false;
+        private int segundapersonaid;
         private async void BotonAceptar_OnClick(object sender, RoutedEventArgs e)
         {
 
@@ -366,5 +447,10 @@ namespace VoyIteso.Pages
         }
 
 
+        private void DisplayImage_OnTap(object sender, GestureEventArgs e)
+        {
+            ProfilePageExternal.Perfildelotrowey = Notificacion.perfil_id;
+            NavigationService.Navigate(new Uri("/Pages/ProfilePageExternal.xaml", UriKind.Relative));
+        }
     }
 }

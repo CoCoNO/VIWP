@@ -32,7 +32,9 @@
                                   MonthInfoDisplayMode="Small" 
                                   SelectionBackground="Gray"  DisplayDateChanged="MyCalendar_OnDisplayDateChanged" DisplayDateChanging="MyCalendar_OnDisplayDateChanging"
                                   SelectedValueChanged="myCalendar_SelectedValueChanged"
-                                  x:Name="MyCalendar" />
+                                  x:Name="MyCalendar"
+                                  ManipulationCompleted="myCalendar_ManipulationCompleted"
+                                  />
         <ListBox x:Name="ListaDeApointments" Grid.Row="1">
             <!--<ListBoxItem>
                 <TextBlock x:Name="AppointmentDetails" FontSize="12" Text="Selecciona un día" Grid.Row="1" Width="473" Height="71"/>

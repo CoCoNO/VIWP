@@ -15,10 +15,10 @@ namespace VoyIteso.Class
         public string name { get; set; }
         public string addressLine { get; set; }
 
-        public Street (Resource resource)
+        public Street(Resource resource)
         {
             this.name = resource.name;
-            this.addressLine = string.Format("{0} {1} {2} {3}",resource.address.addressLine, resource.address.locality ,resource.address.adminDistrict, resource.address.countryRegion);
+            this.addressLine = string.Format("{0} {1} {2} {3}", resource.address.addressLine, resource.address.locality, resource.address.adminDistrict, resource.address.countryRegion);
         }
     }
 
@@ -50,10 +50,10 @@ namespace VoyIteso.Class
         public int numer_people { get; set; }
         public GeoCoordinate destiny_coordinate { get; set; }
         public GeoCoordinate origin_coordinate { get; set; }
-        public string origin{ get; set; }
+        public string origin { get; set; }
         public int route_id { get; set; }
         public string begin_date { get; set; }
-        static public int ResultWidth { get;set; }
+        static public int ResultWidth { get; set; }
         static public int ResultHeight { get; set; }
 
         public RouteResult(Ruta ruta)
@@ -72,6 +72,8 @@ namespace VoyIteso.Class
             getPoints();
         }
 
+
+
         private DateTime getDate(long miliseconds)
         {
             DateTime start = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
@@ -86,7 +88,7 @@ namespace VoyIteso.Class
         }
 
     }
-    
+
     public class Address
     {
         public string addressLine { get; set; }
@@ -155,13 +157,13 @@ namespace VoyIteso.Class
         public string edad { get; set; }
         public int? mascota { get; set; }
         public int? aventones_recibidos_count { get; set; }
-        public int? aventones_dados_count { get; set; }
+        public int aventones_dados_count { get; set; }
         public int? fuma { get; set; }
         public int? rating { get; set; }
         public int? rutas_count { get; set; }
         public string correo { get; set; }
     }
-    
+
     public class RootObject
     {
         public List<ResourceSet> resourceSets { get; set; }
@@ -177,7 +179,7 @@ namespace VoyIteso.Class
         //public List<object> waypoints { get; set; }
         public Perfil perfil { get; set; }
         public string error { get; set; }
-        
+
     }//*/
     /*
     public class Perfil
@@ -220,25 +222,52 @@ namespace VoyIteso.Class
         public string error { get; set; }
         public string message { get; set; }
     }
+    //public class Aventone
+    //{
+    //    public int id { get; set; }
+    //    public string texto_destino { get; set; }
+    //    public string fecha { get; set; }
+    //    public string conductor { get; set; }
+    //    public string estatus_aventon { get; set; }
+    //    public string rol { get; set; }
+    //    public string texto_origen { get; set; }
+    //    public string pasajero { get; set; }
+    //    public double latitud_origen { get; set; }
+    //    public double latitud_destino { get; set; }
+    //    public double logitud_origen { get; set; }
+    //    public double longitud_destino { get; set; }
+    //    public string hora_llegada { get; set; }
+    //    public int perfilconductor_id { get; set; }
+    //    public int perfilpasajero_id { get; set; }
+    //}
     public class Aventone
     {
-        public int id { get; set; }
         public string texto_destino { get; set; }
+        public int perfil_id { get; set; }
         public string fecha { get; set; }
         public string conductor { get; set; }
+        public string fecha_aventon { get; set; }
         public string estatus_aventon { get; set; }
-        public string rol { get; set; }
-        public string texto_origen { get; set; }
-        public string pasajero { get; set; }
-        public double latitud_origen { get; set; }
-        public double latitud_destino { get; set; }
-        public double logitud_origen { get; set; }
-        public double longitud_destino { get; set; }
         public string hora_llegada { get; set; }
+        public string conductor_corto { get; set; }
+        public string pasajero { get; set; }
+        public string carrera { get; set; }
+        public string nombre { get; set; }
+        public int id { get; set; }
+        public int aventon_id { get; set; }
+        public string destino { get; set; }
+        public double latitud_origen { get; set; }
         public int perfilconductor_id { get; set; }
+        public double latitud_destino { get; set; }
+        public string hora_llegada_formato { get; set; }
+        public string rol { get; set; }
+        public string pasajero_corto { get; set; }
+        public double longitud_destino { get; set; }
+        public string texto_origen { get; set; }
         public int perfilpasajero_id { get; set; }
+        public string origen { get; set; }
+        public double logitud_origen { get; set; }
     }
-
     public class NextLifts
     {
         public int estatus { get; set; }
@@ -271,7 +300,11 @@ namespace VoyIteso.Class
         public long fecha_inicio { get; set; }
         public Puntos puntos { get; set; }
     }
-
+    public class RouteRes
+    {
+        public Ruta ruta { get; set; }
+        public int estatus { get; set; }
+    }
 
     public class Puntos
     {
@@ -334,16 +367,22 @@ namespace VoyIteso.Class
         public string origen { get; set; }
         public string destino { get; set; }
         public string tipo { get; set; }
-        
+
     }
-    
+
     public class Notifications
     {
         public List<Notificacione> notificaciones { get; set; }
     }
 
+
+    public class LiftsToRate
+    {
+        public List<Aventone> aventones { get; set; }
+        public int estatus { get; set; }
+    }
     //****/
-    
+
     //****/
 
 }
