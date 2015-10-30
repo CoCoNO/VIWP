@@ -201,7 +201,7 @@ namespace VoyIteso.Pages
             appBarSingOut.Click += appBarSingOut_Click;
             ApplicationBar.MenuItems.Add(appBarSingOut);
 
-            ApplicationBarMenuItem a = new ApplicationBarMenuItem("rate!");
+            ApplicationBarMenuItem a = new ApplicationBarMenuItem("Acerca de...");
             a.Click += a_click;
             ApplicationBar.MenuItems.Add(a);
 
@@ -231,7 +231,7 @@ namespace VoyIteso.Pages
         /// <param name="e"></param>
         private void a_click(object sender, EventArgs e)
         {
-            NavigationService.Navigate(new Uri("/Pages/0RatePage.xaml",UriKind.Relative));
+            //NavigationService.Navigate(new Uri("/Pages/0RatePage.xaml",UriKind.Relative));
         }
 
         private void c_Click(object sender, EventArgs e)

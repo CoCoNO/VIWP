@@ -57,7 +57,7 @@ namespace VoyIteso.Pages
                 }
                 else
                 {
-                    InitFromCalendar();//notificacion = n;
+                    //InitFromCalendar();//notificacion = n; 
                 }
             }
 
@@ -142,7 +142,7 @@ namespace VoyIteso.Pages
                         user = await ApiConnector.Instance.GetUserById(idsegundo.ToString());
                         UserDetails.Text = user.Name + "\n" + user.profile.carrera;
                         
-                        var rut =await ApiConnector.Instance.RouteGet(aventonid);
+                        var rut =await ApiConnector.Instance.RouteGet(aventonid);//no esta obteniendo la ruta bien. 
                         LiftDetails.Text = "Origen: " + rut.texto_origen + "\n\n" + "Destino: " + rut.texto_destino;
 
 
