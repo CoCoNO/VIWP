@@ -20,7 +20,7 @@
         <TextBlock Text="Calificación" Margin="25,309,303,308" ></TextBlock>
 
         <Slider  x:Name="Puntualidad" Maximum="10" Minimum="1" Margin="142,392,10,192"/>
-        <TextBlock Text="Puntialidad" Margin="25,392,303,229" ></TextBlock>
+        <TextBlock Text="Puntualidad" Margin="25,392,303,229" ></TextBlock>
 
     </Grid>
 </UserControl>

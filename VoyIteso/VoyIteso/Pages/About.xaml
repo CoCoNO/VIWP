@@ -45,6 +45,7 @@
                     FontSize="{StaticResource PhoneFontSizeLarge}" 
                     FontFamily="{StaticResource PhoneFontFamilySemiBold}"/>
                 <TextBlock 
+                    Foreground="#104571"
                     Name="versionnumber"
                     Text="1.0." 
                     Margin="12,0,12,0" 

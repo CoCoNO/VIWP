@@ -610,3 +610,4 @@ C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\obj\Debug\Pages\0RateCo
 C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\obj\Debug\Pages\0RatePage.g.cs
 C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\obj\Debug\Pages\ProfilePageExternal.g.cs
 C:\Users\SergioAdán\Documents\Github\VIWP\VoyIteso\VoyIteso\obj\Debug\Pages\About.g.cs
+C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\obj\Debug\Pages\About.g.cs

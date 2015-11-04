@@ -13,7 +13,9 @@ using VoyIteso.Class;
 using System.Windows.Media.Imaging;
 using VoyIteso.Resources;
 using System.Windows.Media;
+using System.Windows.Threading;
 using Telerik.Windows.Controls;
+using VoyIteso.Pages.NotificationsStuff;
 using GestureEventArgs = System.Windows.Input.GestureEventArgs;
 //ve a la linea 174 
 namespace VoyIteso.Pages
@@ -33,7 +35,14 @@ namespace VoyIteso.Pages
 
             InitializeComponent();
 
-            GetNotifs(); 
+            GetNotifs();
+            
+            DispatcherTimer timer = new DispatcherTimer()
+            {
+                Interval = TimeSpan.FromSeconds(3),
+            };
+            timer.Tick += this.OnTimerTick;
+            timer.Start();
 
             BuildLocalizedApplicationBar();
 
@@ -59,6 +68,62 @@ namespace VoyIteso.Pages
 
         }
 
+        private async void cargarUltimaNotif()
+        {
+
+            var a = ListOfNotifications;
+
+            //GetNotifs();
+            Debug.WriteLine("");
+            new Progress().showProgressIndicator(this, "");
+            ListOfNotifications = await ApiConnector.Instance.NotificationsGet();
+            new Progress().hideProgressIndicator(this);
+
+            if (a.notificaciones.Count != ListOfNotifications.notificaciones.Count)
+            {
+                //Debug.WriteLine("Actualizando notificaciones...");
+
+                for (int i = a.notificaciones.Count; i < ListOfNotifications.notificaciones.Count; i++)
+                {
+                    var no = a.notificaciones.ElementAt(i);
+
+                    var item = ConstructNewNotification(no);
+
+                    notificationsTile.DataContext = item;
+                    //= ConstructNewNotification(no);
+
+
+                }
+                //notificationsTile.CycleRandomly = true;
+
+            } 
+
+        }
+
+        private async void OnTimerTick(object sender, EventArgs e)
+        {
+
+            //cargarUltimaNotif();
+            GetNotifs();
+        }
+
+
+        private CajaDeNotificacion ConstructNewNotification(Notificacione item)
+        {
+            var imagen = ApiConnector.Instance.GetUserImageById(item.perfil_id);
+            var newBox = new CajaDeNotificacion();
+            newBox.Avatar = imagen;
+            newBox.header.Text = item.nombre;
+            newBox.body.Text = "";
+            newBox.body.Text += item.descripcion;
+            newBox.body_time.Text = "";
+            newBox.body_time.Text += item.fecha;
+            //_allMyNotifications.Add(newBox);
+            //lista.Items.Add(newBox);
+            return newBox;
+
+        }
+
 
         protected override void OnBackKeyPress(CancelEventArgs e)
         {
@@ -68,9 +133,10 @@ namespace VoyIteso.Pages
 
         private async void GetNotifs()
         {
-            new Progress().showProgressIndicator(this, "Ocupado");
+            new Progress().showProgressIndicator(this, "");
             ListOfNotifications = await ApiConnector.Instance.NotificationsGet();
             new Progress().hideProgressIndicator(this);
+            cargarUltimaNotif();
         }
 
         private string foo()
@@ -133,6 +199,10 @@ namespace VoyIteso.Pages
             NavigationService.RemoveBackEntry();
             //txtUserName.Text =;
 
+
+            //cargarUltimaNotif();
+
+
             ApiConnector.Instance.ActiveUser.UserDataChanged += UserDataChanged;
             ApiConnector.Instance.UpdateCurrentProfileImage();
 
@@ -159,14 +229,25 @@ namespace VoyIteso.Pages
             Microsoft.Phone.Shell.SystemTray.ForegroundColor = Color.FromArgb(255, 110, 207, 243);
 
             //checar aventones por revisar.
-            var a = await ApiConnector.Instance.LiftCheckIfRateNeeded();
+            var a = await ApiConnector.Instance.LiftCheckIfRateNeeded();//a es una lista de aventones q no se han calificado.
             if (a.aventones.Count>0)
             {
                 RatePage.idaventon = a.aventones[0].aventon_id;//para saber cual calificar.
                 RatePage.nombreConductor = a.aventones[0].nombre;//.
                 RatePage.idconductor = a.aventones[0].perfilconductor_id;//para sacar la foto.
                 NavigationService.Navigate(new Uri("/Pages/0RatePage.xaml", UriKind.Relative));
+                //Debug.WriteLine(a.aventones[0].latitud_destino);
             }
+
+            foreach (var ap in apps)
+            {
+                if (ap.StartDate.Date == DateTime.Today.Date)
+                {
+                    //Debug.WriteLine(ap.Details); 
+                    atrasCalendario.Text = "Hoy tienes una cita: \nEn " + ap.Location;
+                }
+            }
+
         }
         #endregion
         void UserDataChanged(object sender, EventArgs e)
@@ -231,7 +312,7 @@ namespace VoyIteso.Pages
         /// <param name="e"></param>
         private void a_click(object sender, EventArgs e)
         {
-            //NavigationService.Navigate(new Uri("/Pages/0RatePage.xaml",UriKind.Relative));
+            NavigationService.Navigate(new Uri("/Pages/About.xaml",UriKind.Relative));
         }
 
         private void c_Click(object sender, EventArgs e)

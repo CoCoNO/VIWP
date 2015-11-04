@@ -120,7 +120,7 @@ namespace VoyIteso.Pages
             {
                 PhotoChooserTask photoChooserTask;
                 photoChooserTask = new PhotoChooserTask();
-                photoChooserTask.Completed += new EventHandler<PhotoResult>(photoChooserTask_Completed);
+                photoChooserTask.Completed += new EventHandler<PhotoResult>(photoChooserTask_Completed); 
                 photoChooserTask.ShowCamera = true;
                 photoChooserTask.Show();
             }
