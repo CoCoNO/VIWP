@@ -34,22 +34,15 @@ namespace VoyIteso.Pages
             //NavigationService.RemoveBackEntry();
 
             InitializeComponent();
+            
+            BuildLocalizedApplicationBar();
 
             GetNotifs();
-            
-            DispatcherTimer timer = new DispatcherTimer()
-            {
-                Interval = TimeSpan.FromSeconds(3),
-            };
-            timer.Tick += this.OnTimerTick;
-            timer.Start();
-
-            BuildLocalizedApplicationBar();
 
             //contenido del azulejo de calendario. 
             txtDayString.Text = foo();//mes nombre
             txtDayNumber.Text = DateTime.Today.Day.ToString();//dia numero
-            atrasCalendario.Text = "Agenda";
+            atrasCalendario.Text = "\n\nCalendario";
             //termina el contenido del calendario. 
 
             //contenido notificaciones.
@@ -67,47 +60,7 @@ namespace VoyIteso.Pages
             
 
         }
-
-        private async void cargarUltimaNotif()
-        {
-
-            var a = ListOfNotifications;
-
-            //GetNotifs();
-            Debug.WriteLine("");
-            new Progress().showProgressIndicator(this, "");
-            ListOfNotifications = await ApiConnector.Instance.NotificationsGet();
-            new Progress().hideProgressIndicator(this);
-
-            if (a.notificaciones.Count != ListOfNotifications.notificaciones.Count)
-            {
-                //Debug.WriteLine("Actualizando notificaciones...");
-
-                for (int i = a.notificaciones.Count; i < ListOfNotifications.notificaciones.Count; i++)
-                {
-                    var no = a.notificaciones.ElementAt(i);
-
-                    var item = ConstructNewNotification(no);
-
-                    notificationsTile.DataContext = item;
-                    //= ConstructNewNotification(no);
-
-
-                }
-                //notificationsTile.CycleRandomly = true;
-
-            } 
-
-        }
-
-        private async void OnTimerTick(object sender, EventArgs e)
-        {
-
-            //cargarUltimaNotif();
-            GetNotifs();
-        }
-
-
+        
         private CajaDeNotificacion ConstructNewNotification(Notificacione item)
         {
             var imagen = ApiConnector.Instance.GetUserImageById(item.perfil_id);
@@ -133,10 +86,18 @@ namespace VoyIteso.Pages
 
         private async void GetNotifs()
         {
-            new Progress().showProgressIndicator(this, "");
+            new Progress().showProgressIndicator(this, "Ocupado");
             ListOfNotifications = await ApiConnector.Instance.NotificationsGet();
             new Progress().hideProgressIndicator(this);
-            cargarUltimaNotif();
+
+            var no = ListOfNotifications.notificaciones.ElementAt(0); 
+            var item = ConstructNewNotification(no);
+
+            //notificationsTile.DataContext = item;
+            //NotifGrid.Children.Remove(notifLabel);
+            //NotifGrid.Children.Add(item);
+            NotifGridBack.Children.Add(item);
+
         }
 
         private string foo()
@@ -197,12 +158,9 @@ namespace VoyIteso.Pages
         {
             base.OnNavigatedTo(e);
             NavigationService.RemoveBackEntry();
-            //txtUserName.Text =;
-
-
-            //cargarUltimaNotif();
-
-
+            
+            //GetNotifs();
+             
             ApiConnector.Instance.ActiveUser.UserDataChanged += UserDataChanged;
             ApiConnector.Instance.UpdateCurrentProfileImage();
 
@@ -238,13 +196,13 @@ namespace VoyIteso.Pages
                 NavigationService.Navigate(new Uri("/Pages/0RatePage.xaml", UriKind.Relative));
                 //Debug.WriteLine(a.aventones[0].latitud_destino);
             }
-
+            
             foreach (var ap in apps)
             {
                 if (ap.StartDate.Date == DateTime.Today.Date)
                 {
                     //Debug.WriteLine(ap.Details); 
-                    atrasCalendario.Text = "Hoy tienes una cita: \nEn " + ap.Location;
+                    atrasCalendario.Text = "\nHoy tienes un aventón en\n" + ap.Location;
                 }
             }
 

@@ -48,35 +48,44 @@
                     <TextBlock Name="txtUserName" Grid.Row="1" Text="¡Hola Getsemani!" Grid.Column="1" FontFamily="{StaticResource PhoneFontFamilyNormal}" FontSize="30" TextWrapping="Wrap" Margin="0,0,66,0" />
                     <Image Name="userTypeToogle" Tap="UserTypeToogle_OnTap" Source="../Images/carrito.png" Margin="377,1,0,0" Grid.Column="1" Grid.Row="1" />
 
-                    <telerickPrimitives:RadCycleHubTile  
+                    <telerickPrimitives:RadCustomHubTile  
                         x:Name="notificationsTile" 
                         Tap="NotificationsTile_OnTap" 
                         Grid.Row="3" 
                         Grid.Column="1" 
                         Width="Auto" 
                         Height="Auto" 
-                        UpdateInterval="0:0:4" 
-                        ItemsSource="{Binding}" 
+                        UpdateInterval="0:0:7" 
                         Background="#1E81C0" 
                         Margin="0"
                         >
-                        
-                        <telerickPrimitives:RadCycleHubTile.ItemTemplate >
-                            
-                            <DataTemplate>
-                                <!--<StackPanel>
-                                    <TextBlock x:Name="textNotificaciones" FontSize="{StaticResource PhoneFontSizeMedium}" Text="Notificaciones" Margin="10,130,10,0" HorizontalAlignment="Right"/>
-                                </StackPanel>-->
-                                <Grid Margin="0,0,0,0"  Background="#1E81C0">
-                                    <TextBlock x:Name="notifLabelBlock" Text="Notificaciones" FontSize="{StaticResource PhoneFontSizeMediumLarge}" FontFamily="{StaticResource PhoneFontFamilyNormal}" Margin="10,120,10,15"/>
-                                </Grid>
 
-                            </DataTemplate>
-                        </telerickPrimitives:RadCycleHubTile.ItemTemplate>
-                    </telerickPrimitives:RadCycleHubTile>
+                        <telerickPrimitives:RadCustomHubTile.FrontContent>
+                            <Grid Name="NotifGrid" Margin="0,0,0,0"  Background="#1E81C0">
+                                <TextBlock Name="notifLabel" Text="Notificaciones" FontSize="{StaticResource PhoneFontSizeMediumLarge}" FontFamily="{StaticResource PhoneFontFamilyNormal}" Margin="10,120,75,15"/>
+                                <!--<TextBlock Text="01" FontSize="{StaticResource ResourceKey=PhoneFontSizeExtraLarge}" FontFamily="{StaticResource ResourceKey=PhoneFontFamilyNormal}" Margin="70,100,15,10"/>-->
+                            </Grid>
+                        </telerickPrimitives:RadCustomHubTile.FrontContent>
+
+                        <telerickPrimitives:RadCustomHubTile.BackContent>
+                            <Grid Name="NotifGridBack" Margin="0,0,0,0"  Background="#1E81C0">
+                                <!--<TextBlock Text="01" FontSize="{StaticResource ResourceKey=PhoneFontSizeExtraLarge}" FontFamily="{StaticResource ResourceKey=PhoneFontFamilyNormal}" Margin="70,100,15,10"/>-->
+                            </Grid>
+                        </telerickPrimitives:RadCustomHubTile.BackContent>
+
+
+                    </telerickPrimitives:RadCustomHubTile>
                     
                     
-                    <telerickPrimitives:RadCustomHubTile Tap="calendarTile_Tap" x:Name="calendarTile" Grid.Row="5" Grid.Column="1" Width="Auto" Height="Auto" Margin="0">
+                    <telerickPrimitives:RadCustomHubTile 
+                        Tap="calendarTile_Tap" 
+                        x:Name="calendarTile" 
+                        Grid.Row="5" 
+                        Grid.Column="1" 
+                        Width="Auto" 
+                        Height="Auto" 
+                        Margin="0">
+                        
                         <telerickPrimitives:RadCustomHubTile.FrontContent>
                             <Grid Margin="0,0,0,0"  Background="#6ECFF3">
                                 <TextBlock x:Name="txtDayString" Text="Mar" FontSize="{StaticResource PhoneFontSizeMediumLarge}" FontFamily="{StaticResource PhoneFontFamilyNormal}" Margin="10,120,75,15"/>
@@ -85,7 +94,7 @@
                         </telerickPrimitives:RadCustomHubTile.FrontContent>
                         <telerickPrimitives:RadCustomHubTile.BackContent>
                             <Grid Margin="0,0,0,0" Background="#6ECFF3">
-                                <TextBlock x:Name="atrasCalendario" Text="Calendario" FontSize="{StaticResource PhoneFontSizeMedium}" FontFamily="{StaticResource PhoneFontFamilyNormal}" Margin="10,120,75,15"/>
+                                <TextBlock x:Name="atrasCalendario" Text="Calendario" FontSize="{StaticResource PhoneFontSizeMedium}" FontFamily="{StaticResource PhoneFontFamilyNormal}" Margin="10,63,75,15"/>
                             </Grid>
                         </telerickPrimitives:RadCustomHubTile.BackContent>
                     </telerickPrimitives:RadCustomHubTile>

@@ -21,7 +21,7 @@ namespace VoyIteso.Pages
         {
             InitializeComponent();
 
-            this.versionnumber.Text = "v" + Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            this.versionnumber.Text = "v " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
         }
     }

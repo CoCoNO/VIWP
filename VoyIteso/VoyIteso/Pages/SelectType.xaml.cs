@@ -20,7 +20,7 @@ namespace VoyIteso.Pages
             InitializeComponent();
             AddContent(false);
             AddContent(true);
-        }
+        }   
 
         private void AddContent(bool driver)
         {

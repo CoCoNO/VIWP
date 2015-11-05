@@ -24,7 +24,7 @@
         </Grid.RowDefinitions>
 
         <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock Foreground="#104571" x:Name="ApplicationTitle" Text="VOY ITESO" Style="{StaticResource PhoneTextNormalStyle}"/>
+            <TextBlock Foreground="#104571" x:Name="ApplicationTitle" Text="" Style="{StaticResource PhoneTextNormalStyle}"/>
             <TextBlock Foreground="#104571" x:Name="PageTitle" Text="Acerca de" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
         </StackPanel>
 
@@ -79,16 +79,16 @@
                 <Image 
                     Source="Images/CompanyLogo.png" 
                     Stretch="None" 
-                    HorizontalAlignment="Left" />
+                    HorizontalAlignment="Left" Height="88" Width="422" />
                 <TextBlock 
                     Text="Todos los derechos reservados" 
                     Margin="0,12,0,0" 
                     FontSize="{StaticResource PhoneFontSizeNormal}"
                     Foreground="#104571"/>
-                <TextBlock 
+                <!--<TextBlock 
                     Text="ITESO - Universidad Jesuita de Guadalajara" 
                     Foreground="#104571"
-                    FontSize="{StaticResource PhoneFontSizeNormal}"/>
+                    FontSize="{StaticResource PhoneFontSizeNormal}"/>-->
             </StackPanel>
         </Grid>
     </Grid>
