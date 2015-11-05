@@ -302,7 +302,7 @@ namespace VoyIteso.Pages
         {
             if (Driver)
             {
-                MessageBox.Show("para facilitar el cálculo de la ruta agrega algunos puntos intermedios y luego presiona en confirmar. Puedes omitir este paso presionando confirmar.", "agrega puntos intermedios", MessageBoxButton.OKCancel);
+                MessageBox.Show("Para facilitar el cálculo de la ruta agrega algunos puntos intermedios y luego presiona en confirmar. Puedes omitir este paso presionando confirmar.", "Agrega puntos intermedios", MessageBoxButton.OKCancel);
                 states = appBarStates.Waypoint;
                 BuildLocalizedApplicationBar();
             }
@@ -527,7 +527,7 @@ namespace VoyIteso.Pages
             ApplicationBar.IsVisible = true;
             _aconfirmed = true;
 
-            MessageBox.Show("origen está fijado en tu posición");
+            MessageBox.Show("Origen fijado en tu posición");
         }
 
 
@@ -570,7 +570,7 @@ namespace VoyIteso.Pages
                 {
                     if (wayPointList.Count > 0)
                     {
-                        var result = MessageBox.Show("vas fijar los puntos intermedios a tu ruta, si cancelas tendrás que volver a agregar los puntos intermedios", "confirmar operación", MessageBoxButton.OKCancel);
+                        var result = MessageBox.Show("Vas fijar los puntos intermedios a tu ruta, si cancelas tendrás que volver a agregar los puntos intermedios", "Confirmar operación", MessageBoxButton.OKCancel);
                         if (result == MessageBoxResult.OK)
                         {//issue... acomodar los parametros aqui para el apiconector. fin
                             //navegar aqui para pedir los datos que faltan como la hora, la fecha y la chingada.
@@ -591,7 +591,7 @@ namespace VoyIteso.Pages
                     }
                     else
                     {
-                        var res2 = MessageBox.Show("no agregaste puntos intermedios, los puntos intermedios ayudan a definir mejor la ruta ¿quieres avanzar sin hacerlo?", "confirmar operación", MessageBoxButton.OKCancel);
+                        var res2 = MessageBox.Show("No agregaste puntos intermedios, los puntos intermedios ayudan a definir mejor la ruta ¿quieres avanzar sin hacerlo?", "Confirmar operación", MessageBoxButton.OKCancel);
                         if (res2 == MessageBoxResult.OK)
                         {
                             //navegar aqui para pedir los datos que faltan como la hora, la fecha y la chingada.
@@ -617,7 +617,7 @@ namespace VoyIteso.Pages
                 _confirmed = true;
                 var mapIcon = (MapIcon)BPoint.Content;//destino
                 //var mapIcon2 = (MapIcon) APoint.Content;//origen
-                MessageBox.Show("destino fijado");
+                MessageBox.Show("Destino fijado");
                 if (aStreetName == null)
                 {
                     txtOriginRojo.Text = "escribe una dirección";
@@ -628,7 +628,7 @@ namespace VoyIteso.Pages
                     txtOriginRojo.Text = aStreetName;
                     if (mapIcon.StreetName == null)
                     {
-                        txtDestinyRojo.Text = "no encontramos la dirección, escríbela";
+                        txtDestinyRojo.Text = "No encontramos la dirección, escríbela";
                     }
                     else
                         txtDestinyRojo.Text = mapIcon.StreetName;
@@ -688,7 +688,7 @@ namespace VoyIteso.Pages
             var a = states;
             MyMapControl_OnCenterChanged(null, null);
             myMap.Layers.Remove(_layer);
-            MessageBox.Show("Coloca un nuevo destino para continuar", "destino borrado", MessageBoxButton.OK);
+            MessageBox.Show("Coloca un nuevo destino para poder continuar", "Destino eliminado", MessageBoxButton.OK);
             ResetValues();
             if (a == appBarStates.Left)
             {
@@ -767,7 +767,7 @@ namespace VoyIteso.Pages
         async public void DoStuff()
         {
             //PrepareExpensiveTask();
-            progress.showProgressIndicator(this, "esperando");
+            progress.showProgressIndicator(this, "esperando al servidor");
             await ExpensiveTaskAsync();
             progress.hideProgressIndicator(this);
             //UseResultsOfExpensiveTask();
@@ -1757,7 +1757,7 @@ namespace VoyIteso.Pages
 
         private void howToUse_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("que aqui vaya un tutorial, Fer, ahi te encargo", "Tutorial", MessageBoxButton.OK);
+            MessageBox.Show("Aquí va un tutorial", "Tutorial", MessageBoxButton.OK);
         }
 
 

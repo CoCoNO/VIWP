@@ -39,6 +39,82 @@ namespace VoyIteso.Pages
             BuildAppBar();
         }
 
+
+
+
+        /// <summary>
+        /// estos dos campos son para las rutas y la ruta seleccionada.
+        /// </summary>
+        Rutes todasLasRutas = new Rutes();
+        public Rutai RutaSeleccionadaRutai { get; set; }
+        protected async override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            ListOfBoxes.Items.Clear();
+            var user = ApiConnector.Instance.ActiveUser;
+            new Progress().showProgressIndicator(this, "cargando rutas");
+            var rutas = await ApiConnector.Instance.RouteGetAllByUserID(Convert.ToInt32(user.profileID));
+            new Progress().hideProgressIndicator(this);
+
+
+            foreach (var rutai in rutas.rutas)
+            {
+                var a = new Grid() { Height = 20 };
+                ListOfBoxes.Items.Add(a);
+                var b = new ShowRouteBox
+                {
+                    HeaderLabel = { Text = rutai.persona_nombre },
+                    BodyLabel =
+                    {
+                        Text =
+                            rutai.fecha_inicio_formato.Substring(0, 2) + "-" +
+                            rutai.fecha_inicio_formato.Substring(2, 2) + "-" +
+                            rutai.fecha_inicio_formato.Substring(4) + " a las " + rutai.hora_llegada_formato + "\nDe: " +
+                            rutai.texto_origen + "\nA: " + rutai.texto_destino
+                    }
+                };
+                ListOfBoxes.Items.Add(b);
+                b.Tap += b_Tap;
+            }
+
+            //try
+            //{
+            //    if (!(rutas.rutas.Count > todasLasRutas.rutas.Count))
+            //    {
+            //        return;
+            //    }
+            //}
+            //catch (Exception)
+            //{
+            //    foreach (var rutai in rutas.rutas)
+            //    {
+            //        var a = new Grid() { Height = 20 };
+            //        ListOfBoxes.Items.Add(a);
+            //        var b = new ShowRouteBox
+            //        {
+            //            HeaderLabel = { Text = rutai.persona_nombre },
+            //            BodyLabel =
+            //            {
+            //                Text =
+            //                    rutai.fecha_inicio_formato.Substring(0, 2) + "-" +
+            //                    rutai.fecha_inicio_formato.Substring(2, 2) + "-" +
+            //                    rutai.fecha_inicio_formato.Substring(4) + " a las " + rutai.hora_llegada_formato + "\nDe: " +
+            //                    rutai.texto_origen + "\nA: " + rutai.texto_destino
+            //            }
+            //        };
+            //        ListOfBoxes.Items.Add(b);
+            //        b.Tap += b_Tap;
+            //    }
+            //}
+
+
+            todasLasRutas = rutas;
+
+
+        }
+
+
+
         private void listaMOusemoved(object sender, System.Windows.Input.MouseEventArgs e)
         {
             //Debug.WriteLine("mouse wheel moved");
@@ -176,57 +252,6 @@ namespace VoyIteso.Pages
             MessageBox.Show("implementar esto.");
         }
 
-
-        /// <summary>
-        /// estos dos campos son para las rutas y la ruta seleccionada.
-        /// </summary>
-        Rutes todasLasRutas = new Rutes();
-        public Rutai RutaSeleccionadaRutai { get; set; }
-        protected async override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-            var user = ApiConnector.Instance.ActiveUser;
-            new Progress().showProgressIndicator(this,"cargando rutas");
-            var rutas = await ApiConnector.Instance.RouteGetAllByUserID(Convert.ToInt32(user.profileID));
-            new Progress().hideProgressIndicator(this);
-
-
-            try
-            {
-                if (!(rutas.rutas.Count > todasLasRutas.rutas.Count))
-                {
-                    return;
-                }
-            }
-            catch (Exception)
-            {
-                foreach (var rutai in rutas.rutas)
-                {
-                    var a = new Grid() { Height = 20 };
-                    ListOfBoxes.Items.Add(a);
-                    var b = new ShowRouteBox
-                    {
-                        HeaderLabel = {Text = rutai.persona_nombre},
-                        BodyLabel =
-                        {
-                            Text =
-                                rutai.fecha_inicio_formato.Substring(0, 2) + "-" +
-                                rutai.fecha_inicio_formato.Substring(2, 2) + "-" +
-                                rutai.fecha_inicio_formato.Substring(4) + " a las " + rutai.hora_llegada_formato + "\nDe: " +
-                                rutai.texto_origen + "\nA: " + rutai.texto_destino
-                        }
-                    };
-                    ListOfBoxes.Items.Add(b);
-                    b.Tap += b_Tap;
-                }
-            }
-            
-
-            todasLasRutas = rutas;
-            
-
-        }
-
         ShowRouteBox tempBox = new ShowRouteBox();
         private Brush tempcol;
         void b_Tap(object sender, System.Windows.Input.GestureEventArgs e)
@@ -285,11 +310,14 @@ namespace VoyIteso.Pages
             
             if (a.estatus == 1)
             {
-                MessageBox.Show("ruta borrada");
+                MessageBox.Show("Ruta borrada");
+                OnNavigatedTo(null);
+                appBarSM = appBarStateMachine.ITEM_NOT_SELECTED;
+                BuildAppBar();
             }else
-               MessageBox.Show("no se pudo borrar ruta. " + a.estatus.ToString());
-
-            OnNavigatedTo(null);
+               MessageBox.Show("No se pudo realizar movimiento");
+             
+            
         }
 
         private void listaSelectionChanged(object sender, SelectionChangedEventArgs e)
