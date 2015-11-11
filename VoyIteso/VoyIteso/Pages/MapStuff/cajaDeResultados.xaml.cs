@@ -21,6 +21,7 @@ namespace VoyIteso.Pages.MapStuff
         public string texto_origen { get; set; }
         public string texto_destino { get; set; }
         public bool myBool = false;
+        public Rutai ruta { get; set; }
 
         public cajaDeResultados()
         {

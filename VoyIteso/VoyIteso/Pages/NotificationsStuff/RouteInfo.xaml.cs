@@ -15,6 +15,7 @@ using VoyIteso.Class;
 using VoyIteso.Pages.MapStuff;
 using Color = System.Windows.Media.Color;
 using GestureEventArgs = System.Windows.Input.GestureEventArgs;
+using System.Device.Location;
 
 namespace VoyIteso.Pages
 {
@@ -211,13 +212,13 @@ namespace VoyIteso.Pages
                 GridDeBotones.Children.Remove(BotonAceptar);
                 GridDeBotones.Children.Remove(BotonRechazar);
                 botonSolicitar = new Button();
-                botonSolicitar.Content = "Solicitar aventon";
+                botonSolicitar.Content = "Solicitar aventón";
                 botonSolicitar.Foreground = new SolidColorBrush(Colors.White);
                 botonSolicitar.BorderBrush = new SolidColorBrush(Colors.White);
                 botonSolicitar.Click += botonSolicitar_OnClick;
                 GridDeBotones.Children.Add(botonSolicitar);
                 GridDeInformacion.Children.Remove(ChatButton);
-
+                buildAppBar(appBarStates.VerRuta);
             }
             else//sino viene de las noticicaciones.
             {
@@ -387,7 +388,7 @@ namespace VoyIteso.Pages
 
         }
 
-        public enum appBarStates { Regresarmenu };
+        public enum appBarStates { Regresarmenu, VerRuta };
         private void buildAppBar(appBarStates abbBarStateMachine)
         {
             ApplicationBar = new ApplicationBar();
@@ -419,7 +420,84 @@ namespace VoyIteso.Pages
                 //changeDestination.Click += ChangeDestinationButton_OnClick;
                 //ApplicationBar.MenuItems.Add(changeDestination);
             }
+            else if (abbBarStateMachine == appBarStates.VerRuta)
+            {
+                ApplicationBarIconButton regresarBut = new ApplicationBarIconButton(new Uri("Images/icons/Point Objects-50.png", UriKind.Relative));
+                regresarBut.Text = "ver puntos";
+                regresarBut.Click += ver_Click;
+                ApplicationBar.Mode = ApplicationBarMode.Minimized;
+                ApplicationBar.Buttons.Add(regresarBut);
+
+            }
         }
+
+
+
+
+        private void ver_Click(object sender, EventArgs e)
+        {
+            //MessageBox.Show("howdy boy!");
+
+            //coordenadas a.
+            //coordenadas b.
+            //coordenadas puntos intermedios.
+            var a = myCajaDeResultados.ruta.puntos_intermedios;
+
+            var w = a.Split(Convert.ToChar(","));
+            var v = new List<string>();
+
+            //
+            short i = 0, coun = 0;
+            foreach (var variable in w)
+            {
+                if (coun >= w.Count() - 1)
+                {
+                    i = 3;
+                }
+                else if (i > 2)
+                {
+                    i = 1;
+                }
+                switch (i)
+                {
+                    case 0:
+                        v.Add(variable.Substring(8));
+                        break;
+                    case 1:
+                        v.Add(variable.Substring(6, variable.Length - 7));
+                        break;
+                    case 2:
+                        v.Add(variable.Substring(7));
+                        break;
+                    case 3:
+                        v.Add(variable.Substring(6, variable.Length - 9));
+                        break;
+
+                    default:
+                        break;
+                }
+                coun++;
+                i++;
+            }
+
+            //load points to waypoint list
+            var waypoints = new List<GeoCoordinate>();
+            for (i = 0; i <= v.Count - 2; i += 2)
+            {
+                var wayvar = new GeoCoordinate(Double.Parse(v[i]), Double.Parse(v[i + 1]));
+                waypoints.Add(wayvar);
+            }
+
+            TheNewMap.ReadOnly = true;
+            TheNewMap._readonlypoints = waypoints;
+
+
+            NavigationService.Navigate(new Uri("/Pages/TheNewMap.xaml", UriKind.Relative));
+
+
+        }
+
+
 
         private void regresar_Click(object sender, EventArgs e)
         {

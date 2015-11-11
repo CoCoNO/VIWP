@@ -877,8 +877,15 @@ namespace VoyIteso.Pages
             }
             else if (states == appBarStates.Readonly)
             {
-                NavigationService.Navigate(new Uri("/Pages/ShowRoutes.xaml", UriKind.Relative));
-                NavigationService.RemoveBackEntry();
+                //NavigationService.Navigate(new Uri("/Pages/ShowRoutes.xaml", UriKind.Relative));
+                //NavigationService.RemoveBackEntry();
+                if (TheNewMap.Driver)
+                {
+                    NavigationService.Navigate(new Uri("/Pages/ShowRoutes.xaml", UriKind.Relative));
+                    NavigationService.RemoveBackEntry();
+                }
+                else
+                    NavigationService.GoBack();
             }
             else
                 NavigationService.Navigate(new Uri("/Pages/HomePage.xaml", UriKind.Relative));
@@ -1297,6 +1304,8 @@ namespace VoyIteso.Pages
                                 //resultados.aventon_id = ruta.;
                                 resultados.texto_origen = ruta.texto_origen;
                                 resultados.texto_destino = ruta.texto_destino;
+
+                                resultados.ruta = ruta;
 
                                 //resultados.Text += ruta.persona_nombre + ruta.texto_origen + ruta.texto_destino + ruta.hora_llegada;
                                 ResultsListBox.Items.Add(resultados);
