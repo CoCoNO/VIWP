@@ -28,6 +28,7 @@ namespace VoyIteso
         //User user = new User();
         //Timer for the Splash Screen
         DispatcherTimer SplashTimer = new DispatcherTimer();
+        public IsolatedStorageSettings Settings;
         //Web Service
         //ServiceReferenceVoyItesoMovil.VoyItesoMovilClient clientVoyIteso = new ServiceReferenceVoyItesoMovil.VoyItesoMovilClient();
 
@@ -44,6 +45,8 @@ namespace VoyIteso
             //Web Service
             //clientVoyIteso.GetUserNameCompleted += clientVoyIteso_GetUserNameCompleted;
 
+            Settings = IsolatedStorageSettings.ApplicationSettings;
+            
         }
 
 
@@ -68,7 +71,6 @@ namespace VoyIteso
             //new Progress().hideProgressIndicator(this);
         }
 
-        public IsolatedStorageSettings settings;
         async void SplashTimer_Tick(object sender, EventArgs e)
         {
             SplashTimer.Stop();

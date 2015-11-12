@@ -399,7 +399,7 @@ namespace VoyIteso.Pages
 
             if (abbBarStateMachine == appBarStates.Regresarmenu)
             {
-                ApplicationBarIconButton regresarBut = new ApplicationBarIconButton(new Uri("Images/icons.close.png", UriKind.Relative));
+                ApplicationBarIconButton regresarBut = new ApplicationBarIconButton(new Uri("Images/icons/close.png", UriKind.Relative));
                 regresarBut.Text = "cerrar";
                 regresarBut.Click += regresar_Click;
                 ApplicationBar.Buttons.Add(regresarBut);

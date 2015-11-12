@@ -107,7 +107,7 @@ namespace VoyIteso.Pages
             ContentPanel.Children.Add(SegundoComponente);
 
             ApplicationBarIconButton b = new ApplicationBarIconButton(new Uri("Images/icons/check.png", UriKind.Relative));
-            b.Text = "cerrar";
+            b.Text = "Continuar";
             b.Click += cerrar_clicked;
             var appbar = new ApplicationBar();
             appbar.Buttons.Add(b);
