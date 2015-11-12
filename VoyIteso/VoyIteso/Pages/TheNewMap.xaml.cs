@@ -512,6 +512,7 @@ namespace VoyIteso.Pages
         }
 
 
+        DispatcherTimer t;
         private async void FijarPosicionActual()
         {
             progress.showProgressIndicator(this, "calculando tu ubicación...");
@@ -527,7 +528,30 @@ namespace VoyIteso.Pages
             ApplicationBar.IsVisible = true;
             _aconfirmed = true;
 
+            ReverseQuery();//get back here
+
+            
             MessageBox.Show("Origen fijado en tu posición");
+        }
+
+        private void t_Tick(object sender, EventArgs e)
+        {
+
+            try
+            {
+                t.Stop();
+                txtOriginRojo.Text = aStreetName;
+            }
+            catch (Exception)
+            {
+
+                t = new DispatcherTimer();
+
+                t.Tick += t_Tick;
+                t.Interval = new TimeSpan(00, 0, 1);
+                t.Start();
+            }
+
         }
 
 
@@ -543,7 +567,7 @@ namespace VoyIteso.Pages
         {
             if (Driver)
             {
-                MessageBox.Show("ruta establecida");
+                MessageBox.Show("Ruta establecida");
             }
             _routeConfirmed = true;
             //NavigationService.Navigate(new Uri("/Pages/SecondaryMapPage.xaml", UriKind.Relative));
@@ -564,17 +588,15 @@ namespace VoyIteso.Pages
             if (_flag)
             {
 
-
-
                 if (Driver)
                 {
-                    if (wayPointList.Count > 0)
+                    if (wayPointList.Count > 0)// si hay puntos intermedios
                     {
-                        var result = MessageBox.Show("Vas fijar los puntos intermedios a tu ruta, si cancelas tendrás que volver a agregar los puntos intermedios", "Confirmar operación", MessageBoxButton.OKCancel);
+                        var result = MessageBox.Show("Vas fijar los puntos intermedios a tu ruta, si cancelas tendrás que volver a agregarlos", "Confirmar operación", MessageBoxButton.OKCancel);
                         if (result == MessageBoxResult.OK)
                         {//issue... acomodar los parametros aqui para el apiconector. fin
                             //navegar aqui para pedir los datos que faltan como la hora, la fecha y la chingada.
-                            NavigateToSecundaryPage();
+                            NavigateToSecundaryPage();// cambiarle nombre, ya no hace lo q su nombre dice.. esta pendejo ese nombre.. o sacar las cosas de la funcion
                         }
                         else
                         { // el usuario le pico a cancel entonces se va a borrar la lista de waypoints y eliminar todas las capas q contienen pushpins. excepto el punto a y b
@@ -589,7 +611,7 @@ namespace VoyIteso.Pages
                         }
 
                     }
-                    else
+                    else// si no hay puntos intermedios
                     {
                         var res2 = MessageBox.Show("No agregaste puntos intermedios, los puntos intermedios ayudan a definir mejor la ruta ¿quieres avanzar sin hacerlo?", "Confirmar operación", MessageBoxButton.OKCancel);
                         if (res2 == MessageBoxResult.OK)
@@ -672,6 +694,13 @@ namespace VoyIteso.Pages
                 }
             };
             query.QueryAsync();
+
+            t = new DispatcherTimer();
+
+            t.Tick += t_Tick;
+            t.Interval = new TimeSpan(00, 0, 1);
+            t.Start();
+
         }
 
 
@@ -1264,7 +1293,7 @@ namespace VoyIteso.Pages
                     progress.hideProgressIndicator(this);
                     if (a.estatus == 1)
                     {
-                        MessageBox.Show("ruta agregada exitosamente");
+                        MessageBox.Show("Ruta agregada exitosamente");
                         NavigationService.Navigate(new Uri("/Pages/ShowRoutes.xaml", UriKind.Relative));
                     }
                     else
@@ -1284,6 +1313,7 @@ namespace VoyIteso.Pages
 
                     try
                     {
+                        ResultsListBox.Items.Clear();
                         if (rutas.rutas.Count > 0)
                         {
                             foreach (var ruta in rutas.rutas)
@@ -1425,6 +1455,7 @@ namespace VoyIteso.Pages
         //PLAY>>>>metodo viejo de jairo. deprecado.
         async void appBarConfirmButton_Click(object sender, EventArgs e)
         {
+
             //send request 
             string origen = txtOriginRojo.Text;
             string destino = txtDestinyRojo.Text;
@@ -1474,33 +1505,31 @@ namespace VoyIteso.Pages
                 appBarSearchButton.Click += appBarSearchButton_Click;
                 ApplicationBar.Buttons.Add(appBarSearchButton);
 
-                ApplicationBarIconButton appBarResultButton = new ApplicationBarIconButton(new Uri("Images/icons/List-50.png", UriKind.Relative));
-                appBarResultButton.Text = "Resultados";
-                appBarResultButton.Click += appBarResultButton_Click;
-                ApplicationBar.Buttons.Add(appBarResultButton);
-
-
-
-                ApplicationBarMenuItem b = new ApplicationBarMenuItem { Text = "¿cómo usar?" };
-                b.Click += howToUse_Click;
-                ApplicationBar.MenuItems.Add(b);
-
+                if (!Driver)
+                {
+                    ApplicationBarIconButton appBarResultButton = new ApplicationBarIconButton(new Uri("Images/icons/List-50.png", UriKind.Relative));
+                    appBarResultButton.Text = "Resultados";
+                    appBarResultButton.Click += appBarResultButton_Click;
+                    ApplicationBar.Buttons.Add(appBarResultButton);
+                }
 
                 ApplicationBarMenuItem fijarme = new ApplicationBarMenuItem();
-                fijarme.Text = "fijar mi posición";
+                fijarme.Text = "Fijar mi posición como origen";
                 fijarme.Click += fijarme_OnClick;
                 ApplicationBar.MenuItems.Add(fijarme);
 
-
                 ApplicationBarMenuItem fijariteso = new ApplicationBarMenuItem();
-                fijariteso.Text = "fijar iteso";
+                fijariteso.Text = "Fijar iteso como origen";
                 fijariteso.Click += fijariteso_OnClick;
                 ApplicationBar.MenuItems.Add(fijariteso);
 
+                ApplicationBarMenuItem b = new ApplicationBarMenuItem { Text = "Tutorial" };
+                b.Click += howToUse_Click;
+                ApplicationBar.MenuItems.Add(b);
 
                 if (_pointCount <= 0) return;
                 ApplicationBarMenuItem changeDestination = new ApplicationBarMenuItem();
-                changeDestination.Text = "cambiar el destino";
+                changeDestination.Text = "Borrar el destino";
                 changeDestination.Click += ChangeDestinationButton_OnClick;
                 ApplicationBar.MenuItems.Add(changeDestination);
             }
@@ -1517,31 +1546,36 @@ namespace VoyIteso.Pages
                 appBarSearchButton.Click += appBarSearchButton_Click;
                 ApplicationBar.Buttons.Add(appBarSearchButton);
 
-                ApplicationBarIconButton appBarResultButton = new ApplicationBarIconButton(new Uri("Assets/next.png", UriKind.Relative));
-                appBarResultButton.Text = "Resultados";
-                appBarResultButton.Click += appBarResultButton_Click;
-                ApplicationBar.Buttons.Add(appBarResultButton);
 
-                ApplicationBarMenuItem a = new ApplicationBarMenuItem { Text = "¿cómo usar?" };
-                a.Click += howToUse_Click;
-                ApplicationBar.MenuItems.Add(a);
+                if (!Driver)
+                {
+                    
+                    ApplicationBarIconButton appBarResultButton = new ApplicationBarIconButton(new Uri("Assets/next.png", UriKind.Relative));
+                    appBarResultButton.Text = "Resultados";
+                    appBarResultButton.Click += appBarResultButton_Click;
+                    ApplicationBar.Buttons.Add(appBarResultButton);
 
-
+                }
+                
                 ApplicationBarMenuItem fijarme = new ApplicationBarMenuItem();
-                fijarme.Text = "fijar mi posición";
+                fijarme.Text = "Fijar mi posición como origen";
                 fijarme.Click += fijarme_OnClick;
                 ApplicationBar.MenuItems.Add(fijarme);
 
 
                 ApplicationBarMenuItem fijariteso = new ApplicationBarMenuItem();
-                fijariteso.Text = "fijar iteso";
+                fijariteso.Text = "Fijar iteso como origen";
                 fijariteso.Click += fijariteso_OnClick;
                 ApplicationBar.MenuItems.Add(fijariteso);
+
+                ApplicationBarMenuItem a = new ApplicationBarMenuItem { Text = "Turorial" };
+                a.Click += howToUse_Click;
+                ApplicationBar.MenuItems.Add(a);
 
 
                 if (_pointCount <= 0) return;
                 ApplicationBarMenuItem changeDestination = new ApplicationBarMenuItem();
-                changeDestination.Text = "cambiar el destino";
+                changeDestination.Text = "Borrar el destino";
                 changeDestination.Click += ChangeDestinationButton_OnClick;
                 ApplicationBar.MenuItems.Add(changeDestination);
 
@@ -1549,7 +1583,7 @@ namespace VoyIteso.Pages
             else if (states == appBarStates.Readonly)
             {
                 ApplicationBarIconButton appBarSearchButton = new ApplicationBarIconButton(new Uri("Images/icons/close.png", UriKind.Relative));
-                appBarSearchButton.Text = "cerrar";
+                appBarSearchButton.Text = "Cerrar";
                 appBarSearchButton.Click += cerrar_click;
                 ApplicationBar.Buttons.Add(appBarSearchButton);
                 ApplicationBar.Mode = ApplicationBarMode.Minimized;
@@ -1562,36 +1596,42 @@ namespace VoyIteso.Pages
                 appBarSearchButton.Click += appBarSearchButton_Click;
                 ApplicationBar.Buttons.Add(appBarSearchButton);
 
-                ApplicationBarIconButton appBarResultButton = new ApplicationBarIconButton(new Uri("Images/icons/List-50.png", UriKind.Relative));
-                appBarResultButton.Text = "Resultados";
-                appBarResultButton.Click += appBarResultButton_Click;
-                ApplicationBar.Buttons.Add(appBarResultButton);
-
+                if (!Driver)
+                {
+                    ApplicationBarIconButton appBarResultButton = new ApplicationBarIconButton(new Uri("Images/icons/List-50.png", UriKind.Relative));
+                    appBarResultButton.Text = "Resultados";
+                    appBarResultButton.Click += appBarResultButton_Click;
+                    ApplicationBar.Buttons.Add(appBarResultButton);
+                }
+                
                 ApplicationBarIconButton a = new ApplicationBarIconButton(new Uri("/Images/icons/questionmark.png", UriKind.Relative));
-                a.Text = "cómo usar";
+                a.Text = "Tutorial";
                 a.Click += howToUse_Click;
                 ApplicationBar.Buttons.Add(a);
 
-                ApplicationBarMenuItem b = new ApplicationBarMenuItem { Text = "¿cómo usar?" };
-                b.Click += howToUse_Click;
-                ApplicationBar.MenuItems.Add(b);
-
                 ApplicationBarMenuItem fijarme = new ApplicationBarMenuItem();
-                fijarme.Text = "fijar mi posición";
+                fijarme.Text = "Fijar mi posición como origen";
                 fijarme.Click += fijarme_OnClick;
                 ApplicationBar.MenuItems.Add(fijarme);
 
                 ApplicationBarMenuItem fijariteso = new ApplicationBarMenuItem();
-                fijariteso.Text = "fijar iteso";
+                fijariteso.Text = "Fijar iteso como origen";
                 fijariteso.Click += fijariteso_OnClick;
                 ApplicationBar.MenuItems.Add(fijariteso);
+
+
+                ApplicationBarMenuItem b = new ApplicationBarMenuItem { Text = "Tutorial" };
+                b.Click += howToUse_Click;
+                ApplicationBar.MenuItems.Add(b);
+
+
             }
 
             else if (states == appBarStates.Waypoint)
             {
 
                 ApplicationBarIconButton a = new ApplicationBarIconButton(new Uri("/Images/check.png", UriKind.Relative));
-                a.Text = "confirmar puntos";
+                a.Text = "Confirmar puntos";
                 a.Click += Play;
                 ApplicationBar.Buttons.Add(a);
 
@@ -1601,15 +1641,17 @@ namespace VoyIteso.Pages
                 appBarSearchButton.IsEnabled = false;
                 ApplicationBar.Buttons.Add(appBarSearchButton);
 
-                ApplicationBarIconButton appBarResultButton = new ApplicationBarIconButton(new Uri("Assets/next.png", UriKind.Relative));
-                appBarResultButton.Text = "Resultados";
-                appBarResultButton.Click += appBarResultButton_Click;
-                appBarResultButton.IsEnabled = false;
-                ApplicationBar.Buttons.Add(appBarResultButton);
-
+                if (!Driver)
+                {
+                    ApplicationBarIconButton appBarResultButton = new ApplicationBarIconButton(new Uri("Assets/next.png", UriKind.Relative));
+                    appBarResultButton.Text = "Resultados";
+                    appBarResultButton.Click += appBarResultButton_Click;
+                    appBarResultButton.IsEnabled = false;
+                    ApplicationBar.Buttons.Add(appBarResultButton);
+                }
 
                 ApplicationBarMenuItem b = new ApplicationBarMenuItem();
-                b.Text = "volver a empezar";//
+                b.Text = "Volver a empezar";//
                 b.Click += startOverWayPoints_OnClick;
                 ApplicationBar.MenuItems.Add(b);
             }
@@ -1620,7 +1662,7 @@ namespace VoyIteso.Pages
 
 
                 ApplicationBarIconButton a = new ApplicationBarIconButton(new Uri("/Images/check.png", UriKind.Relative));
-                a.Text = "confirmar";
+                a.Text = "Confirmar";
                 a.Click += Play;
                 ApplicationBar.Buttons.Add(a);
 
@@ -1630,11 +1672,16 @@ namespace VoyIteso.Pages
                 appBarSearchButton.IsEnabled = false;
                 ApplicationBar.Buttons.Add(appBarSearchButton);
 
-                ApplicationBarIconButton appBarResultButton = new ApplicationBarIconButton(new Uri("Assets/next.png", UriKind.Relative));
-                appBarResultButton.Text = "Resultados";
-                appBarResultButton.Click += appBarResultButton_Click;
-                appBarResultButton.IsEnabled = false;
-                ApplicationBar.Buttons.Add(appBarResultButton);
+                
+                if (!Driver)
+                {
+                    ApplicationBarIconButton appBarResultButton = new ApplicationBarIconButton(new Uri("Assets/next.png", UriKind.Relative));
+                    appBarResultButton.Text = "Resultados";
+                    appBarResultButton.Click += appBarResultButton_Click;
+                    appBarResultButton.IsEnabled = false;
+                    ApplicationBar.Buttons.Add(appBarResultButton);
+    
+                }
 
 
                 //ApplicationBarMenuItem changeDestination = new ApplicationBarMenuItem();
@@ -1655,7 +1702,7 @@ namespace VoyIteso.Pages
             else if (states == appBarStates.Left)
             {
                 ApplicationBarIconButton appBarSearchRouteButton = new ApplicationBarIconButton(new Uri("Assets/check.png", UriKind.Relative));
-                appBarSearchRouteButton.Text = "confirmar";
+                appBarSearchRouteButton.Text = "Confirmar";
                 appBarSearchRouteButton.Click += appBarSearchRouteButton_Click;
                 ApplicationBar.Buttons.Add(appBarSearchRouteButton);
 
@@ -1664,29 +1711,29 @@ namespace VoyIteso.Pages
                 appBarShowMapButton.Click += appBarShowMapButton_Click;
                 ApplicationBar.Buttons.Add(appBarShowMapButton);
 
-                ApplicationBarIconButton appBarShowResultsButton = new ApplicationBarIconButton(new Uri("Images/icons/List-50.png", UriKind.Relative));
-                appBarShowResultsButton.Text = "resultados";
-                appBarShowResultsButton.Click += appBarShowResults_Click;
-                ApplicationBar.Buttons.Add(appBarShowResultsButton);
-
-
-
+                if (!Driver)
+                {
+                    ApplicationBarIconButton appBarShowResultsButton = new ApplicationBarIconButton(new Uri("Images/icons/List-50.png", UriKind.Relative));
+                    appBarShowResultsButton.Text = "Resultados";
+                    appBarShowResultsButton.Click += appBarShowResults_Click;
+                    ApplicationBar.Buttons.Add(appBarShowResultsButton);
+                }
 
                 ApplicationBarMenuItem fijarme = new ApplicationBarMenuItem();
-                fijarme.Text = "fijar mi posición";
+                fijarme.Text = "Fijar mi posición como origen";
                 fijarme.Click += fijarme_OnClick;
                 ApplicationBar.MenuItems.Add(fijarme);
 
 
                 ApplicationBarMenuItem fijariteso = new ApplicationBarMenuItem();
-                fijariteso.Text = "fijar iteso";
+                fijariteso.Text = "Fijar iteso como origen";
                 fijariteso.Click += fijariteso_OnClick;
                 ApplicationBar.MenuItems.Add(fijariteso);
 
 
                 if (_pointCount <= 0) return;
                 ApplicationBarMenuItem changeDestination = new ApplicationBarMenuItem();
-                changeDestination.Text = "cambiar el destino";
+                changeDestination.Text = "Borrar el destino";
                 changeDestination.Click += ChangeDestinationButton_OnClick;
                 ApplicationBar.MenuItems.Add(changeDestination);
             }
@@ -1719,11 +1766,15 @@ namespace VoyIteso.Pages
                 appBarConfirmButton.Click += appBarConfirmButton_Click;
                 ApplicationBar.Buttons.Add(appBarConfirmButton);
 
-                ApplicationBarIconButton appBarReturnResultsButton = new ApplicationBarIconButton(new Uri("Assets/next.png", UriKind.Relative));
-                appBarReturnResultsButton.Text = "Mostrar resultados";
-                appBarReturnResultsButton.Click += appBarReturnResultsButton_Click;
-                appBarReturnResultsButton.IsEnabled = false;
-                ApplicationBar.Buttons.Add(appBarReturnResultsButton);
+                if (!Driver)
+                {
+                    ApplicationBarIconButton appBarReturnResultsButton = new ApplicationBarIconButton(new Uri("Assets/next.png", UriKind.Relative));
+                    appBarReturnResultsButton.Text = "Resultados";
+                    appBarReturnResultsButton.Click += appBarReturnResultsButton_Click;
+                    appBarReturnResultsButton.IsEnabled = false;
+                    ApplicationBar.Buttons.Add(appBarReturnResultsButton);                    
+                }
+
             }
 
         }

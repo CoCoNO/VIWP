@@ -69,14 +69,27 @@ namespace VoyIteso.Pages
 
         }
 
-        private void OnTimerTick(object sender, EventArgs e)
+        private async void OnTimerTick(object sender, EventArgs e)
         {
-            if (ok)
+            if (ok)//le pico que SI se le dio el aventon.
             {
                 loadNExtElement();
                 successful = true;
                 ok = false;
                 timer.Stop();
+            }
+            else// le pico que NO se le dio el aventon. 
+            {
+                var a = await ApiConnector.Instance.LiftRate(idaventon, successful ? 1 : 0, 0, 0, "");
+
+                if (a.estatus == 1)
+                {
+                    MessageBox.Show("Aventón calificado exitosamente.");
+                }
+                else
+                {
+                    MessageBox.Show("El aventón no se pudo calificar, intenta más tarde.", "Advertencia.", MessageBoxButton.OK);
+                }
             }
             
         }
