@@ -917,10 +917,23 @@ namespace VoyIteso.Pages
                     NavigationService.GoBack();
             }
             else
-                NavigationService.Navigate(new Uri("/Pages/HomePage.xaml", UriKind.Relative));
-            NavigationService.RemoveBackEntry();
-            //base.OnBackKeyPress(e);
 
+            {
+                var result = MessageBox.Show("Vas a regresar al menú sin haber realizado cambios","Salir del mapa",MessageBoxButton.OKCancel);
+                if (result == MessageBoxResult.OK)
+                {
+                    NavigationService.Navigate(new Uri("/Pages/HomePage.xaml", UriKind.Relative));
+                    NavigationService.RemoveBackEntry();
+                    //base.OnBackKeyPress(e);
+                }
+                else
+                {
+                    e.Cancel = true;
+                }
+                
+            }
+
+            
         }
 
 
@@ -1666,6 +1679,12 @@ namespace VoyIteso.Pages
                 a.Click += Play;
                 ApplicationBar.Buttons.Add(a);
 
+
+                ApplicationBarIconButton b = new ApplicationBarIconButton(new Uri("/Images/icons/cancel.png", UriKind.Relative));
+                b.Text = "Cancelar";
+                b.Click += Cancel;
+                ApplicationBar.Buttons.Add(b);
+
                 ApplicationBarIconButton appBarSearchButton = new ApplicationBarIconButton(new Uri("Assets/feature.search.png", UriKind.Relative));
                 appBarSearchButton.Text = "Buscar Ruta";
                 appBarSearchButton.Click += appBarSearchButton_Click;
@@ -1777,6 +1796,12 @@ namespace VoyIteso.Pages
 
             }
 
+        }
+
+        private void Cancel(object sender, EventArgs e)
+        {
+            MyMapControl_OnCenterChanged(null,null);
+            txtDestinyRojo.Text = "";
         }
 
         private void cerrar_click(object sender, EventArgs e)

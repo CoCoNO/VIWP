@@ -13,6 +13,7 @@ using Microsoft.Phone.Maps.Controls;
 using Microsoft.Phone.Maps.Services;
 using Windows.Devices.Geolocation;
 using System.Device.Location;
+using System.Diagnostics;
 using VoyIteso.Class;
 using System.Windows.Threading;
 using System.Windows.Input;
@@ -63,21 +64,22 @@ namespace VoyIteso
                     await ApiConnector.Instance.GetActiveUserFromSettings();
                     
                 }
-                catch (Exception)
+                catch (Exception exc)
                 {
-
+                    Debug.WriteLine(exc.Message);
                 }
             }
             //new Progress().hideProgressIndicator(this);
         }
 
+        int counter=0;
         async void SplashTimer_Tick(object sender, EventArgs e)
         {
             SplashTimer.Stop();
             
             //Check if there is a local session
 
-            
+            Debug.WriteLine(counter++ + SplashTimer.Interval.Ticks);
 
             if (!ApiConnector.Instance.IsLoggedIn)
             {
