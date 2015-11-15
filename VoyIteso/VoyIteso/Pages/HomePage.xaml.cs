@@ -80,8 +80,7 @@ namespace VoyIteso.Pages
 
         protected override void OnBackKeyPress(CancelEventArgs e)
         {
-           System.Windows.Application.Current.Terminate();
-            
+           System.Windows.Application.Current.Terminate();   
         }
 
         private async void GetNotifs()

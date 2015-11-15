@@ -515,8 +515,24 @@ namespace VoyIteso.Pages
         DispatcherTimer t;
         private async void FijarPosicionActual()
         {
-            progress.showProgressIndicator(this, "calculando tu ubicación...");
+            
             Geolocator migeolocalizador = new Geolocator();
+
+            if (migeolocalizador.LocationStatus == PositionStatus.Disabled)
+            {
+                var res = MessageBox.Show("Tu ubicación actual nos ayuda a proporcionarte mejores servicios de búsqueda y ubicación.\n\nTu informacion no se usará para identificarte ni ponerse en contacto contigo es solo uso y funcionamiento para VoyIteso.", "¿Permitir que VoyIteso acceda a tu ubicación?", MessageBoxButton.OKCancel);
+                if (res == MessageBoxResult.OK)
+                {
+                    //ir a prender el localizador.
+                    var op = await Windows.System.Launcher.LaunchUriAsync(new Uri("ms-settings-location:"));
+                    return;
+                }
+                else
+                {
+                    return;
+                }
+            }
+            progress.showProgressIndicator(this, "calculando tu ubicación...");
             Geoposition migeoposicion = await migeolocalizador.GetGeopositionAsync();
             progress.hideProgressIndicator(this);
             positionAquired = true;

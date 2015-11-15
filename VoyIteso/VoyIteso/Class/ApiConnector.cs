@@ -817,12 +817,25 @@ namespace VoyIteso.Class
 
         public void UpdateCurrentProfileImage()
         {
-            Uri uri = new Uri(HttpRequest.Url + @"/perfil/imagen/" + _pid + "?security_token=" + _token + "&randData=" + _ranData++);
 
-            BitmapImage img = new BitmapImage(uri);
-            img.CreateOptions = BitmapCreateOptions.None;
-            img.ImageOpened += img_ImageOpened;
-            _activeUser.Avatar = img;
+            try
+            {
+                Uri uri = new Uri(HttpRequest.Url + @"/perfil/imagen/" + _pid + "?security_token=" + _token + "&randData=" + _ranData++);
+
+                BitmapImage img = new BitmapImage(uri);
+                img.CreateOptions = BitmapCreateOptions.None;
+                img.ImageOpened += img_ImageOpened;
+                _activeUser.Avatar = img;
+            }
+            catch (Exception exception)
+            {
+                BitmapImage img = new BitmapImage(new Uri("/Images/man.png",UriKind.Relative));
+                img.CreateOptions = BitmapCreateOptions.None;
+                //img.ImageOpened += img_ImageOpened;
+                _activeUser.Avatar = img;
+            }
+
+            
         }
 
         void img_ImageOpened(object sender, RoutedEventArgs e)
