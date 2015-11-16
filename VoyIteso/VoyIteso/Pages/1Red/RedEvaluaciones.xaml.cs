@@ -15,11 +15,12 @@ using Microsoft.Phone.Maps.Services;
 using Microsoft.Phone.Shell;
 using Newtonsoft.Json;
 using VoyIteso.Class;
+using VoyIteso.Pages.NotificationsStuff;
 using VoyIteso.Pages.ShowRoutesComponents;
 
 namespace VoyIteso.Pages
 {
-    public partial class RedRecibir : PhoneApplicationPage
+    public partial class RedEvaluaciones : PhoneApplicationPage
     {
         /// <summary>
         /// class fields
@@ -29,7 +30,7 @@ namespace VoyIteso.Pages
 
         private appBarStateMachine appBarSM;
 
-        public RedRecibir()
+        public RedEvaluaciones()
         {
             InitializeComponent();
             ListOfBoxes.SelectionChanged += listaSelectionChanged;
@@ -52,72 +53,22 @@ namespace VoyIteso.Pages
             base.OnNavigatedTo(e);
             ListOfBoxes.Items.Clear();
             var user = ApiConnector.Instance.ActiveUser;
-            new Progress().showProgressIndicator(this, "cargando rutas");
-            var rutas = await ApiConnector.Instance.RouteGetAllByUserID(Convert.ToInt32(user.profileID));
+            new Progress().showProgressIndicator(this, "cargando aventones");
+            //aqui me quede porque jairo la cago> con el regreso de la funcion.. no mover lo anda arreglando.
+            var v = await ApiConnector.Instance.GetRatesByID();
+            
+
+
+            var aventones = await ApiConnector.Instance.GetMyNetwork();
+            _aventonesDados = aventones.perfil_dados;
+            _aventonesRecibidos = aventones.perfil_recibidos;
+            //ApiConnector.Instance.GetRatesByID();//void means active user.
             new Progress().hideProgressIndicator(this);
-
-
-            foreach (var rutai in rutas.rutas)
-            {
-                var a = new Grid() { Height = 20 };
-                ListOfBoxes.Items.Add(a);
-                var b = new ShowRouteBox
-                {
-                    HeaderLabel = { Text = rutai.persona_nombre },
-                    BodyLabel =
-                    {
-                        Text =
-                            rutai.fecha_inicio_formato.Substring(0, 2) + "-" +
-                            rutai.fecha_inicio_formato.Substring(2, 2) + "-" +
-                            rutai.fecha_inicio_formato.Substring(4) + " a las " + rutai.hora_llegada_formato + "\nDe: " +
-                            rutai.texto_origen + "\nA: " + rutai.texto_destino
-                    }
-                };
-                ListOfBoxes.Items.Add(b);
-                b.Tap += b_Tap;
-            }
-
-            //try
-            //{
-            //    if (!(rutas.rutas.Count > todasLasRutas.rutas.Count))
-            //    {
-            //        return;
-            //    }
-            //}
-            //catch (Exception)
-            //{
-            //    foreach (var rutai in rutas.rutas)
-            //    {
-            //        var a = new Grid() { Height = 20 };
-            //        ListOfBoxes.Items.Add(a);
-            //        var b = new ShowRouteBox
-            //        {
-            //            HeaderLabel = { Text = rutai.persona_nombre },
-            //            BodyLabel =
-            //            {
-            //                Text =
-            //                    rutai.fecha_inicio_formato.Substring(0, 2) + "-" +
-            //                    rutai.fecha_inicio_formato.Substring(2, 2) + "-" +
-            //                    rutai.fecha_inicio_formato.Substring(4) + " a las " + rutai.hora_llegada_formato + "\nDe: " +
-            //                    rutai.texto_origen + "\nA: " + rutai.texto_destino
-            //            }
-            //        };
-            //        ListOfBoxes.Items.Add(b);
-            //        b.Tap += b_Tap;
-            //    }
-            //}
-
-
-            todasLasRutas = rutas;
-
-
         }
-
 
 
         private void listaMOusemoved(object sender, System.Windows.Input.MouseEventArgs e)
         {
-            //Debug.WriteLine("mouse wheel moved");
             appBarSM=appBarStateMachine.ITEM_NOT_SELECTED;
             BuildAppBar();
         }
@@ -130,7 +81,7 @@ namespace VoyIteso.Pages
             if (appBarSM == appBarStateMachine.ITEM_NOT_SELECTED)
             {
                 ApplicationBar = new ApplicationBar();
-                ApplicationBar.Mode = ApplicationBarMode.Minimized;
+                ApplicationBar.Mode = ApplicationBarMode.Default;
                 ApplicationBar.Opacity = 1.0;
                 ApplicationBar.IsMenuEnabled = true;
                 ApplicationBar.IsVisible = true;
@@ -140,10 +91,16 @@ namespace VoyIteso.Pages
                 //a.Click += a_Click;
                 //ApplicationBar.Buttons.Add(a);
 
-                ApplicationBarIconButton b = new ApplicationBarIconButton(new Uri("Assets/add.png", UriKind.Relative));
-                b.Text = "nueva ruta";
-                b.Click += b_Click;
-                ApplicationBar.Buttons.Add(b);
+                ApplicationBarMenuItem dados = new ApplicationBarMenuItem();
+                dados.Text = "mostrar aventones dados";
+                dados.Click += dadosClick;
+                ApplicationBar.MenuItems.Add(dados);
+
+                ApplicationBarMenuItem recibidos = new ApplicationBarMenuItem();
+                recibidos.Text = "mostrar aventones dados";
+                recibidos.Click += recibidosClick;
+                ApplicationBar.MenuItems.Add(recibidos);
+
             }
             else
             {
@@ -177,6 +134,55 @@ namespace VoyIteso.Pages
 
             
             
+        }
+
+        private void recibidosClick(object sender, EventArgs e)
+        {
+            //_dar = false;
+            //ContentPanel.Children.Remove(dados);
+            //ContentPanel.Children.Remove(recibidos);
+            ListOfBoxes.Items.Clear();
+
+            foreach (var aventon in _aventonesRecibidos)
+            {
+                var a = new Grid() { Height = 20 };
+                ListOfBoxes.Items.Add(a);
+                var imagen = ApiConnector.Instance.GetUserImageById(aventon.perfil_id);
+                var b = new CajaRed()
+                {
+                    Name = { Text = aventon.nombre },
+                    Description = { Text = aventon.descripcion }
+
+                };
+                b.Image.Source = imagen;
+                ListOfBoxes.Items.Add(b);
+                b.Tap += b_Tap;
+            }
+        }
+
+        private void dadosClick(object sender, EventArgs e)
+        {
+            //_dar = true;
+            //ContentPanel.Children.Remove(dados);
+            //ContentPanel.Children.Remove(recibidos);
+            ListOfBoxes.Items.Clear();
+
+            foreach (var aventon in _aventonesDados)
+            {
+                var a = new Grid() { Height = 20 };
+                ListOfBoxes.Items.Add(a);
+                var imagen = ApiConnector.Instance.GetUserImageById(aventon.perfil_id);
+                var b = new CajaRed()
+                {
+                    Name = { Text = aventon.nombre },
+                    Description = { Text = aventon.descripcion }
+                };
+                b.Image.Source = imagen;
+                ListOfBoxes.Items.Add(b);
+                b.Tap += b_Tap;
+            }
+            //Contenedor.Children.Add(ListOfBoxes);
+
         }
         /// <summary>
         /// this is the view button that will show the route on a map.
@@ -252,8 +258,12 @@ namespace VoyIteso.Pages
             MessageBox.Show("implementar esto.");
         }
 
-        ShowRouteBox tempBox = new ShowRouteBox();
+        CajaRed tempBox = new CajaRed();
         private Brush tempcol;
+        private List<PerfilDado> _aventonesDados;
+        private List<PerfilRecibido> _aventonesRecibidos;
+        private bool _dar = false;
+
         void b_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
             appBarSM = appBarStateMachine.ITEM_SELECTED;
@@ -267,7 +277,7 @@ namespace VoyIteso.Pages
             }
             var item = todasLasRutas.rutas[index / 2];
             //
-            var a = (ShowRouteBox)ListOfBoxes.SelectedItem;
+            var a = (CajaRed)ListOfBoxes.SelectedItem;
             RutaSeleccionadaRutai = item;
             if (a == tempBox)
             {
@@ -322,8 +332,7 @@ namespace VoyIteso.Pages
 
         private void listaSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //Debug.WriteLine("lista selection changed");
-            var a = (ShowRouteBox)ListOfBoxes.SelectedItem;
+            var a = (CajaRed)ListOfBoxes.SelectedItem;
             if (a == tempBox)
             {
                 return;
@@ -342,7 +351,6 @@ namespace VoyIteso.Pages
             NavigationService.Navigate(new Uri("/Pages/TheNewMap.xaml", UriKind.Relative));
         }
 
-        
         
     }
 }

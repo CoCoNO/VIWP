@@ -32,7 +32,7 @@
 
         <!--photo grid-->
         <Grid>
-            <Image Tap="UserImage_OnTap" x:Name="userImage" Source="/Images/SMOKE.png" Stretch="UniformToFill"/>
+            <Image Tap="UserImage_OnTap" x:Name="userImage" Source="/Images/man.jpg" Stretch="UniformToFill"/>
         </Grid>
         <!--info grid-->
         <Grid Margin="10,0" Grid.Row="1">
@@ -129,7 +129,7 @@
 
                 </Grid>
 
-                <Grid Background="#CD5E48" Grid.ColumnSpan="6" Margin="-13,141,-12,-87">
+                <Grid Tap="UIElement_OnTap" Background="#CD5E48" Grid.ColumnSpan="6" Margin="-13,141,-12,-87">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="32*"/>
                         <ColumnDefinition Width="32*"/>

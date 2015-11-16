@@ -129,6 +129,9 @@
     <Compile Include="Pages\0Tutorials\TutProfile.xaml.cs">
       <DependentUpon>TutProfile.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\1Red\RedEvaluaciones.xaml.cs">
+      <DependentUpon>RedEvaluaciones.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\About.xaml.cs">
       <DependentUpon>About.xaml</DependentUpon>
     </Compile>
@@ -166,6 +169,9 @@
     <Compile Include="Pages\Notifications.xaml.cs">
       <DependentUpon>Notifications.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\1Red\CajaRed.xaml.cs">
+      <DependentUpon>CajaRed.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\NotificationsStuff\CajaDeNotificacion.xaml.cs">
       <DependentUpon>CajaDeNotificacion.xaml</DependentUpon>
     </Compile>
@@ -184,6 +190,9 @@
     <Compile Include="Pages\shit\SecondaryMapPage.xaml.cs" />
     <Compile Include="Pages\SelectType.xaml.cs" />
     <Compile Include="Pages\shit\TheMap.xaml.cs" />
+    <Compile Include="Pages\1Red\RedAventones.xaml.cs">
+      <DependentUpon>RedAventones.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\ShowRoutes.xaml.cs">
       <DependentUpon>ShowRoutes.xaml</DependentUpon>
     </Compile>
@@ -255,6 +264,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\1Red\RedEvaluaciones.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Pages\About.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -299,6 +312,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\1Red\CajaRed.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Pages\NotificationsStuff\CajaDeNotificacion.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -324,6 +341,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\shit\TheMap.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\1Red\RedAventones.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

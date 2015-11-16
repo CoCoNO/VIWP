@@ -37,7 +37,7 @@
                     <Grid x:Name="GridDeInformacion" Background="#1E81C0" Margin="0,0,0,374">
 
                         <TextBlock Name="UserDetails" TextWrapping="Wrap" Text="cargando..." Margin="201,72,0,0"/>
-                        <Image Tap="DisplayImage_OnTap" Name="DisplayImage" Source="/Images/SMOKE.png" HorizontalAlignment="Left" Height="145" Margin="10,10,0,0" VerticalAlignment="Top" Width="150"/>
+                        <Image Tap="DisplayImage_OnTap" Name="DisplayImage" Source="/Images/man.jpg" HorizontalAlignment="Left" Height="145" Margin="10,10,0,0" VerticalAlignment="Top" Width="150"/>
                         <Button x:Name="ChatButton" Content="chat" Margin="347,0,0,151" Click="Button_Click"></Button>
                     </Grid>
                     <Grid Background="#1E81C0" Margin="0,251,0,123">

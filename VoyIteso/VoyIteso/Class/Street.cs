@@ -381,6 +381,42 @@ namespace VoyIteso.Class
         public List<Aventone> aventones { get; set; }
         public int estatus { get; set; }
     }
+    public class PerfilDado
+    {
+        public string nombre { get; set; }
+        public string imagen { get; set; }
+        public int perfil_id { get; set; }
+        public string descripcion { get; set; }
+    }
+
+    public class PerfilRecibido
+    {
+        public string nombre { get; set; }
+        public string imagen { get; set; }
+        public int perfil_id { get; set; }
+        public string descripcion { get; set; }
+    }
+
+    public class MiRed
+    {
+        public int estatus { get; set; }
+        public List<PerfilDado> perfil_dados { get; set; }
+        public List<PerfilRecibido> perfil_recibidos { get; set; }
+    }
+
+    public class Evaluacione
+    {
+        public string nombre { get; set; }
+        public int perfil_id { get; set; }
+        public int eval_id { get; set; }
+        public string comentario { get; set; }
+        public int calificacion { get; set; }
+    }
+
+    public class Evaluaciones
+    {
+        public List<Evaluacione> evaluaciones { get; set; }
+    }
     //****/
 
     //****/

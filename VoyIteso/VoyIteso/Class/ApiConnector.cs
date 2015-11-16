@@ -634,10 +634,10 @@ namespace VoyIteso.Class
 
             return rs.Data;
         }
-        
+
         /// <summary>
         ///     regresa lista de aventones pendientes por revisar.
-                //
+        //
 
 
         /// </summary>
@@ -657,9 +657,48 @@ namespace VoyIteso.Class
             return rs.Data;
         }
 
+
+        public async Task<MiRed> GetMyNetwork()
+        {
+            var c = new RestClient(HttpRequest.Url);
+            var r = new RestRequest(@"/perfil/mi_red", Method.GET);
+
+            r.AddParameter("security_token", _token);
+            r.AddParameter("perfil_id", ActiveUser.profileID);
+            r.AddParameter("randata", _ranData++);
+
+
+            var rs = await c.ExecuteTaskAsync<MiRed>(r);
+
+            return rs.Data;
+        }
+
+
+        /***/
+
+
+        public async Task<MiRed> GetRatesByID(int rID = 0)
+        {
+            if (rID == 0)
+            {
+                rID = ActiveUser.profile.perfilId;
+            }
+            var c = new RestClient(HttpRequest.Url);
+            var r = new RestRequest(String.Format(@"/{0}/evaluaciones", rID), Method.GET);
+
+            r.AddParameter("security_token", _token);
+            //r.AddParameter("perfil_id", ActiveUser.profileID);
+            r.AddParameter("randata", _ranData++);
+
+
+            var rs = await c.ExecuteTaskAsync<MiRed>(r);
+
+            return rs.Data;
+        }
+
         /// <summary>
         /// LiftRate regresa status de operacion. 
-         
+
         /// </summary>
         /// <param name="routeID"></param>
         /// <param name="succesful"></param>
@@ -723,7 +762,7 @@ namespace VoyIteso.Class
                         p.EndDate = p.StartDate.AddHours(1);
                         p.Subject = "De " + app.texto_origen + " a " + app.texto_destino;
                         p.OtroBabosoID = app.perfil_id.ToString();
-                        
+
                         appointments.Add(p);
                     }
 
@@ -817,25 +856,12 @@ namespace VoyIteso.Class
 
         public void UpdateCurrentProfileImage()
         {
+            Uri uri = new Uri(HttpRequest.Url + @"/perfil/imagen/" + _pid + "?security_token=" + _token + "&randData=" + _ranData++);
 
-            try
-            {
-                Uri uri = new Uri(HttpRequest.Url + @"/perfil/imagen/" + _pid + "?security_token=" + _token + "&randData=" + _ranData++);
-
-                BitmapImage img = new BitmapImage(uri);
-                img.CreateOptions = BitmapCreateOptions.None;
-                img.ImageOpened += img_ImageOpened;
-                _activeUser.Avatar = img;
-            }
-            catch (Exception exception)
-            {
-                BitmapImage img = new BitmapImage(new Uri("/Images/man.png",UriKind.Relative));
-                img.CreateOptions = BitmapCreateOptions.None;
-                //img.ImageOpened += img_ImageOpened;
-                _activeUser.Avatar = img;
-            }
-
-            
+            BitmapImage img = new BitmapImage(uri);
+            img.CreateOptions = BitmapCreateOptions.None;
+            img.ImageOpened += img_ImageOpened;
+            _activeUser.Avatar = img;
         }
 
         void img_ImageOpened(object sender, RoutedEventArgs e)

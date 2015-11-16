@@ -1,5 +1,5 @@
 ﻿<phone:PhoneApplicationPage
-    x:Class="VoyIteso.Pages.RedRecibir"
+    x:Class="VoyIteso.Pages.RedEvaluaciones"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
@@ -21,15 +21,17 @@
         </Grid.RowDefinitions>
 
         <!--TitlePanel contains the name of the application and page title-->
-        <StackPanel Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock Text="VOY ITESO - RED AVENTONES RECIBIDOS" Style="{StaticResource PhoneTextNormalStyle}"/>
-            <TextBlock Name="PageTitleLabel" FontSize="49" Text="Me han aventado.." Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
+        <StackPanel Grid.Row="0" Margin="12,17,0,99">
+            <TextBlock Text="VOY ITESO - EVALUACIONES RECIBIDAS" Style="{StaticResource PhoneTextNormalStyle}"/>
+            <!--<TextBlock Name="PageTitleLabel" FontSize="49" Text="He aventado a.." Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>-->
         </StackPanel>
 
         <!--ContentPanel - place additional content here-->
-        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
-            <ListBox Name="ListOfBoxes">
+        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,10,10">
+
+            <ListBox Name="ListOfBoxes" Margin="0,0,0,10" >
             </ListBox>
+
         </Grid>
     </Grid>
     

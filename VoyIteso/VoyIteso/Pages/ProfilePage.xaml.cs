@@ -256,7 +256,7 @@ namespace VoyIteso.Pages
                 }
                 else
                 {
-                    userImage.Source = new BitmapImage(new Uri("/Images/SMOKE.png", UriKind.Relative));
+                    userImage.Source = new BitmapImage(new Uri("/Images/man.jpg", UriKind.Relative));
                 }
                 
                 userName.Text = ApiConnector.Instance.ActiveUser.profile.nombre;
@@ -448,6 +448,14 @@ namespace VoyIteso.Pages
             }
         }
 
-        
+        /// <summary>
+        /// Boton secreto
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void UIElement_OnTap(object sender, GestureEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/Pages/1Red/RedAventones.xaml",UriKind.Relative));
+        }
     }
 }

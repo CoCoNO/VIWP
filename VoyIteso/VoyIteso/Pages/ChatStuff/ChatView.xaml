@@ -30,7 +30,7 @@
                    Width="60"
                    Height="60"
                    Margin="12"
-                   Source="/Images/dummy.png"/>
+                   Source="/Images/man.jpg"/>
             <TextBlock x:Name="SecondPartyName" Text="CARGANDO..."
                        Margin="0,5,12,0"
                        VerticalAlignment="Top"
@@ -52,7 +52,7 @@
                    Width="60"
                    Height="60"
                    Margin="12"
-                   Source="/Images/you.png"/>
+                   Source="/Images/man.jpg"/>
         </StackPanel>
         <TextBlock x:Name="typingTextBlock" 
                    Margin="10,306,14,70" Foreground="#1E81C0"
