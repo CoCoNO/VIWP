@@ -120,6 +120,9 @@
     <Compile Include="Pages\0RateComponents\RealizoOK.xaml.cs">
       <DependentUpon>RealizoOK.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\0Tutorials\TutCrearRuta.xaml.cs">
+      <DependentUpon>TutCrearRuta.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\0Tutorials\TutShowRoutes.xaml.cs">
       <DependentUpon>TutShowRoutes.xaml</DependentUpon>
     </Compile>
@@ -240,6 +243,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\0Tutorials\TutCrearRuta.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Pages\0Tutorials\TutShowRoutes.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -346,9 +353,12 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Images\man.jpg" />
     <Content Include="Images\tits\perfil\perfil1.png" />
     <Content Include="Images\tits\perfil\perfil2.png" />
     <Content Include="Images\tits\perfil\perfil3.png" />
+    <Content Include="Images\tits\rutas\crear1.png" />
+    <Content Include="Images\tits\rutas\rutas1.png" />
     <Content Include="Toolkit.Content\ApplicationBar.Check.png" />
     <None Include="packages.config" />
     <None Include="Properties\AppManifest.xml">

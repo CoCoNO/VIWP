@@ -1552,7 +1552,7 @@ namespace VoyIteso.Pages
                 fijariteso.Click += fijariteso_OnClick;
                 ApplicationBar.MenuItems.Add(fijariteso);
 
-                ApplicationBarMenuItem b = new ApplicationBarMenuItem { Text = "Tutorial" };
+                ApplicationBarMenuItem b = new ApplicationBarMenuItem { Text = "¿Cómo se usa?" };
                 b.Click += howToUse_Click;
                 ApplicationBar.MenuItems.Add(b);
 
@@ -1597,7 +1597,7 @@ namespace VoyIteso.Pages
                 fijariteso.Click += fijariteso_OnClick;
                 ApplicationBar.MenuItems.Add(fijariteso);
 
-                ApplicationBarMenuItem a = new ApplicationBarMenuItem { Text = "Turorial" };
+                ApplicationBarMenuItem a = new ApplicationBarMenuItem { Text = "¿Cómo se usa?" };
                 a.Click += howToUse_Click;
                 ApplicationBar.MenuItems.Add(a);
 
@@ -1634,7 +1634,7 @@ namespace VoyIteso.Pages
                 }
                 
                 ApplicationBarIconButton a = new ApplicationBarIconButton(new Uri("/Images/icons/questionmark.png", UriKind.Relative));
-                a.Text = "Tutorial";
+                a.Text = "información";
                 a.Click += howToUse_Click;
                 ApplicationBar.Buttons.Add(a);
 
@@ -1649,7 +1649,7 @@ namespace VoyIteso.Pages
                 ApplicationBar.MenuItems.Add(fijariteso);
 
 
-                ApplicationBarMenuItem b = new ApplicationBarMenuItem { Text = "Tutorial" };
+                ApplicationBarMenuItem b = new ApplicationBarMenuItem { Text = "¿Cómo se usa?" };
                 b.Click += howToUse_Click;
                 ApplicationBar.MenuItems.Add(b);
 
@@ -1858,7 +1858,7 @@ namespace VoyIteso.Pages
 
         private void howToUse_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Aquí va un tutorial", "Tutorial", MessageBoxButton.OK);
+            NavigationService.Navigate(new Uri("/Pages/0Tutorials/TutCrearRuta.xaml", UriKind.Relative));
         }
 
 

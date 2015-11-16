@@ -617,3 +617,4 @@ C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\obj\Debug\Pages\0Tutori
 C:\Users\SergioAdán\Documents\Github\VIWP\VoyIteso\VoyIteso\Bin\Debug\Microsoft.Phone.Controls.dll
 C:\Users\SergioAdán\Documents\Github\VIWP\VoyIteso\VoyIteso\obj\Debug\Pages\0Tutorials\TutShowRoutes.g.cs
 C:\Users\SergioAdán\Documents\Github\VIWP\VoyIteso\VoyIteso\obj\Debug\Pages\0Tutorials\TutProfile.g.cs
+C:\Users\SergioAdán\Documents\Github\VIWP\VoyIteso\VoyIteso\obj\Debug\Pages\0Tutorials\TutCrearRuta.g.cs

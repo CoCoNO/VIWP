@@ -243,9 +243,9 @@ namespace VoyIteso.Pages
             a.Click += a_click;
             ApplicationBar.MenuItems.Add(a);
 
-            ApplicationBarMenuItem b = new ApplicationBarMenuItem("picale aqui");
-            b.Click += b_click;
-            ApplicationBar.MenuItems.Add(b);
+            //ApplicationBarMenuItem b = new ApplicationBarMenuItem("picale aqui");
+            //b.Click += b_click;
+            //ApplicationBar.MenuItems.Add(b);
 
             //ApplicationBarMenuItem a = new ApplicationBarMenuItem("ir al nuevo mapa");
             //a.Click += a_Click;

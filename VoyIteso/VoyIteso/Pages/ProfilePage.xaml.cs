@@ -15,6 +15,7 @@ using Microsoft.Phone.Tasks;
 using GestureEventArgs = System.Windows.Input.GestureEventArgs;
 using System.Threading.Tasks;
 using System.Windows.Media;
+using Telerik.Windows.Controls;
 
 namespace VoyIteso.Pages
 {
@@ -62,6 +63,28 @@ namespace VoyIteso.Pages
             UserDataChanged();
             _myBool = true;
             queryUserData();
+
+            foo();
+        }
+
+        private void foo()
+        {
+            ApplicationBar = new ApplicationBar();
+            ApplicationBar.Mode = ApplicationBarMode.Default;
+            ApplicationBar.Opacity = 1.0;
+            ApplicationBar.IsMenuEnabled = true;
+            ApplicationBar.IsVisible = true;
+
+            ApplicationBarIconButton a = new ApplicationBarIconButton(new Uri("Images/icons/edit.png", UriKind.Relative));
+            a.Text = "Modificar";
+            a.Click += ApplicationBarIconButton_OnClick;
+            ApplicationBar.Buttons.Add(a);
+
+
+            ApplicationBarMenuItem b = new ApplicationBarMenuItem();
+            b.Text = "¿Qué puedo hacer?";
+            b.Click += quePuedoHacer_OnClick;
+            ApplicationBar.MenuItems.Add(b);
         }
 
         private bool _myBool = false;
@@ -90,6 +113,12 @@ namespace VoyIteso.Pages
                 a.Click += ApplicationBarIconButton_OnClick;
                 ApplicationBar.Buttons.Add(a);
 
+
+                ApplicationBarMenuItem b = new ApplicationBarMenuItem();
+                b.Text = "¿Qué puedo hacer?";
+                b.Click += quePuedoHacer_OnClick;
+                ApplicationBar.MenuItems.Add(b);
+
             }
             else
             {
@@ -109,8 +138,18 @@ namespace VoyIteso.Pages
                 guardar.Click += ApplicationBarIconButton_OnClick;
                 ApplicationBar.Buttons.Add(guardar);
 
+                ApplicationBarMenuItem b = new ApplicationBarMenuItem();
+                b.Text = "¿Qué puedo hacer?";
+                b.Click += quePuedoHacer_OnClick;
+                ApplicationBar.MenuItems.Add(b);
+
 
             }
+        }
+
+        private void quePuedoHacer_OnClick(object sender, EventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/Pages/0Tutorials/TutProfile.xaml", UriKind.Relative));
         }
 
         BitmapImage ObjBmpImage = new BitmapImage();
