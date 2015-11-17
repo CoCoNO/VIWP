@@ -620,3 +620,4 @@ C:\Users\SergioAdán\Documents\Github\VIWP\VoyIteso\VoyIteso\obj\Debug\Pages\0Tu
 C:\Users\SergioAdán\Documents\Github\VIWP\VoyIteso\VoyIteso\obj\Debug\Pages\1Red\CajaRed.g.cs
 C:\Users\SergioAdán\Documents\Github\VIWP\VoyIteso\VoyIteso\obj\Debug\Pages\1Red\RedAventones.g.cs
 C:\Users\SergioAdán\Documents\Github\VIWP\VoyIteso\VoyIteso\obj\Debug\Pages\1Red\RedEvaluaciones.g.cs
+C:\Users\SergioAdán\Documents\Github\VIWP\VoyIteso\VoyIteso\obj\Debug\VoyIteso.csprojResolveAssemblyReference.cache

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Device.Location;
 using System.Diagnostics;
 using System.Linq;
@@ -53,24 +52,27 @@ namespace VoyIteso.Pages
             base.OnNavigatedTo(e);
             ListOfBoxes.Items.Clear();
             var user = ApiConnector.Instance.ActiveUser;
-            new Progress().showProgressIndicator(this, "cargando aventones");
-            //aqui me quede porque jairo la cago> con el regreso de la funcion.. no mover lo anda arreglando.
-            var v = await ApiConnector.Instance.GetRatesByID();
-            
+            new Progress().showProgressIndicator(this, "espera");
 
-
-            var aventones = await ApiConnector.Instance.GetMyNetwork();
-            _aventonesDados = aventones.perfil_dados;
-            _aventonesRecibidos = aventones.perfil_recibidos;
             //ApiConnector.Instance.GetRatesByID();//void means active user.
+            var v = await ApiConnector.Instance.GetRatesByID();
+            foreach (var evaluacione in v.evaluaciones)
+            {
+                var a = new Grid
+                {
+                    Height = 20
+                };
+                ListOfBoxes.Items.Add(a);
+
+                var caja = new CajaRed();
+                //caja.Image.Source = ApiConnector.Instance.GetUserImageById(evaluacione.perfil_id);
+                caja.Avatar = ApiConnector.Instance.GetUserImageById(evaluacione.perfil_id);
+                caja.Name.Text = evaluacione.nombre;
+                caja.Description.Text = evaluacione.comentario;
+                ListOfBoxes.Items.Add(caja);
+            }
+
             new Progress().hideProgressIndicator(this);
-        }
-
-
-        private void listaMOusemoved(object sender, System.Windows.Input.MouseEventArgs e)
-        {
-            appBarSM=appBarStateMachine.ITEM_NOT_SELECTED;
-            BuildAppBar();
         }
 
 
@@ -78,185 +80,32 @@ namespace VoyIteso.Pages
         private void BuildAppBar()
         {
 
-            if (appBarSM == appBarStateMachine.ITEM_NOT_SELECTED)
-            {
-                ApplicationBar = new ApplicationBar();
-                ApplicationBar.Mode = ApplicationBarMode.Default;
-                ApplicationBar.Opacity = 1.0;
-                ApplicationBar.IsMenuEnabled = true;
-                ApplicationBar.IsVisible = true;
+            ApplicationBar = new ApplicationBar();
+            ApplicationBar.Mode = ApplicationBarMode.Default;
+            ApplicationBar.Opacity = 1.0;
+            ApplicationBar.IsMenuEnabled = true;
+            ApplicationBar.IsVisible = true;
 
-                //ApplicationBarIconButton a = new ApplicationBarIconButton(new Uri("Assets/refresh.png", UriKind.Relative));
-                //a.Text = "agregar caja// pruebas";
-                //a.Click += a_Click;
-                //ApplicationBar.Buttons.Add(a);
 
-                ApplicationBarMenuItem dados = new ApplicationBarMenuItem();
-                dados.Text = "mostrar aventones dados";
-                dados.Click += dadosClick;
-                ApplicationBar.MenuItems.Add(dados);
-
-                ApplicationBarMenuItem recibidos = new ApplicationBarMenuItem();
-                recibidos.Text = "mostrar aventones dados";
-                recibidos.Click += recibidosClick;
-                ApplicationBar.MenuItems.Add(recibidos);
-
-            }
-            else
-            {
-                ApplicationBar = new ApplicationBar();
-               ApplicationBar.Mode = ApplicationBarMode.Default;
-                
-                ApplicationBar.Opacity = 1.0;
-                ApplicationBar.IsMenuEnabled = true;
-                ApplicationBar.IsVisible = true;
-
-                ApplicationBarIconButton d = new ApplicationBarIconButton(new Uri("Images/icons/Point Objects-50.png", UriKind.Relative));
-                d.Text = "ver";
-                d.Click += d_Click;
-                ApplicationBar.Buttons.Add(d);
-
-                ApplicationBarIconButton a = new ApplicationBarIconButton(new Uri("Images/icons/delete.png", UriKind.Relative));
-                a.Text = "borrar";
-                a.Click += a_Click;
-                ApplicationBar.Buttons.Add(a);
-
-                ApplicationBarIconButton b = new ApplicationBarIconButton(new Uri("Assets/add.png", UriKind.Relative));
-                b.Text = "nueva ruta";
-                b.Click += b_Click;
-                ApplicationBar.Buttons.Add(b);
-
-                ApplicationBarIconButton c = new ApplicationBarIconButton(new Uri("Images/icons/refresh.png", UriKind.Relative));
-                c.Text = "repetir";
-                c.Click += c_Click;
-                ApplicationBar.Buttons.Add(c);
-            }
+            ApplicationBarIconButton a = new ApplicationBarIconButton(new Uri("Images/icons/close.png", UriKind.Relative));
+            a.Text = "Cerrar";
+            a.Click += cerrar_Click;
+            ApplicationBar.Buttons.Add(a);
 
             
-            
         }
 
-        private void recibidosClick(object sender, EventArgs e)
-        {
-            //_dar = false;
-            //ContentPanel.Children.Remove(dados);
-            //ContentPanel.Children.Remove(recibidos);
-            ListOfBoxes.Items.Clear();
 
-            foreach (var aventon in _aventonesRecibidos)
-            {
-                var a = new Grid() { Height = 20 };
-                ListOfBoxes.Items.Add(a);
-                var imagen = ApiConnector.Instance.GetUserImageById(aventon.perfil_id);
-                var b = new CajaRed()
-                {
-                    Name = { Text = aventon.nombre },
-                    Description = { Text = aventon.descripcion }
-
-                };
-                b.Image.Source = imagen;
-                ListOfBoxes.Items.Add(b);
-                b.Tap += b_Tap;
-            }
-        }
-
-        private void dadosClick(object sender, EventArgs e)
-        {
-            //_dar = true;
-            //ContentPanel.Children.Remove(dados);
-            //ContentPanel.Children.Remove(recibidos);
-            ListOfBoxes.Items.Clear();
-
-            foreach (var aventon in _aventonesDados)
-            {
-                var a = new Grid() { Height = 20 };
-                ListOfBoxes.Items.Add(a);
-                var imagen = ApiConnector.Instance.GetUserImageById(aventon.perfil_id);
-                var b = new CajaRed()
-                {
-                    Name = { Text = aventon.nombre },
-                    Description = { Text = aventon.descripcion }
-                };
-                b.Image.Source = imagen;
-                ListOfBoxes.Items.Add(b);
-                b.Tap += b_Tap;
-            }
-            //Contenedor.Children.Add(ListOfBoxes);
-
-        }
         /// <summary>
-        /// this is the view button that will show the route on a map.
+        /// boton de cerrar.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void d_Click(object sender, EventArgs e)
+        private void cerrar_Click(object sender, EventArgs e)
         {
-            //coordenadas a.
-            //coordenadas b.
-            //coordenadas puntos intermedios.
-            var a =  RutaSeleccionadaRutai.puntos_intermedios;
-
-            var w = a.Split(Convert.ToChar(","));
-            var v = new List<string>();
-
-            //
-            short i = 0, coun = 0;
-            foreach (var variable in w)
-            {
-                if (coun >= w.Count()-1)
-                {   
-                    i = 3;
-                }else if (i>2)
-                {
-                    i = 1;
-                }
-                switch (i)
-                {
-                    case 0:
-                        v.Add(variable.Substring(8));
-                        break;
-                    case 1:
-                        v.Add(variable.Substring(6, variable.Length - 7));
-                        break;
-                    case 2:
-                        v.Add(variable.Substring(7));
-                        break;
-                    case 3:
-                        v.Add(variable.Substring(6, variable.Length - 9));
-                        break;
-                        
-                    default:
-                        break;
-                }
-                coun++;
-                i++;
-            }
-
-            //load points to waypoint list
-            var waypoints = new List<GeoCoordinate>();
-            for(i=0;i<=v.Count-2;i+=2)
-            {
-                var wayvar = new GeoCoordinate(Double.Parse(v[i]), Double.Parse(v[i+1]));
-                waypoints.Add(wayvar);
-            }
-
-            TheNewMap.ReadOnly = true;
-            TheNewMap._readonlypoints = waypoints;
-            //TheNewMap.MyObjects = 
-
-            NavigationService.Navigate(new Uri("/Pages/TheNewMap.xaml", UriKind.Relative));
-            
+            NavigationService.GoBack();;
         }
 
-        /// <summary>
-        /// boton de repetir la ruta.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void c_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("implementar esto.");
-        }
 
         CajaRed tempBox = new CajaRed();
         private Brush tempcol;
@@ -266,89 +115,45 @@ namespace VoyIteso.Pages
 
         void b_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            appBarSM = appBarStateMachine.ITEM_SELECTED;
-            BuildAppBar();
-            var index = ListOfBoxes.SelectedIndex - 1;
-            //Debug.WriteLine(index/2);
 
-            if (index % 2 != 0 || index < 0)
-            {
-                return;
-            }
-            var item = todasLasRutas.rutas[index / 2];
-            //
-            var a = (CajaRed)ListOfBoxes.SelectedItem;
-            RutaSeleccionadaRutai = item;
-            if (a == tempBox)
-            {
-                return;
-            }
+            Debug.WriteLine("<b_tap>");
+
+
+            //appBarSM = appBarStateMachine.ITEM_SELECTED;
+            //BuildAppBar();
+            //var index = ListOfBoxes.SelectedIndex - 1;
+            ////Debug.WriteLine(index/2);
+
+            //if (index % 2 != 0 || index < 0)
+            //{
+            //    return;
+            //}
+            //var item = todasLasRutas.rutas[index / 2];
+            ////
+            //var a = (CajaRed)ListOfBoxes.SelectedItem;
+            //RutaSeleccionadaRutai = item;
+            //if (a == tempBox)
+            //{
+            //    return;
+            //}
             
-            tempcol = a.Grid.Background;
-            a.Grid.Background = new SolidColorBrush(Color.FromArgb(255, 133, 195, 64));
-            tempBox = a;
+            //tempcol = a.Grid.Background;
+            //a.Grid.Background = new SolidColorBrush(Color.FromArgb(255, 133, 195, 64));
+            //tempBox = a;
 
             //MessageBox.Show(item.puntos_intermedios);
             //NavigationService.Navigate(new Uri("/Pages/TheNewMap.xaml", UriKind.Relative));//?key=value&key2=value
         }
 
 
-
-        protected override void OnBackKeyPress(CancelEventArgs e)
-        {
-            base.OnBackKeyPress(e);
-            NavigationService.Navigate(new Uri("/Pages/HomePage.xaml", UriKind.Relative));
-            while (true)
-            {
-                if (NavigationService.RemoveBackEntry() == null)
-                {
-                    break;
-                }
-            }
-
-        }
-
-        //a,.
-        async private void a_Click(object sender, EventArgs e)
-        {
-            //var a = new Grid(){Height = 20};
-            //ListOfBoxes.Items.Add(a);
-            //ListOfBoxes.Items.Add(new ShowRouteBox());
-            new Progress().showProgressIndicator(this, "borrando la ruta");
-            var a = await ApiConnector.Instance.RouteDelete(RutaSeleccionadaRutai.ruta_id);
-            new Progress().hideProgressIndicator(this);
-            
-            if (a.estatus == 1)
-            {
-                MessageBox.Show("Ruta borrada");
-                OnNavigatedTo(null);
-                appBarSM = appBarStateMachine.ITEM_NOT_SELECTED;
-                BuildAppBar();
-            }else
-               MessageBox.Show("No se pudo realizar movimiento");
-             
-            
-        }
-
         private void listaSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var a = (CajaRed)ListOfBoxes.SelectedItem;
-            if (a == tempBox)
-            {
-                return;
-            }
-            tempBox.Grid.Background = tempcol; //83C13F blue//el q tiene ahroita = 85C340
-        }
-
-        /// <summary>
-        /// boton de nueva ruta.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void b_Click(object sender, EventArgs e)
-        {
-            TheNewMap.ReadOnly = false;
-            NavigationService.Navigate(new Uri("/Pages/TheNewMap.xaml", UriKind.Relative));
+            //var a = (CajaRed)ListOfBoxes.SelectedItem;
+            //if (a == tempBox)
+            //{
+            //    return;
+            //}
+            //tempBox.Grid.Background = tempcol; //83C13F blue//el q tiene ahroita = 85C340
         }
 
         

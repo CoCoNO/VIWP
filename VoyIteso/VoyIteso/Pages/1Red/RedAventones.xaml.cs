@@ -48,6 +48,13 @@ namespace VoyIteso.Pages
         /// </summary>
         Rutes todasLasRutas = new Rutes();
         public Rutai RutaSeleccionadaRutai { get; set; }
+
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="e"></param>
         protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
@@ -87,7 +94,7 @@ namespace VoyIteso.Pages
                 ApplicationBar.MenuItems.Add(dados);
 
                 ApplicationBarMenuItem recibidos = new ApplicationBarMenuItem();
-                recibidos.Text = "mostrar aventones dados";
+                recibidos.Text = "mostrar aventones recibidos";
                 recibidos.Click += recibidosClick;
                 ApplicationBar.MenuItems.Add(recibidos);
 
@@ -101,25 +108,15 @@ namespace VoyIteso.Pages
                 ApplicationBar.IsMenuEnabled = true;
                 ApplicationBar.IsVisible = true;
 
-                ApplicationBarIconButton d = new ApplicationBarIconButton(new Uri("Images/icons/Point Objects-50.png", UriKind.Relative));
-                d.Text = "ver";
-                d.Click += d_Click;
-                ApplicationBar.Buttons.Add(d);
+                ApplicationBarMenuItem dados = new ApplicationBarMenuItem();
+                dados.Text = "mostrar aventones dados";
+                dados.Click += dadosClick;
+                ApplicationBar.MenuItems.Add(dados);
 
-                ApplicationBarIconButton a = new ApplicationBarIconButton(new Uri("Images/icons/delete.png", UriKind.Relative));
-                a.Text = "borrar";
-                a.Click += a_Click;
-                ApplicationBar.Buttons.Add(a);
-
-                ApplicationBarIconButton b = new ApplicationBarIconButton(new Uri("Assets/add.png", UriKind.Relative));
-                b.Text = "nueva ruta";
-                b.Click += b_Click;
-                ApplicationBar.Buttons.Add(b);
-
-                ApplicationBarIconButton c = new ApplicationBarIconButton(new Uri("Images/icons/refresh.png", UriKind.Relative));
-                c.Text = "repetir";
-                c.Click += c_Click;
-                ApplicationBar.Buttons.Add(c);
+                ApplicationBarMenuItem recibidos = new ApplicationBarMenuItem();
+                recibidos.Text = "mostrar aventones recibidos";
+                recibidos.Click += recibidosClick;
+                ApplicationBar.MenuItems.Add(recibidos);
             }
 
             
@@ -238,16 +235,6 @@ namespace VoyIteso.Pages
             
         }
 
-        /// <summary>
-        /// boton de repetir la ruta.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void c_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("implementar esto.");
-        }
-
         CajaRed tempBox = new CajaRed();
         private Brush tempcol;
         private List<PerfilDado> _aventonesDados;
@@ -256,27 +243,27 @@ namespace VoyIteso.Pages
 
         void b_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            appBarSM = appBarStateMachine.ITEM_SELECTED;
-            BuildAppBar();
-            var index = ListOfBoxes.SelectedIndex - 1;
-            //Debug.WriteLine(index/2);
+            //appBarSM = appBarStateMachine.ITEM_SELECTED;
+            //BuildAppBar();
+            //var index = ListOfBoxes.SelectedIndex - 1;
+            ////Debug.WriteLine(index/2);
 
-            if (index % 2 != 0 || index < 0)
-            {
-                return;
-            }
-            var item = todasLasRutas.rutas[index / 2];
-            //
-            var a = (CajaRed)ListOfBoxes.SelectedItem;
-            RutaSeleccionadaRutai = item;
-            if (a == tempBox)
-            {
-                return;
-            }
+            //if (index % 2 != 0 || index < 0)
+            //{
+            //    return;
+            //}
+            //var item = todasLasRutas.rutas[index / 2];
+            ////
+            //var a = (CajaRed)ListOfBoxes.SelectedItem;
+            //RutaSeleccionadaRutai = item;
+            //if (a == tempBox)
+            //{
+            //    return;
+            //}
             
-            tempcol = a.Grid.Background;
-            a.Grid.Background = new SolidColorBrush(Color.FromArgb(255, 133, 195, 64));
-            tempBox = a;
+            //tempcol = a.Grid.Background;
+            //a.Grid.Background = new SolidColorBrush(Color.FromArgb(255, 133, 195, 64));
+            //tempBox = a;
 
             //MessageBox.Show(item.puntos_intermedios);
             //NavigationService.Navigate(new Uri("/Pages/TheNewMap.xaml", UriKind.Relative));//?key=value&key2=value

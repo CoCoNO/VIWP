@@ -457,5 +457,10 @@ namespace VoyIteso.Pages
         {
             NavigationService.Navigate(new Uri("/Pages/1Red/RedAventones.xaml",UriKind.Relative));
         }
+
+        private void TxtEvaluations_OnTap(object sender, GestureEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/Pages/1Red/RedEvaluaciones.xaml", UriKind.Relative));
+        }
     }
 }

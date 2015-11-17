@@ -661,7 +661,7 @@ namespace VoyIteso.Class
         public async Task<MiRed> GetMyNetwork()
         {
             var c = new RestClient(HttpRequest.Url);
-            var r = new RestRequest(@"/perfil/mi_red", Method.GET);
+            var r = new RestRequest(@"/perfil/1591/mi_red", Method.GET);
 
             r.AddParameter("security_token", _token);
             r.AddParameter("perfil_id", ActiveUser.profileID);
@@ -677,21 +677,21 @@ namespace VoyIteso.Class
         /***/
 
 
-        public async Task<MiRed> GetRatesByID(int rID = 0)
+        public async Task<Evaluaciones> GetRatesByID(int rID = 0)
         {
             if (rID == 0)
             {
                 rID = ActiveUser.profile.perfilId;
             }
             var c = new RestClient(HttpRequest.Url);
-            var r = new RestRequest(String.Format(@"/{0}/evaluaciones", rID), Method.GET);
+            var r = new RestRequest(String.Format(@"/perfil/{0}/evaluaciones", rID), Method.GET);
 
             r.AddParameter("security_token", _token);
             //r.AddParameter("perfil_id", ActiveUser.profileID);
             r.AddParameter("randata", _ranData++);
 
 
-            var rs = await c.ExecuteTaskAsync<MiRed>(r);
+            var rs = await c.ExecuteTaskAsync<Evaluaciones>(r);
 
             return rs.Data;
         }
