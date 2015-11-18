@@ -24,22 +24,23 @@ namespace VoyIteso.Pages._0Tutorials
             switch (MyPanorama.SelectedIndex)
             {
                 case 0:
+                    MyImage.Source = new BitmapImage(new Uri("/Images/tits/rutas/crearruta1.png", UriKind.Relative));
                     buildAppBar(false);
-                    MyImage.Visibility = Visibility.Collapsed;
+                   // MyImage.Visibility = Visibility.Collapsed;
                     break;
 
                 case 1:
-                    MyImage.Source = new BitmapImage(new Uri("/Images/tits/rutas/crear1.png", UriKind.Relative));
+                    MyImage.Source = new BitmapImage(new Uri("/Images/tits/rutas/crearruta2.png", UriKind.Relative));
                     buildAppBar(false);
                     break;
 
                 case 2:
-                    MyImage.Source = new BitmapImage(new Uri("/Images/tits/rutas/crear2.png", UriKind.Relative));
+                    MyImage.Source = new BitmapImage(new Uri("/Images/tits/rutas/crearruta3.png", UriKind.Relative));
                     buildAppBar(false);
                     break;
 
                 case 3:
-                    MyImage.Source = new BitmapImage(new Uri("/Images/tits/rutas/crear3.png", UriKind.Relative));
+                    MyImage.Source = new BitmapImage(new Uri("/Images/tits/rutas/crearruta4.png", UriKind.Relative));
                     MyImage.Visibility = Visibility.Visible;
                     buildAppBar(true);
                     break;
@@ -75,6 +76,11 @@ namespace VoyIteso.Pages._0Tutorials
         }
 
         private void ok_Click(object sender, EventArgs e)
+        {
+            NavigationService.GoBack();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.GoBack();
         }

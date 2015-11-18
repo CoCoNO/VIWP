@@ -268,24 +268,8 @@ namespace VoyIteso.Pages
             //MessageBox.Show(item.puntos_intermedios);
             //NavigationService.Navigate(new Uri("/Pages/TheNewMap.xaml", UriKind.Relative));//?key=value&key2=value
         }
+         
 
-
-
-        protected override void OnBackKeyPress(CancelEventArgs e)
-        {
-            base.OnBackKeyPress(e);
-            NavigationService.Navigate(new Uri("/Pages/HomePage.xaml", UriKind.Relative));
-            while (true)
-            {
-                if (NavigationService.RemoveBackEntry() == null)
-                {
-                    break;
-                }
-            }
-
-        }
-
-        //a,.
         async private void a_Click(object sender, EventArgs e)
         {
             //var a = new Grid(){Height = 20};

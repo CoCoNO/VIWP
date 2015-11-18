@@ -379,6 +379,10 @@
     <Content Include="Images\tits\perfil\perfil2.png" />
     <Content Include="Images\tits\perfil\perfil3.png" />
     <Content Include="Images\tits\rutas\crear1.png" />
+    <Content Include="Images\tits\rutas\crearruta1.png" />
+    <Content Include="Images\tits\rutas\crearruta2.png" />
+    <Content Include="Images\tits\rutas\crearruta3.png" />
+    <Content Include="Images\tits\rutas\crearruta4.png" />
     <Content Include="Images\tits\rutas\rutas1.png" />
     <Content Include="Toolkit.Content\ApplicationBar.Check.png" />
     <None Include="packages.config" />

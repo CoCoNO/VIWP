@@ -17,39 +17,39 @@
     <Grid x:Name="LayoutRoot" Background="#104571">
 
 
-        <Image Name="MyImage" Source="../../Images/tits/rutas/crear1.png"  ></Image>
-
-
-        <!--Source="../../Images/tits/perfil/perfil3.png"-->
-
+        <Image Name="MyImage" Source="../../Images/tits/rutas/crearruta1.png"  ></Image>
+        
         <phone:Panorama  Name="MyPanorama" SelectionChanged="MyPanorama_OnSelectionChanged">
 
 
-            <!--Panorama item one-->
-            <phone:PanoramaItem Header="Crear ruta">
+            <!--Panorama item cero-->
+            <phone:PanoramaItem Foreground="#104571" Header="Nueva ruta">
                 <Grid>
-                    <TextBlock TextWrapping="Wrap" FontSize="35" Text="Lo primero es ubicar tu destino colocando un pin en el mapa. &#x0a;&#x0a;Desliza para continuar"/>
+                    <TextBlock Foreground="#104571" TextWrapping="Wrap" FontSize="35" Text="Coloca un destino; puedes hacerlo presionando y manteniendo..."/>
+                    <!--&#x0a;-->
                 </Grid>
             </phone:PanoramaItem>
 
             <!--Panorama item one-->
             <phone:PanoramaItem Header="">
                 <Grid>
-                    <TextBlock HorizontalAlignment="Center" Foreground="#104571" FontSize="35" Text="Coloca el destino presionando y manteniendo con tu dedo en el mapa.&#x0a;&#x0a;&#x0a;&#x0a;También puedes buscar tu destino de manera textual" TextWrapping="Wrap" Margin="26,221,21,0" Width="373"/>
+                    <TextBlock HorizontalAlignment="Center" Foreground="#104571" FontSize="35" Text="También puedes buscar de manera textual" TextWrapping="Wrap" Margin="26,153,21,0" Width="373"/>
                 </Grid>
             </phone:PanoramaItem>
 
             <!--Panorama item two-->
             <phone:PanoramaItem Header="">
                 <Grid>
-                    <TextBlock HorizontalAlignment="Center" FontSize="35" Text="i" TextWrapping="Wrap" Margin="42,452,10,0" Width="368"/>
+                    <TextBlock HorizontalAlignment="Center" FontSize="35" Text="Configura la fecha y hora de tu ruta" TextWrapping="Wrap" Margin="42,457,105,0" Width="273"/>
+                    <Button Content="regresar" Margin="42,601,209,92" Click="Button_Click"></Button>
                 </Grid>
             </phone:PanoramaItem>
 
             <!--Panorama item three-->
             <phone:PanoramaItem Header="">
                 <Grid>
-                    <TextBlock HorizontalAlignment="Center" FontSize="35" Text="Cuéntale a los demás un poco de tí" TextWrapping="Wrap" Margin="42,322,10,0" Width="368"/>
+                    <TextBlock HorizontalAlignment="Center" FontSize="35" Text="Configura la fecha y hora de tu ruta" TextWrapping="Wrap" Margin="42,457,105,0" Width="273"/>
+                <Button Content="regresar" Margin="42,601,209,92" Click="Button_Click"></Button>
                 </Grid>
             </phone:PanoramaItem>
         </phone:Panorama>
