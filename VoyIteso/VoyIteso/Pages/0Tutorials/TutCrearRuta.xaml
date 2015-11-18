@@ -18,7 +18,7 @@
 
 
         <Image Name="MyImage" Source="../../Images/tits/rutas/crearruta1.png"  ></Image>
-        
+
         <phone:Panorama  Name="MyPanorama" SelectionChanged="MyPanorama_OnSelectionChanged">
 
 
@@ -40,16 +40,15 @@
             <!--Panorama item two-->
             <phone:PanoramaItem Header="">
                 <Grid>
-                    <TextBlock HorizontalAlignment="Center" FontSize="35" Text="Configura la fecha y hora de tu ruta" TextWrapping="Wrap" Margin="42,457,105,0" Width="273"/>
-                    <Button Content="regresar" Margin="42,601,209,92" Click="Button_Click"></Button>
+                    <TextBlock HorizontalAlignment="Center" Foreground="#104571" FontSize="35" Text="Indíca algunos puntos de interés que estén en tu ruta" TextWrapping="Wrap" Margin="26,76,21,0" Width="373"/>
                 </Grid>
             </phone:PanoramaItem>
 
             <!--Panorama item three-->
             <phone:PanoramaItem Header="">
                 <Grid>
-                    <TextBlock HorizontalAlignment="Center" FontSize="35" Text="Configura la fecha y hora de tu ruta" TextWrapping="Wrap" Margin="42,457,105,0" Width="273"/>
-                <Button Content="regresar" Margin="42,601,209,92" Click="Button_Click"></Button>
+                    <TextBlock HorizontalAlignment="Center" FontSize="30" Text="Para terminar, configura la fecha y hora en la que se llevará a cabo" TextWrapping="Wrap" Margin="10,457,70,168" Width="340"/>
+                    <Button Content="regresar" Margin="42,601,209,92" Click="Button_Click"></Button>
                 </Grid>
             </phone:PanoramaItem>
         </phone:Panorama>

@@ -42,7 +42,7 @@ namespace VoyIteso.Pages._0Tutorials
                 case 3:
                     MyImage.Source = new BitmapImage(new Uri("/Images/tits/rutas/crearruta4.png", UriKind.Relative));
                     MyImage.Visibility = Visibility.Visible;
-                    buildAppBar(true);
+                    buildAppBar(false);
                     break;
             }
         }
