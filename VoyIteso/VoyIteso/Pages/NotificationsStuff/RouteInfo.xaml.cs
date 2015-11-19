@@ -443,6 +443,11 @@ namespace VoyIteso.Pages
             //coordenadas puntos intermedios.
             var a = myCajaDeResultados.ruta.puntos_intermedios;
 
+            if (a == null)
+            {
+                a = myCajaDeResultados.ruta.puntos;
+            }
+
             var w = a.Split(Convert.ToChar(","));
             var v = new List<string>();
 

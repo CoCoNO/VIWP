@@ -119,30 +119,51 @@ namespace VoyIteso.Pages
             Debug.WriteLine("<b_tap>");
 
 
-            //appBarSM = appBarStateMachine.ITEM_SELECTED;
-            //BuildAppBar();
-            //var index = ListOfBoxes.SelectedIndex - 1;
-            ////Debug.WriteLine(index/2);
+            appBarSM = appBarStateMachine.ITEM_SELECTED;
+            BuildAppBar();
 
-            //if (index % 2 != 0 || index < 0)
-            //{
-            //    return;
-            //}
+
+            var index = ListOfBoxes.SelectedIndex - 1;
+            //Debug.WriteLine(index/2);
+            if (index % 2 != 0 || index < 0)
+            {
+                return;
+            }
             //var item = todasLasRutas.rutas[index / 2];
-            ////
+            var av_dado = new PerfilDado();
+            var av_recibido = new PerfilRecibido();
+            if (_dar)
+            {
+                //var b = (CajaRed)ListOfBoxes.SelectedItem;b.
+                av_dado = _aventonesDados[index/2];
+                ProfilePageExternal.Perfildelotrowey = av_dado.perfil_id;
+            }
+            else
+            {
+                av_recibido = _aventonesRecibidos[index/2];
+                ProfilePageExternal.Perfildelotrowey = av_recibido.perfil_id;
+            }
+
+            
             //var a = (CajaRed)ListOfBoxes.SelectedItem;
             //RutaSeleccionadaRutai = item;
             //if (a == tempBox)
             //{
             //    return;
             //}
-            
+
             //tempcol = a.Grid.Background;
             //a.Grid.Background = new SolidColorBrush(Color.FromArgb(255, 133, 195, 64));
             //tempBox = a;
 
             //MessageBox.Show(item.puntos_intermedios);
             //NavigationService.Navigate(new Uri("/Pages/TheNewMap.xaml", UriKind.Relative));//?key=value&key2=value
+
+
+
+            
+            NavigationService.Navigate(new Uri("/Pages/ProfilePageExternal.xaml", UriKind.Relative));
+
         }
 
 

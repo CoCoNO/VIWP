@@ -12,9 +12,9 @@ using Microsoft.Phone.Shell;
 
 namespace VoyIteso.Pages._0Tutorials
 {
-    public partial class TutCrearRuta : PhoneApplicationPage
+    public partial class TutBuscarRuta : PhoneApplicationPage
     {
-        public TutCrearRuta()
+        public TutBuscarRuta()
         {
             InitializeComponent();
         }

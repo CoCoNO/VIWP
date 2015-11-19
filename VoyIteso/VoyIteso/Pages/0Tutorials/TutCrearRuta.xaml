@@ -1,5 +1,5 @@
 ﻿<phone:PhoneApplicationPage
-    x:Class="VoyIteso.Pages._0Tutorials.TutCrearRuta"
+    x:Class="VoyIteso.Pages._0Tutorials.TutBuscarRuta"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
@@ -19,39 +19,39 @@
 
         <Image Name="MyImage" Source="../../Images/tits/rutas/crearruta1.png"  ></Image>
 
-        <phone:Panorama  Name="MyPanorama" SelectionChanged="MyPanorama_OnSelectionChanged">
+        <phone:Pivot  Name="MyPanorama" SelectionChanged="MyPanorama_OnSelectionChanged">
 
 
             <!--Panorama item cero-->
-            <phone:PanoramaItem Foreground="#104571" Header="Nueva ruta">
+            <phone:PivotItem ><!--Foreground="#104571" Header="Nueva ruta"-->
                 <Grid>
-                    <TextBlock Foreground="#104571" TextWrapping="Wrap" FontSize="35" Text="Coloca un destino; puedes hacerlo presionando y manteniendo..."/>
+                    <TextBlock Foreground="#104571" TextWrapping="Wrap" FontSize="35" Text="Coloca un destino presionando y manteniendo..."/>
                     <!--&#x0a;-->
                 </Grid>
-            </phone:PanoramaItem>
+            </phone:PivotItem>
 
             <!--Panorama item one-->
-            <phone:PanoramaItem Header="">
+            <phone:PivotItem Header="">
                 <Grid>
-                    <TextBlock HorizontalAlignment="Center" Foreground="#104571" FontSize="35" Text="También puedes buscar de manera textual" TextWrapping="Wrap" Margin="26,153,21,0" Width="373"/>
+                    <TextBlock HorizontalAlignment="Center" Foreground="#104571" FontSize="35" Text="también puedes buscar de manera textual" TextWrapping="Wrap" Margin="26,153,21,0" Width="373"/>
                 </Grid>
-            </phone:PanoramaItem>
+            </phone:PivotItem>
 
             <!--Panorama item two-->
-            <phone:PanoramaItem Header="">
+            <phone:PivotItem Header="">
                 <Grid>
                     <TextBlock HorizontalAlignment="Center" Foreground="#104571" FontSize="35" Text="Indíca algunos puntos de interés que estén en tu ruta" TextWrapping="Wrap" Margin="26,76,21,0" Width="373"/>
                 </Grid>
-            </phone:PanoramaItem>
+            </phone:PivotItem>
 
             <!--Panorama item three-->
-            <phone:PanoramaItem Header="">
+            <phone:PivotItem Header="">
                 <Grid>
-                    <TextBlock HorizontalAlignment="Center" FontSize="30" Text="Para terminar, configura la fecha y hora en la que se llevará a cabo" TextWrapping="Wrap" Margin="10,457,70,168" Width="340"/>
-                    <Button Content="regresar" Margin="42,601,209,92" Click="Button_Click"></Button>
+                    <TextBlock HorizontalAlignment="Center" FontSize="30" Text="Para terminar, configura la fecha y hora en la que se llevará a cabo tu ruta" TextWrapping="Wrap" Margin="10,457,70,168" Width="340"/>
+                    <Button Content="¡Entendido!" Margin="10,594,183,92" Click="Button_Click"></Button>
                 </Grid>
-            </phone:PanoramaItem>
-        </phone:Panorama>
+            </phone:PivotItem>
+        </phone:Pivot>
     </Grid>
 
 </phone:PhoneApplicationPage>

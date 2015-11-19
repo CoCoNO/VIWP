@@ -625,3 +625,5 @@ C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\obj\Debug\Pages\0Tutori
 C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\obj\Debug\Pages\1Red\RedEvaluaciones.g.cs
 C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\obj\Debug\Pages\1Red\CajaRed.g.cs
 C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\obj\Debug\Pages\1Red\RedAventones.g.cs
+C:\Users\SergioAdán\Documents\Github\VIWP\VoyIteso\VoyIteso\obj\Debug\Pages\0Tutorials\TutCrearRutaAlterno.g.cs
+C:\Users\SergioAdán\Documents\Github\VIWP\VoyIteso\VoyIteso\obj\Debug\Pages\0Tutorials\TutBuscarRuta.g.cs
