@@ -243,7 +243,7 @@ namespace VoyIteso.Pages
             a.Click += a_click;
             ApplicationBar.MenuItems.Add(a);
 
-            ApplicationBarMenuItem b = new ApplicationBarMenuItem("picale aqui");
+            ApplicationBarMenuItem b = new ApplicationBarMenuItem("Ver tips");
             b.Click += b_click;
             ApplicationBar.MenuItems.Add(b);
 
@@ -268,7 +268,7 @@ namespace VoyIteso.Pages
 
         private void b_click(object sender, EventArgs e)
         {
-            NavigationService.Navigate(new Uri("/Pages/0Tutorials/TutCrearRutaAlterno.xaml", UriKind.Relative));
+            NavigationService.Navigate(new Uri("/Pages/0Tutorials/TutHome.xaml", UriKind.Relative));
         }
 
         /// <summary>

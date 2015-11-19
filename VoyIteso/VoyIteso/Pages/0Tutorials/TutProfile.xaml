@@ -17,20 +17,13 @@
     <Grid x:Name="LayoutRoot" Background="#104571">
 
 
-        <Image Name="MyImage"   ></Image>
+        <Image Name="MyImage" Source="../../Images/tits/perfil/perfil1.png"  ></Image>
 
 
         <!--Source="../../Images/tits/perfil/perfil3.png"-->
 
         <phone:Panorama  Name="MyPanorama" SelectionChanged="MyPanorama_OnSelectionChanged">
 
-
-            <!--Panorama item one-->
-            <phone:PanoramaItem Header="Perfil">
-                <Grid>
-                    <TextBlock FontSize="35" Text="Desliza para continuar"/>
-                </Grid>
-            </phone:PanoramaItem>
 
             <!--Panorama item one-->
             <phone:PanoramaItem Header="">
@@ -50,6 +43,7 @@
             <phone:PanoramaItem Header="">
                 <Grid>
                     <TextBlock HorizontalAlignment="Center" FontSize="35" Text="Cuéntale a los demás un poco de tí" TextWrapping="Wrap" Margin="42,322,10,0" Width="368"/>
+                    <Button Content="¡Entendido!" Margin="42,437,151,249" Click="Button_Click"></Button>
                 </Grid>
             </phone:PanoramaItem>
         </phone:Panorama>

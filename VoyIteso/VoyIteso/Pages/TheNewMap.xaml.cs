@@ -1597,7 +1597,7 @@ namespace VoyIteso.Pages
                 fijariteso.Click += fijariteso_OnClick;
                 ApplicationBar.MenuItems.Add(fijariteso);
 
-                ApplicationBarMenuItem a = new ApplicationBarMenuItem { Text = "Tips" };
+                ApplicationBarMenuItem a = new ApplicationBarMenuItem { Text = "Ver tips" };
                 a.Click += howToUse_Click;
                 ApplicationBar.MenuItems.Add(a);
 
@@ -1634,7 +1634,7 @@ namespace VoyIteso.Pages
                 }
                 
                 ApplicationBarIconButton a = new ApplicationBarIconButton(new Uri("/Images/icons/questionmark.png", UriKind.Relative));
-                a.Text = "Tips";
+                a.Text = "Ver tips";
                 a.Click += howToUse_Click;
                 ApplicationBar.Buttons.Add(a);
 
@@ -1649,7 +1649,7 @@ namespace VoyIteso.Pages
                 ApplicationBar.MenuItems.Add(fijariteso);
 
 
-                ApplicationBarMenuItem b = new ApplicationBarMenuItem { Text = "Tips" };
+                ApplicationBarMenuItem b = new ApplicationBarMenuItem { Text = "Ver tips" };
                 b.Click += howToUse_Click;
                 ApplicationBar.MenuItems.Add(b);
 

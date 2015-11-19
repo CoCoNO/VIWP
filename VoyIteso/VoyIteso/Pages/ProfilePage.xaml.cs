@@ -33,7 +33,6 @@ namespace VoyIteso.Pages
                 _editionEnabled = value;
                 editionChanged();
                 
-                
             }
         }
 
@@ -82,7 +81,7 @@ namespace VoyIteso.Pages
 
 
             ApplicationBarMenuItem b = new ApplicationBarMenuItem();
-            b.Text = "¿Qué puedo hacer?";
+            b.Text = "Ver tips";
             b.Click += quePuedoHacer_OnClick;
             ApplicationBar.MenuItems.Add(b);
         }
@@ -115,7 +114,7 @@ namespace VoyIteso.Pages
 
 
                 ApplicationBarMenuItem b = new ApplicationBarMenuItem();
-                b.Text = "¿Qué puedo hacer?";
+                b.Text = "Ver tips";
                 b.Click += quePuedoHacer_OnClick;
                 ApplicationBar.MenuItems.Add(b);
 
@@ -139,7 +138,7 @@ namespace VoyIteso.Pages
                 ApplicationBar.Buttons.Add(guardar);
 
                 ApplicationBarMenuItem b = new ApplicationBarMenuItem();
-                b.Text = "¿Qué puedo hacer?";
+                b.Text = "Ver tips";
                 b.Click += quePuedoHacer_OnClick;
                 ApplicationBar.MenuItems.Add(b);
 

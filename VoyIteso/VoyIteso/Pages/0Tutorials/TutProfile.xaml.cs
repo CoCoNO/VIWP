@@ -25,24 +25,20 @@ namespace VoyIteso.Pages._0Tutorials
             {
                 case 0:
                     buildAppBar(false);
-                    MyImage.Visibility = Visibility.Collapsed;
+                    MyImage.Source = new BitmapImage(new Uri("/Images/tits/perfil/perfil1.png", UriKind.Relative));
+                    //MyImage.Visibility = Visibility.Collapsed;
                     break;
 
                 case 1:
-                    MyImage.Source = new BitmapImage(new Uri("/Images/tits/perfil/perfil1.png", UriKind.Relative));
-                    buildAppBar(false);
-                    break;
-
-                case 2:
                     MyImage.Source = new BitmapImage(new Uri("/Images/tits/perfil/perfil2.png", UriKind.Relative));
                     buildAppBar(false);
                     break;
 
-                case 3:
+                case 2:
                     MyImage.Source = new BitmapImage(new Uri("/Images/tits/perfil/perfil3.png", UriKind.Relative));
-                    MyImage.Visibility = Visibility.Visible;
-                    buildAppBar(true);
+                    buildAppBar(false);
                     break;
+
             }
         }
 
@@ -75,6 +71,11 @@ namespace VoyIteso.Pages._0Tutorials
         }
 
         private void ok_Click(object sender, EventArgs e)
+        {
+            NavigationService.GoBack();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.GoBack();
         }
