@@ -553,7 +553,18 @@ namespace VoyIteso.Class
             //loginRequest.setParameter("password", "PruebaQA2015");
 
             //Wait response 
-            await loginRequest.sendPost();
+
+            try
+            {
+                await loginRequest.sendPost();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return ;
+                //throw;
+            }
+            
 
             //Check if responce is ok
             if (loginRequest.Status == "OK")

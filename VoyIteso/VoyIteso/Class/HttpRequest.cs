@@ -233,6 +233,10 @@ namespace VoyIteso.Class
                     }
                 }
             }
+            else
+            {
+                throw new Exception("[SendPost ]Status != OK ("+ response.StatusCode + ")");
+            }
         }
 
         

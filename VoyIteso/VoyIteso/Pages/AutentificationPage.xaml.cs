@@ -210,7 +210,7 @@ namespace VoyIteso.Pages
             {
                 await ApiConnector.Instance.LogIn(txbUser.Text, txbPass.Password);
                 progress.hideProgressIndicator(this);
-                NavigationService.Navigate(new Uri("/Pages/SelectType.xaml",UriKind.Relative));
+                NavigationService.Navigate(new Uri("/Pages/SelectType.xaml", UriKind.Relative));
                 //NavigationService.Navigate(new Uri("/Pages/HomePage.xaml", UriKind.Relative));
             }
             catch (TimeoutException)
@@ -227,8 +227,12 @@ namespace VoyIteso.Pages
                 progress.hideProgressIndicator(this);
                 MessageBox.Show("Verifica credenciales e intenta de nuevo");
             }
-            
+            catch (Exception e)
+            {
 
+                MessageBox.Show("Hubo un problema con el servidor. Por favor intenta mas tarde");
+
+            }
         }
 
         private void WorkThreadFunction()
