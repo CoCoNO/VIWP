@@ -353,8 +353,26 @@ namespace VoyIteso.Class
                 }
                 puntosIntermedios += "{\"lat\":" + item.Latitude + ",\"lng\":" + item.Longitude + "}";
             }
+
+
+
+            
             puntosIntermedios += "]";
             r.AddParameter("puntos_intermedios", puntosIntermedios);
+
+            string puntos_referencia = "{\"start\":{\"lat\":" + puntos.ElementAt(0).Latitude + ",\"lng\":"+ puntos.ElementAt(0).Longitude + "},\"end\":{\"lat\":" + puntos.ElementAt(puntos.Count() - 1).Latitude + ",\"lng\":" + puntos.ElementAt(puntos.Count() - 1).Longitude + "},\"waypoints\":\"[";
+            //\"{\"start\":{\"lat\":20.606895,\"lng\":-103.41598999999997},\"end\":{\"lat\":20.710495,\"lng\":-103.41267399999998},\"waypoints\":\"[[20.658954,-103.44683070000002],[20.6680656,-103.38331089999997]]\"}\"
+            for(int j =1; j<puntos.Count()-1;j++ )
+            {
+                puntos_referencia += "[" + puntos.ElementAt(j).Latitude + "," + puntos.ElementAt(j).Latitude + "]";
+                if (j < (puntos.Count() - 2))
+                {
+                    puntos_referencia += ",";
+                }
+            }
+
+            puntos_referencia += "]\"}";//]\"}\"
+            r.AddParameter("puntos_referencia", puntos_referencia);
             r.AddParameter("polilinea_codificada", EncodeLocation(puntos));
             r.AddParameter("tipo_mapa", 4);
 
