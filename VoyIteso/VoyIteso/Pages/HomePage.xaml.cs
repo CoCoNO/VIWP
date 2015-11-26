@@ -229,13 +229,13 @@ namespace VoyIteso.Pages
         {
             ApplicationBar = new ApplicationBar();
             ApplicationBar.Mode = ApplicationBarMode.Minimized;
-            ApplicationBar.Opacity = 0;
+            //ApplicationBar.Opacity = 0;
             ApplicationBar.IsMenuEnabled = true;
             ApplicationBar.IsVisible = true;
-            ApplicationBar.BackgroundColor = Color.FromArgb(255, 0, 66, 112);
-            ApplicationBar.ForegroundColor = Colors.White;
+            //ApplicationBar.BackgroundColor = Color.FromArgb(255, 49, 56, 61);
+            //ApplicationBar.ForegroundColor = Colors.White;
 
-            ApplicationBarMenuItem appBarSingOut = new ApplicationBarMenuItem("Cerrar Sesion");
+            ApplicationBarMenuItem appBarSingOut = new ApplicationBarMenuItem("Cerrar sesión");
             appBarSingOut.Click += appBarSingOut_Click;
             ApplicationBar.MenuItems.Add(appBarSingOut);
 
@@ -304,10 +304,10 @@ namespace VoyIteso.Pages
         void ApplicationBar_StateChanged(object sender, ApplicationBarStateChangedEventArgs e)
         {
 
-            if (e.IsMenuVisible)
-                ApplicationBar.Opacity = 1;
-            else
-                ApplicationBar.Opacity = 0;
+            //if (e.IsMenuVisible)
+            //    ApplicationBar.Opacity = 1;
+            //else
+            //    ApplicationBar.Opacity = 0;
 
         }
         #endregion

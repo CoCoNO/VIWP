@@ -33,7 +33,7 @@
             <!--Panorama item one-->
             <phone:PivotItem Header="">
                 <Grid>
-                    <TextBlock HorizontalAlignment="Center" Foreground="#104571" FontSize="35" Text="también puedes buscar de manera textual" TextWrapping="Wrap" Margin="26,153,21,0" Width="373"/>
+                    <TextBlock HorizontalAlignment="Center" Foreground="#104571" FontSize="35" Text="También puedes buscar de manera textual" TextWrapping="Wrap" Margin="26,153,21,0" Width="373"/>
                 </Grid>
             </phone:PivotItem>
 
