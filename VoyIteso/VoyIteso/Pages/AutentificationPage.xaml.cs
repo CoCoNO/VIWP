@@ -20,6 +20,7 @@ using System.IO;
 using System.Text;
 using VoyIteso.Resources;
 using System.Threading;
+using Color = Windows.UI.Color;
 
 namespace VoyIteso.Pages
 {
@@ -30,15 +31,14 @@ namespace VoyIteso.Pages
         //ApiConnector apiConnector = ApiConnector.instance;
         //User user;
         Progress progress;
+        private int _counter;
         
 
         //private ProgressIndicator progressIndicator;
 
         public Autentification()
         {
-            InitializeComponent();
-            progress = new Progress();
-
+            InitializeComponent();;
         }
 
         #region commented
@@ -111,15 +111,25 @@ namespace VoyIteso.Pages
         #region btnSend_Click
         private void btnSend_Click(object sender, RoutedEventArgs e)
         {
+            
 
-            SendRequest();
-
+            if (_counter<1)
+            {
+                _counter++;
+                SendRequest();
+                btnSend.Opacity = 0.5;
+            }
+            
+            
         }
         #endregion 
 
         #region OnNavigatedTo
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            progress = new Progress();
+            _counter = 0;
+            btnSend.Opacity = 1;
             //HideProgressIndicator();
             progress.hideProgressIndicator(this);
             base.OnNavigatedTo(e);
@@ -219,19 +229,22 @@ namespace VoyIteso.Pages
                 Thread thread = new Thread(new ThreadStart(WorkThreadFunction));
                 thread.Start();
                 MessageBox.Show("hay problemas con el internet");
-
-                //MessageBox.Show("No hay conexión a internet");
+                _counter = 0;
+                btnSend.Opacity = 1;
             }
             catch (VoyIteso.Class.ApiConnector.BadLoginExeption)
             {
                 progress.hideProgressIndicator(this);
                 MessageBox.Show("Verifica credenciales e intenta de nuevo");
+                _counter = 0;
+                btnSend.Opacity = 1;
             }
             catch (Exception e)
             {
-
+                progress.hideProgressIndicator(this);
                 MessageBox.Show("Hubo un problema con el servidor. Por favor intenta mas tarde");
-
+                _counter = 0;
+                btnSend.Opacity = 1;
             }
         }
 

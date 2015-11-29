@@ -62,7 +62,7 @@ namespace VoyIteso
             if (RouteInfo.fromCalendar)
             {
                 NavigationService.Navigate(new Uri("/Pages/NotificationsStuff/RouteInfo.xaml", UriKind.Relative));
-                RouteInfo.fromCalendar = false;
+                //RouteInfo.fromCalendar = false;
                 timer.Stop();
             }
         }
