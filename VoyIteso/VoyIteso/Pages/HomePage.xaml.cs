@@ -89,13 +89,19 @@ namespace VoyIteso.Pages
             ListOfNotifications = await ApiConnector.Instance.NotificationsGet();
             new Progress().hideProgressIndicator(this);
 
-            var no = ListOfNotifications.notificaciones.ElementAt(0); 
-            var item = ConstructNewNotification(no);
 
-            //notificationsTile.DataContext = item;
-            //NotifGrid.Children.Remove(notifLabel);
-            //NotifGrid.Children.Add(item);
-            NotifGridBack.Children.Add(item);
+            Notificacione no;
+            if(ListOfNotifications.notificaciones.Count>0)
+            {
+                no = ListOfNotifications.notificaciones.ElementAt(0);
+                var item = ConstructNewNotification(no);
+
+                //notificationsTile.DataContext = item;
+                //NotifGrid.Children.Remove(notifLabel);
+                //NotifGrid.Children.Add(item);
+                NotifGridBack.Children.Add(item);
+            }
+                 
 
         }
 
