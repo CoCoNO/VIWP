@@ -45,8 +45,8 @@
                        FontSize="{StaticResource PhoneFontSizeNormal}"
                        FontWeight="Black"
                        VerticalAlignment="Top">
-            	<Run Text="T"/>
-            	<Run Text="Ú"/>
+            	<Run Text="Y"/>
+            	<Run Text="O"/>
             </TextBlock>
             <Image Name="UserAvatar"
                    Width="60"

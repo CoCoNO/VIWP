@@ -608,7 +608,7 @@ namespace VoyIteso.Pages
                 {
                     if (wayPointList.Count > 0)// si hay puntos intermedios
                     {
-                        var result = MessageBox.Show("Vas fijar los puntos intermedios a tu ruta, si cancelas tendrás que volver a agregarlos", "Confirmar operación", MessageBoxButton.OKCancel);
+                        var result = MessageBox.Show("Vas a fijar los puntos intermedios a tu ruta, si cancelas tendrás que volver a agregarlos", "Confirmar operación", MessageBoxButton.OKCancel);
                         if (result == MessageBoxResult.OK)
                         {//issue... acomodar los parametros aqui para el apiconector. fin
                             //navegar aqui para pedir los datos que faltan como la hora, la fecha y la chingada.
@@ -1190,10 +1190,10 @@ namespace VoyIteso.Pages
             canChangeState = true;
             isSearchTerm = false;
             BuildLocalizedApplicationBar();
-            if (_pointCount > 0)
-            {
-                MessageBox.Show("para continuar presiona en confirmar", "Configura fecha y horario", MessageBoxButton.OK);
-            }
+            //if (_pointCount > 0)
+            //{
+            //    MessageBox.Show("para continuar presiona en confirmar", "Configura fecha y horario", MessageBoxButton.OK);
+            //}
         }
 
         void ShowRightPanelAnimation_Completed(object sender, EventArgs e)
@@ -1552,7 +1552,7 @@ namespace VoyIteso.Pages
                 fijariteso.Click += fijariteso_OnClick;
                 ApplicationBar.MenuItems.Add(fijariteso);
 
-                ApplicationBarMenuItem b = new ApplicationBarMenuItem { Text = "¿Cómo se usa?" };
+                ApplicationBarMenuItem b = new ApplicationBarMenuItem { Text = "Ver tips" };
                 b.Click += howToUse_Click;
                 ApplicationBar.MenuItems.Add(b);
 

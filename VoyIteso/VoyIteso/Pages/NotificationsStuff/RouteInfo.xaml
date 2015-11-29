@@ -31,8 +31,8 @@
 
 
             <ScrollViewer>
-                
-<Grid>
+
+                <Grid>
 
                     <Grid x:Name="GridDeInformacion" Background="#1E81C0" Margin="0,0,0,374">
 
@@ -46,19 +46,19 @@
 
                     <Grid Name="GridDeBotones" Margin="0,497,0,10" Grid.Row="1">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
+                            <ColumnDefinition Width="79*"/>
+                            <ColumnDefinition Width="73*"/>
                         </Grid.ColumnDefinitions>
-                        <Button Name="BotonAceptar" Click="BotonAceptar_OnClick" Content="aceptar aventón" Foreground="White" BorderBrush="White" Grid.Column="0" Margin="0,10"/>
-                        <Button Name="BotonRechazar" Content="rechazar aventón" Foreground="White" BorderBrush="White" Grid.Column="1" Margin="0,10" Click="BotonRechazar_Click"/>
+                        <Button FontSize="20" Name="BotonAceptar" Click="BotonAceptar_OnClick" Content="aceptar aventón" Foreground="White" BorderBrush="White" Grid.Column="0" Margin="0,10"/>
+                        <Button FontSize="20" Name="BotonRechazar" Content="rechazar aventón" Foreground="White" BorderBrush="White" Grid.Column="1" Margin="0,10" Click="BotonRechazar_Click"/>
                     </Grid>
 
-                </Grid>                
-                
+                </Grid>
+
             </ScrollViewer>
-            
-            
-            
+
+
+
 
         </Grid>
 

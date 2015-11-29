@@ -309,7 +309,7 @@ namespace VoyIteso.Pages
 
                     GridDeBotones.Children.Remove(BotonAceptar);
                     GridDeBotones.Children.Remove(BotonRechazar);
-                    var b = new TextBlock() { Text = "se ha solicitado el aventón", Foreground = new SolidColorBrush(Colors.White), Width = 380 };
+                    var b = new TextBlock() { Text = "se ha solicitado el aventón", Foreground = new SolidColorBrush(Colors.White), Width = 400 };
                     GridDeBotones.Children.Add(b);
                 }
                 catch (Exception ex)
@@ -367,7 +367,7 @@ namespace VoyIteso.Pages
 
                     GridDeBotones.Children.Remove(BotonAceptar);
                     GridDeBotones.Children.Remove(BotonRechazar);
-                    var b = new TextBlock() { Text = "se ha aceptado el aventón", Foreground = new SolidColorBrush(Colors.White), Width = 380 };
+                    var b = new TextBlock() { Text = "se ha aceptado el aventón", Foreground = new SolidColorBrush(Colors.White), Width = 400 };
                     GridDeBotones.Children.Add(b);
 
                 }
@@ -400,7 +400,7 @@ namespace VoyIteso.Pages
             if (abbBarStateMachine == appBarStates.Regresarmenu)
             {
                 ApplicationBarIconButton regresarBut = new ApplicationBarIconButton(new Uri("Images/icons/close.png", UriKind.Relative));
-                regresarBut.Text = "cerrar";
+                regresarBut.Text = "Cerrar";
                 regresarBut.Click += regresar_Click;
                 ApplicationBar.Buttons.Add(regresarBut);
 

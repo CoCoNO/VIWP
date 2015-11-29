@@ -251,7 +251,7 @@
                                 <ColumnDefinition Width="10"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Name="lblSearchTerm" Grid.Column="1" Text="Buscar Direccion" FontSize="23"/>
+                            <TextBlock Name="lblSearchTerm" Grid.Column="1" Text="Buscar dirección" FontSize="23"/>
                         </Grid>
                         <toolkit:AutoCompleteBox Name="searchTermBox" Grid.Row="2" Grid.Column="1" MinimumPrefixLength="3" TextChanged="searchTermBox_TextChanged" VerticalAlignment="Top" FilterMode="None" KeyUp="searchTermBox_KeyUp"/>
 

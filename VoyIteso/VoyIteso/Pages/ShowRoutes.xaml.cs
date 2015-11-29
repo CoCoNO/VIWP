@@ -141,7 +141,7 @@ namespace VoyIteso.Pages
                 //ApplicationBar.Buttons.Add(a);
 
                 ApplicationBarIconButton b = new ApplicationBarIconButton(new Uri("Assets/add.png", UriKind.Relative));
-                b.Text = "nueva ruta";
+                b.Text = "Nueva ruta";
                 b.Click += b_Click;
                 ApplicationBar.Buttons.Add(b);
             }
@@ -155,24 +155,24 @@ namespace VoyIteso.Pages
                 ApplicationBar.IsVisible = true;
 
                 ApplicationBarIconButton d = new ApplicationBarIconButton(new Uri("Images/icons/Point Objects-50.png", UriKind.Relative));
-                d.Text = "ver";
+                d.Text = "Ver";
                 d.Click += d_Click;
                 ApplicationBar.Buttons.Add(d);
 
                 ApplicationBarIconButton a = new ApplicationBarIconButton(new Uri("Images/icons/delete.png", UriKind.Relative));
-                a.Text = "borrar";
+                a.Text = "Borrar";
                 a.Click += a_Click;
                 ApplicationBar.Buttons.Add(a);
 
                 ApplicationBarIconButton b = new ApplicationBarIconButton(new Uri("Assets/add.png", UriKind.Relative));
-                b.Text = "nueva ruta";
+                b.Text = "Nueva ruta";
                 b.Click += b_Click;
                 ApplicationBar.Buttons.Add(b);
 
-                ApplicationBarIconButton c = new ApplicationBarIconButton(new Uri("Images/icons/refresh.png", UriKind.Relative));
-                c.Text = "repetir";
-                c.Click += c_Click;
-                ApplicationBar.Buttons.Add(c);
+                //ApplicationBarIconButton c = new ApplicationBarIconButton(new Uri("Images/icons/refresh.png", UriKind.Relative));
+                //c.Text = "Repetir";
+                //c.Click += c_Click;
+                //ApplicationBar.Buttons.Add(c);
             }
 
             
