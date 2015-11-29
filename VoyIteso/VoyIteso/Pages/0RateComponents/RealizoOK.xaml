@@ -13,11 +13,14 @@
 
         <TextBlock Name="encabezado" Text="¿Se realizó tu aventón con" FontSize="42" HorizontalAlignment="Center" TextWrapping="Wrap" Margin="0,0,0,568" Width="440"></TextBlock>
         <Image Name="DriverImage" Source="../../Images/SMOKE.png" Margin="0,132,10,389"></Image>
-        
 
-        <Grid Margin="10,316,10,256">
-            <Button Name="si" Content="SI" Margin="0,0,243,40" Click="si_Click" RenderTransformOrigin="0.5,0.5"/>
-            <Button x:Name="no" Content="NO" Margin="240,0,0,40" Click="no_Click" RenderTransformOrigin="0.5,0.5"/>
+
+        <!--<Button Content="hola" Margin="10,354,214,248"></Button>-->
+
+
+        <Grid Margin="10,354,10,10">
+            <Button Name="si" Content="SI" Margin="10,10,234,237" Click="si_Click" RenderTransformOrigin="0.5,0.5"/>
+            <Button Name="no" Content="NO" Margin="249,10,5,237" Click="no_Click" RenderTransformOrigin="0.5,0.5"/>
 
         </Grid>
 
