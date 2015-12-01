@@ -441,7 +441,10 @@ namespace VoyIteso.Pages
                     // do what you want with the locations...
                     foreach (var newLocation in locations)
                     {
+                        bStreetName = newLocation.Information.Address.Street.ToString();
+                        bColName = newLocation.Information.Address.District.ToString();
                         mapIcon.StreetName = newLocation.Information.Address.Street.ToString();
+                        mapIcon.Colony = newLocation.Information.Address.District.ToString();
                         //feed.Text += newLocation.Information.Address.Street.ToString();
                         mapIcon.pushPinHeader.Text =
 
@@ -489,6 +492,9 @@ namespace VoyIteso.Pages
                     // do what you want with the locations...
                     foreach (var newLocation in locations)
                     {
+                        bStreetName = newLocation.Information.Address.Street.ToString();
+                        bColName = newLocation.Information.Address.District.ToString();
+                        mapIcon.Colony = newLocation.Information.Address.District.ToString();
                         mapIcon.StreetName = newLocation.Information.Address.Street.ToString();
                         //feed.Text += newLocation.Information.Address.Street.ToString();
                         mapIcon.pushPinHeader.Text =
@@ -498,6 +504,7 @@ namespace VoyIteso.Pages
                             //newLocation.Information.Address.BuildingName.ToString();
                             newLocation.Information.Address.Street.ToString() + " " + newLocation.Information.Address.HouseNumber + "\n" +
                             newLocation.Information.Address.District.ToString();
+
                     }
 
                 }
@@ -697,6 +704,7 @@ namespace VoyIteso.Pages
                     foreach (var newLocation in locations)
                     {
                         aStreetName = newLocation.Information.Address.Street.ToString();
+                        aColName = newLocation.Information.Address.District.ToString();
                         //feed.Text += newLocation.Information.Address.Street.ToString();
                         //mapIcon.pushPinHeader.Text =
 
@@ -880,6 +888,9 @@ namespace VoyIteso.Pages
         Maping maping;
         private bool positionAquired;
         private string aStreetName;
+        private string aColName;
+        private string bStreetName;
+        private string bColName;
         //ApiConnector apiConnector;
         #endregion
 
@@ -1262,13 +1273,21 @@ namespace VoyIteso.Pages
             {
 
 
-
+                //Preparar parametros
                 progress.showProgressIndicator(this, "Espera un momento, por favor");
                 //SendSearchRequest(); 
                 //send request
                 //aqui puto jairo
                 string origen = txtOriginRojo.Text;
+                if (origen.Length < 1)
+                {
+                    origen = aColName;
+                }
                 string destino = txtDestinyRojo.Text;
+                if (destino.Length < 1)
+                {
+                    destino = bColName;
+                }
                 string fecha = dateString;// la fecha de inicia obtenida del time picker
                 DateTime myDateTime;
                 //12.0.0
@@ -1282,7 +1301,7 @@ namespace VoyIteso.Pages
                 double lon_origen = APoint.GeoCoordinate.Longitude;
 
 
-
+                
 
                 ///DAR AVENTON
                 if (TheNewMap.Driver)// si estas creando ruta
