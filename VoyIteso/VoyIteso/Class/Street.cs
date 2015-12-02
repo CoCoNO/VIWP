@@ -283,22 +283,27 @@ namespace VoyIteso.Class
         public string texto_destino { get; set; }
         public long fecha_creacion { get; set; }
         public int perfil_id { get; set; }
-        public string persona_nombre { get; set; }
         public string persona_carrera { get; set; }
-        public string persona_edad { get; set; }
+        public string persona_nombre { get; set; }
         public long ultima_conexion { get; set; }
         public long hora_llegada { get; set; }
-        //public string puntos { get; set; }
+        public string persona_edad { get; set; }
+        //public Dias dias { get; set; }
+        public string puntos { get; set; }
+        public string fecha_inicio_formato { get; set; }
         public double latitud_origen { get; set; }
         public long fecha_fin { get; set; }
         public double longitud_origen { get; set; }
         public int numero_personas { get; set; }
+        public object polilinea_codificada { get; set; }
+        public object puntos_intermedios { get; set; }
         public double latitud_destino { get; set; }
-        public string texto_origen { get; set; }
+        public string hora_llegada_formato { get; set; }
         public double longitud_destino { get; set; }
-        public int ruta_id { get; set; }
+        public string texto_origen { get; set; }
+        public object tipo_mapa { get; set; }
         public long fecha_inicio { get; set; }
-        public Puntos puntos { get; set; }
+        public int ruta_id { get; set; }
     }
     public class RouteRes
     {

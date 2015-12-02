@@ -163,9 +163,21 @@ namespace VoyIteso.Pages
         {
             base.OnNavigatedTo(e);
             NavigationService.RemoveBackEntry();
-            
+
+            //checar aventones por revisar.
+            var a = await ApiConnector.Instance.LiftCheckIfRateNeeded();//a es una lista de aventones q no se han calificado.
+            if (a.aventones.Count > 0)
+            {
+                RatePage.idaventon = a.aventones[0].aventon_id;//para saber cual calificar.
+                RatePage.nombreConductor = a.aventones[0].nombre;//.
+                RatePage.idconductor = a.aventones[0].perfilconductor_id;//para sacar la foto.
+                NavigationService.Navigate(new Uri("/Pages/0RatePage.xaml", UriKind.Relative));
+                //Debug.WriteLine(a.aventones[0].latitud_destino);
+            }
+
+
             //GetNotifs();
-             
+
             ApiConnector.Instance.ActiveUser.UserDataChanged += UserDataChanged;
             ApiConnector.Instance.UpdateCurrentProfileImage();
 
@@ -210,16 +222,6 @@ namespace VoyIteso.Pages
             new Progress().hideProgressIndicator(this);
             Microsoft.Phone.Shell.SystemTray.ForegroundColor = Color.FromArgb(255, 110, 207, 243);
 
-            //checar aventones por revisar.
-            var a = await ApiConnector.Instance.LiftCheckIfRateNeeded();//a es una lista de aventones q no se han calificado.
-            if (a.aventones.Count>0)
-            {
-                RatePage.idaventon = a.aventones[0].aventon_id;//para saber cual calificar.
-                RatePage.nombreConductor = a.aventones[0].nombre;//.
-                RatePage.idconductor = a.aventones[0].perfilconductor_id;//para sacar la foto.
-                NavigationService.Navigate(new Uri("/Pages/0RatePage.xaml", UriKind.Relative));
-                //Debug.WriteLine(a.aventones[0].latitud_destino);
-            }
             
             foreach (var ap in apps)
             {
