@@ -100,6 +100,11 @@ namespace VoyIteso
                 Debug.WriteLine("Valio madre> "+e.ToString());
                 Debugger.Break();
             }
+            MessageBox.Show("hubo un problema con la app");
+#if DEBUG
+            MessageBox.Show("["+e.ToString()+"]");
+#endif
+            Application.Current.Terminate();
         }
 
         #region Phone application initialization
