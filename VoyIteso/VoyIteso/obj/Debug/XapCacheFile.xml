@@ -1,5 +1,5 @@
-﻿<xapCache source="C:\Users\SergioAdán\Documents\Github\VIWP\VoyIteso\VoyIteso\Bin\Debug\VoyIteso_Debug_AnyCPU.xap" wasSigned="False" wasTritonized="False" certificateThumbprint="" TimeStampUrl="" signKeyFile="" signKeyPassword="" lastWriteTime="11/29/2015 8:23:19 AM">
-  <file source="C:\Users\SergioAdán\Documents\Github\VIWP\VoyIteso\VoyIteso\obj\Debug\VoyIteso.dll" archivePath="VoyIteso.dll" lastWriteTime="11/29/2015 8:23:15 AM" />
+﻿<xapCache source="C:\Users\SergioAdán\Documents\Github\VIWP\VoyIteso\VoyIteso\Bin\Debug\VoyIteso_Debug_AnyCPU.xap" wasSigned="False" wasTritonized="False" certificateThumbprint="" TimeStampUrl="" signKeyFile="" signKeyPassword="" lastWriteTime="11/30/2015 10:38:46 PM">
+  <file source="C:\Users\SergioAdán\Documents\Github\VIWP\VoyIteso\VoyIteso\obj\Debug\VoyIteso.dll" archivePath="VoyIteso.dll" lastWriteTime="11/30/2015 10:38:41 PM" />
   <file source="C:\Users\SergioAdán\Documents\Github\VIWP\VoyIteso\VoyIteso\Images\man.jpg" archivePath="Images\man.jpg" lastWriteTime="11/25/2015 12:44:13 PM" />
   <file source="C:\Users\SergioAdán\Documents\Github\VIWP\VoyIteso\VoyIteso\Images\tits\home\blur1.png" archivePath="Images\tits\home\blur1.png" lastWriteTime="11/25/2015 12:44:13 PM" />
   <file source="C:\Users\SergioAdán\Documents\Github\VIWP\VoyIteso\VoyIteso\Images\tits\home\blur2.png" archivePath="Images\tits\home\blur2.png" lastWriteTime="11/25/2015 12:44:13 PM" />
@@ -41,7 +41,7 @@
   <file source="C:\Users\SergioAdán\Documents\Github\VIWP\VoyIteso\VoyIteso\Images\Carro.png" archivePath="Images\Carro.png" lastWriteTime="11/25/2015 12:44:13 PM" />
   <file source="C:\Users\SergioAdán\Documents\Github\VIWP\VoyIteso\VoyIteso\Images\check.png" archivePath="Images\check.png" lastWriteTime="7/27/2015 2:01:42 PM" />
   <file source="C:\Users\SergioAdán\Documents\Github\VIWP\VoyIteso\VoyIteso\Images\chingadera.PNG" archivePath="Images\chingadera.PNG" lastWriteTime="11/25/2015 12:44:13 PM" />
-  <file source="C:\Users\SergioAdán\Documents\Github\VIWP\VoyIteso\VoyIteso\Images\dar_aventon.png" archivePath="Images\dar_aventon.png" lastWriteTime="11/25/2015 12:44:13 PM" />
+  <file source="C:\Users\SergioAdán\Documents\Github\VIWP\VoyIteso\VoyIteso\Images\dar_aventon.png" archivePath="Images\dar_aventon.png" lastWriteTime="11/29/2015 2:10:18 PM" />
   <file source="C:\Users\SergioAdán\Documents\Github\VIWP\VoyIteso\VoyIteso\Images\dummy.png" archivePath="Images\dummy.png" lastWriteTime="11/25/2015 12:44:13 PM" />
   <file source="C:\Users\SergioAdán\Documents\Github\VIWP\VoyIteso\VoyIteso\Images\Feedback_perfil.png" archivePath="Images\Feedback_perfil.png" lastWriteTime="7/27/2015 2:01:42 PM" />
   <file source="C:\Users\SergioAdán\Documents\Github\VIWP\VoyIteso\VoyIteso\Images\icons\add.png" archivePath="Images\icons\add.png" lastWriteTime="11/25/2015 12:44:13 PM" />
@@ -89,7 +89,7 @@
   <file source="C:\Users\SergioAdán\Documents\Github\VIWP\VoyIteso\VoyIteso\Images\MapSearchBackground.png" archivePath="Images\MapSearchBackground.png" lastWriteTime="7/27/2015 2:01:42 PM" />
   <file source="C:\Users\SergioAdán\Documents\Github\VIWP\VoyIteso\VoyIteso\Images\MUSIC.png" archivePath="Images\MUSIC.png" lastWriteTime="7/27/2015 2:01:42 PM" />
   <file source="C:\Users\SergioAdán\Documents\Github\VIWP\VoyIteso\VoyIteso\Images\Origen.png" archivePath="Images\Origen.png" lastWriteTime="7/27/2015 2:01:42 PM" />
-  <file source="C:\Users\SergioAdán\Documents\Github\VIWP\VoyIteso\VoyIteso\Images\pedir_aventon.png" archivePath="Images\pedir_aventon.png" lastWriteTime="11/25/2015 12:44:13 PM" />
+  <file source="C:\Users\SergioAdán\Documents\Github\VIWP\VoyIteso\VoyIteso\Images\pedir_aventon.png" archivePath="Images\pedir_aventon.png" lastWriteTime="11/29/2015 2:10:18 PM" />
   <file source="C:\Users\SergioAdán\Documents\Github\VIWP\VoyIteso\VoyIteso\Images\ProfilePropertiesBackground.png" archivePath="Images\ProfilePropertiesBackground.png" lastWriteTime="7/27/2015 2:01:42 PM" />
   <file source="C:\Users\SergioAdán\Documents\Github\VIWP\VoyIteso\VoyIteso\Images\SendMessage.png" archivePath="Images\SendMessage.png" lastWriteTime="11/25/2015 12:44:13 PM" />
   <file source="C:\Users\SergioAdán\Documents\Github\VIWP\VoyIteso\VoyIteso\Images\SMOKE.png" archivePath="Images\SMOKE.png" lastWriteTime="7/27/2015 2:01:42 PM" />

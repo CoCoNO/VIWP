@@ -23,11 +23,11 @@ namespace VoyIteso.Pages
     public partial class RouteInfo : PhoneApplicationPage
     {
 
-
+        private User localUser;
         public static int aventonid = 0;
         public static int idsegundo;
         private static Notificacione Notificacion;
-        public static bool myBool = true;
+        public static bool FromMapResultBox = true;
         public static bool fromCalendar = false;
 
         public RouteInfo()
@@ -38,27 +38,27 @@ namespace VoyIteso.Pages
             myCajaDeResultados = TheNewMap.caja;
             try
             {
-                myBool = myCajaDeResultados.myBool;
+                FromMapResultBox = myCajaDeResultados.myBool;
                 DateTime myDateTime;
-                myDateTime = new DateTime();
                 myDateTime = DateTime.ParseExact(TheNewMap.dateString, "dd-MM-yyyy",
                                                  null);
                 this.fechaParaLaCualSeSolicitaElAventon = myDateTime;
             }
             catch (Exception)
             {
-                myBool = false;
+                FromMapResultBox = false;
             }
 
-            if (!myBool)//nomap
+            if (!FromMapResultBox)//nomap
             {
                 if (!fromCalendar)//
                 {
                     Notificacion = Notifications.NotificationItem; 
                 }
-                else
+                else//comes from calendar
                 {
-                    //InitFromCalendar();//notificacion = n; 
+                    //InitFromCalendar();//notificacion = n;
+ 
                 }
             }
 
@@ -100,30 +100,12 @@ namespace VoyIteso.Pages
         public void foo(cajaDeResultados caja)
         {
             myCajaDeResultados = caja;
-            myBool = true;
+            FromMapResultBox = true;
         }
-
 
         public static cajaDeResultados myCajaDeResultados { get; set; }
 
-        public RouteInfo(Notificacione notif)
-        {
-            InitializeComponent();
-            Notificacion = notif;
-            loadData();
 
-        }
-
-
-        public RouteInfo(cajaDeResultados caja)
-        {
-            InitializeComponent();
-            myCajaDeResultados = caja;
-            loadData();
-
-        }
-
-        private User localUser;
         private async void loadData()
         //esta seccion requiere de los siguientes parametros: 
         //string perfil_id (el id de la segunda persona)
@@ -133,7 +115,7 @@ namespace VoyIteso.Pages
         {
             new Progress().showProgressIndicator(this, "espera");
             User user;
-            if (!myBool)//no map
+            if (!FromMapResultBox)//no map
             {
                 try
                 {
@@ -186,7 +168,7 @@ namespace VoyIteso.Pages
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            //if (!myBool)//nomapa
+            //if (!FromMapResultBox)//nomapa
             //{
             //    if (!fromCalendar)//no cal. notifs
             //    {
@@ -200,14 +182,14 @@ namespace VoyIteso.Pages
             //}
 
             ocultarMierda();
-            fromCalendar = false;
+            //fromCalendar = false;
         }
 
         Button botonSolicitar;
         private void ocultarMierda()
         {
 
-            if (myBool)// si viene de la busqueda del mapa.
+            if (FromMapResultBox)// si viene de la busqueda del mapa.
             {
                 GridDeBotones.Children.Remove(BotonAceptar);
                 GridDeBotones.Children.Remove(BotonRechazar);
@@ -331,17 +313,30 @@ namespace VoyIteso.Pages
         /// <param name="e"></param>
         private void Button_Click(object sender, RoutedEventArgs e)//chat button clicked. 
         {
-            //if (myBool)
+            //if (FromMapResultBox)
             //{
             //    var index = myCajaDeResultados.aventon_id;
             //    NavigationService.Navigate(new Uri("/Pages/ChatLayout.xaml?key=" + index, UriKind.Relative));
             //}
             //else
             //{
-            var index = Notificacion.aventon_id.ToString();
-            NavigationService.Navigate(new Uri("/Pages/ChatLayout.xaml?key=" + index, UriKind.Relative));
-            //}
+            string index="";
+            if (FromMapResultBox)
+            {
+                index = myCajaDeResultados.aventon_id;
 
+            }
+            else if(fromCalendar)
+            {
+                index = aventonid.ToString();
+            }
+            else
+            {
+                index = Notificacion.aventon_id.ToString();    
+            }
+            
+            NavigationService.Navigate(new Uri("/Pages/ChatLayout.xaml?key=" + index, UriKind.Relative));
+            
         }
 
         private bool _flag = false;
