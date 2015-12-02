@@ -189,6 +189,8 @@ namespace VoyIteso.Pages
             new Progress().showProgressIndicator(this,"cargando citas para el calendario");
             bool liftDone=false;
             isCalendarLoaded = false;
+
+            calendarTile.Opacity = .5;
             while (!liftDone)
             {
                 try
@@ -198,13 +200,11 @@ namespace VoyIteso.Pages
                 }
                 catch (Exception)
                 {
-                    
-                    
+                    calendarTile.Opacity = .5;
                 }
 
             }
-            
-
+            calendarTile.Opacity = 1;
 
 
             new Progress().hideProgressIndicator(this);
