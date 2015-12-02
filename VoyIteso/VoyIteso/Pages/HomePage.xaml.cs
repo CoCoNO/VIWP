@@ -187,7 +187,26 @@ namespace VoyIteso.Pages
             ////ApiConnector.instance.ActiveUser.OnUserDataChanged +=
 
             new Progress().showProgressIndicator(this,"cargando citas para el calendario");
-            apps = await ApiConnector.Instance.LoadCurrentMonthLifts();//a lift is an appointment
+            bool liftDone=false;
+            isCalendarLoaded = false;
+            while (!liftDone)
+            {
+                try
+                {
+                    apps = await ApiConnector.Instance.LoadCurrentMonthLifts();//a lift is an appointment
+                    liftDone = true;
+                }
+                catch (Exception)
+                {
+                    
+                    
+                }
+
+            }
+            
+
+
+
             new Progress().hideProgressIndicator(this);
             Microsoft.Phone.Shell.SystemTray.ForegroundColor = Color.FromArgb(255, 110, 207, 243);
 
@@ -210,6 +229,7 @@ namespace VoyIteso.Pages
                     atrasCalendario.Text = "\nHoy tienes un aventón en\n" + ap.Location;
                 }
             }
+            isCalendarLoaded = true;
 
         }
         #endregion
@@ -323,18 +343,23 @@ namespace VoyIteso.Pages
             NavigationService.Navigate(new Uri("/Pages/ProfilePage.xaml", UriKind.Relative));
         }
 
+        private bool isCalendarLoaded;
         private void searchOfferMapTile_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            //NavigationService.Navigate(new Uri("/Pages/SelectType.xaml", UriKind.Relative));
-            if (TheNewMap.Driver)
+            if (isCalendarLoaded)
             {
-                NavigationService.Navigate(new Uri("/Pages/ShowRoutes.xaml", UriKind.Relative));
+                //NavigationService.Navigate(new Uri("/Pages/SelectType.xaml", UriKind.Relative));
+                if (TheNewMap.Driver)
+                {
+                    NavigationService.Navigate(new Uri("/Pages/ShowRoutes.xaml", UriKind.Relative));
+                }
+                else
+                {
+                    TheNewMap.ReadOnly = false;
+                    NavigationService.Navigate(new Uri("/Pages/TheNewMap.xaml", UriKind.Relative));
+                }
             }
-            else
-            {
-                TheNewMap.ReadOnly = false;
-                NavigationService.Navigate(new Uri("/Pages/TheNewMap.xaml", UriKind.Relative));
-            }
+            
             
         }
 
