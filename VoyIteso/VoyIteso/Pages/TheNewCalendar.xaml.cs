@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
@@ -68,5 +69,11 @@ namespace VoyIteso
         }
 
 
+        protected override void OnBackKeyPress(CancelEventArgs e)
+        {
+            //base.OnBackKeyPress(e);
+            NavigationService.Navigate(new Uri("/Pages/HomePage.xaml",UriKind.Relative));
+            NavigationService.RemoveBackEntry();
+        }
     }
 }

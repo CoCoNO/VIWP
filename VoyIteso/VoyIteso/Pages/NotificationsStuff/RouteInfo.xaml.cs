@@ -527,8 +527,26 @@ namespace VoyIteso.Pages
 
         private void DisplayImage_OnTap(object sender, GestureEventArgs e)
         {
-            ProfilePageExternal.Perfildelotrowey = Notificacion.perfil_id;
-            NavigationService.Navigate(new Uri("/Pages/ProfilePageExternal.xaml", UriKind.Relative));
+
+            if (!FromMapResultBox)//nomap
+            {
+                if (!fromCalendar)//
+                {
+                    ProfilePageExternal.Perfildelotrowey = Notificacion.perfil_id;
+                    NavigationService.Navigate(new Uri("/Pages/ProfilePageExternal.xaml", UriKind.Relative));
+                }
+                else//comes from calendar
+                {
+                    ProfilePageExternal.Perfildelotrowey = idsegundo;
+                    NavigationService.Navigate(new Uri("/Pages/ProfilePageExternal.xaml", UriKind.Relative));
+                }
+            }
+            else
+            {
+                ProfilePageExternal.Perfildelotrowey = Convert.ToInt32(myCajaDeResultados.perfil_id);
+                NavigationService.Navigate(new Uri("/Pages/ProfilePageExternal.xaml", UriKind.Relative));
+            }
+
         }
     }
 }
