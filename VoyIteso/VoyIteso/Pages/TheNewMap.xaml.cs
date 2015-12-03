@@ -835,7 +835,11 @@ namespace VoyIteso.Pages
             //DoStuff();
             if (_flag && !_routeConfirmed)
             {
-                AddWayPoint(sender, e);
+                if (Driver)
+                {
+                    AddWayPoint(sender, e);
+                }
+
             }
 
             //if the destination has not been added yet and it has no confirmation, then a new bpoint is going to be added to the map.

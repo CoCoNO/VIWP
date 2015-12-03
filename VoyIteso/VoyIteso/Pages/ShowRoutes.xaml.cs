@@ -49,66 +49,52 @@ namespace VoyIteso.Pages
         public Rutai RutaSeleccionadaRutai { get; set; }
         protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
-            base.OnNavigatedTo(e);
-            ListOfBoxes.Items.Clear();
-            var user = ApiConnector.Instance.ActiveUser;
-            new Progress().showProgressIndicator(this, "cargando rutas");
-            var rutas = await ApiConnector.Instance.RouteGetAllByUserID(Convert.ToInt32(user.profileID));
-            new Progress().hideProgressIndicator(this);
+            
 
-
-            foreach (var rutai in rutas.rutas)
+            try
             {
-                var a = new Grid() { Height = 20 };
-                ListOfBoxes.Items.Add(a);
-                var b = new ShowRouteBox
+
+
+                base.OnNavigatedTo(e);
+                ListOfBoxes.Items.Clear();
+                var user = ApiConnector.Instance.ActiveUser;
+                new Progress().showProgressIndicator(this, "cargando rutas");
+                var rutas = await ApiConnector.Instance.RouteGetAllByUserID(Convert.ToInt32(user.profileID));
+                new Progress().hideProgressIndicator(this);
+
+
+                foreach (var rutai in rutas.rutas)
                 {
-                    HeaderLabel = { Text = rutai.persona_nombre },
-                    BodyLabel =
+                    var a = new Grid() { Height = 20 };
+                    ListOfBoxes.Items.Add(a);
+                    var b = new ShowRouteBox
                     {
-                        Text =
-                            rutai.fecha_inicio_formato.Substring(0, 2) + "-" +
-                            rutai.fecha_inicio_formato.Substring(2, 2) + "-" +
-                            rutai.fecha_inicio_formato.Substring(4) + " a las " + rutai.hora_llegada_formato + "\nDe: " +
-                            rutai.texto_origen + "\nA: " + rutai.texto_destino
-                    }
-                };
-                ListOfBoxes.Items.Add(b);
-                b.Tap += b_Tap;
+                        HeaderLabel = { Text = rutai.persona_nombre },
+                        BodyLabel =
+                        {
+                            Text =
+                                rutai.fecha_inicio_formato.Substring(0, 2) + "-" +
+                                rutai.fecha_inicio_formato.Substring(2, 2) + "-" +
+                                rutai.fecha_inicio_formato.Substring(4) + " a las " + rutai.hora_llegada_formato + "\nDe: " +
+                                rutai.texto_origen + "\nA: " + rutai.texto_destino
+                        }
+                    };
+                    ListOfBoxes.Items.Add(b);
+                    b.Tap += b_Tap;
+                }
+                todasLasRutas = rutas;
+
+
+
+            }
+            catch (Exception)
+            {
+
+                MessageBox.Show("Hubo un problema con el servidor", "Ups! lo sentimos", MessageBoxButton.OK);
             }
 
-            //try
-            //{
-            //    if (!(rutas.rutas.Count > todasLasRutas.rutas.Count))
-            //    {
-            //        return;
-            //    }
-            //}
-            //catch (Exception)
-            //{
-            //    foreach (var rutai in rutas.rutas)
-            //    {
-            //        var a = new Grid() { Height = 20 };
-            //        ListOfBoxes.Items.Add(a);
-            //        var b = new ShowRouteBox
-            //        {
-            //            HeaderLabel = { Text = rutai.persona_nombre },
-            //            BodyLabel =
-            //            {
-            //                Text =
-            //                    rutai.fecha_inicio_formato.Substring(0, 2) + "-" +
-            //                    rutai.fecha_inicio_formato.Substring(2, 2) + "-" +
-            //                    rutai.fecha_inicio_formato.Substring(4) + " a las " + rutai.hora_llegada_formato + "\nDe: " +
-            //                    rutai.texto_origen + "\nA: " + rutai.texto_destino
-            //            }
-            //        };
-            //        ListOfBoxes.Items.Add(b);
-            //        b.Tap += b_Tap;
-            //    }
-            //}
 
 
-            todasLasRutas = rutas;
 
 
         }
@@ -300,24 +286,35 @@ namespace VoyIteso.Pages
 
         //a,.
         async private void a_Click(object sender, EventArgs e)
-        {
-            //var a = new Grid(){Height = 20};
-            //ListOfBoxes.Items.Add(a);
-            //ListOfBoxes.Items.Add(new ShowRouteBox());
-            new Progress().showProgressIndicator(this, "borrando la ruta");
-            var a = await ApiConnector.Instance.RouteDelete(RutaSeleccionadaRutai.ruta_id);
-            new Progress().hideProgressIndicator(this);
-            
-            if (a.estatus == 1)
+        { 
+
+            try
             {
-                MessageBox.Show("Ruta borrada");
-                OnNavigatedTo(null);
-                appBarSM = appBarStateMachine.ITEM_NOT_SELECTED;
-                BuildAppBar();
-            }else
-               MessageBox.Show("No se pudo realizar movimiento");
-             
-            
+
+                //var a = new Grid(){Height = 20};
+                //ListOfBoxes.Items.Add(a);
+                //ListOfBoxes.Items.Add(new ShowRouteBox());
+                new Progress().showProgressIndicator(this, "borrando la ruta");
+                var a = await ApiConnector.Instance.RouteDelete(RutaSeleccionadaRutai.ruta_id);
+                new Progress().hideProgressIndicator(this);
+
+                if (a.estatus == 1)
+                {
+                    MessageBox.Show("Ruta borrada");
+                    OnNavigatedTo(null);
+                    appBarSM = appBarStateMachine.ITEM_NOT_SELECTED;
+                    BuildAppBar();
+                }
+                else
+                    MessageBox.Show("No se pudo realizar movimiento");
+            }
+            catch (Exception)
+            {
+
+                MessageBox.Show("Hubo un problema con el servidor", "Ups! lo sentimos", MessageBoxButton.OK);
+            }
+
+
         }
 
         private void listaSelectionChanged(object sender, SelectionChangedEventArgs e)

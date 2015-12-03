@@ -63,17 +63,26 @@ namespace VoyIteso.Pages
         
         private CajaDeNotificacion ConstructNewNotification(Notificacione item)
         {
-            var imagen = ApiConnector.Instance.GetUserImageById(item.perfil_id);
             var newBox = new CajaDeNotificacion();
-            newBox.Avatar = imagen;
-            newBox.header.Text = item.nombre;
-            newBox.body.Text = "";
-            newBox.body.Text += item.descripcion;
-            newBox.body_time.Text = "";
-            newBox.body_time.Text += item.fecha;
-            //_allMyNotifications.Add(newBox);
-            //lista.Items.Add(newBox);
-            return newBox;
+            try
+            {
+                var imagen = ApiConnector.Instance.GetUserImageById(item.perfil_id);
+                
+                newBox.Avatar = imagen;
+                newBox.header.Text = item.nombre;
+                newBox.body.Text = "";
+                newBox.body.Text += item.descripcion;
+                newBox.body_time.Text = "";
+                newBox.body_time.Text += item.fecha;
+                //_allMyNotifications.Add(newBox);
+                //lista.Items.Add(newBox);
+                return newBox;
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Hubo un problema con el servidor","Ups! lo sentimos",MessageBoxButton.OK);
+                return null;
+            }
 
         }
 
@@ -85,23 +94,31 @@ namespace VoyIteso.Pages
 
         private async void GetNotifs()
         {
-            new Progress().showProgressIndicator(this, "Ocupado");
-            ListOfNotifications = await ApiConnector.Instance.NotificationsGet();
-            new Progress().hideProgressIndicator(this);
 
-
-            Notificacione no;
-            if(ListOfNotifications.notificaciones.Count>0)
+            try
             {
-                no = ListOfNotifications.notificaciones.ElementAt(0);
-                var item = ConstructNewNotification(no);
+                new Progress().showProgressIndicator(this, "Ocupado");
+                ListOfNotifications = await ApiConnector.Instance.NotificationsGet();
+                new Progress().hideProgressIndicator(this);
 
-                //notificationsTile.DataContext = item;
-                //NotifGrid.Children.Remove(notifLabel);
-                //NotifGrid.Children.Add(item);
-                NotifGridBack.Children.Add(item);
+
+                Notificacione no;
+                if (ListOfNotifications.notificaciones.Count > 0)
+                {
+                    no = ListOfNotifications.notificaciones.ElementAt(0);
+                    var item = ConstructNewNotification(no);
+
+                    //notificationsTile.DataContext = item;
+                    //NotifGrid.Children.Remove(notifLabel);
+                    //NotifGrid.Children.Add(item);
+                    NotifGridBack.Children.Add(item);
+                }
             }
-                 
+            catch (Exception)
+            {
+
+                MessageBox.Show("Hubo un problema con el servidor", "Ups! lo sentimos", MessageBoxButton.OK);
+            }
 
         }
 
@@ -164,84 +181,109 @@ namespace VoyIteso.Pages
             base.OnNavigatedTo(e);
             NavigationService.RemoveBackEntry();
 
-            //checar aventones por revisar.
-            var a = await ApiConnector.Instance.LiftCheckIfRateNeeded();//a es una lista de aventones q no se han calificado.
-            if (a.aventones.Count > 0)
+
+            try
             {
-                RatePage.idaventon = a.aventones[0].aventon_id;//para saber cual calificar.
-                RatePage.nombreConductor = a.aventones[0].nombre;//.
-                RatePage.idconductor = a.aventones[0].perfilconductor_id;//para sacar la foto.
-                NavigationService.Navigate(new Uri("/Pages/0RatePage.xaml", UriKind.Relative));
-                //Debug.WriteLine(a.aventones[0].latitud_destino);
+
+
+                //checar aventones por revisar.
+                var a = await ApiConnector.Instance.LiftCheckIfRateNeeded();//a es una lista de aventones q no se han calificado.
+                if (a.aventones.Count > 0)
+                {
+                    RatePage.idaventon = a.aventones[0].aventon_id;//para saber cual calificar.
+                    RatePage.nombreConductor = a.aventones[0].nombre;//.
+                    RatePage.idconductor = a.aventones[0].perfilconductor_id;//para sacar la foto.
+                    NavigationService.Navigate(new Uri("/Pages/0RatePage.xaml", UriKind.Relative));
+                    //Debug.WriteLine(a.aventones[0].latitud_destino);
+                }
+
+
+                //GetNotifs();
+
+                ApiConnector.Instance.ActiveUser.UserDataChanged += UserDataChanged;
+                ApiConnector.Instance.UpdateCurrentProfileImage();
+
+                user.getInfo(user.key);
+
+                txtUserName.Text = AppResources.HelloUsertxt + " " + ApiConnector.Instance.ActiveUser.Name + "!";
+
+                profileTile.Title = ApiConnector.Instance.ActiveUser.Name;
+
+
+                ////if (user.setImageUrl())
+                //{
+                //    //profileImage.Source = (new BitmapImage(new Uri(string.Format(user.imageUrl + "?Refresh=true&random={0}", Guid.NewGuid()), UriKind.Absolute)));
+                //    //profileImage.Source = ApiConnector.instance.ActiveUser.Avatar;
+                //    //ApiConnector.instance.ActiveUser.UserDataChanged += UserDataChanged;
+                //    //ApiConnector.instance.UpdateCurrentProfileImage();
+                //    //profileTile.IsFrozen = false;
+                //}
+                ////ApiConnector.instance.ActiveUser.OnUserDataChanged +=
+
+                new Progress().showProgressIndicator(this, "cargando citas para el calendario");
+                bool liftDone = false;
+                isCalendarLoaded = false;
+
+                calendarTile.Opacity = .5;
+                while (!liftDone)
+                {
+                    try
+                    {
+                        apps = await ApiConnector.Instance.LoadCurrentMonthLifts();//a lift is an appointment
+                        liftDone = true;
+                    }
+                    catch (Exception)
+                    {
+                        calendarTile.Opacity = .5;
+                    }
+
+                }
+                calendarTile.Opacity = 1;
+
+
+                new Progress().hideProgressIndicator(this);
+                Microsoft.Phone.Shell.SystemTray.ForegroundColor = Color.FromArgb(255, 110, 207, 243);
+
+
+                foreach (var ap in apps)
+                {
+                    if (ap.StartDate.Date == DateTime.Today.Date)
+                    {
+                        //Debug.WriteLine(ap.Details); 
+                        atrasCalendario.Text = "\nHoy tienes un aventón en\n" + ap.Location;
+                    }
+                }
+                isCalendarLoaded = true;
+            }
+            catch (Exception)
+            {
+
+                MessageBox.Show("Hubo un problema con el servidor", "Ups! lo sentimos", MessageBoxButton.OK);
             }
 
 
-            //GetNotifs();
-
-            ApiConnector.Instance.ActiveUser.UserDataChanged += UserDataChanged;
-            ApiConnector.Instance.UpdateCurrentProfileImage();
-
-            user.getInfo(user.key);
-
-            txtUserName.Text = AppResources.HelloUsertxt + " " + ApiConnector.Instance.ActiveUser.Name + "!";
-
-            profileTile.Title = ApiConnector.Instance.ActiveUser.Name;
-
-
-            ////if (user.setImageUrl())
-            //{
-            //    //profileImage.Source = (new BitmapImage(new Uri(string.Format(user.imageUrl + "?Refresh=true&random={0}", Guid.NewGuid()), UriKind.Absolute)));
-            //    //profileImage.Source = ApiConnector.instance.ActiveUser.Avatar;
-            //    //ApiConnector.instance.ActiveUser.UserDataChanged += UserDataChanged;
-            //    //ApiConnector.instance.UpdateCurrentProfileImage();
-            //    //profileTile.IsFrozen = false;
-            //}
-            ////ApiConnector.instance.ActiveUser.OnUserDataChanged +=
-
-            new Progress().showProgressIndicator(this,"cargando citas para el calendario");
-            bool liftDone=false;
-            isCalendarLoaded = false;
-
-            calendarTile.Opacity = .5;
-            while (!liftDone)
-            {
-                try
-                {
-                    apps = await ApiConnector.Instance.LoadCurrentMonthLifts();//a lift is an appointment
-                    liftDone = true;
-                }
-                catch (Exception)
-                {
-                    calendarTile.Opacity = .5;
-                }
-
-            }
-            calendarTile.Opacity = 1;
-
-
-            new Progress().hideProgressIndicator(this);
-            Microsoft.Phone.Shell.SystemTray.ForegroundColor = Color.FromArgb(255, 110, 207, 243);
-
-            
-            foreach (var ap in apps)
-            {
-                if (ap.StartDate.Date == DateTime.Today.Date)
-                {
-                    //Debug.WriteLine(ap.Details); 
-                    atrasCalendario.Text = "\nHoy tienes un aventón en\n" + ap.Location;
-                }
-            }
-            isCalendarLoaded = true;
 
         }
         #endregion
         void UserDataChanged(object sender, EventArgs e)
         {
-            ApiConnector.Instance.ActiveUser.UserDataChanged -= UserDataChanged;
-            // profileImage.Source = ApiConnector.Instance.ActiveUser.Avatar;
-            profileTile.Picture.Source = ApiConnector.Instance.ActiveUser.Avatar;
-            profileTile.IsFrozen = false;
-            //TestImage.Source = ApiConnector.Instance.ActiveUser.Avatar;//alv con esto, jairo. 
+
+            try
+            {
+                ApiConnector.Instance.ActiveUser.UserDataChanged -= UserDataChanged;
+                // profileImage.Source = ApiConnector.Instance.ActiveUser.Avatar;
+                profileTile.Picture.Source = ApiConnector.Instance.ActiveUser.Avatar;
+                profileTile.IsFrozen = false;
+                //TestImage.Source = ApiConnector.Instance.ActiveUser.Avatar;//alv con esto, jairo. 
+
+            }
+            catch (Exception)
+            {
+
+                MessageBox.Show("Hubo un problema con el servidor", "Ups! lo sentimos", MessageBoxButton.OK);
+            }
+
+
         }
 
         #region appBar Clicks

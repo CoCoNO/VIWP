@@ -37,13 +37,24 @@ namespace VoyIteso.Pages
             base.OnNavigatedTo(e);
             //Class.Notifications
             _progress.showProgressIndicator(this, "espera un momento");
-            _listOfNotifications = await ApiConnector.Instance.NotificationsGet();
-            //_listOfNotifications = HomePage.ListOfNotifications; 
-            _progress.hideProgressIndicator(this);
-            foreach (var item in _listOfNotifications.notificaciones)
+            
+            try
             {
-                ConstructNewNotification(item);
+                _listOfNotifications = await ApiConnector.Instance.NotificationsGet();
+                //_listOfNotifications = HomePage.ListOfNotifications; 
+                _progress.hideProgressIndicator(this);
+                foreach (var item in _listOfNotifications.notificaciones)
+                {
+                    ConstructNewNotification(item);
+                }
             }
+            catch (Exception)
+            {
+
+                MessageBox.Show("Hubo un problema con el servidor", "Ups! lo sentimos", MessageBoxButton.OK);
+            }
+            
+            
         }
         private void CrearNuevaCajitaFeliz_click(object sender, EventArgs e)// este es de prueba. borrar a la goma ya que termine su proposito. 
         {
@@ -77,28 +88,37 @@ namespace VoyIteso.Pages
 
         private void ConstructNewNotification(Notificacione item)
         {
-            //pinche trampa sucia! pero funciona y se ve muy bien. repetir en caja de resultados en mapa XD. 
-            var grid = new Grid();
-            grid.Width = 440;
-            grid.Height = 20;
-            lista.Items.Add(grid);
+            try
+            {
+                //pinche trampa sucia! pero funciona y se ve muy bien. repetir en caja de resultados en mapa XD. 
+                var grid = new Grid();
+                grid.Width = 440;
+                grid.Height = 20;
+                lista.Items.Add(grid);
 
-            //Este es el grid importante. 
-            var imagen = ApiConnector.Instance.GetUserImageById(item.perfil_id);
-            var newBox = new CajaDeNotificacion();
-            newBox.Avatar = imagen;
-            newBox.header.Text = item.nombre;
-            newBox.body.Text = "";
-            newBox.body.Text += item.descripcion;
-            newBox.body_time.Text = "";
-            newBox.body_time.Text += item.fecha;
-            _allMyNotifications.Add(newBox);
-            lista.Items.Add(newBox);
+                //Este es el grid importante. 
+                var imagen = ApiConnector.Instance.GetUserImageById(item.perfil_id);
 
+
+
+                var newBox = new CajaDeNotificacion();
+                newBox.Avatar = imagen;
+                newBox.header.Text = item.nombre;
+                newBox.body.Text = "";
+                newBox.body.Text += item.descripcion;
+                newBox.body_time.Text = "";
+                newBox.body_time.Text += item.fecha;
+                _allMyNotifications.Add(newBox);
+                lista.Items.Add(newBox);
+
+            }
+            catch (Exception)
+            {
+
+                MessageBox.Show("Hubo un problema con el servidor", "Ups! lo sentimos", MessageBoxButton.OK);
+            } 
 
         }
-
-
 
     }
 }

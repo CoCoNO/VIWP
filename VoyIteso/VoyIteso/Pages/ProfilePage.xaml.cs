@@ -90,60 +90,72 @@ namespace VoyIteso.Pages
         //methods
         private void editionChanged()
         {
-            if (!_editionEnabled)
+
+
+            try
             {
-                SystemTray.BackgroundColor = Color.FromArgb(255, 0, 0, 0);
-                ApiConnector.Instance.ActiveUser.profile.descripcion = descriptiontxt.Text;
-                descriptiontxt.IsEnabled = false;
-                //guardar las modificaciones con el metodo de Jairo. aqui puto
 
-                UpdateUserData();
+                if (!_editionEnabled)
+                {
+                    SystemTray.BackgroundColor = Color.FromArgb(255, 0, 0, 0);
+                    ApiConnector.Instance.ActiveUser.profile.descripcion = descriptiontxt.Text;
+                    descriptiontxt.IsEnabled = false;
+                    //guardar las modificaciones con el metodo de Jairo. aqui puto
 
-                //((ApplicationBarIconButton)ApplicationBar.Buttons[0]).Text = "modificar";
+                    UpdateUserData();
 
-                ApplicationBar = new ApplicationBar();
-                ApplicationBar.Mode = ApplicationBarMode.Default;
-                ApplicationBar.Opacity = 1.0;
-                ApplicationBar.IsMenuEnabled = true;
-                ApplicationBar.IsVisible = true;
+                    //((ApplicationBarIconButton)ApplicationBar.Buttons[0]).Text = "modificar";
 
-                ApplicationBarIconButton a = new ApplicationBarIconButton(new Uri("Images/icons/edit.png", UriKind.Relative));
-                a.Text = "Modificar";
-                a.Click += ApplicationBarIconButton_OnClick;
-                ApplicationBar.Buttons.Add(a);
+                    ApplicationBar = new ApplicationBar();
+                    ApplicationBar.Mode = ApplicationBarMode.Default;
+                    ApplicationBar.Opacity = 1.0;
+                    ApplicationBar.IsMenuEnabled = true;
+                    ApplicationBar.IsVisible = true;
+
+                    ApplicationBarIconButton a = new ApplicationBarIconButton(new Uri("Images/icons/edit.png", UriKind.Relative));
+                    a.Text = "Modificar";
+                    a.Click += ApplicationBarIconButton_OnClick;
+                    ApplicationBar.Buttons.Add(a);
 
 
-                ApplicationBarMenuItem b = new ApplicationBarMenuItem();
-                b.Text = "Ver tips";
-                b.Click += quePuedoHacer_OnClick;
-                ApplicationBar.MenuItems.Add(b);
+                    ApplicationBarMenuItem b = new ApplicationBarMenuItem();
+                    b.Text = "Ver tips";
+                    b.Click += quePuedoHacer_OnClick;
+                    ApplicationBar.MenuItems.Add(b);
 
+                }
+                else
+                {
+                    SystemTray.BackgroundColor = Color.FromArgb(255, 0, 255, 0);
+                    descriptiontxt.IsEnabled = true;
+                    // ((ApplicationBarIconButton)ApplicationBar.Buttons[0]).Text = "Guardar";
+
+
+                    ApplicationBar = new ApplicationBar();
+                    ApplicationBar.Mode = ApplicationBarMode.Default;
+                    ApplicationBar.Opacity = 1.0;
+                    ApplicationBar.IsMenuEnabled = true;
+                    ApplicationBar.IsVisible = true;
+
+                    ApplicationBarIconButton guardar = new ApplicationBarIconButton(new Uri("Images/icons/save.png", UriKind.Relative));
+                    guardar.Text = "Guardar";
+                    guardar.Click += ApplicationBarIconButton_OnClick;
+                    ApplicationBar.Buttons.Add(guardar);
+
+                    ApplicationBarMenuItem b = new ApplicationBarMenuItem();
+                    b.Text = "Ver tips";
+                    b.Click += quePuedoHacer_OnClick;
+                    ApplicationBar.MenuItems.Add(b);
+
+
+                }
             }
-            else
+            catch (Exception)
             {
-                SystemTray.BackgroundColor = Color.FromArgb(255, 0, 255, 0);
-                descriptiontxt.IsEnabled = true;
-               // ((ApplicationBarIconButton)ApplicationBar.Buttons[0]).Text = "Guardar";
 
+                MessageBox.Show("Hubo un problema con el servidor", "Ups! lo sentimos", MessageBoxButton.OK);
+            } 
 
-                ApplicationBar = new ApplicationBar();
-                ApplicationBar.Mode = ApplicationBarMode.Default;
-                ApplicationBar.Opacity = 1.0;
-                ApplicationBar.IsMenuEnabled = true;
-                ApplicationBar.IsVisible = true;
-
-                ApplicationBarIconButton guardar = new ApplicationBarIconButton(new Uri("Images/icons/save.png", UriKind.Relative));
-                guardar.Text = "Guardar";
-                guardar.Click += ApplicationBarIconButton_OnClick;
-                ApplicationBar.Buttons.Add(guardar);
-
-                ApplicationBarMenuItem b = new ApplicationBarMenuItem();
-                b.Text = "Ver tips";
-                b.Click += quePuedoHacer_OnClick;
-                ApplicationBar.MenuItems.Add(b);
-
-
-            }
         }
 
         private void quePuedoHacer_OnClick(object sender, EventArgs e)
@@ -318,20 +330,30 @@ namespace VoyIteso.Pages
 
         private async void UpdateUserData()
         {
-            if (saveNewData)
+            
+            try
             {
-                progress.showProgressIndicator(this, "Guardando");
-                await ApiConnector.Instance.SaveUserDataToCloud();
-
-                if (imageChanged)
+                if (saveNewData)
                 {
-                    await ApiConnector.Instance.UploadImage(newImage, newImagePath);
+                    progress.showProgressIndicator(this, "Guardando");
+                    await ApiConnector.Instance.SaveUserDataToCloud();
+
+                    if (imageChanged)
+                    {
+                        await ApiConnector.Instance.UploadImage(newImage, newImagePath);
+                    }
+                    //await ApiConnector.Instance.UpdateCurrentUserData();
+                    //UserDataChanged();
+                    progress.hideProgressIndicator(this);
                 }
-                //await ApiConnector.Instance.UpdateCurrentUserData();
-                //UserDataChanged();
-                progress.hideProgressIndicator(this);
+                saveNewData = true;
+
             }
-            saveNewData = true;
+            catch (Exception)
+            {
+
+                MessageBox.Show("Hubo un problema con el servidor", "Ups! lo sentimos", MessageBoxButton.OK);
+            }
 
         }
         //este metodo es el boton que habilita la edicion o guarda los cambios 
