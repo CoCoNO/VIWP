@@ -417,10 +417,6 @@ namespace VoyIteso.Pages
         /// </summary>
         public void AddBPoint(object sender, GestureEventArgs e)
         {
-            if (_routeConfirmed)
-            {
-                return;
-            }
             //_bPointAdded = true;
             //Find geocoordinate on tapped location.
             var asd = this.myMap.ConvertViewportPointToGeoCoordinate(e.GetPosition(this.myMap));
