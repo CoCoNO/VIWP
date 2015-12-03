@@ -417,6 +417,10 @@ namespace VoyIteso.Pages
         /// </summary>
         public void AddBPoint(object sender, GestureEventArgs e)
         {
+            if (_routeConfirmed)
+            {
+                return;
+            }
             //_bPointAdded = true;
             //Find geocoordinate on tapped location.
             var asd = this.myMap.ConvertViewportPointToGeoCoordinate(e.GetPosition(this.myMap));
@@ -835,7 +839,11 @@ namespace VoyIteso.Pages
             //DoStuff();
             if (_flag && !_routeConfirmed)
             {
-                AddWayPoint(sender, e);
+                if (Driver)
+                {
+                    AddWayPoint(sender, e);
+                }
+
             }
 
             //if the destination has not been added yet and it has no confirmation, then a new bpoint is going to be added to the map.
