@@ -43,6 +43,7 @@ namespace VoyIteso.Pages
             txtDayString.Text = foo();//mes nombre
             txtDayNumber.Text = DateTime.Today.Day.ToString();//dia numero
             atrasCalendario.Text = "\n\nCalendario";
+            calendarTile.Opacity = 0.5;
             //termina el contenido del calendario. 
 
             //contenido notificaciones.
@@ -180,7 +181,7 @@ namespace VoyIteso.Pages
         {
             base.OnNavigatedTo(e);
             NavigationService.RemoveBackEntry();
-
+            calendarTile.Opacity = 0.5;
 
             try
             {
