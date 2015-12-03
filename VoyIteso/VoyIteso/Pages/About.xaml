@@ -1,0 +1,96 @@
+﻿<phone:PhoneApplicationPage 
+    x:Class="VoyIteso.Pages.About"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModels="clr-namespace:VoyIteso.Pages.ViewModels"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait" Orientation="Portrait"
+    mc:Ignorable="d" d:DesignHeight="768" d:DesignWidth="480"
+    shell:SystemTray.IsVisible="True">
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid.DataContext>
+            <viewModels:CommandSampleViewModel/>
+        </Grid.DataContext>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28">
+            <TextBlock Foreground="#104571" x:Name="ApplicationTitle" Text="" Style="{StaticResource PhoneTextNormalStyle}"/>
+            <TextBlock Foreground="#104571" x:Name="PageTitle" Text="Acerca de" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
+        </StackPanel>
+
+        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            
+            <StackPanel>
+                <TextBlock 
+                    Foreground="#104571"
+                    Text="Voy Iteso" 
+                    Margin="12,0,12,0" 
+                    FontSize="{StaticResource PhoneFontSizeLarge}" 
+                    FontFamily="{StaticResource PhoneFontFamilySemiBold}"/>
+                <TextBlock 
+                    Foreground="#104571"
+                    Name="versionnumber"
+                    Text="1.0." 
+                    Margin="12,0,12,0" 
+                    FontSize="{StaticResource PhoneFontSizeNormal}"/>
+            </StackPanel>
+            
+            <TextBlock 
+                Grid.Row="1" 
+                Text="App description, about information in few sentences"
+                Margin="12,24,12,24" 
+                TextWrapping="Wrap" 
+                Foreground="#104571" 
+                FontSize="{StaticResource PhoneFontSizeNormal}" />
+            <HyperlinkButton 
+                Grid.Row="2" 
+                Content="correo de soporte/retroalimentación" 
+                Margin="0,12,0,0" 
+                HorizontalAlignment="Left" 
+                Foreground="{StaticResource PhoneAccentBrush}" 
+                FontSize="{StaticResource PhoneFontSizeNormal}" 
+                Command="{Binding SendAnEmailCommand}"/>
+            <HyperlinkButton 
+                Grid.Row="3"
+                Content="califíca nuestra aplicación" 
+                Margin="0,12,0,0" 
+                HorizontalAlignment="Left" 
+                Foreground="{StaticResource PhoneAccentBrush}" 
+                FontSize="{StaticResource PhoneFontSizeNormal}" 
+                Command="{Binding RateThisAppCommand}"/>
+            <StackPanel Grid.Row="4" Margin="12,0,12,50" VerticalAlignment="Bottom">
+                <Image 
+                    Source="Images/CompanyLogo.png" 
+                    Stretch="None" 
+                    HorizontalAlignment="Left" Height="88" Width="422" />
+                <TextBlock 
+                    Text="Todos los derechos reservados" 
+                    Margin="0,12,0,0" 
+                    FontSize="{StaticResource PhoneFontSizeNormal}"
+                    Foreground="#104571"/>
+                <!--<TextBlock 
+                    Text="ITESO - Universidad Jesuita de Guadalajara" 
+                    Foreground="#104571"
+                    FontSize="{StaticResource PhoneFontSizeNormal}"/>-->
+            </StackPanel>
+        </Grid>
+    </Grid>
+    
+</phone:PhoneApplicationPage>

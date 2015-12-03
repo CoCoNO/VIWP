@@ -1,0 +1,22 @@
+﻿<UserControl x:Class="VoyIteso.Pages.ShowRoutesComponents.ShowRouteBox"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    d:DesignHeight="200" d:DesignWidth="440">
+    
+    <Grid x:Name="LayoutRoot" Width="440" Height="200" Background="{StaticResource PhoneChromeBrush}">
+
+        <Grid x:Name="Grid" Background="#1E81C0">
+            <TextBlock Name="HeaderLabel" FontSize="23" Foreground="White" Text="Nombre del sujeto" Margin="10,10,10,153">
+            </TextBlock>
+            <TextBlock Name="BodyLabel" FontSize="18" Foreground="White" Text="Predicado del sujeto" Margin="10,47,10,10">
+            </TextBlock>
+            
+        </Grid>
+    </Grid>
+</UserControl>

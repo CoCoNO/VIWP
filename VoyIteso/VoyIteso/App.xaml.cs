@@ -97,8 +97,14 @@ namespace VoyIteso
             if (Debugger.IsAttached)
             {
                 // An unhandled exception has occurred; break into the debugger
+                Debug.WriteLine("Valio madre> "+e.ToString());
                 Debugger.Break();
             }
+            MessageBox.Show("hubo un problema con la app");
+#if DEBUG
+            MessageBox.Show("["+e.ToString()+"]");
+#endif
+            Application.Current.Terminate();
         }
 
         #region Phone application initialization

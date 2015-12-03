@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Windows;
@@ -8,522 +9,479 @@ using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using VoyIteso.Class;
-using VoyIteso.Resources;
-using System.Windows.Data;
 using System.Windows.Media.Imaging;
+using Windows.Storage;
 using Microsoft.Phone.Tasks;
+using GestureEventArgs = System.Windows.Input.GestureEventArgs;
+using System.Threading.Tasks;
 using System.Windows.Media;
 using Telerik.Windows.Controls;
-using System.Windows.Media.Animation;
-using Microsoft.Phone.Tasks;
-using System.IO;
-using System.Windows.Threading;
 
 namespace VoyIteso.Pages
 {
     public partial class ProfilePage : PhoneApplicationPage
     {
-        User user = new User();
+        //fields
+        //User user;
+        private bool _editionEnabled;
 
-        ApiConnector apiConnector = ApiConnector.instance;
+        private bool EditionEnabled
+        {
+            get { return _editionEnabled; }
+            set
+            {
+                _editionEnabled = value;
+                editionChanged();
+                
+            }
+        }
 
-        private int smoke, ac, music, pet, talk;
-
-        enum ProfileStates { UserProfile, EditProfile, OtherUserProfile};
-
-        bool isPhotoChanged;
-
-        ProfileStates profileState;
-
-        TextBlock descriptionTextBlock;
-
-        TextBox descriptionTextBox;
-
+        private bool saveNewData=true;
+        private bool music;
+        private bool smoke;
+        private bool airconditioner;
+        private bool talk;
+        public PhotoChooserTask photoChooserTask;
+        private bool imageChanged;
+        private byte[] newImage;
+        private string newImagePath;
         Progress progress = new Progress();
 
-        RadMoveYAnimation moveAnimationStart;
+        //properties
+        public byte[] photoStream { get; set; }
 
-        RadMoveYAnimation moveAnimationEnd;
-
-        PhotoChooserTask photoChooserTask;
-
-        DispatcherTimer AnimationTimer = new DispatcherTimer();
-
-        String otherUserId;
-
-        byte[] photoStream;
-
-        string photoName;
-
+        //constructor of class
         public ProfilePage()
         {
             InitializeComponent();
+            //user = ApiConnector.Instance.ActiveUser;
+            _editionEnabled = false;
+            photoChooserTask = new PhotoChooserTask();
+            photoChooserTask.Completed += photoChooserTask_Completed;
+            userImage.Tap += BtnChooseImage_Click;
+            UserDataChanged();
+            _myBool = true;
+            queryUserData();
+
+            foo();
         }
 
-        void moveAnimationStart_Ended(object sender, AnimationEndedEventArgs e)
-        {
-            AnimationTimer.Start();
-        }
-
-        void moveAnimationEnd_Ended(object sender, AnimationEndedEventArgs e)
-        {
-            FeedBackImage.Opacity = 0;
-            ApplicationBar.IsVisible = true;
-        }
-
-        void AnimationTimer_Tick(object sender, EventArgs e)
-        {
-            if (moveAnimationEnd != null)
-            {
-                RadAnimationManager.Play(this.FeedBackImage, moveAnimationEnd);
-            }
-            AnimationTimer.Stop();
-        }
-
-        void apiConnector_exceptionChanged(object sender, EventArgs e)
-        {
-            if (apiConnector.throwException != null)
-            {
-                Dispatcher.BeginInvoke(() =>
-                {
-                    MessageBox.Show(apiConnector.throwException, "Error", MessageBoxButton.OK);
-                    progress.hideProgressIndicator(this);
-                });
-
-            }
-        }
-
-        private void apiConnector_responseChanged(object sender, EventArgs e)
-        {
-            if (profileState == ProfileStates.UserProfile)
-            {
-                Perfil userProfile = apiConnector.getProfile();
-                Dispatcher.BeginInvoke(() =>
-                {
-                    if (userProfile != null)
-                    {
-                        txtProfileName.Text = userProfile.nombre;
-                        txtProfileMajor.Text = "·" + userProfile.carrera;
-                        txtDescription.Text = userProfile.descripcion;
-                        txtProfileAge.Text = "·" + userProfile.edad + " años";
-                        ratingStars.Value = (double)userProfile.rating;
-                        music = userProfile.musica;
-                        smoke = userProfile.fuma;
-                        ac = userProfile.aire;
-                        txtEvaluations.Text = userProfile.evaluaciones_count + " evaluaciones";
-                        txtGivenLiftsNumber.Text = userProfile.aventones_dados_count.ToString();
-                        txtAskedLiftsNumber.Text = userProfile.aventones_recibidos_count.ToString();
-                        txtRoutsNumber.Text = userProfile.rutas_count.ToString();
-                        talk = userProfile.platicar;
-                        if (music == 0)
-                            MusicPropertyImage.Opacity = 0.3;
-                        if (smoke == 0)
-                            SmokePropertyImage.Opacity = 0.3;
-                        if (ac == 0)
-                            ACPropertyImage.Opacity = 0.3;
-                        if (talk == 0)
-                            TalkPropertyImage.Opacity = 0.3;
-                    }
-                    else
-                        MessageBox.Show("Ocurrio un error en el servidor, vuelve a intentarlo", "Error", MessageBoxButton.OK);
-                });
-            }
-            else if(profileState == ProfileStates.EditProfile)
-            {
-                if (apiConnector.jsonResponse != null)
-                {
-                    Dispatcher.BeginInvoke(() => {
-                        if (apiConnector.getEditProfileRequestResult())
-                        {
-                            if (isPhotoChanged)
-                            {
-                                apiConnector.UpdateUrl(AppResources.ApiEditUserPhoto);
-                                apiConnector.SendPostImageRequest(photoStream, user.Token, photoName);
-                                isPhotoChanged = false;
-                            }
-                            else
-                            {
-                                ApplicationBar.IsVisible = false;
-                                if (moveAnimationStart != null)
-                                {
-                                    FeedBackImage.Opacity = 1;
-                                    RadAnimationManager.Play(this.FeedBackImage, moveAnimationStart);
-                                }
-                                descriptionTextBlock.Text = descriptionTextBox.Text;
-                                DescriptionGrid.Children.RemoveAt(DescriptionGrid.Children.Count - 1);
-                                DescriptionGrid.Children.Add(descriptionTextBlock);
-                                profileState = ProfileStates.UserProfile;
-                                CameraImage.Opacity = 0;
-                                BuildLocalizedApplicationBar();
-                                progress.hideProgressIndicator(this);
-                            }
-
-                        }
-                        else
-                        {
-                            MessageBox.Show("Ocurrio un error en el servidor, vuelve a intentarlo", "Error", MessageBoxButton.OK);
-                            profileImage.ImageSource = (new BitmapImage(new Uri(user.imageUrl, UriKind.Absolute)));
-                        }
-                            
-                        
-                    });
-                    
-                }
-            }
-
-        }
-
-        
-
-        #region OnNavigatedTo
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-            if (NavigationContext != null && NavigationContext.QueryString.ContainsKey("otherUserId"))
-            {
-                profileState = ProfileStates.OtherUserProfile;
-            }
-            else
-            {
-                profileState = ProfileStates.UserProfile;
-            }
-
-            if (profileState == ProfileStates.UserProfile)
-            {
-                setLayout();
-                apiConnector.responseChanged += apiConnector_responseChanged;
-                apiConnector.exceptionChanged += apiConnector_exceptionChanged;
-                user.getInfo(user.key);
-                setProfileUrl();
-                apiConnector.SendGetRequest();
-                if (user.setImageUrl())
-                {
-                    profileImage.ImageSource = (new BitmapImage(new Uri(string.Format(user.imageUrl + "?Refresh=true&random={0}",Guid.NewGuid()), UriKind.Absolute)));
-                }
-                BuildLocalizedApplicationBar();
-                setAnimation();
-                descriptionTextBlock = (TextBlock)DescriptionGrid.Children.ElementAt(DescriptionGrid.Children.Count - 1);
-                descriptionTextBox = new TextBox();
-                descriptionTextBox.Name = descriptionTextBlock.Name;
-                descriptionTextBox.FontFamily = descriptionTextBlock.FontFamily;
-                descriptionTextBox.FontSize = descriptionTextBlock.FontSize;
-                descriptionTextBox.GotFocus += descriptionTextBox_GotFocus;
-                descriptionTextBox.KeyDown += descriptionTextBox_KeyDown;
-                descriptionTextBox.LostFocus += descriptionTextBox_LostFocus;
-                photoChooserTask = new PhotoChooserTask();
-                photoChooserTask.Completed += photoChooserTask_Completed;
-                isPhotoChanged = false;
-            }
-            else if(profileState == ProfileStates.OtherUserProfile)
-            {
-                setLayout();
-                apiConnector.responseChanged += apiConnector_responseChanged;
-                apiConnector.exceptionChanged += apiConnector_exceptionChanged;
-                string imageUrl = AppResources.ApiBaseUrl + AppResources.ApiGetProfileImage;
-                string otherUserId = NavigationContext.QueryString["otherUserId"];
-                imageUrl = String.Format(imageUrl, otherUserId);
-                profileImage.ImageSource = (new BitmapImage(new Uri(string.Format(imageUrl, UriKind.Absolute))));
-            }
-            
-        }
-
-        #endregion
-
-        protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
-        {
-            if (profileState == ProfileStates.UserProfile || profileState == ProfileStates.OtherUserProfile)
-            {
-                base.OnBackKeyPress(e);
-            }
-            else
-            {
-                profileState = ProfileStates.UserProfile;
-                DescriptionGrid.Children.RemoveAt(DescriptionGrid.Children.Count - 1);
-                DescriptionGrid.Children.Add(descriptionTextBlock);
-                CameraImage.Opacity = 0;
-                BuildLocalizedApplicationBar();
-                e.Cancel = true;
-            }
-        }
-
-        void descriptionTextBox_GotFocus(object sender, RoutedEventArgs e)
-        {
-            ApplicationBar.IsVisible = false;
-        }
-
-        void descriptionTextBox_LostFocus(object sender, RoutedEventArgs e)
-        {
-            ApplicationBar.IsVisible = true;
-        }
-
-        void descriptionTextBox_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
-        {
-            if (e.Key == System.Windows.Input.Key.Enter)
-            {
-                ratingStars.Focus();
-            }
-        }
-
-        #region user properties buttons
-        private void MusicPropertyImage_Tap(object sender, System.Windows.Input.GestureEventArgs e)
-        {
-            if (profileState == ProfileStates.EditProfile)
-            {
-                if (music == 1)
-                {
-                    MusicPropertyImage.Opacity = 0.3;
-                    music = 0;
-                }
-                else
-                {
-                    MusicPropertyImage.Opacity = 1;
-                    music = 1;
-                }
-            }
-        }
-
-        private void SmokePropertyImage_Tap(object sender, System.Windows.Input.GestureEventArgs e)
-        {
-            if (profileState == ProfileStates.EditProfile)
-            {
-                if (smoke == 1)
-                {
-                    SmokePropertyImage.Opacity = 0.3;
-                    smoke = 0;
-                }
-                else
-                {
-                    SmokePropertyImage.Opacity = 1;
-                    smoke = 1;
-                }
-            }
-        }
-
-        private void ACPropertyImage_Tap(object sender, System.Windows.Input.GestureEventArgs e)
-        {
-            if (profileState == ProfileStates.EditProfile)
-            {
-                if (ac == 1)
-                {
-                    ACPropertyImage.Opacity = 0.3;
-                    ac = 0;
-                }
-                else
-                {
-                    ACPropertyImage.Opacity = 1;
-                    ac = 1;
-                }
-            }
-        }
-
-        private void TalkPropertyImage_Tap(object sender, System.Windows.Input.GestureEventArgs e)
-        {
-            if (profileState == ProfileStates.EditProfile)
-            {
-                if (talk == 1)
-                {
-                    TalkPropertyImage.Opacity = 0.3;
-                    talk = 0;
-                }
-                else
-                {
-                    TalkPropertyImage.Opacity = 1;
-                    talk = 1;
-                }
-            }
-        }
-        #endregion
-
-        private void setProfileUrl()
-        {
-            String url = String.Format(AppResources.ApiGetProfile, user.profileID);
-            apiConnector.UpdateUrl(url);
-            apiConnector.setParametersUrl(AppResources.ApiSecurityToken + user.Token);
-            apiConnector.setUrlParametersUrl();
-        }
-
-        #region AppBarItems & Buttons
-        void appBarEditProfileItem_Click(object sender, EventArgs e)
-        {
-            profileState = ProfileStates.EditProfile;
-            CameraImage.Opacity = 1;
-            descriptionTextBox.Text = descriptionTextBlock.Text;
-            DescriptionGrid.Children.RemoveAt(DescriptionGrid.Children.Count - 1);
-            Grid.SetRow(descriptionTextBox, 3);
-            Grid.SetColumn(descriptionTextBox, 1);
-            DescriptionGrid.Children.Add(descriptionTextBox);
-            BuildLocalizedApplicationBar();
-        }
-
-        void appBarSaveProfileButton_Click(object sender, EventArgs e)
-        {
-            apiConnector.UpdateUrl(AppResources.ApiEditProfile);
-            apiConnector.setParametersUrl(
-                "descripcion=" + descriptionTextBox.Text +
-                "&otrasCostumbres= " +
-                "&fuma=" + smoke +
-                "&aire=" + ac +
-                "&musica=" + music +
-                "&mascota=0" +
-                "&platicar=" + talk +
-                "&security_token=" + user.Token
-                );
-            progress.showProgressIndicator(this, "Guardando");
-            apiConnector.SendPostRequest();
-            
-            
-            
-        }
-        #endregion
-
-        #region BuildLocalizedApplicationBar
-        private void BuildLocalizedApplicationBar()
+        private void foo()
         {
             ApplicationBar = new ApplicationBar();
+            ApplicationBar.Mode = ApplicationBarMode.Default;
             ApplicationBar.Opacity = 1.0;
             ApplicationBar.IsMenuEnabled = true;
             ApplicationBar.IsVisible = true;
-            ApplicationBar.BackgroundColor = Color.FromArgb(255, 0, 66, 112);
 
-            if (profileState == ProfileStates.UserProfile)
+            ApplicationBarIconButton a = new ApplicationBarIconButton(new Uri("Images/icons/edit.png", UriKind.Relative));
+            a.Text = "Modificar";
+            a.Click += ApplicationBarIconButton_OnClick;
+            ApplicationBar.Buttons.Add(a);
+
+
+            ApplicationBarMenuItem b = new ApplicationBarMenuItem();
+            b.Text = "Ver tips";
+            b.Click += quePuedoHacer_OnClick;
+            ApplicationBar.MenuItems.Add(b);
+        }
+
+        private bool _myBool = false;
+        //methods
+        private void editionChanged()
+        {
+
+
+            try
             {
-                ApplicationBar.Mode = ApplicationBarMode.Minimized;
 
-                ApplicationBarMenuItem appBarEditProfileItem = new ApplicationBarMenuItem("Editar");
-                appBarEditProfileItem.Click += appBarEditProfileItem_Click;
-                ApplicationBar.MenuItems.Add(appBarEditProfileItem);
+                if (!_editionEnabled)
+                {
+                    SystemTray.BackgroundColor = Color.FromArgb(255, 0, 0, 0);
+                    ApiConnector.Instance.ActiveUser.profile.descripcion = descriptiontxt.Text;
+                    descriptiontxt.IsEnabled = false;
+                    //guardar las modificaciones con el metodo de Jairo. aqui puto
+
+                    UpdateUserData();
+
+                    //((ApplicationBarIconButton)ApplicationBar.Buttons[0]).Text = "modificar";
+
+                    ApplicationBar = new ApplicationBar();
+                    ApplicationBar.Mode = ApplicationBarMode.Default;
+                    ApplicationBar.Opacity = 1.0;
+                    ApplicationBar.IsMenuEnabled = true;
+                    ApplicationBar.IsVisible = true;
+
+                    ApplicationBarIconButton a = new ApplicationBarIconButton(new Uri("Images/icons/edit.png", UriKind.Relative));
+                    a.Text = "Modificar";
+                    a.Click += ApplicationBarIconButton_OnClick;
+                    ApplicationBar.Buttons.Add(a);
+
+
+                    ApplicationBarMenuItem b = new ApplicationBarMenuItem();
+                    b.Text = "Ver tips";
+                    b.Click += quePuedoHacer_OnClick;
+                    ApplicationBar.MenuItems.Add(b);
+
+                }
+                else
+                {
+                    SystemTray.BackgroundColor = Color.FromArgb(255, 0, 255, 0);
+                    descriptiontxt.IsEnabled = true;
+                    // ((ApplicationBarIconButton)ApplicationBar.Buttons[0]).Text = "Guardar";
+
+
+                    ApplicationBar = new ApplicationBar();
+                    ApplicationBar.Mode = ApplicationBarMode.Default;
+                    ApplicationBar.Opacity = 1.0;
+                    ApplicationBar.IsMenuEnabled = true;
+                    ApplicationBar.IsVisible = true;
+
+                    ApplicationBarIconButton guardar = new ApplicationBarIconButton(new Uri("Images/icons/save.png", UriKind.Relative));
+                    guardar.Text = "Guardar";
+                    guardar.Click += ApplicationBarIconButton_OnClick;
+                    ApplicationBar.Buttons.Add(guardar);
+
+                    ApplicationBarMenuItem b = new ApplicationBarMenuItem();
+                    b.Text = "Ver tips";
+                    b.Click += quePuedoHacer_OnClick;
+                    ApplicationBar.MenuItems.Add(b);
+
+
+                }
             }
-            else if(profileState == ProfileStates.EditProfile)
+            catch (Exception)
             {
-                ApplicationBar.Mode = ApplicationBarMode.Default;
 
-                ApplicationBarIconButton appBarSaveProfileButton = new ApplicationBarIconButton(new Uri("Assets/save.png", UriKind.Relative));
-                appBarSaveProfileButton.Text = "Guardar PErfil";
-                appBarSaveProfileButton.Click += appBarSaveProfileButton_Click;
-                ApplicationBar.Buttons.Add(appBarSaveProfileButton);
-            }
+                MessageBox.Show("Hubo un problema con el servidor", "Ups! lo sentimos", MessageBoxButton.OK);
+            } 
 
         }
-        #endregion
 
-        #region setLayout
-        private void setLayout ()
+        private void quePuedoHacer_OnClick(object sender, EventArgs e)
         {
-            int phoneWidth = (int)Application.Current.Host.Content.ActualWidth;
-            int phoneHeight = (int)Application.Current.Host.Content.ActualHeight;
-            int topMarginHeight = 30;
+            NavigationService.Navigate(new Uri("/Pages/0Tutorials/TutProfile.xaml", UriKind.Relative));
+        }
 
-            int profileHeight = phoneHeight - topMarginHeight;
-            int userPropertiesWidth = phoneWidth - 48;
-            int propertieImageSize = ((userPropertiesWidth / 6) - 24);
-            int generalInfoHeight = ((profileHeight / 30) * 14);
-            int userPropertiesHeight = ((profileHeight / 30) * 5);
-            int liftInfoHeight = ((profileHeight / 30) * 3);
-            int descriptionHeight = ((profileHeight / 30) * 8);
-            Binding binding = new Binding();
-
-            binding.Mode = BindingMode.OneTime;
-            binding.Source = generalInfoHeight;
-            GeneralInfoGrid.SetBinding(Grid.HeightProperty, binding);
-
-            binding = new Binding();
-            binding.Mode = BindingMode.OneTime;
-            binding.Source = phoneWidth;
-            GeneralInfoGrid.SetBinding(Grid.WidthProperty, binding);
-
-            binding = new Binding();
-            binding.Mode = BindingMode.OneTime;
-            binding.Source = userPropertiesHeight;
-            UserPropertiesGrid.SetBinding(Grid.HeightProperty, binding);
-
-            binding = new Binding();
-            binding.Mode = BindingMode.OneTime;
-            binding.Source = phoneWidth;
-            UserPropertiesGrid.SetBinding(Grid.WidthProperty, binding);
-
-            binding = new Binding();
-            binding.Mode = BindingMode.OneTime;
-            binding.Source = userPropertiesHeight;
-            UserPropertiesGrid.SetBinding(Grid.HeightProperty, binding);
-
-            binding = new Binding();
-            binding.Mode = BindingMode.OneTime;
-            binding.Source = liftInfoHeight;
-            LiftDataGrid.SetBinding(Grid.HeightProperty, binding);
-
-            binding = new Binding();
-            binding.Mode = BindingMode.OneTime;
-            binding.Source = phoneWidth;
-            LiftDataGrid.SetBinding(Grid.WidthProperty, binding);
-
-            binding = new Binding();
-            binding.Mode = BindingMode.OneTime;
-            binding.Source = phoneWidth;
-            DescriptionGrid.SetBinding(Grid.WidthProperty, binding);
-
-            binding = new Binding();
-            binding.Mode = BindingMode.OneTime;
-            binding.Source = descriptionHeight;
-            DescriptionGrid.SetBinding(Grid.HeightProperty, binding);
-
-            FeedBackImage.Width = phoneWidth;
-            FeedBackImage.Height = phoneHeight;
+        BitmapImage ObjBmpImage = new BitmapImage();
+        private void BtnChooseImage_Click(object sender, RoutedEventArgs e)
+        {
+            if (_editionEnabled)
+            {
+                PhotoChooserTask photoChooserTask;
+                photoChooserTask = new PhotoChooserTask();
+                photoChooserTask.Completed += new EventHandler<PhotoResult>(photoChooserTask_Completed); 
+                photoChooserTask.ShowCamera = true;
+                photoChooserTask.Show();
+            }
             
         }
-        #endregion
 
-        #region setAnimation
-        private void setAnimation()
+        void photoChooserTask_Completed(object sender, PhotoResult e)
         {
-            moveAnimationStart = new RadMoveYAnimation();
-            moveAnimationStart = this.Resources["feedbackAnimationStart"] as RadMoveYAnimation;
-            moveAnimationStart.Duration = new Duration(new TimeSpan(0, 0, 0, 1, 0));
-            moveAnimationStart.Ended += moveAnimationStart_Ended;
-            moveAnimationStart.StartY = (int)Application.Current.Host.Content.ActualHeight * -1;
-            moveAnimationStart.EndY = 0;
-
-            moveAnimationEnd = new RadMoveYAnimation();
-            moveAnimationEnd = this.Resources["feedbackAnimationend"] as RadMoveYAnimation;
-            moveAnimationEnd.Duration = new Duration(new TimeSpan(0, 0, 0, 1, 0));
-            moveAnimationEnd.Ended += moveAnimationEnd_Ended;
-            moveAnimationEnd.StartY = 0;
-            moveAnimationEnd.EndY = (int)Application.Current.Host.Content.ActualHeight * -1;
-            AnimationTimer.Interval = TimeSpan.FromSeconds(2);
-            AnimationTimer.Tick += AnimationTimer_Tick;
+            if (e.TaskResult == TaskResult.OK)
+            {
+                //Code to display the photo on the page in an image control named myImage. 
+                //isImageUpload = true;
+                imageChanged = true;
+                ObjBmpImage.SetSource(e.ChosenPhoto);
+                userImage.Source = ObjBmpImage;
+                var b = ImageToArray(ObjBmpImage);
+                ApiConnector.Instance.ActiveUser.Avatar = ObjBmpImage;
+                newImage = b;
+                newImagePath = e.OriginalFileName;
+                //ApiConnector.Instance.UploadImage(b,e.OriginalFileName);
+            }
         }
-        #endregion
-
-        private void TopMarginGrid_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        public byte[] ImageToArray(BitmapImage image)
         {
-            if(profileState == ProfileStates.EditProfile)
-                photoChooserTask.Show();
-        }
+            WriteableBitmap wbmp = new WriteableBitmap(image);
+            MemoryStream ms = new MemoryStream();
 
-        void photoChooserTask_Completed(object sender, Microsoft.Phone.Tasks.PhotoResult e)
+            wbmp.SaveJpeg(ms, wbmp.PixelWidth, wbmp.PixelHeight, 0, 100);
+            return ms.ToArray();
+
+        } 
+
+
+
+
+
+        /*private void photoChooserTask_Completed(object sender, PhotoResult e)
         {
-            if (profileState == ProfileStates.EditProfile)
+            if (editionEnabled)
             {
                 if (e.TaskResult == TaskResult.OK)
                 {
                     Dispatcher.BeginInvoke(() =>
                     {
-                        BitmapImage bmp = new BitmapImage();
+                        /*BitmapImage bmp = new BitmapImage();
                         bmp.SetSource(e.ChosenPhoto);
-                        photoName = e.OriginalFileName;
-                        profileImage.ImageSource = bmp;
-                        using (var ms = new MemoryStream())
+                        string photoName = e.OriginalFileName;
+                        userImage.Source = bmp;
+                         * 
+                         * 
+                         * 
+                         
+
+
+                        // initialize the result photo stream
+                        var photoStream = new MemoryStream();
+                        // Save the stream result (copying the resulting stream)
+                        e.ChosenPhoto.CopyTo(photoStream);
+                        // save the original file name
+                        var fileName = e.OriginalFileName;
+
+
+                        e.
+                        ApiConnector.Instance.UploadImage(e.ChosenPhoto, e.OriginalFileName);
+                            //e.OriginalFileName.Substring(.LastIndexOf("\\") + 1));
+                        //e.ChosenPhoto.ReadAsync()
+                        /*using (var ms = new MemoryStream())
                         {
                             WriteableBitmap btmMap = new WriteableBitmap(bmp);
                             Extensions.SaveJpeg(btmMap, ms, bmp.PixelWidth, bmp.PixelHeight, 0, 100);
-                            photoStream = ms.ToArray();   
+                            photoStream = ms.ToArray();
+                            
                         }
-                        isPhotoChanged = true;
+                        //isPhotoChanged = true;//esa bandera la usa emmanuel.
                     });
 
                 }
             }
+        }*/
+
+        private void UserDataChanged()
+        {
+            try
+            {
+                if (_myBool)
+                {
+                    _myBool = false;
+                    return;
+                }
+
+                if (ApiConnector.Instance.ActiveUser.Avatar!=null)
+                {
+                    userImage.Source = ApiConnector.Instance.ActiveUser.Avatar;
+                }
+                else
+                {
+                    userImage.Source = new BitmapImage(new Uri("/Images/man.jpg", UriKind.Relative));
+                }
+                
+                userName.Text = ApiConnector.Instance.ActiveUser.profile.nombre;
+                userAge.Text = ApiConnector.Instance.ActiveUser.profile.edad;
+                userMajor.Text = ApiConnector.Instance.ActiveUser.profile.carrera;
+                txtEvaluations.Text = ApiConnector.Instance.ActiveUser.profile.evaluaciones_count.ToString() +
+                                      " Evaluaciones";
+                //userImage.Source = (new BitmapImage(new Uri("/Images/User.jpg", UriKind.Absolute)));
+
+                music = (ApiConnector.Instance.ActiveUser.profile.musica == 1);
+                smoke = (ApiConnector.Instance.ActiveUser.profile.fuma == 1);
+                airconditioner = (ApiConnector.Instance.ActiveUser.profile.aire == 1);
+                talk = (ApiConnector.Instance.ActiveUser.profile.platicar == 1);
+
+                if (!music)
+                {
+                    musicImage.Opacity = .30;
+                }
+                if (!smoke)
+                {
+                    smokeImage.Opacity = .30;
+                }
+                if (!airconditioner)
+                {
+                    acImage.Opacity = .30;
+                }
+                if (!talk)
+                {
+                    talkImage.Opacity = .30;
+                }
+
+                givenLiftCounttxt.Text = ApiConnector.Instance.ActiveUser.profile.aventones_dados_count.ToString();
+                takenLiftCounttxt.Text = ApiConnector.Instance.ActiveUser.profile.aventones_recibidos_count.ToString();
+                routCounttxt.Text = ApiConnector.Instance.ActiveUser.profile.rutas_count.ToString();
+                descriptiontxt.Text = ApiConnector.Instance.ActiveUser.profile.descripcion.ToString();
+            }
+            catch (Exception ex)
+            {
+                //MessageBox.Show("At: \n" + ex.Message, "Error:", MessageBoxButton.OK);
+                MessageBox.Show("At: \n" + "algo valio madres y es esto-> \n" + ex.Message, "Error:", MessageBoxButton.OK);
+            }
+        }
+
+        #region OnNavigatedTo
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            
+
+
+        }
+
+        #endregion
+
+        private async void queryUserData()
+        {
+            await ApiConnector.Instance.UpdateCurrentUserData();
+            UserDataChanged();
+        }
+
+        private async void UpdateUserData()
+        {
+            
+            try
+            {
+                if (saveNewData)
+                {
+                    progress.showProgressIndicator(this, "Guardando");
+                    await ApiConnector.Instance.SaveUserDataToCloud();
+
+                    if (imageChanged)
+                    {
+                        await ApiConnector.Instance.UploadImage(newImage, newImagePath);
+                    }
+                    //await ApiConnector.Instance.UpdateCurrentUserData();
+                    //UserDataChanged();
+                    progress.hideProgressIndicator(this);
+                }
+                saveNewData = true;
+
+            }
+            catch (Exception)
+            {
+
+                MessageBox.Show("Hubo un problema con el servidor", "Ups! lo sentimos", MessageBoxButton.OK);
+            }
+
+        }
+        //este metodo es el boton que habilita la edicion o guarda los cambios 
+        private void  ApplicationBarIconButton_OnClick(object sender, EventArgs e)
+        {
+            //toggle edition mode
+            EditionEnabled = !EditionEnabled;
+            
         }
 
 
+#region Tap_Events
+
+        private void Music_onTap(object sender, GestureEventArgs e)
+        {
+            if (_editionEnabled)
+            
+            {
+                //musicImage.Opacity = user.profile.musica == 1 ? 30 : 100;
+                if (ApiConnector.Instance.ActiveUser.profile.musica == 1)
+                {
+                    musicImage.Opacity = .30;
+                    ApiConnector.Instance.ActiveUser.profile.musica = 0;//toggle value
+                }
+                else
+                {
+                    musicImage.Opacity = 100;
+                    ApiConnector.Instance.ActiveUser.profile.musica = 1;//toggle value
+                }
+            }
+        }
+
+        private void Fuma_OnTap(object sender, GestureEventArgs e)
+        {
+            if (_editionEnabled)
+            {
+                //smokeImage.Opacity = user.profile.fuma == 1 ? 30 : 100;
+                if (ApiConnector.Instance.ActiveUser.profile.fuma == 1)
+                {
+                    smokeImage.Opacity = .30;
+                    ApiConnector.Instance.ActiveUser.profile.fuma = 0;
+                }
+                else
+                {
+                    smokeImage.Opacity = 100;
+                    ApiConnector.Instance.ActiveUser.profile.fuma = 1;
+                }
+            }
+        }
+
+        private void AirConditioner_OnTap(object sender, GestureEventArgs e)
+        {
+            if (_editionEnabled)
+            {
+                //acImage.Opacity = user.profile.aire == 1 ? 30 : 100;
+                if (ApiConnector.Instance.ActiveUser.profile.aire == 1)
+                {
+                    acImage.Opacity = .30;
+                    ApiConnector.Instance.ActiveUser.profile.aire = 0;
+                }
+                else
+                {
+                    acImage.Opacity = 100;
+                    ApiConnector.Instance.ActiveUser.profile.aire = 1;
+                }
+            }
+        }
+
+        private void Talk_OnTap(object sender, GestureEventArgs e)
+        {
+            if (_editionEnabled)
+            {
+                //talkImage.Opacity = user.profile.platicar == 1 ? 30 : 100;
+                if (ApiConnector.Instance.ActiveUser.profile.platicar == 1)
+                {
+                    talkImage.Opacity = .30;
+                    ApiConnector.Instance.ActiveUser.profile.platicar = 0;
+                }
+                else
+                {
+                    talkImage.Opacity = 100;
+                    ApiConnector.Instance.ActiveUser.profile.platicar = 1;
+                }
+            }
+        }
+
+#endregion
+
+        private void UserImage_OnTap(object sender, GestureEventArgs e)
+        {
+            if (_editionEnabled)
+            {
+                photoChooserTask.Show();
+            }
+        }
+
+        private void PhoneApplicationPage_BackKeyPress(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (_editionEnabled)
+            {
+                saveNewData = false;
+                queryUserData();
+                ApiConnector.Instance.ActiveUser.UserDataChanged += (o, args) =>
+                {
+                    if (ApiConnector.Instance.ActiveUser.Avatar != null)
+                    {
+                        userImage.Source = ApiConnector.Instance.ActiveUser.Avatar;
+                    }
+                };
+                ApiConnector.Instance.UpdateCurrentProfileImage();
+                e.Cancel = true;
+                EditionEnabled = false;
+            }
+        }
+
+        /// <summary>
+        /// Boton secreto
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void UIElement_OnTap(object sender, GestureEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/Pages/1Red/RedAventones.xaml",UriKind.Relative));
+        }
+
+        private void TxtEvaluations_OnTap(object sender, GestureEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/Pages/1Red/RedEvaluaciones.xaml", UriKind.Relative));
+        }
     }
 }

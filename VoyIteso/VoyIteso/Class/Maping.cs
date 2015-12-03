@@ -11,6 +11,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using VoyIteso.Pages;
 
 namespace VoyIteso.Class
 {
@@ -54,8 +55,9 @@ namespace VoyIteso.Class
             myCoordinates = new List<GeoCoordinate>();
         }
 
-        public void searchForTerm(String searchTerm, System.Windows.DependencyObject searchPage)
+        public void searchForTerm(String searchTerm, System.Windows.DependencyObject searchPage, TheNewMap mpinstance)
         {
+            mapPageInstance = mpinstance;
             myGeocodeQuery = new GeocodeQuery();
             myGeocodeQuery.SearchTerm = searchTerm;
             myGeocodeQuery.GeoCoordinate = myCoordinate == null ? new GeoCoordinate(0, 0) : myCoordinate;
@@ -63,6 +65,9 @@ namespace VoyIteso.Class
             myGeocodeQuery.QueryAsync();
         }
 
+
+        //private Map tempMap;
+        private TheNewMap mapPageInstance;
         void myGeocodeQuery_QueryCompleted(object sender, QueryCompletedEventArgs<IList<MapLocation>> e, System.Windows.DependencyObject searchPage)
         {
             try
@@ -73,7 +78,9 @@ namespace VoyIteso.Class
                     {
                         myCoordinates.Add(e.Result[0].GeoCoordinate);
                         this.pointGeoCoordinate = e.Result[0].GeoCoordinate;
-                        this.myMap.SetView(myCoordinates[0], 13.5, MapAnimationKind.Parabolic);
+                        this.myMap.SetView(myCoordinates[0], 16.0, MapAnimationKind.Parabolic);
+                        //TheNewMap.fo//aqui me quede
+                        new Progress().hideProgressIndicator(searchPage);
                     }
                     else
                     {
@@ -100,7 +107,8 @@ namespace VoyIteso.Class
             this.mapLayer.Add(userLocationOverlay);
             for (int i = 0; i < myCoordinates.Count; i++)
             {
-                DrawMapMarker(myCoordinates[i], Colors.Blue);
+                //DrawMapMarker(myCoordinates[i], Colors.Blue);
+                mapPageInstance.AddBPoint(myCoordinates[i]);
             }
         }
 

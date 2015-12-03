@@ -1,0 +1,26 @@
+﻿<UserControl x:Class="VoyIteso.Pages._0RateComponents.SegundoComp"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    d:DesignHeight="680" d:DesignWidth="440">
+
+    <Grid x:Name="LayoutRoot" Background="#104571">
+
+        <TextBlock Text="califica tu aventón" FontSize="42" HorizontalAlignment="Center" TextWrapping="Wrap" Margin="0,0,0,308" Width="440"></TextBlock>
+        <Image Name="DriverImage" Source="../../Images/SMOKE.png" Margin="0,83,10,396"></Image>
+        <TextBlock Name="comotefue" Text="¿cómo te fué con " Margin="10,488,10,149" ></TextBlock>
+        <TextBox Name="CajaDeComentarios" TextWrapping="Wrap" Margin="0,533,0,22"></TextBox>
+        
+        <Slider Name="Calificacion" Maximum="10" Minimum="1" Margin="142,309,10,274"></Slider>
+        <TextBlock Text="Calificación" Margin="25,309,303,308" ></TextBlock>
+
+        <Slider  x:Name="Puntualidad" Maximum="10" Minimum="1" Margin="142,392,10,192"/>
+        <TextBlock Text="Puntualidad" Margin="25,392,303,229" ></TextBlock>
+
+    </Grid>
+</UserControl>
