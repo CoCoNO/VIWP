@@ -2089,7 +2089,7 @@ namespace VoyIteso.Pages
             //}
 
             //NavigationService.Navigate(new Uri("/Pages/NotificationsStuff/RouteInfo.xaml", UriKind.Relative));//?key=value&key2=value
-
+            ResultsListBox.SelectedIndex = -1;
         }
 
         //SendLiftRequest(int id) deleted
