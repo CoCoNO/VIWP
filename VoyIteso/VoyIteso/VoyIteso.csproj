@@ -395,6 +395,8 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\Tiles\140%25.png" />
+    <Content Include="Assets\Tiles\240%25.png" />
     <Content Include="Images\man.jpg" />
     <Content Include="Images\tits\home\blur1.png" />
     <Content Include="Images\tits\home\blur2.png" />

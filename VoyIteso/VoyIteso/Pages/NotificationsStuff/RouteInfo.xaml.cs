@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
@@ -163,6 +164,12 @@ namespace VoyIteso.Pages
             DisplayImage.Source = image;
             this.localUser = user;
 
+        }
+
+        protected override void OnBackKeyPress(CancelEventArgs e)
+        {
+            NavigationService.RemoveBackEntry();
+            NavigationService.Navigate(new Uri("/Pages/HomePage.xaml",UriKind.Relative));
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

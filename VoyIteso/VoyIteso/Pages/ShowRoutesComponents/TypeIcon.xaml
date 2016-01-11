@@ -11,7 +11,7 @@
 
     <Grid Width="440" Height="100" Background="{StaticResource PhoneChromeBrush}">
 
-        <Grid Background="White">
+        <Grid Background="#004C6D">
             <StackPanel>
                 <Grid>
                     <TextBlock Name="label" FontSize="33" Foreground="#6ECFF3" Text="Nombre del sujeto" Margin="123,27,10,34">

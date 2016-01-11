@@ -33,12 +33,9 @@ namespace VoyIteso.Pages.CalendarComponents
             InitializeComponent();
             InitAppointments();
 
-            
         }
 
 
-
-        
 
 
         //<summary>
@@ -78,8 +75,6 @@ namespace VoyIteso.Pages.CalendarComponents
             
         }
 
-
-
         /// <summary>
         /// este metodo imprime en la pantalla los detalles del día seleccionado.
         /// </summary>
@@ -100,7 +95,6 @@ namespace VoyIteso.Pages.CalendarComponents
                 MyAppointmentSource appointmentSource = (MyAppointmentSource)MyCalendar.AppointmentSource;
                 var list = appointmentSource.getAppointmentList();//List<Appointment>. list of appointments.
 
-                
                 //AppointmentDetails.Text = "";
                 ListaDeApointments.Items.Clear();
                 idDrivers.Clear();
@@ -137,7 +131,6 @@ namespace VoyIteso.Pages.CalendarComponents
 
                 }
 
-                
             }
 
             //appointmentDetails.Text = selectedDate.ToString() ;

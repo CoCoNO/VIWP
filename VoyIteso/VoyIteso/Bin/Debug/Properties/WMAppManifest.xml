@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Deployment xmlns="http://schemas.microsoft.com/windowsphone/2012/deployment" AppPlatformVersion="8.0">
   <DefaultLanguage xmlns="" code="es-MX" />
-  <App xmlns="" ProductID="{aeececc2-36c3-4745-9692-e8c6f97c09b0}" Title="VoyIteso" RuntimeType="Silverlight" Version="0.6.0.0" Genre="apps.normal" Author="VoyIteso author" Description="Sample description" Publisher="VoyIteso" PublisherID="{a5d72d24-df62-43ec-a386-774f2a77756e}">
-    <IconPath IsRelative="true" IsResource="false">Assets\Tiles\iconsmall.png</IconPath>
+  <App xmlns="" ProductID="{aeececc2-36c3-4745-9692-e8c6f97c09b0}" Title="Voy ITESO" RuntimeType="Silverlight" Version="0.6.0.0" Genre="apps.normal" Author="VoyIteso author" Description="" Publisher="VoyIteso" PublisherID="{a5d72d24-df62-43ec-a386-774f2a77756e}">
+    <IconPath IsRelative="true" IsResource="false">Assets\Tiles\240%.png</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_NETWORKING" />
       <Capability Name="ID_CAP_MEDIALIB_AUDIO" />
@@ -18,10 +18,10 @@
     <Tokens>
       <PrimaryToken TokenID="VoyItesoToken" TaskName="_default">
         <TemplateFlip>
-          <SmallImageURI IsRelative="true" IsResource="false">Assets\Tiles\iconsmall.png</SmallImageURI>
+          <SmallImageURI IsRelative="true" IsResource="false">Assets\Tiles\140%.png</SmallImageURI>
           <Count>0</Count>
-          <BackgroundImageURI IsRelative="true" IsResource="false">Assets\Tiles\iconmid.png</BackgroundImageURI>
-          <Title>VoyIteso</Title>
+          <BackgroundImageURI IsRelative="true" IsResource="false">Assets\Tiles\240%.png</BackgroundImageURI>
+          <Title></Title>
           <BackContent></BackContent>
           <BackBackgroundImageURI></BackBackgroundImageURI>
           <BackTitle></BackTitle>

@@ -70,5 +70,10 @@ namespace VoyIteso.Pages
             Navigate("/Pages/HomePage.xaml");
             //Navigate("/Pages/ShowRoutes.xaml");
         }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            NavigationService.RemoveBackEntry();
+        }
     }
 }

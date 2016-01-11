@@ -22,9 +22,9 @@ namespace VoyIteso
 
         public TheNewCalendar()
         {
-            sp = new SpecialDays();
+            
             InitializeComponent();
-
+            sp = new SpecialDays();
         }
 
 
@@ -34,7 +34,6 @@ namespace VoyIteso
             base.OnNavigatedTo(e);
             //new SpecialDays().UpdateLayout();
             //sp = new SpecialDays();
-
 
             if (!this.ContentPanel.Children.Contains(sp))
             {

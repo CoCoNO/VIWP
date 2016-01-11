@@ -15,7 +15,8 @@
     shell:SystemTray.IsVisible="True">
 
     <!--LayoutRoot is the root grid where all page content is placed-->
-    <Grid x:Name="LayoutRoot" Background="White">
+    <Grid x:Name="LayoutRoot" Background="#004C6D">
+        
         <Grid.RowDefinitions>
             <RowDefinition Height="24"/>
             <RowDefinition Height="Auto"/>
@@ -32,13 +33,15 @@
             <ColumnDefinition Width="24"/>
         </Grid.ColumnDefinitions>
 
-        <TextBlock Grid.Row="1" Grid.Column="1" Text="vas a..." FontFamily="{StaticResource PhoneFontFamilyNormal}" Foreground="#104572" FontSize="50"/>
+        <TextBlock Grid.Row="1" Grid.Column="1" Text="vas a..." FontFamily="{StaticResource PhoneFontFamilyNormal}" Foreground="White" FontSize="50"/>
 
         <Grid Margin="10,0,10,10" Grid.RowSpan="3" Grid.Column="1" Grid.Row="4">
-            <ListBox>
-                <ListBoxItem x:Name="pedirRide" Tap="PedirRide_OnTap" Foreground="#6ECFF3" Content="pedir aventón"></ListBoxItem>
-                <ListBoxItem x:Name="darRide" Tap="DarRide_OnTap"  Foreground="#6ECFF3" Content="dar aventón"></ListBoxItem>
+            <ListBox Margin="0,0,0,134">
+                <ListBoxItem Background="Transparent" x:Name="pedirRide" Tap="PedirRide_OnTap" Foreground="#6ECFF3" Content="pedir aventón"></ListBoxItem>
+                <ListBoxItem Background="Transparent" x:Name="darRide" Tap="DarRide_OnTap"  Foreground="#6ECFF3" Content="dar aventón"></ListBoxItem>
             </ListBox>
+
+            <Image Source="../Images/MapSearchBackground.png" Margin="0,384,0,0"></Image>
         </Grid>
               
 

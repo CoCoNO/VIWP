@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -95,17 +96,19 @@ namespace VoyIteso.Pages
             takenLiftCounttxt.Text = b.profile.aventones_recibidos_count.ToString();
             routCounttxt.Text = b.profile.rutas_count.ToString();
 
+            //
+
+            NavigationService.RemoveBackEntry();
         }
 
         #endregion
+         
 
-        private void PhoneApplicationPage_BackKeyPress(object sender, System.ComponentModel.CancelEventArgs e)
+
+        protected override void OnBackKeyPress(CancelEventArgs e)
         {
-            base.OnBackKeyPress(e);
+            NavigationService.RemoveBackEntry();
+            NavigationService.Navigate(new Uri("/Pages/HomePage.xaml", UriKind.Relative));
         }
-
-
-
-        
     }
 }
