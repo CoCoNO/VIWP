@@ -24,6 +24,8 @@ using Windows.Storage.Streams;
 using RestSharp;
 using System.Device.Location;
 using Windows.Devices.Geolocation;
+using System.Reflection;
+
 namespace VoyIteso.Class
 {
     class ApiConnector
@@ -892,6 +894,36 @@ namespace VoyIteso.Class
             img.ImageOpened += img_ImageOpened;
             _activeUser.Avatar = img;
         }
+
+        public async Task<ResponceObject> CommentSend( string tipo, string Message)
+        {
+            var c = new RestClient(HttpRequest.Url);
+            var r = new RestRequest(@"/home/enviar_comentario", Method.POST);
+
+            r.AddParameter("security_token", _token);
+            r.AddParameter("tipo_comentario", tipo);
+
+            r.AddParameter("texto", Message + "Enviado usando v" + Assembly.GetExecutingAssembly().GetName().Version.ToString() + " en Windows Phone " + System.Environment.OSVersion);
+
+            var rs = await c.ExecuteTaskAsync<ResponceObject>(r);
+
+            return rs.Data;
+        }
+
+        public async Task<ResponceObject> ReportSend(string Message)
+        {
+            var c = new RestClient(HttpRequest.Url);
+            var r = new RestRequest(@"/home/reportar_abuso", Method.POST);
+
+            r.AddParameter("security_token", _token);
+
+
+            r.AddParameter("texto", Message);
+            var rs = await c.ExecuteTaskAsync<ResponceObject>(r);
+
+            return rs.Data;
+        }
+
 
         void img_ImageOpened(object sender, RoutedEventArgs e)
         {

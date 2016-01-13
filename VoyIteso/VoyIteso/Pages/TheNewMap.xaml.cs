@@ -1331,9 +1331,13 @@ namespace VoyIteso.Pages
 
                     myList.Add(new GeoCoordinate(lat_origen, lon_origen));
 
-                    foreach (var item in waypoints)
+                    int index;
+                    GeoCoordinate item;
+
+                    for (index= 0;index < waypoints.Count; index++)
                     {
-                        myList.Add(item);
+                       
+                        myList.Add(waypoints[index]);
                     }
 
                     myList.Add(new GeoCoordinate(lat_destino, lon_destino));
