@@ -42,11 +42,11 @@
             </Grid.RowDefinitions>
 
 
-            <ListBox Grid.Row="0" Margin="0,0,0,-300"  >
+            <ListBox Grid.Row="0" Margin="0,0,0,264" Grid.RowSpan="5"  >
                 <StackPanel>
                     <TextBlock 
                     Foreground="#104571"
-                    Text="Voy Iteso" 
+                    Text="VOY ITESO" 
                     Margin="12,0,12,0" 
                     FontSize="{StaticResource PhoneFontSizeLarge}" 
                     FontFamily="{StaticResource PhoneFontFamilySemiBold}"/>
@@ -80,7 +80,8 @@
                 HorizontalAlignment="Left" 
                 Foreground="{StaticResource PhoneAccentBrush}" 
                 FontSize="{StaticResource PhoneFontSizeNormal}" 
-                Command="{Binding SendAnEmailCommand}"/>
+                    Click="ButtonBase_OnClick"
+                    />
                 <HyperlinkButton 
                 Grid.Row="3"
                 Content="califíca nuestra aplicación" 

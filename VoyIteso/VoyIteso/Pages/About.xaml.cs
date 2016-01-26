@@ -22,7 +22,11 @@ namespace VoyIteso.Pages
             InitializeComponent();
 
             this.versionnumber.Text = "v " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
+        }
 
+        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/Pages/Comentarios.xaml", UriKind.Relative));
         }
     }
 }

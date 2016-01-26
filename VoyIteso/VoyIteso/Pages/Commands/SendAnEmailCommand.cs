@@ -8,8 +8,10 @@ using System.Windows.Ink;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.Phone.Tasks;
+
 
 namespace VoyIteso.Pages.Commands
 {
@@ -24,9 +26,9 @@ namespace VoyIteso.Pages.Commands
 
         public void Execute(object parameter)
         {
-            EmailComposeTask emailTask = new EmailComposeTask();
-            emailTask.To = "info@company.com";
-            emailTask.Show();
+            //EmailComposeTask emailTask = new EmailComposeTask();
+            //emailTask.To = "info@company.com";
+            //emailTask.Show();
         }
     }
 }

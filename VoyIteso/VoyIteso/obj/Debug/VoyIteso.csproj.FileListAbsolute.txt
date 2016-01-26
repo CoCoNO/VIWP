@@ -631,3 +631,4 @@ C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\obj\Debug\Pages\0Tutori
 C:\Users\Usuario\Documents\GitHub\VIWP\VoyIteso\VoyIteso\obj\Debug\Pages\0Tutorials\TutCrearRutaAlterno.g.cs
 C:\Users\SergioAdán\Documents\Github\VIWP\VoyIteso\VoyIteso\obj\Debug\Pages\0Tutorials\TutHome.g.cs
 C:\Users\SergioAdán\Documents\Github\VIWP\VoyIteso\VoyIteso\obj\Debug\VoyIteso.csprojResolveAssemblyReference.cache
+C:\Users\SergioAdán\Documents\Github\VIWP\VoyIteso\VoyIteso\obj\Debug\Pages\Comentarios.g.cs
