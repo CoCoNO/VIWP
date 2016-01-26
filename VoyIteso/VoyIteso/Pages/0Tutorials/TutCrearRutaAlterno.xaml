@@ -28,7 +28,7 @@
             <phone:PivotItem ><!--Foreground="#104571" Header="Nueva ruta"-->
                 <Grid>
                     <Image Source="../../Images/tits/rutas/crearruta1.png"></Image>
-                    <TextBlock Foreground="#104571" TextWrapping="Wrap" FontSize="35" Text="&#x0a;Coloca un destino presionando y manteniendo..."/>
+                    <TextBlock Foreground="#104571" TextWrapping="Wrap" FontSize="35" Text="&#x0a;Coloca un destino presionando y manteniendo"/>
                     <!--&#x0a;-->
                 </Grid>
             </phone:PivotItem>
@@ -37,7 +37,7 @@
             <phone:PivotItem Header="">
                 <Grid>
                     <Image Source="../../Images/tits/rutas/crearruta2.png"></Image>
-                    <TextBlock HorizontalAlignment="Center" Foreground="#104571" FontSize="35" Text="&#x0a;también puedes buscar de manera textual" TextWrapping="Wrap" Margin="26,153,21,0" Width="373"/>
+                    <TextBlock HorizontalAlignment="Center" Foreground="#104571" FontSize="35" Text="&#x0a;También puedes buscar de manera textual" TextWrapping="Wrap" Margin="26,153,21,0" Width="373"/>
                 </Grid>
             </phone:PivotItem>
 
@@ -45,7 +45,7 @@
             <phone:PivotItem Header="">
                 <Grid>
                     <Image Source="../../Images/tits/rutas/crearruta3.png"></Image>
-                    <TextBlock HorizontalAlignment="Center" Foreground="#104571" FontSize="35" Text="Indíca algunos puntos de interés que estén en tu ruta" TextWrapping="Wrap" Margin="26,76,21,0" Width="373"/>
+                    <TextBlock HorizontalAlignment="Center" Foreground="#104571" FontSize="35" Text="Indíca algunos puntos intermedios que estén en tu ruta" TextWrapping="Wrap" Margin="26,76,21,0" Width="373"/>
                 </Grid>
             </phone:PivotItem>
 

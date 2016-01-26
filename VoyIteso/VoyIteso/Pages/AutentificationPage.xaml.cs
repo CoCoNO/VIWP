@@ -356,9 +356,9 @@ namespace VoyIteso.Pages
         */
         #endregion
 
-        
-
-        
-        
+        private void AboutClick(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/Pages/About.xaml", UriKind.Relative));
+        }
     }
 }

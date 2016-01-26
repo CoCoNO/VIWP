@@ -23,7 +23,7 @@
 
         <!--TitlePanel contains the name of the application and page title-->
         <StackPanel Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock Text="Regístrate" Margin="8,-7,1,0" Style="{StaticResource PhoneTextTitle1Style}" Foreground="#104572"/>
+            <TextBlock FontSize="50" Text="Inicio de sesión" Margin="8,-7,1,0" Style="{StaticResource PhoneTextTitle1Style}" Foreground="#104572"/>
         </StackPanel>
 
         <!--ContentPanel - place additional content here-->
@@ -32,11 +32,12 @@
             <TextBox Name="txbUser"  HorizontalAlignment="Left" Height="81" Margin="11,109,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="454" Background="#104572" BorderBrush="#104572" Foreground="White" GotFocus="txbUser_GotFocus" KeyDown="txbUser_KeyDown"/>
             <TextBlock Text="Contraseña" Margin="22,175,18,396" Foreground="#104572" FontSize="30" Style="{StaticResource PhoneTextTitle1Style}"/>
             <PasswordBox Name="txbPass"  HorizontalAlignment="Left" Height="81" Margin="11,206,0,0" VerticalAlignment="Top" Width="456" Background="#104572" BorderBrush="#104572" Foreground="White" GotFocus="txbPass_GotFocus" KeyDown="txbPass_KeyDown"/>
-            <Button Name="btnSend" Content="Entrar" HorizontalAlignment="Left" Margin="12,284,0,0" VerticalAlignment="Top" Click="btnSend_Click" Width="454" Background="#83C340" BorderBrush="#83C340" Height="85" />
+            <Button Name="btnSend" Content="Ingresar" HorizontalAlignment="Left" Margin="12,284,0,0" VerticalAlignment="Top" Click="btnSend_Click" Width="454" Background="#83C340" BorderBrush="#83C340" Height="85" />
             <!--<CheckBox Content="Recordar mi usuario y contraseña" HorizontalAlignment="Left" Margin="14,410,0,0" VerticalAlignment="Top" Width="440" Background="#104572" Foreground="#104572" />-->
             <HyperlinkButton Content="Aviso de Privacidad" HorizontalAlignment="Left" Margin="130,403,0,0" VerticalAlignment="Top" Foreground="#11456F" Click="HyperlinkButton_Click"/>
-
-
+            <HyperlinkButton FontSize="18" Content="Acerca de VOY ITESO" HorizontalAlignment="Left" Margin="130,439,0,0" VerticalAlignment="Top" Foreground="#11456F" Click="AboutClick" Width="218"/>
+            <Image Source="../Images/ITESO-logo.png" Margin="0,483,0,39"></Image>
+            
         </Grid>
 
     </Grid>

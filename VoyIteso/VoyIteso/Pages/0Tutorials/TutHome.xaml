@@ -34,8 +34,8 @@
             <!--Panorama item one-->
             <phone:PivotItem Header="">
                 <Grid>
-                    <TextBlock  HorizontalAlignment="Center"  Foreground="Black" FontSize="35" Text="Aquí podrás ver todas tus notificaciones: mensajes, solicitudes aceptadas o rechazadas..." TextWrapping="Wrap" Margin="27,280,10,0" Width="419"/>
-                    <TextBlock  HorizontalAlignment="Center"  Foreground="White" FontSize="35" Text="Aquí podrás ver todas tus notificaciones: mensajes, solicitudes aceptadas o rechazadas..." TextWrapping="Wrap" Margin="27,280,10,0" Width="419"/>
+                    <TextBlock  HorizontalAlignment="Center"  Foreground="Black" FontSize="35" Text="Aquí podrás ver todas tus notificaciones: mensajes, solicitudes aceptadas o rechazadas" TextWrapping="Wrap" Margin="27,280,10,0" Width="419"/>
+                    <TextBlock  HorizontalAlignment="Center"  Foreground="White" FontSize="35" Text="Aquí podrás ver todas tus notificaciones: mensajes, solicitudes aceptadas o rechazadas" TextWrapping="Wrap" Margin="27,280,10,0" Width="419"/>
                 </Grid>
             </phone:PivotItem>
 

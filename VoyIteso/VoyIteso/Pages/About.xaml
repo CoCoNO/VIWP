@@ -14,6 +14,9 @@
     mc:Ignorable="d" d:DesignHeight="768" d:DesignWidth="480"
     shell:SystemTray.IsVisible="True">
 
+    
+    
+    
     <Grid x:Name="LayoutRoot" Background="White">
         <Grid.DataContext>
             <viewModels:CommandSampleViewModel/>
@@ -28,7 +31,8 @@
             <TextBlock Foreground="#104571" x:Name="PageTitle" Text="Acerca de" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
         </StackPanel>
 
-        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
+        
+        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,10,-262">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -36,30 +40,40 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition />
             </Grid.RowDefinitions>
-            
-            <StackPanel>
-                <TextBlock 
+
+
+            <ListBox Grid.Row="0" Margin="0,0,0,-300"  >
+                <StackPanel>
+                    <TextBlock 
                     Foreground="#104571"
                     Text="Voy Iteso" 
                     Margin="12,0,12,0" 
                     FontSize="{StaticResource PhoneFontSizeLarge}" 
                     FontFamily="{StaticResource PhoneFontFamilySemiBold}"/>
-                <TextBlock 
+                    <TextBlock 
                     Foreground="#104571"
                     Name="versionnumber"
                     Text="1.0." 
                     Margin="12,0,12,0" 
                     FontSize="{StaticResource PhoneFontSizeNormal}"/>
-            </StackPanel>
-            
-            <TextBlock 
+                </StackPanel>
+
+
+                <TextBlock 
                 Grid.Row="1" 
-                Text="App description, about information in few sentences"
+                Text="La aplicación móvil Voy ITESO, está pensada para construir, de manera comunitaria, nuevas alternativas a la saturada movilidad de la ciudad, incentivando el uso compartido del auto entre la comunidad universitaria."
                 Margin="12,24,12,24" 
                 TextWrapping="Wrap" 
                 Foreground="#104571" 
                 FontSize="{StaticResource PhoneFontSizeNormal}" />
-            <HyperlinkButton 
+                <TextBlock 
+                Grid.Row="1" 
+                Text="Algunos de los objetivos de esta aplicación son fomentar una cultura del uso racional del automóvil y promover otras formas de trasladarse, en bicicleta, transporte público y el transporte de la universidad."
+                Margin="12,24,12,24" 
+                TextWrapping="Wrap" 
+                Foreground="#104571" 
+                FontSize="{StaticResource PhoneFontSizeNormal}" />
+                <HyperlinkButton 
                 Grid.Row="2" 
                 Content="correo de soporte/retroalimentación" 
                 Margin="0,12,0,0" 
@@ -67,7 +81,7 @@
                 Foreground="{StaticResource PhoneAccentBrush}" 
                 FontSize="{StaticResource PhoneFontSizeNormal}" 
                 Command="{Binding SendAnEmailCommand}"/>
-            <HyperlinkButton 
+                <HyperlinkButton 
                 Grid.Row="3"
                 Content="califíca nuestra aplicación" 
                 Margin="0,12,0,0" 
@@ -75,22 +89,31 @@
                 Foreground="{StaticResource PhoneAccentBrush}" 
                 FontSize="{StaticResource PhoneFontSizeNormal}" 
                 Command="{Binding RateThisAppCommand}"/>
-            <StackPanel Grid.Row="4" Margin="12,0,12,50" VerticalAlignment="Bottom">
-                <Image 
-                    Source="Images/CompanyLogo.png" 
+                <StackPanel Grid.Row="4" Margin="12,0,12,50" VerticalAlignment="Bottom">
+                    <Image 
+                    Source="/Images/ITESO-logo.png" 
                     Stretch="None" 
-                    HorizontalAlignment="Left" Height="88" Width="422" />
-                <TextBlock 
+                    HorizontalAlignment="Left" Height="236" Width="422" />
+                    <TextBlock 
                     Text="Todos los derechos reservados" 
                     Margin="0,12,0,0" 
                     FontSize="{StaticResource PhoneFontSizeNormal}"
                     Foreground="#104571"/>
-                <!--<TextBlock 
+                    <!--<TextBlock 
                     Text="ITESO - Universidad Jesuita de Guadalajara" 
                     Foreground="#104571"
                     FontSize="{StaticResource PhoneFontSizeNormal}"/>-->
-            </StackPanel>
+                </StackPanel>
+
+            </ListBox>
+
+
+       
+        
         </Grid>
+    
+        
+        
     </Grid>
     
 </phone:PhoneApplicationPage>
