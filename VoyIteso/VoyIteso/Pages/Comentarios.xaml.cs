@@ -22,7 +22,19 @@ namespace VoyIteso.Pages
         {
             try
             {
-                await ApiConnector.Instance.CommentSend(DetermineType(), TextBox.Text);
+                new Progress().showProgressIndicator(this,"espera");
+                var res = await ApiConnector.Instance.CommentSend(DetermineType(), TextBox.Text);
+                new Progress().hideProgressIndicator(this);
+                if (res.estatus == 1)
+                {
+                    MessageBox.Show("Gracias por tus comentarios.");
+                }
+                else
+                {
+                    MessageBox.Show(res.message,"No se pudo enviar comentario",MessageBoxButton.OK);
+                }
+                
+
             }
             catch (Exception)
             {
@@ -36,13 +48,16 @@ namespace VoyIteso.Pages
             switch (ComboBox.SelectedIndex)
             {
                 case 0:
-                    a = "Queja";
-                    break;
-                case 1:
                     a = "Sugerencia";
                     break;
+                case 1:
+                    a = "Reporte de Falla";
+                    break;
                 case 2:
-                    a = "";
+                    a = "Queja";
+                    break;
+                case 3:
+                    a = "Duda";
                     break;
 
                 default:

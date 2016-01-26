@@ -36,27 +36,31 @@
         
         <Grid Margin="10,0,10,10" Grid.RowSpan="3" Grid.Column="1" Grid.Row="4">
 
-            <StackPanel>
-                <TextBlock Text="Selecciona tipo de comentario"></TextBlock>
-                
-                <ComboBox Name="ComboBox" IsDropDownOpen="True"  >
-                    <ComboBoxItem Content="hola"></ComboBoxItem>
-                    <ComboBoxItem Content="hola"></ComboBoxItem>
-                    <ComboBoxItem Content="hola"></ComboBoxItem>
-                </ComboBox>
-                
-                    
-                <TextBox Name="TextBox" Text="Escribe tu comentario.." TextWrapping="Wrap"  Height="371"></TextBox>
-                
-                <Button Content="Enviar" Click="ButtonBase_OnClick"></Button>
-                
-            </StackPanel>
+            <ListBox>
+
+                <StackPanel>
+                    <TextBlock FontSize="28" Text="Selecciona tipo de comentario"></TextBlock>
+
+                    <ComboBox Name="ComboBox" IsDropDownOpen="True"  >
+                        <ComboBoxItem Content="Sugerencia"></ComboBoxItem>
+                        <ComboBoxItem Content="Reporte de Falla"></ComboBoxItem>
+                        <ComboBoxItem Content="Queja"></ComboBoxItem>
+                        <ComboBoxItem Content="No especificado"></ComboBoxItem>
+                    </ComboBox>
+
+
+                    <TextBox Name="TextBox" Text="Escribe tu comentario.." TextWrapping="Wrap"  Height="293"></TextBox>
+
+                    <Button Content="Enviar" Click="ButtonBase_OnClick"></Button>
+
+                </StackPanel>
+
+                <Image Source="../Images/MapSearchBackground.png" Margin="0,384,0,0"></Image>
+
+
+            </ListBox>
             
             
-            
-            
-            
-            <Image Source="../Images/MapSearchBackground.png" Margin="0,384,0,0"></Image>
         </Grid>
 
 
